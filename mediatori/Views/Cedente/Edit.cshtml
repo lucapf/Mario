@@ -1,0 +1,179 @@
+﻿@model mediatori.Models.Anagrafiche.Cedente
+
+@{
+    ViewBag.Title = @Html.Display("nome") + " " +  @Html.Display("cognome") + " modifica";
+}
+
+<h2>Modfica dati <strong>@Html.Display("nome") @Html.Display("cognome") </strong></h2>
+<script>
+    
+    //dati generali cedente
+    function modificaDatiGenerali(){
+        $("#modificaDatiGeneraliMessage").html("caricamento in corso");
+        $.ajax({
+            url: "/Cedente/DatiGeneraliPartialById",
+            data: { id: @Html.Raw(Model.id) },
+            cache: false,
+            error: function (html) {
+                $("#modificaDatiGeneraliMessage").html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function(html){
+                $("#GestioneDocumentoIdentitaMessage").html("");
+                
+                $("#datiGeneraliCedente").html(html);
+                jQuery("<input />",{type:"submit", value:"Salva", id:"SalvaModificheDatiGenerali"}).appendTo("#datiGeneraliCedente")
+                jQuery("<input />",{type:"button", value:"Annulla", id:"AnnullaModificheDatiGenerali"}).appendTo("#datiGeneraliCedente")
+                $("#AnnullaModificheDatiGenerali").click(function(){annullaModificheDatiGenerali()});
+                    
+            }
+        });
+    }
+   
+
+    function annullaModificheDatiGenerali(){ 
+        $("#modificaDatiGeneraliMessage").html("caricamento in corso");
+        $.ajax({
+            url: "/Cedente/DatiGeneraliPartialById",
+            data: { id: "@Model.id",
+                tipoAzione: "VISUALIZZAZIONE"},
+            cache: false,
+            error: function (html) {
+                $("#modificaDatiGeneraliMessage").html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function(html){
+                $("#GestioneDocumentoIdentitaMessage").html("");
+                
+                $("#datiGeneraliCedente").html(html);
+                jQuery("<input />",{type:"button", value:"Modifica", id:"modificaDatiGenerali"}).appendTo("#datiGeneraliCedente")
+                $("#modificaDatiGenerali").click(function(){modificaDatiGenerali()})
+            }
+        })};
+   
+
+   
+</script>
+
+<fieldset>
+    <legend>Cedente</legend>
+    @using (Html.BeginForm("Edit", "Cedente"))
+    {
+        @Html.ValidationSummary(true)
+        <div id="datiGeneraliCedente">
+            <div id="modificaDatiGeneraliMessage"></div>
+            @Html.Partial("DatiGeneraliPartialDetails", Model)
+            <input type="button" id="modificaDatiGenerali" value="Modifica" />
+            <script>$(function(){$("#modificaDatiGenerali").click(function(){modificaDatiGenerali()})})</script>
+        </div>   
+    }
+
+
+    <!-- GESTIONE DOCUMENTI IDENTITA -->
+    @foreach (mediatori.Models.Anagrafiche.DocumentoIdentita documentoIdentita in Model.documentoIdentita)
+    {
+        var faeDI = new mediatori.helper.FireAntEditHelper("DI", "/DocumentoIdentita/DocumentoIdentitaPartialById", documentoIdentita.id.ToString());
+        using (Html.BeginForm("Edit", "DocumentoIdentita", FormMethod.Post, new { @id = faeDI.getIdForm() }))
+        {
+           
+        <div id="@faeDI.getIdDivMessage()"></div>
+        <div id="@faeDI.getIdDiv()" >
+            @{Html.RenderAction("DocumentoIdentitaPartialDetail", "DocumentoIdentita", documentoIdentita);}
+        </div>
+
+        @Html.Raw(faeDI.getButtonModifica("Modifica", "style='display:none'"))
+        @Html.Raw(faeDI.getButtonSalvaModifica("Salva", "style='display:none'"));
+        @Html.Raw(faeDI.getButtonAnnullaModifica("Annulla", "style='display:none'"));
+        }
+
+    }
+     @{var faeDICreate = new mediatori.helper.FireAntEditHelper("DI", "/DocumentoIdentita/DocumentoIdentitaPartialById", "0");}
+
+    @using (Html.BeginForm("CreateForCedente", "DocumentoIdentita", FormMethod.Post, new { @id = faeDICreate.getIdForm() }))
+    {
+      @Html.Hidden("codiceCedente", Model.id);
+       
+       
+        <div id="@faeDICreate.getIdDivMessage()"></div>
+        <div id="@faeDICreate.getIdDiv()"></div>
+        @Html.Raw(faeDICreate.getButtonModifica("Nuovo Documento Identita'", ""))
+        @Html.Raw(faeDICreate.getButtonSalvaModifica("Salva", "style='display:none'"));
+        @Html.Raw(faeDICreate.getButtonAnnullaInserimento("Annulla", "style='display:none'"));
+    }
+
+
+
+
+    <!-- indirizzo -->
+    @foreach (mediatori.Models.Anagrafiche.Indirizzo indz in Model.indirizzi)
+    {
+        var faeInd = new mediatori.helper.FireAntEditHelper("Ind", "/Indirizzo/IndirizzoPartialById", indz.id.ToString());
+        using (Html.BeginForm("Edit", "Indirizzo", FormMethod.Post, new { @id = faeInd.getIdForm() }))
+        {
+          
+        <div id="@faeInd.getIdDivMessage()"></div>
+        <div id="@faeInd.getIdDiv()" >
+            @{Html.RenderAction("IndirizzoPartial", "Indirizzo", new { indirizzo = indz, tipoAzione = "VISUALIZZAZIONE" });}
+        </div>
+        @Html.Raw(faeInd.getButtonModifica("Modifica", "style='display:none'", ""))
+        @Html.Raw(faeInd.getButtonSalvaModifica("Salva", "style='display:none'"));
+        @Html.Raw(faeInd.getButtonAnnullaModifica("Annulla", "style='display:none'"));
+
+        }
+    }
+
+    @{var faeIndCreate = new mediatori.helper.FireAntEditHelper("Ind", "/Indirizzo/IndirizzoPartialById", "0");}
+
+    @using (Html.BeginForm("CreateForCedente", "Indirizzo", FormMethod.Post, new { @id = faeIndCreate.getIdForm() }))
+    {
+        @Html.Hidden("codiceCedente", Model.id);
+       
+        <div id="@faeIndCreate.getIdDivMessage()"></div>
+        <div id="@faeIndCreate.getIdDiv()"></div>
+        @Html.Raw(faeIndCreate.getButtonModifica("Nuovo Indirizzo", ""))
+        @Html.Raw(faeIndCreate.getButtonSalvaModifica("Salva", "style='display:none'"));
+        @Html.Raw(faeIndCreate.getButtonAnnullaInserimento("Annulla", "style='display:none'"));
+    }
+
+
+    <!-- impiego -->
+    @foreach (mediatori.Models.Anagrafiche.Impiego impiego in Model.impieghi)
+    {
+        var faeImp = new mediatori.helper.FireAntEditHelper("Imp", "/Impiego/ImpiegoPartialById", impiego.id.ToString());
+        using (Html.BeginForm("Edit", "Impiego", FormMethod.Post, new { @id = faeImp.getIdForm() }))
+        {
+        <div id="@faeImp.getIdDivMessage()"></div>
+        <div id="@faeImp.getIdDiv()" >
+            @{Html.RenderAction("impiegoPartial", "Impiego", new { impiego = impiego, tipoAzione = "VISUALIZZAZIONE" });}
+        </div>
+        @Html.Raw(faeImp.getButtonModifica("Modifica", "style='display:none'", "popolaComboComuniImpieghi"))
+        @Html.Raw(faeImp.getButtonSalvaModifica("Salva", "style='display:none'"));
+        @Html.Raw(faeImp.getButtonAnnullaModifica("Annulla", "style='display:none'"));
+
+        }
+    }
+
+      @{var faeImpCreate = new mediatori.helper.FireAntEditHelper("Imp", "/Impiego/ImpiegoPartialById", "0");}
+
+    @using (Html.BeginForm("CreateForCedente", "Impiego", FormMethod.Post, new { @id = faeImpCreate.getIdForm() }))
+    {
+        @Html.Hidden("codiceCedente", Model.id);
+       
+        <div id="@faeImpCreate.getIdDivMessage()"></div>
+        <div id="@faeImpCreate.getIdDiv()"></div>
+        @Html.Raw(faeImpCreate.getButtonModifica("Nuovo Impiego", ""))
+        @Html.Raw(faeImpCreate.getButtonSalvaModifica("Salva", "style='display:none'"));
+        @Html.Raw(faeImpCreate.getButtonAnnullaInserimento("Annulla", "style='display:none'"));
+    }
+
+
+</fieldset>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

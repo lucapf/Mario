@@ -1,0 +1,82 @@
+﻿@model IEnumerable<mediatori.Models.Anagrafiche.Segnalazione>
+@{
+    ViewBag.Title = "Index";
+}
+<script>
+    $(function () {
+        $("#dataInserimentoDa").datepicker({ dateFormat: "yy-mm-dd" });
+        $("#dataInserimentoA").datepicker({ dateFormat: "yy-mm-dd" });
+    });
+</script>
+<h2>lista Segnalazioni</h2>
+<div id="message">@ViewBag.message</div>
+<div id="azioni">
+    @Html.ActionLink("Nuova Segnalazione", "Create")
+    @using(Html.BeginForm("Index","GestioneSegnalazioni",FormMethod.Get,null)){
+    <fieldset>
+        <legend>Ricerca Contatto</legend>
+        <table>
+           <tr>
+                <td>Nome</td> <td>@Html.TextBox("nome")</td>
+                <td>Cognome</td> <td>@Html.TextBox("cognome")</td>
+
+           </tr><tr>
+               <td>Inserito Da</td><td>@Html.TextBox("dataInserimentoDa")</td>
+                <td> A </td><td>@Html.TextBox("dataInserimentoA")</td>
+           </tr>
+        </table>
+        <input type="submit" value="Ricerca segnalazione" />
+        </fieldset>
+        }
+
+
+</div>
+
+<table class="listTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.contatto.nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contatto.cognome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.importoRichiesto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.durataRichiesta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prodottoRichiesto)
+        </th>
+        <th>
+          
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(m =>item.contatto.nome)
+        </td>
+        <td>
+            @Html.DisplayFor(m =>item.contatto.cognome)
+        </td>
+        <td>
+            @Html.DisplayFor(m =>item.importoRichiesto)
+        </td>
+        <td>
+            @Html.DisplayFor(m =>item.durataRichiesta)
+        </td>
+        <td>
+            @Html.DisplayFor(m =>item.prodottoRichiesto.descrizione)
+        </td>
+        <td>
+      
+            @Html.ActionLink("Details", "Details", new { id=item.id })
+           
+        </td>
+    </tr>
+}
+
+</table>

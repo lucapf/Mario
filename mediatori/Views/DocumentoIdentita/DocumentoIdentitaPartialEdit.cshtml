@@ -1,0 +1,62 @@
+﻿@model mediatori.Models.Anagrafiche.DocumentoIdentita
+
+@{
+    Layout = null;
+    
+}
+<fieldset>
+        <legend>Documento Identita</legend>
+        <div><ul>
+                <li>@Html.ValidationMessageFor(model => model.dataRilascio)</li>
+                <li>@Html.ValidationMessageFor(model => model.dataScadenza)</li>
+                <li>@Html.ValidationMessageFor(model => model.numeroDocumento)</li>
+                <li>@Html.ValidationMessageFor(model => model.provinciaEnte.denominazione)</li>
+                <li>@Html.ValidationMessageFor(model => model.enteRilascio.id)</li>
+                <li>@Html.ValidationMessageFor(m =>m.comuneEnte.denominazione)</li>
+             </ul>
+        </div>
+        <table>
+            <tr>
+                <td>@Html.LabelFor(model => model.dataRilascio, new { @style="width:100px"})</td>
+                <td>@Html.EditorFor(model => model.dataRilascio)</td>
+                <td>@Html.LabelFor(model => model.dataScadenza, new {@style="width:100px" })</td>
+                <td>@Html.EditorFor(model => model.dataScadenza)
+                    @Html.HiddenFor(model => model.id)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.numeroDocumento, new {@style="width:100px" })</td>
+                <td>@Html.EditorFor(model => model.numeroDocumento)</td>
+                <td>@Html.LabelFor(model => model.enteRilascio)</td>
+                <td>@Html.DropDownListFor(m =>m.enteRilascio.id, (IEnumerable<SelectListItem>)ViewBag.listaEnteRilascio,"")</td>
+            </tr><tr>
+                <td>@Html.LabelFor(model => model.provinciaEnte)</td>
+                <td colspan="3">@Html.DropDownListFor(m =>m.provinciaEnte.denominazione, (IEnumerable<SelectListItem>)ViewBag.provinciaRilascio, "")</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.comuneEnte)</td>
+                <td colspan="3">@Html.DropDownListFor(m =>m.comuneEnte.denominazione, (IEnumerable<SelectListItem>)ViewBag.comuneRilascio, "Selezionare una provincia")</td>
+            </tr>
+        </table>
+        <script>
+            $(function () {
+                $("#provinciaEnte_denominazione").change(function () {
+                    popolaComboComuni("provinciaEnte_denominazione", "comuneEnte_denominazione");
+                })
+            });
+            $(function () {
+                $('input[name$="dataRilascio"]').each(function () {
+                    this.style.width = "70px";
+                    $("#" + this.id).datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true, yearRange: "@ViewBag.inizioValidita:@ViewBag.oggi" });
+                });
+                $('input[name$="dataScadenza"]').each(function () {
+                    this.style.width = "70px";
+                    $("#" + this.id).datepicker({ dateFormat: "yy-mm-dd", changeMonth: true,changeYear: true, yearRange: "@ViewBag.oggi:@ViewBag.fineValidita" });
+                });
+                $('input[name$="numeroDocumento"]').each(function () { this.style.width = "70px"; });
+
+            });
+          
+        </script>
+        
+    </fieldset>

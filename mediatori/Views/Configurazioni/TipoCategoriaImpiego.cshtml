@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoCategoriaImpiego>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipologie categorie impiego";
+}
+<h2>Categoria impiego</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova categora impiego</legend>
+@using (Html.BeginForm("TipoCategoriaImpiego", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Categorie impiego configurate</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoCategoriaImpiego tipoCategoriaImpiego in Model)
+{
+    <tr>
+        <td>@tipoCategoriaImpiego.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoCategoriaImpiego", new {id=tipoCategoriaImpiego.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

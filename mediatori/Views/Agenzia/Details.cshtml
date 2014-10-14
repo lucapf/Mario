@@ -1,0 +1,19 @@
+﻿@model mediatori.Models.Anagrafiche.Agenzia
+@{
+    mediatori.helper.FireAntEditHelper editHelperAgenzia = new mediatori.helper.FireAntEditHelper("age", "/Amministrazione/AmministrazionePartialById", Model.id.ToString());
+    mediatori.helper.FireAntDetailEventDetection edAgenzia = new mediatori.helper.FireAntDetailEventDetection("age", Model.id);
+}
+<h3>Dettaglio Agenzia 
+                @Html.Raw(editHelperAgenzia.getSimpleCrudButtons())
+</h3>
+<hr />
+<br />
+@Html.Raw(editHelperAgenzia.getStartForm("/Agenzia/Edit"))
+<div id="@Html.Raw(edAgenzia.getIdFullDetail())">
+    @Html.Partial("AgenziaPartialDetail", Model)
+</div>@Html.Raw(editHelperAgenzia.getEndForm())
+@{
+    Html.RenderAction("SoggettoGiuridicoDetail", "SoggettoGiuridico", new { soggettoGiuridico = Model.soggettoGiuridico, tipoAzione = "VISUALIZZAZIONE" });
+}
+
+

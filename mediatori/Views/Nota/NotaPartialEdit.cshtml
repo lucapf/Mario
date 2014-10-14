@@ -1,0 +1,19 @@
+﻿@model mediatori.Models.Nota
+@{
+    Layout = null;
+}
+
+
+<div class="editor-label">
+    @Html.LabelFor(m => m.valore)
+    @Html.TextAreaFor(m => m.valore)
+    @Html.ValidationMessageFor(m => m.valore)
+    @Html.HiddenFor(m => m.id)
+</div>
+
+
+
+
+
+
+

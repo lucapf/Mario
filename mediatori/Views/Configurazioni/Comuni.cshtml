@@ -1,0 +1,14 @@
+﻿@model List<mediatori.Models.Anagrafiche.Comune>
+@{
+    ViewBag.Title = "Comuni";
+}
+
+<h2>Comuni</h2>
+@Html.Partial("commonConfigurazioni")
+<table>
+    <tr><td>id</td><td>denominazione</td><td>sigla provincia</td></tr>
+@foreach (mediatori.Models.Anagrafiche.Comune c in Model)
+{
+        <tr><td>@c.id</td><td>@c.denominazione</td><td>@c.provincia.sigla</td></tr>
+}
+</table>

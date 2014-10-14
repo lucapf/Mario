@@ -1,0 +1,110 @@
+﻿@model mediatori.Models.Anagrafiche.Segnalazione
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div style="float:right">Censito da:   @Html.DisplayFor(model => model.utenteInserimento) il @Html.DisplayFor(model => model.dataInserimento) </div>
+
+<h2>Segnalazione <strong>@Html.DisplayFor(m=>m.cognome) @Html.DisplayFor(m=>m.nome)</strong></h2>
+
+<script>
+        $(function () {
+            $("#dataNascita").datepicker({ dateFormat: "yy-mm-dd", changeYear: true, yearRange: "1940:2012" });
+        });
+</script>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    
+
+        @Html.HiddenFor(model => model.id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.nome)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.nome)
+            @Html.ValidationMessageFor(model => model.nome)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.cognome)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.cognome)
+            @Html.ValidationMessageFor(model => model.cognome)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.dataNascita)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.dataNascita)
+            @Html.ValidationMessageFor(model => model.dataNascita)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.sesso)
+        </div>
+        <div class="editor-field">
+             @Html.RadioButtonList(model => model.sesso,"sesso", (IEnumerable<SelectListItem>)ViewBag.listaSesso)
+            @Html.ValidationMessageFor(model => model.sesso)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.importoStipendio)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.importoStipendio)
+            @Html.ValidationMessageFor(model => model.importoStipendio)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.telefono)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.telefono)
+            @Html.ValidationMessageFor(model => model.telefono)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.importoRichiesto)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.importoRichiesto)
+            @Html.ValidationMessageFor(model => model.importoRichiesto)
+        </div>
+
+       
+          <div >
+            @Html.LabelFor(model => model.tipoAzienda)
+        
+            @Html.DropDownListFor(model => model.tipoAzienda.id,(IEnumerable<SelectListItem>)ViewBag.listaTipoAzienda)
+            @Html.ValidationMessageFor(model => model.tipoAzienda)
+        </div>
+        <div >
+            @Html.LabelFor(model => model.fontePubblicitaria)
+            @Html.DropDownListFor(m=>m.fontePubblicitaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFontePubblicitaria)
+            @Html.ValidationMessageFor(model => model.fontePubblicitaria)
+        </div>
+        <div >
+            @Html.LabelFor(model => model.altroPrestito)
+            @Html.DropDownListFor(m=>m.altroPrestito.id,(IEnumerable<SelectListItem>)ViewBag.listaTipoPrestito)
+            @Html.ValidationMessageFor(model => model.altroPrestito)
+        </div>    
+            @Html.HiddenFor(model => model.dataInserimento)
+            @Html.HiddenFor(model => model.utenteInserimento)
+        
+        <p>
+            <input type="submit" value="Salva" />
+        </p>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,30 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoEnteRilascio>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Ente Rilascio";
+}
+<h2>Tipo Ente Rilascio</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova Tipologia Ente Rilscio</legend>
+@using (Html.BeginForm("tipoEnteRilascio", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/> <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Tipologie ente rilscio configurate</legend>
+    <table>
+<tr><td><strong>sigla</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoEnteRilascio TipoEnteRilascio in Model)
+{
+    <tr>
+        <td>@TipoEnteRilascio.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoEnteRilascio", new {id=TipoEnteRilascio.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

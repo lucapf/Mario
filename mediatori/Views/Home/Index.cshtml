@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "Home page";
+    String[] ruoli = null;
+    ruoli = Roles.Provider.GetRolesForUser(WebSecurity.CurrentUserName);
+    
+}
+<style>
+    #sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 90%;
+    }
+
+        #sortable li {
+            margin: 5px 5px 5px 0;
+            padding: 1px;
+            float: left;
+            width: 150px;
+            height: 130px;
+            font-size: 4em;
+            text-align: center;
+        }
+        #sortable li:hover {
+             text-shadow: #fff 0 0 60px;
+              box-shadow: 10px 10px 5px #888888;
+            }
+
+    div.actionLink {
+        width: 100%;
+        height: 100%;
+        margin: 0px 0px 0px 0px;
+        cursor: pointer;
+        background-color: white;
+        text-align: center;
+        cursor: hand;
+        line-height:90px;
+    }
+
+    .actionLink span {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: normal;
+        font-size:18px;
+    }
+    #divHome {
+        background-color:#7e9c06;
+        color:white;
+    }
+    #divSicurezza {
+        background-color:#7e9c06;
+        color:white;
+    }
+    #divConfigurazioni {
+        background-color:#7e9c06;
+        color:white;
+    }
+    #divAnagrafiche {
+           background-color:#7e9c06;
+        color:white;
+    }
+    li.ANAGRAFICA div {
+       color:white; 
+       background-color:#9a1b1e;
+    }
+     li.SICUREZZA div {
+       color:white; 
+       background-color:#9a1b1e;
+    }
+      li.CONFIGURAZIONI div {
+       color:white; 
+       background-color:#9a1b1e;
+    }
+</style>
+<script>
+    $(function () {
+        $("#sortable").sortable();
+        $("#sortable").disableSelection();
+        $("#divHome").click(function () { window.location.href = "/" });
+        $("#divAnagrafiche").click(function () { showAnagrafiche() });
+
+        $("#divSicurezza").click(function () { showSicurezza() });
+
+        $("#divConfigurazioni").click(function () { showConfigurazioni() });
+
+        $("#divRicercaSegnalazioni").click(function () { window.location.href = "/GestioneSegnalazioni" });
+        $("#divNuovaSegnalazione").click(function () { window.location.href = "/GestioneSegnalazioni/Create" });
+        function showAnagrafiche() {
+            $(".ANAGRAFICA").show("drop", {}, 1000);
+            $("#liSicurezza").hide("explode", {}, 1000);
+            $("#liConfigurazioni").hide("explode", {}, 1000);
+        }
+        function showSicurezza() {
+            $(".SICUREZZA").show("drop", {}, 1000);
+            $("#liAnagrafiche").hide("explode", {}, 1000);
+            $("#liConfigurazioni").hide("explode", {}, 1000);
+        }
+        function showConfigurazioni() {
+            $(".CONFIGURAZIONI").show("drop", {}, 1000);
+            $("#liAnagrafiche").hide("explode", {}, 1000);
+            $("#liSicurezza").hide("explode", {}, 1000);
+        }
+
+        var sezione = getUrlParameter("s");
+       
+        switch (sezione) {
+            case "SICUREZZA": showSicurezza(); break;
+            case "CONFIGURAZIONI": showConfigurazioni(); break;
+            case "ANAGRAFICA": showAnagrafiche(); break;
+
+        }
+    });
+    
+
+</script>
+
+<ul id="sortable">
+    <li class="ui-state-default" id="liHome">
+        <div id="divHome" class="actionLink"><span>Home</span></div>
+    </li>
+    <li class="ui-state-default" id="liAnagrafiche">
+        <div id="divAnagrafiche" class="actionLink"><span>Anagrafiche</span></div>
+    </li>
+    <li class="ui-state-default" id="liSicurezza">
+        <div id="divSicurezza" class="actionLink"><span>Sicurezza</span></div>
+    </li>
+    <li class="ui-state-default" id="liConfigurazioni">
+        <div id="divConfigurazioni" class="actionLink"><span>Configurazioni</span></div>
+    </li>
+    <!-- 
+        <li class="ui-state-default">
+        <div id="divRicercaSegnalazioni" class="actionLink"><span>Ricerca Segnalazioni</span></div>
+    </li>
+    <li class="ui-state-default">
+         <div id="divNuovaSegnalazione" class="actionLink"><span>Nuova Segnalazione</span></div>
+    </li>
+    <li class="ui-state-default"><div class="actionLink"><span>Mie Segnazioni</span></div></li>
+    
+    <li class="ui-state-default"><div class="actionLink" ><span>Ricerca Amministrazioni</span></div></li>
+    -->
+    @foreach(mediatori.Helpers.EMenuSection me in Enum.GetValues(typeof(mediatori.Helpers.EMenuSection))){ 
+     foreach(mediatori.Helpers.MenuElement mi in mediatori.Helpers.MenuBuilder.getMenuData(me,ruoli )){
+    <li class="ui-state-default @me" style="display:none">
+            <div class="actionLink" onclick='window.location.href= "@mi.url"' >
+                <span>@mi.display</span>
+
+            </div>
+    </li>     
+    }}
+</ul>
+
+<br class="clear" />

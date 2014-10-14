@@ -1,0 +1,80 @@
+﻿@model mediatori.Models.Anagrafiche.AnagraficaRete
+@{
+    ViewBag.title = "Gestione Rete";
+   
+}
+<style>
+    #elementiAssegnati {
+        float:left;
+        width:300px;
+        border-style:solid;
+        border-width:1px;
+        min-height:300px;
+    }
+    #elementiDisponibili {
+        float:left;
+        width:200px;
+        border-style:solid;
+        border-width:1px;
+        min-height:300px;
+    }
+    #headerRete {
+        float:left;
+        width:100%;
+    }
+    #spacer {
+        float:left;
+        width:10px;
+        min-height:300px;
+    }
+    #listaElementiAssegnati {
+        width:100%;
+        min-height:300px;
+        background-color:lightgray;
+    }
+    #listaElementiDisponibili {
+        width:100%;
+         min-height:300px;
+        background-color:lightgray;
+    }
+</style>
+ <script>
+$(function() {
+    $( "ul.droptrue" ).sortable({
+        connectWith: "ul",
+        receive: function (event, ui) {
+            var idAttr = ui.item.attr("id");
+            alert("ricevuto " + idAttr)}
+    });
+    $( "ul.dropfalse" ).sortable({
+        connectWith: "ul",
+        dropOnEmpty: false
+    });
+   
+
+});
+</script>
+<h1> Gestione anagrafica Rete</h1>
+<div id="headerRete">
+<div class="editor-label">
+    @Html.LabelFor(m => m.sigla)
+    @Html.EditorFor(m => m.sigla)<br />
+    @Html.ValidationMessageFor(m => m.sigla)
+</div>
+   
+</div>
+
+
+<div id="elementiAssegnati">
+<ul id="listaElementiAssegnati" class="droptrue">
+  
+</ul></div>
+ <div id="spacer"> </div>
+<div id="elementiDisponibili">
+    <ul id="listaElementiDisponibili" class="droptrue">
+    @foreach (mediatori.Models.Anagrafiche.Agenzia a in ViewBag.listaAgenzia)
+    {
+        <li class="ui-state-default" id="@a.id">@a.soggettoGiuridico.ragioneSociale</li>
+    }
+    </ul>
+</div>

@@ -1,0 +1,30 @@
+﻿@model List<mediatori.Models.Anagrafiche.Toponimo>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Toponimi";
+}
+<h2>Toponimi</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuovo Toponimo</legend>
+@using (Html.BeginForm("toponimo", "Configurazioni"))
+{
+ <text>sigla <input type="text" name="sigla"/> <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>lista Toponimi configurati</legend>
+    <table>
+<tr><td><strong>sigla</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.Toponimo toponimo in Model)
+{
+    <tr>
+        <td>@toponimo.sigla</td>
+        <td>@Html.ActionLink("Cancella", "cancellaToponimo", new {sigla=toponimo.sigla}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

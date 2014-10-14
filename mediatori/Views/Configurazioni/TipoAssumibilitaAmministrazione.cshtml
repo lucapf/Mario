@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoAssumibilitaAmministrazione>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Assumibilita Amministrazione";
+}
+<h2>Assumibilita' amministrazione</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova categoria Assumibilita Amministrazioni</legend>
+@using (Html.BeginForm("TipoAssumibilitaAmministrazione", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Tipologie Assumibilita Amministrazioni</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoAssumibilitaAmministrazione tipoAssumibilitaAmministrazioni in Model)
+{
+    <tr>
+        <td>@tipoAssumibilitaAmministrazioni.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoAssumibilitaAmministrazione", new {id=tipoAssumibilitaAmministrazioni.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

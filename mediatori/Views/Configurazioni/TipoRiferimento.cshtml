@@ -1,0 +1,30 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoRiferimento>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Riferimento";
+}
+<h2>Tipo Riferimento</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuovo tipo riferimento</legend>
+@using (Html.BeginForm("tipoRiferimento", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/> <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista tipi riferimento configurati</legend>
+    <table>
+<tr><td><strong>sigla</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoRiferimento tipoRiferimento in Model)
+{
+    <tr>
+        <td>@tipoRiferimento.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoRiferimento", new {id=tipoRiferimento.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

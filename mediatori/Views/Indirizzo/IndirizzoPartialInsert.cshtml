@@ -1,0 +1,36 @@
+﻿@model mediatori.Models.Anagrafiche.Indirizzo
+
+@{
+    Layout = null;
+    
+}
+@using(Html.BeginCollectionItem("indirizzi")) {
+    Html.RenderPartial("IndirizzoPartialEdit");
+ }
+ <script>
+            $(function () {
+                $('select[id$="provincia_denominazione"]').each(function () {
+                    codice =this.name.split('[')[1].split(']')[0]
+                    idProvincia="indirizzi_" + codice + "__provincia_denominazione"
+                    idComune = "indirizzi_" + codice + "__comune_denominazione"
+                   $("#"+idProvincia).change(function () {
+                        popolaComboComuni(idProvincia, idComune);
+                    })
+                })
+            });
+
+
+            $(function () {
+                $('input[name$="dataRilascio"]').each(function () {
+                    this.style.width = "70px";
+                    $("#" + this.id).datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true, yearRange: "@ViewBag.inizioValidita:@ViewBag.oggi" });
+                });
+                $('input[name$="dataScadenza"]').each(function () {
+                    this.style.width = "70px";
+                    $("#" + this.id).datepicker({ dateFormat: "yy-mm-dd", changeMonth: true,changeYear: true, yearRange: "@ViewBag.oggi:@ViewBag.fineValidita" });
+                });
+                $('input[name$="numeroDocumento"]').each(function () { this.style.width = "70px"; });
+
+            });
+          
+        </script>

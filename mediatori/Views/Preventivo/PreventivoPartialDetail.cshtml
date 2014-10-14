@@ -1,0 +1,105 @@
+﻿@model mediatori.Models.Preventivo
+@{
+    ViewBag.title = "Preventivo";
+    Layout = null;
+   
+}
+
+<fieldset>
+<legend>Progressivo @Model.progressivo generato il  @Model.dataInserimento
+    @if (Model.dataConferma== null) {
+    @Html.Raw("Conferma:") <input type="checkbox" id="checkConfermaPreventivo@Model.id" onclick="confermaPreventivo(@Model.id)" />   
+    }else{
+        @Html.Raw(" confermato il "+Model.dataConferma);
+        
+    }
+</legend>
+<div class="editor-label">
+    @Html.LabelFor(m => m.finanziaria)
+    <div>@Html.DisplayFor(m => m.finanziaria.ragioneSociale)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.nomeProdotto)
+    <div>@Html.DisplayFor(m => m.nomeProdotto)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.importoRata)
+    <div>@Html.DisplayFor(m => m.importoRata)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.durata)
+    <div>@Html.DisplayFor(m => m.durata)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.tabellaFinanziaria)
+    <div>@Html.DisplayFor(m => m.tabellaFinanziaria)</div>
+  </div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.assicurazioneVita)
+    <div>@Html.DisplayFor(m => m.assicurazioneVita.ragioneSociale)</div>
+  </div>
+
+<div class="editor-label">
+    @Html.LabelFor(m => m.importoCoperturaVita)
+    <div>@Html.DisplayFor(m => m.importoCoperturaVita)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.assicurazioneImpiego)
+    <div>@Html.DisplayFor(m => m.assicurazioneImpiego.ragioneSociale)</div>
+  </div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.importoCoperturaImpego)
+    <div>@Html.DisplayFor(m => m.importoCoperturaImpego)</div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(m => m.dataDecorrenza)
+    <div>@Html.DisplayFor(m => m.dataDecorrenza)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.importoProvvigioni)
+    <div>@Html.DisplayFor(m => m.importoProvvigioni)</div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(m => m.montante)
+    <div>@Html.DisplayFor(m => m.montante)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.importoInteressi)
+    <div>@Html.DisplayFor(m => m.importoInteressi)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.speseAttivazione)
+    <div>@Html.DisplayFor(m => m.speseAttivazione)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.speseIncasso)
+    <div>@Html.DisplayFor(m => m.speseIncasso)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.oneriFiscali)
+    <div>@Html.DisplayFor(m => m.oneriFiscali)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.importoImpegniDaEstinguere)
+    <div>@Html.DisplayFor(m => m.importoImpegniDaEstinguere)</div>
+</div>
+    <div class="editor-label">
+    @Html.LabelFor(m => m.nettoCliente)
+    <div>@Html.DisplayFor(m => m.nettoCliente)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.tan)
+    <div>@Html.DisplayFor(m => m.tan)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.taeg)
+    <div>@Html.DisplayFor(m => m.taeg)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.teg)
+    <div>@Html.DisplayFor(m => m.teg)</div>
+</div>
+
+</fieldset>

@@ -1,0 +1,78 @@
+﻿@model mediatori.Models.Anagrafiche.Cedente
+@{
+    Layout = null;
+ }
+
+ <div class="editor-label">
+            @Html.LabelFor(model => model.nome)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.nome)
+            @Html.ValidationMessageFor(model => model.nome)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.cognome)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.cognome)
+            @Html.ValidationMessageFor(model => model.cognome)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.sesso)
+        </div>
+        <div class="editor-field">
+          
+            @Html.DropDownListFor(m => m.sesso, (IEnumerable<SelectListItem>)ViewBag.listaSesso)
+             @Html.ValidationMessageFor(model => model.sesso)
+        </div>
+         <div class="editor-label">
+            @Html.LabelFor(model => model.codiceFiscale)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.codiceFiscale)
+            @Html.ValidationMessageFor(model => model.codiceFiscale)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.dataNascita)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.dataNascita) 
+            <script>
+            $("#dataNascita").datepicker({ dateFormat: "yy-mm-dd", changeMonth:true, changeYear: true, yearRange: "1940:2012" });
+              </script>
+            @Html.ValidationMessageFor(model => model.dataNascita)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.provinciaNascita)
+        </div>
+          <div class="editor-field">
+              @Html.DropDownListFor(m => m.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia)
+              @Html.ValidationMessageFor(model => model.provinciaNascita.denominazione)
+        </div>
+        <div class="editor-label">@Html.LabelFor(model => model.comuneNascita)</div>
+        <div class="editor-field">
+            @Html.DropDownListFor(m => m.comuneNascita.denominazione,(IEnumerable<SelectListItem>)ViewBag.listaComuniNascita)
+            @Html.ValidationMessageFor(m => m.comuneNascita.denominazione)  </div>
+
+
+<div class="editor-label">@Html.LabelFor(model => model.statoCivile)</div>
+        <div class="editor-field">
+            @Html.DropDownListFor(m => m.statoCivile,(List<SelectListItem>)ViewBag.listaStatoCivile)
+            @Html.ValidationMessageFor(m => m.statoCivile)  </div>
+
+
+<div class="editor-label">@Html.LabelFor(model => model.cittadinanza)</div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.cittadinanza)
+            @Html.ValidationMessageFor(m => m.cittadinanza)
+
+        </div>
+
+<script>
+
+        $("#provinciaNascita_denominazione").change(function(){
+            popolaComboComuni("provinciaNascita_denominazione", "comuneNascita_denominazione");
+        })
+
+</script>

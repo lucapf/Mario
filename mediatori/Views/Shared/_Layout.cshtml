@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/fireAntUtils")
+    @Scripts.Render("~/bundles/scheduler")
+    @Styles.Render("~/Content/css/scheduler")
+</head>
+<script>
+    $(function () {
+        clock();
+    });
+    function clock() {
+        var d = new Date();
+        $("#headerClock").html(d.toLocaleDateString() + " - " + d.toLocaleTimeString());
+        setTimeout(function () {
+
+            clock();
+        }, 1000);
+
+
+
+
+    }
+</script>
+<body>
+    <div id="header">
+        <div id="headerLogo"></div>
+        <div id="headerTechub"></div>
+        <div id="headerHelp" class=".ui-widget-header .ui-icon .ui-icon-help" title="help"></div>
+        <div id="headerCalendario"></div>
+        <div id="headerDatiUtente">
+            @if (User.Identity.Name != null)
+            {
+                @User.Identity.Name
+            }
+        </div>
+        <div id="headerClock"></div>
+    </div>
+    <div id="topMenu">
+        <div class="topMenuItem" id="topMenuHome">Home</div>
+        <div class="topMenuItem" id="topMenuAnagrafica">Anagrafica</div>
+        <div class="topMenuItem" id="topMenuSicurezza">Sicurezza</div>
+        <div class="topMenuItem" id="topMenuConfigurazioni">Configurazioni</div>
+    </div>
+    <script>
+        $("#topMenuHome").click(function () { window.location = "/" });
+        $("#topMenuAnagrafica").click(function () { window.location = "/?s=ANAGRAFICA" });
+        $("#topMenuSicurezza").click(function () { window.location = "/?s=SICUREZZA" });
+        $("#topMenuConfigurazioni").click(function () { window.location = "/?s=CONFIGURAZIONI" });
+        $("#headerCalendario").click(
+            function () {
+                $("#divCalendar").dialog("open");
+                scheduler.init('calendarioAgendaEventi', new Date(), "month")
+            });
+
+        $(function () {
+            $("#divCalendar").dialog({
+                autoOpen: false,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+            });
+        });
+        function displayError(message){
+            $("#errorMessage").html(message);
+            $("#errorMessage").show("slide", 1000);
+            $("<div/>", { html: "[X]", id: "divErroButton", style: "float:right;cursor:hand;cursor:pointer", }).appendTo("#errorMessage");
+            $("#divErroButton").click(function () { $("#errorMessage").hide("slide", 1000); });
+        }
+
+        function displayMessage(message) {
+            $("#displayMessage").html(message);
+            $("#displayMessage").show("slide", 1000);
+            $("<div/>", { html: "[X]", id: "divDisplayButton", style: "float:right;cursor:hand;cursor:pointer", }).appendTo("#displayMessage");
+            $("#divDisplayButton").click(function () { $("#displayMessage").hide("slide", 1000); });
+        }
+
+    </script>
+    <div id="divCalendar" style="display:none">
+
+          <div id="calendarioAgendaEventi" class="dhx_cal_container" style='width:700px; height:300px; '>
+    <div class="dhx_cal_navline">
+        <div class="dhx_cal_prev_button">&nbsp;</div>
+        <div class="dhx_cal_next_button">&nbsp;</div>
+        <div class="dhx_cal_today_button"></div>
+        <div class="dhx_cal_date"></div>
+        <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+        <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+        <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+    </div>
+    <div class="dhx_cal_header"></div>
+    <div class="dhx_cal_data"></div>       
+</div>
+
+    </div>
+    <table style="width:90%;">
+        <tr>
+            <td style="vertical-align: top;width:260px">
+                <div id="secondaryContent">@Html.Partial("_MenuPrincipale")</div>
+            </td>
+            <td style="vertical-align: top;">
+                <div id="primaryContent">
+                    <div id="errorMessage" style="display:none"></div>
+                    <div id="displayMessage" style="display:none"></div>
+                    @RenderBody() </div>
+            </td>
+        </tr>
+    </table>
+
+    @RenderSection("scripts", required: false)
+    <script>
+        $(function () {
+            $("input[type=submit], button,input[type=button]").button();
+
+        });
+
+
+    </script>
+
+</body>
+</html>

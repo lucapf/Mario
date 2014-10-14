@@ -1,0 +1,91 @@
+﻿@model List<mediatori.Models.etc.GruppoLavorazioneView>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Gruppi di lavorazione";
+    mediatori.Models.etc.GruppoLavorazioneView glEmpty = ViewBag.gruppoLavorazioneEmpty;
+}
+<h2>Gruppi Di Lavorazione</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<script>
+    $(function () {
+        $("#NuovoGruppoLavorazione").click(function () {
+            $("#NuovoGruppoLavorazioneDiv").effect("slide", { direction: "right" }, 500);
+            $("#NascondiNuovoGruppoLavorazione").show(500);
+            $("#NuovoGruppoLavorazione").hide(500);
+        });
+        $("#NascondiNuovoGruppoLavorazione").click(function () {
+            $("#NuovoGruppoLavorazioneDiv").hide("slide", { direction: "left" }, 500);
+            $("#NascondiNuovoGruppoLavorazione").hide(500);
+            $("#NuovoGruppoLavorazione").show(500);
+        });
+    });
+</script>
+
+<!-- <div id="NuovoGruppoLavorazione" class="action">Nuovo</div> -->
+<input type="button" id="NuovoGruppoLavorazione" value="Nuovo" />
+<div id="NascondiNuovoGruppoLavorazione" class="action" style="display: none">Nascondi</div>
+<div id="NuovoGruppoLavorazioneDiv" style="display: none">
+    <fieldset>
+        <legend>Nuovo Gruppo di Lavorazione</legend>
+        @using (Html.BeginForm("GruppoLavorazione", "Configurazioni", FormMethod.Post))
+        {
+            <div>
+                sigla @Html.TextBox("nome")
+                <table>
+                    @Html.CheckBoxList(glEmpty.liUtenti, "utentiAssociati", true)
+                </table>
+            </div>
+            <input type="submit" value="inserisci" />
+        }
+    </fieldset>
+</div>
+<fieldset>
+    <legend>lista Gruppi Lavorazione configurati</legend>
+    <table>
+        <tr>
+            <td><strong>sigla</strong></td>
+            <td></td>
+        </tr>
+        @foreach (mediatori.Models.etc.GruppoLavorazioneView glw in Model)
+        {
+            String idDivGestioneGruppi = "gruppi" + glw.gl.id;
+            String idlinkApriBox = "gruppiShowDetail" + glw.gl.id;
+            String idlinkChiuxiBox = "gruppiHideDetail" + glw.gl.id;
+           
+            <tr>
+                <td>@glw.gl.nome</td>
+                <td>
+                    <div id="@idDivGestioneGruppi" style="display:none">
+                        @using (Html.BeginForm("AggiornaGruppiAssegnazione", "Configurazioni", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", glw.gl.id)
+                            <table>
+                                @Html.CheckBoxList(glw.liUtenti, "utentiAssociati", true)
+                            </table>
+                            <input type="submit" value="Salva" />
+                        }
+                    </div>
+                </td>
+                <td><a href="#" id="@idlinkApriBox" onclick="apriBoxAggiornamento('@glw.gl.id')">Mostra Dettagli</a> 
+                    <a href="#" id="@idlinkChiuxiBox" onclick="chiudiBoxAggiornamento('@glw.gl.id')" style="display:none">Nascondi Dettagli</a>|
+                    @Html.ActionLink("Cancella", "CancellaGruppoLavorazione", new { id = glw.gl.id }, null)</td>
+            </tr>
+    
+        }
+    </table>
+    <script>
+        function apriBoxAggiornamento(id) {
+            $("#gruppi" + id).effect("slide", { direction: 'right' }, 500);
+            $("#gruppiShowDetail" + id).hide(500);
+            $("#gruppiHideDetail" + id).show(500);
+        }
+        function chiudiBoxAggiornamento(id) {
+            $("#gruppi" + id).hide("slide", { direction: 'left' }, 500);
+            $("#gruppiShowDetail" + id).show(500);
+            $("#gruppiHideDetail" + id).hide(500);
+        }
+
+    </script>
+</fieldset>

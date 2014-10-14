@@ -1,0 +1,62 @@
+﻿@model mediatori.Models.Anagrafiche.Contatto
+@{
+    ViewBag.title = "Contatto";
+    Layout =null;
+ }
+  <div class="editor-label">
+        @Html.LabelFor(model =>model.nome)
+        @Html.EditorFor(model =>model.nome)<br />
+        @Html.ValidationMessageFor(model =>model.nome)
+      @Html.HiddenFor(model => model.id)
+    </div>
+    <script>
+        $("#segnalazione_contatto_nome").focusout(function () {
+            ricercaContatto();
+        });
+    </script>
+    <div class="editor-label">
+        @Html.LabelFor(model =>model.cognome)
+        @Html.EditorFor(model =>model.cognome)<br />
+        @Html.ValidationMessageFor(model =>model.cognome)
+    </div>
+    <script>
+        $("#segnalazione_contatto_cognome").focusout(function () {
+            ricercaContatto();
+        });
+    </script>
+    <div class="editor-label">
+        @Html.LabelFor(model =>model.dataNascita)
+        @Html.EditorFor(model =>model.dataNascita)<br />
+        @Html.ValidationMessageFor(model =>model.dataNascita)
+        <script>
+            $("#segnalazione_contatto_dataNascita").datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1940:2012",
+
+            });
+        </script>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model =>model.codiceFiscale)
+        @Html.EditorFor(model =>model.codiceFiscale)<br />
+        @Html.ValidationMessageFor(model =>model.codiceFiscale)
+    </div>
+    <script>
+        $("#segnalazione_contatto_codiceFiscale").focusout(function () {
+            ricercaContatto();
+        });
+    </script>
+
+   
+       
+    @foreach (var eSesso in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumSesso)))
+    {
+        <div class="editor-label">
+
+            @Html.Label(eSesso.ToString())
+            @Html.RadioButtonFor(model =>model.sesso, eSesso)<br />
+            @Html.ValidationMessageFor(model =>model.sesso)
+        </div>
+    }

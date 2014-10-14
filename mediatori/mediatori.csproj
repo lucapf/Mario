@@ -1,0 +1,706 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2DB97B98-F859-4FE2-A68A-B73B7EBB6538}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>mediatori</RootNamespace>
+    <AssemblyName>mediatori</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ascend">
+      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\Ascend.dll</HintPath>
+    </Reference>
+    <Reference Include="Ascend.Windows.Forms">
+      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\Ascend.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DBDiff.Front">
+      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\DBDiff.Front.dll</HintPath>
+    </Reference>
+    <Reference Include="DBDiff.Schema">
+      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\DBDiff.Schema.dll</HintPath>
+    </Reference>
+    <Reference Include="DBDiff.Schema.SQLServer">
+      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\DBDiff.Schema.SQLServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MigrationScriptGenerator">
+      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\MigrationScriptGenerator.exe</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Sharp.Data, Version=0.11.4779.17667, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpMigrations.0.12\lib\Sharp.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Sharp.Migrations, Version=0.11.4779.17667, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpMigrations.0.12\lib\Sharp.Migrations.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.AspNet.4.0.3.12153\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Consumer.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OAuth.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.Core.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\DotNetOpenAuth.OpenId.RelyingParty.4.0.3.12153\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgenziaController.cs" />
+    <Compile Include="Controllers\AmministrazioneController.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\AgenziaBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\AmministrazioneBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\ContattoBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\RiferimentoBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\DocumentoIdentitaBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\ImpiegoBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\IndirizzoBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\RicercaCedenteBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\InserimentoCedenteBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\SalvaModificheCedente.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\PopolaDropDownListAnagrafiche.cs" />
+    <Compile Include="Controllers\Business\CQS\NotaBusiness.cs" />
+    <Compile Include="Controllers\Business\CQS\SegnalazioneBusiness.cs" />
+    <Compile Include="Controllers\Business\CQS\StatoBusiness.cs" />
+    <Compile Include="Controllers\Business\EnumTipoAzione.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\SoggettoGiuridicoBusiness.cs" />
+    <Compile Include="Controllers\ReteController.cs" />
+    <Compile Include="Controllers\SoggettoGiuridicoController.cs" />
+    <Compile Include="Controllers\Business\Tipologia\TipoContattoBusiness.cs" />
+    <Compile Include="Controllers\Business\Tipologia\TipoLuogoRitrovoBusiness.cs" />
+    <Compile Include="Controllers\Business\Tipologia\TipoCanaleAcquisizioneBusiness.cs" />
+    <Compile Include="Controllers\Business\Tipologia\FontePubblicitariaBusiness.cs" />
+    <Compile Include="Controllers\Business\Tipologia\TipoProdottoBusiness.cs" />
+    <Compile Include="Controllers\Business\Tipologia\TipoPrestitoBusiness.cs" />
+    <Compile Include="Controllers\ConfigurazioniController.cs" />
+    <Compile Include="Controllers\CedenteController.cs" />
+    <Compile Include="Controllers\Business\LogEventiManager.cs" />
+    <Compile Include="Controllers\ContattoController.cs" />
+    <Compile Include="Controllers\NotaController.cs" />
+    <Compile Include="Controllers\DocumentoIdentitaController.cs" />
+    <Compile Include="Controllers\GestioneSegnalazioniController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImpiegoController.cs" />
+    <Compile Include="Controllers\IndirizzoController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\RiferimentoController.cs" />
+    <Compile Include="Controllers\StatoController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Filters\AmministrazioneFilter.cs" />
+    <Compile Include="Filters\ContattoFilter.cs" />
+    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\SegnalazioneSearch.cs" />
+    <Compile Include="Filters\SoggettoGiuridicoSearch.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\BasicDbUtils.cs" />
+    <Compile Include="Helpers\BasicXMLSerialize.cs" />
+    <Compile Include="Helpers\MenuBuilder.cs" />
+    <Compile Include="Helpers\ValidationData.cs" />
+    <Compile Include="Migrations\TipoMigrazione.cs" />
+    <Compile Include="Models\Anagrafiche\AnagraficaRete.cs" />
+    <Compile Include="Models\Anagrafiche\ElementoRete.cs" />
+    <Compile Include="Models\Anagrafiche\TipoAgenzia.cs" />
+    <Compile Include="Models\Anagrafiche\TipoDocumento.cs" />
+    <Compile Include="Models\Anagrafiche\TipoErogazione.cs" />
+    <Compile Include="Models\Anagrafiche\Erogazione.cs" />
+    <Compile Include="Models\Anagrafiche\TipoAssumibilita.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCategoriaAmministrazione.cs" />
+    <Compile Include="Models\Anagrafiche\TipoNaturaGiuridica.cs" />
+    <Compile Include="Models\Anagrafiche\SoggettoGiuridico.cs" />
+    <Compile Include="Models\Anagrafiche\TipoProdotto.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCategoriaImpiego.cs" />
+    <Compile Include="Models\Anagrafiche\TipoRiferimento.cs" />
+    <Compile Include="Models\Anagrafiche\Riferimento.cs" />
+    <Compile Include="Models\Anagrafiche\TipoContatto.cs" />
+    <Compile Include="Models\Anagrafiche\TipoLuogoRitrovo.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCanaleAcquisizione.cs" />
+    <Compile Include="Models\Anagrafiche\EnumSesso.cs" />
+    <Compile Include="Models\Anagrafiche\EnumStatoCivile.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCampagnaPubblicitaria.cs" />
+    <Compile Include="Models\EnumTipoSoggettoGiuridico.cs" />
+    <Compile Include="Models\EnumStatoBase.cs" />
+    <Compile Include="Models\Anagrafiche\TipoDocumentoIdentita.cs" />
+    <Compile Include="Models\Anagrafiche\DocumentoIdentita.cs" />
+    <Compile Include="Models\Anagrafiche\TipoEnteRilascio.cs" />
+    <Compile Include="Models\Anagrafiche\Impiego.cs" />
+    <Compile Include="Models\Anagrafiche\TipoContrattoImpiego.cs" />
+    <Compile Include="Models\EnumEntitaRiferimento.cs" />
+    <Compile Include="Models\EnumTipoEventoLog.cs" />
+    <Compile Include="Models\etc\Documento.cs" />
+    <Compile Include="Models\etc\EnumEntitaAssociataStato.cs" />
+    <Compile Include="Models\etc\GruppoLavorazione.cs" />
+    <Compile Include="Models\etc\Parametro.cs" />
+    <Compile Include="Models\etc\Stato.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\History.cs" />
+    <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\MigrazioneComuni.cs" />
+    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Anagrafiche\Indirizzo.cs" />
+    <Compile Include="Models\Anagrafiche\TipologiaIndirizzo.cs" />
+    <Compile Include="Models\Anagrafiche\Comune.cs" />
+    <Compile Include="Models\Anagrafiche\Segnalazione.cs" />
+    <Compile Include="Models\Anagrafiche\TipologiaAzienda.cs" />
+    <Compile Include="Models\Anagrafiche\FontePubblicitaria.cs" />
+    <Compile Include="Models\Anagrafiche\TipologiaPrestito.cs" />
+    <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Models\Anagrafiche\PersonaFisica.cs" />
+    <Compile Include="Models\LogEventi.cs" />
+    <Compile Include="Models\LogEventiController.cs" />
+    <Compile Include="Models\MainDbContext.cs" />
+    <Compile Include="Models\Anagrafiche\Provincia.cs" />
+    <Compile Include="Models\Anagrafiche\Toponimo.cs" />
+    <Compile Include="Models\Nota.cs" />
+    <Compile Include="Controllers\PreventivoController.cs" />
+    <Compile Include="Models\Preventivo.cs" />
+    <Compile Include="Models\Utils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\modernizr.full\readme.txt" />
+    <Content Include="Content\dhtmlxscheduler\dhtmlxscheduler.css" />
+    <Content Include="Content\dhtmlxscheduler\dhtmlxscheduler_classic.css" />
+    <Content Include="Content\dhtmlxscheduler\dhtmlxscheduler_flat.css" />
+    <Content Include="Content\dhtmlxscheduler\dhtmlxscheduler_glossy.css" />
+    <Content Include="Content\dhtmlxscheduler\imgs\buttons.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\but_repeat.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\calendar.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\clock_big.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\clock_small.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\collapse_expand_icon.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\controls.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\databg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\databg_now.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\export_ical.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\export_pdf.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\icon.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\images.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs\loading.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs\resize_dots.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\arrow_left.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\arrow_right.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\but_repeat.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\calendar.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\clock_big.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\clock_small.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\close_icon.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\collapse_expand_icon.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\controls.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\databg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\databg_now.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\export_ical.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\export_pdf.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\resize_dots.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_dhx_terrace\resizing.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\arrow_left.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\arrow_right.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\but_repeat.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\calendar.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\clock.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\clock_big.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\clock_small.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\close_icon.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\collapse_expand_icon.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\controls.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\databg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\databg_now.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\export_ical.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\export_pdf.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\resize_dots.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_flat\resizing.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\blue_tab.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\blue_tab_wide.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\buttons.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\but_repeat.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\calendar.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\clock_big.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\clock_small.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\collapse_expand_icon.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\controlls5.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\databg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\databg_now.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\event-bg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\export_ical.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\export_pdf.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\icon.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\left-separator.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\left-time-bg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\lightbox.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\loading.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\move.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\multi-days-bg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\second-top-days-bg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\top-days-bg.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\top-separator.gif" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\white_tab.png" />
+    <Content Include="Content\dhtmlxscheduler\imgs_glossy\white_tab_wide.png" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\marioh62.png" />
+    <Content Include="Content\themes\base\images\Techub.png" />
+    <Content Include="Content\themes\base\images\techubh62.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\dhtmlxscheduler\dhtmlxscheduler.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_active_links.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_agenda_view.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_all_timed.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_collision.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_container_autoresize.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_cookie.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_editors.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_expand.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_grid_view.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_html_templates.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_key_nav.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_layer.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_limit.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_map_view.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_minical.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_monthheight.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_multisection.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_multiselect.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_multisource.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_mvc.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_offline.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_outerdrag.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_pdf.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_quick_info.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_readonly.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_recurring.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_serialize.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_timeline.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_tooltip.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_treetimeline.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_units.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_url.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_week_agenda.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_wp.js" />
+    <Content Include="Scripts\dhtmlxscheduler\ext\dhtmlxscheduler_year_view.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_ar.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_be.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_ca.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_cn.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_cs.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_da.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_de.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_el.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_en.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_es.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_fi.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_fr.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_he.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_hu.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_id.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_it.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_jp.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_nb.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_nl.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_no.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_pl.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_pt.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_ro.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_ru.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_si.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_sk.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_sv.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_tr.js" />
+    <Content Include="Scripts\dhtmlxscheduler\locale\locale_ua.js" />
+    <Content Include="Scripts\fireAntUtils.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Scripts\jquery-ui-1.11.1.js" />
+    <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.2.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\modernizr-2.6.2.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Segnalazioni\Create.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Shared\Anagrafiche\Date.cshtml" />
+    <Content Include="Views\Shared\_MenuPrincipale.cshtml" />
+    <Content Include="Views\Account\ListUsers.cshtml" />
+    <Content Include="Views\Account\GestisciRuoli.cshtml" />
+    <Content Include="Views\Configurazioni\Province.cshtml" />
+    <Content Include="Views\Configurazioni\Comuni.cshtml" />
+    <Content Include="Views\Configurazioni\Toponimi.cshtml" />
+    <Content Include="Views\Configurazioni\FontePubblicitaria.cshtml" />
+    <Content Include="Views\Configurazioni\TipologiaPrestito.cshtml" />
+    <Content Include="Views\Configurazioni\commonConfigurazioni.cshtml" />
+    <Content Include="Views\Account\commonAccount.cshtml" />
+    <Content Include="Views\Configurazioni\TipologiaAzienda.cshtml" />
+    <Content Include="Views\GestioneSegnalazioni\Index.cshtml" />
+    <Content Include="Views\GestioneSegnalazioni\Details.cshtml" />
+    <Content Include="Views\GestioneSegnalazioni\Create.cshtml" />
+    <Content Include="Views\Configurazioni\TipologiaIndirizzo.cshtml" />
+    <Content Include="Views\Indirizzo\IndirizzoPartialEdit.cshtml" />
+    <Content Include="Views\Cedente\Index.cshtml" />
+    <Content Include="Views\Cedente\Details.cshtml" />
+    <Content Include="Views\Cedente\Create.cshtml" />
+    <Content Include="Views\Cedente\Edit.cshtml" />
+    <Content Include="Views\Cedente\Delete.cshtml" />
+    <Content Include="Views\Configurazioni\TipoContrattoImpiego.cshtml" />
+    <Content Include="Views\Impiego\ImpiegoPartialDetail.cshtml" />
+    <Content Include="Views\Configurazioni\TipoEnteRilascio.cshtml" />
+    <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialDetail.cshtml" />
+    <Content Include="Views\Impiego\ImpiegoPartialEdit.cshtml" />
+    <Content Include="Views\Indirizzo\IndirizzoPartialDetail.cshtml" />
+    <Content Include="Views\Cedente\DatiGeneraliPartialDetails.cshtml" />
+    <Content Include="Views\Cedente\DatiGeneraliPartialEdit.cshtml" />
+    <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialEdit.cshtml" />
+    <Content Include="Views\Configurazioni\TipoDocumentoIdentita.cshtml" />
+    <Content Include="Views\LogEventi\Index.cshtml" />
+    <Content Include="Views\Configurazioni\GruppoLavorazione.cshtml" />
+    <Content Include="Views\Configurazioni\Stato.cshtml" />
+    <Content Include="Views\Configurazioni\StatoPartialEdit.cshtml" />
+    <Content Include="Views\Configurazioni\tipoAzioneCedente.cshtml" />
+    <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialInsert.cshtml" />
+    <Content Include="Views\Cedente\Create_bakup.cshtml" />
+    <Content Include="Views\Configurazioni\TipoCampagnaPubblicitaria.cshtml" />
+    <Content Include="Views\Configurazioni\TipoCanaleAcquisizione.cshtml" />
+    <Content Include="Views\Configurazioni\TipoLuogoRitrovo.cshtml" />
+    <Content Include="Views\Configurazioni\TipoContatto.cshtml" />
+    <Content Include="Views\Configurazioni\TipoRiferimento.cshtml" />
+    <Content Include="Views\Contatto\ContattoPartialEdit.cshtml" />
+    <Content Include="Views\Configurazioni\TipoCategoriaImpiego.cshtml" />
+    <Content Include="Views\Indirizzo\IndirizzoPartialInsert.cshtml" />
+    <Content Include="Views\Configurazioni\TipoProdotto.cshtml" />
+    <Content Include="Views\Riferimento\RiferimentoPartialEdit.cshtml" />
+    <Content Include="Views\Nota\NotaPartialEdit.cshtml" />
+    <Content Include="Views\Nota\NotaPartialInsert.cshtml" />
+    <Content Include="Views\Riferimento\RiferimentoPartialInsert.cshtml" />
+    <Content Include="Views\Impiego\ImpiegoPartialInsert.cshtml" />
+    <Content Include="Views\GestioneSegnalazioni\SegnalazionePartialEdit.cshtml" />
+    <Content Include="Views\GestioneSegnalazioni\SegnalazionePartialDetail.cshtml" />
+    <Content Include="Views\Riferimento\RiferimentoInnerDetail.cshtml" />
+    <Content Include="Views\Nota\NotaPartialDetail.cshtml" />
+    <Content Include="Views\Impiego\ImpiegoInnerDetail.cshtml" />
+    <Content Include="Views\Riferimento\RiferimentoPartialDetail.cshtml" />
+    <Content Include="Views\Contatto\ContattoPartialDetail.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\Index.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\Create.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\SoggettoGiuridicoPartialEdit.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\SoggettoGiuridicoPartialDetail.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\Details.cshtml" />
+    <Content Include="Views\Configurazioni\TipoCategoriaAmministrazione.cshtml" />
+    <Content Include="Views\Configurazioni\TipoAssumibilitaAmministrazione.cshtml" />
+    <Content Include="Views\Amministrazione\Index.cshtml" />
+    <Content Include="Views\Amministrazione\Create.cshtml" />
+    <Content Include="Views\Amministrazione\AmministrazionePartialDetail.cshtml" />
+    <Content Include="Views\Amministrazione\AmministrazionePartialEdit.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SoggettoGiuridico.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Amministrazione.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\DetailsNoLayout.cshtml" />
+    <Content Include="Views\Amministrazione\Details.cshtml" />
+    <Content Include="Views\Configurazioni\TipoErogazione.cshtml" />
+    <Content Include="Views\Configurazioni\TipoAgenzia.cshtml" />
+    <Content Include="Views\Agenzia\Index.cshtml" />
+    <Content Include="Views\Agenzia\Create.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Agenzia.cshtml" />
+    <Content Include="Views\Agenzia\Details.cshtml" />
+    <Content Include="Views\Agenzia\AgenziaPartialDetail.cshtml" />
+    <Content Include="Views\Agenzia\AgenziaPartialEdit.cshtml" />
+    <Content Include="Views\Home\Calendar.cshtml" />
+    <Content Include="Views\Preventivo\PreventivoPartialDetail.cshtml" />
+    <Content Include="Views\Preventivo\PreventivoPartialEdit.cshtml" />
+    <Content Include="Views\Configurazioni\Parametro.cshtml" />
+    <Content Include="Views\Rete\Manage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55237</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50998/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

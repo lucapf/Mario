@@ -1,0 +1,40 @@
+﻿@model mediatori.Models.etc.StatoView
+@{
+    
+    ViewBag.Title = "StatoPartialEdit";
+    Layout = null;
+    var requiredDescrizione = new Dictionary<String, object>() { { "data-val", "true" }, { "data-val-required", "il campo descrizione è obbligatorio" } };
+    var lstEntitaAssociata = new Dictionary<String, object>() { { "data-val", "true" }, { "data-val-required", "indicare l'entita associata" } };
+    var statoBase = new Dictionary<String, object>() { { "data-val", "true" }, { "data-val-required", "il campo stato base è obbligatorio" } };
+  //  var gruppoLavorazione = new Dictionary<String, object>() { { "data-val", "true" }, { "data-val-required", "il campo gruppo lavorazione è obbligatorio" } };
+}
+<div>
+    <table>
+        <tr>
+            <td>Descrizione</td>
+            <td>@Html.TextBox("descrizione",Model.stato.descrizione, requiredDescrizione) 
+                @Html.ValidationMessage("descrizione")
+            </td>
+        </tr>
+        <tr>
+            <td>Relativo A</td>
+            <td>@Html.DropDownList("EntitaAssociata", Model.lstEntitaAssociata, "", lstEntitaAssociata ) 
+                @Html.ValidationMessage("EntitaAssociata")
+               
+            </td>
+        </tr>
+        <tr>
+            <td>Stato Base</td>
+            <td>@Html.DropDownList("statoBase", Model.lstStatoBase, "", statoBase) 
+                @Html.ValidationMessage("statoBase")
+               
+            </td>
+        </tr>
+        <tr>
+            <td>Gruppo Lavorazione</td>
+            <td>@Html.DropDownList("gruppoLavorazione.id", Model.lstgruppoLavorazione, "") <!-- , gruppoLavorazione) -->
+                @Html.ValidationMessage("gruppoLavorazione.id")
+            </td>
+        </tr>
+    </table>
+</div>

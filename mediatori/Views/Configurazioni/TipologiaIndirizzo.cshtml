@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipologiaIndirizzo>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipologia Indirizzo";
+}
+<h2>Tipologia Indirizzo</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova Tipologia Indirizzo</legend>
+@using (Html.BeginForm("TipologiaIndirizzo", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Tipologia Indirizzo configurate</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipologiaIndirizzo tipologiaIndirizzo in Model)
+{
+    <tr>
+        <td>@tipologiaIndirizzo.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoIndirizzo", new {id=tipologiaIndirizzo.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

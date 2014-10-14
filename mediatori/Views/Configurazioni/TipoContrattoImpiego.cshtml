@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoContrattoImpiego>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Contratto ";
+}
+<h2>Tipo Contratto </h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova Tipo Contratto </legend>
+@using (Html.BeginForm("tipoContrattoImpiego", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Tipi Contratto configurati</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoContrattoImpiego tipoContrattoImpiego in Model)
+{
+    <tr>
+        <td>@tipoContrattoImpiego.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoContrattoImpiego", new {id=tipoContrattoImpiego.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

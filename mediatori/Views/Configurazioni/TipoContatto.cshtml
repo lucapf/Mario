@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoContatto>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Contatto";
+}
+<h2>Tipo contatto</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuovo tipo Contatto</legend>
+@using (Html.BeginForm("tipoContatto", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Luoghi tipo contatto </legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoContatto tipocontatto in Model)
+{
+    <tr>
+        <td>@tipocontatto.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoContatto", new {id=tipocontatto.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

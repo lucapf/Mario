@@ -1,0 +1,37 @@
+﻿@model mediatori.Models.Anagrafiche.DocumentoIdentita
+
+@{
+    Layout = null;
+    
+}
+@using(Html.BeginCollectionItem("documentoIdentita")) {
+    Html.RenderPartial("DocumentoIdentitaPartialEdit");
+ }
+ <script>
+            $(function () {
+                $('select[id$="provinciaEnte_denominazione"]').each(function () {
+                    codice =this.name.split('[')[1].split(']')[0]
+                    idProvincia="documentoIdentita_" + codice + "__provinciaEnte_denominazione"
+                    idComune="documentoIdentita_" + codice + "__comuneEnte_denominazione"
+                 
+                    $("#"+idProvincia).change(function () {
+                        popolaComboComuni(idProvincia, idComune);
+                    })
+                })
+            });
+
+
+            $(function () {
+                $('input[name$="dataRilascio"]').each(function () {
+                    this.style.width = "70px";
+                    $("#" + this.id).datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true, yearRange: "@ViewBag.inizioValidita:@ViewBag.oggi" });
+                });
+                $('input[name$="dataScadenza"]').each(function () {
+                    this.style.width = "70px";
+                    $("#" + this.id).datepicker({ dateFormat: "yy-mm-dd", changeMonth: true,changeYear: true, yearRange: "@ViewBag.oggi:@ViewBag.fineValidita" });
+                });
+                $('input[name$="numeroDocumento"]').each(function () { this.style.width = "70px"; });
+
+            });
+          
+        </script>

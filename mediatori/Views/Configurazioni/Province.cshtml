@@ -1,0 +1,19 @@
+﻿@model List<mediatori.Models.Anagrafiche.Provincia>
+@using mediatori.Models.Anagrafiche
+@{
+    ViewBag.Title = "ListaProvince";
+}
+<h2>ListaProvince</h2>
+@Html.Partial("commonConfigurazioni")
+<table>
+    <tr><td>Denominazione</td><td>sigla</td><td>visualizza Comuni</td></tr>
+@foreach (mediatori.Models.Anagrafiche.Provincia provincia in Model)
+{
+    <tr>
+        <td>@provincia.denominazione</td>
+        <td>@provincia.sigla</td>
+        <td>@Html.ActionLink("Comuni", "comuni", new ComuneSearch{codiceProvincia=provincia.id}, null)</td>
+
+    </tr>
+}
+</table>

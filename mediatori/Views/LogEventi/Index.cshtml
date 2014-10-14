@@ -1,0 +1,13 @@
+﻿@model List<mediatori.Models.LogEventi>
+
+
+<table>
+    <thead><tr><th>data</th><th>operatore</th><th>campi</th></tr></thead>
+    <tbody>
+@foreach (mediatori.Models.LogEventi le in Model)
+{
+    <tr><td>@le.dataInserimento</td><td>@le.operatoreInserimento</td><td>@le.messaggio</td></tr>
+}
+        </tbody>
+</table>
+
