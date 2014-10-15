@@ -63,6 +63,12 @@ namespace mediatori.Models.Anagrafiche
         public ICollection<Preventivo> preventivi { get; set; }
         [Display(Name = "Stato")]
         public Stato stato { get; set; }
+
+
+
+        [Display(Name = "Documenti")]
+        public ICollection<Documento> documenti { get; set; }
+
     }
 
    

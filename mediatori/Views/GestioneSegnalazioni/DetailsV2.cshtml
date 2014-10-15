@@ -117,7 +117,7 @@
     <input type="button" id="btnScrollToPreventivo" value="Preventivi" data-inline="true" data-mini="true" />
     <input type="button" id="btnAggiuntiPreventivo" value="Aggiungi preventivo" data-inline="true" data-mini="true" />
 
-    <a href="@Url.Action("Index", "Documentale", new { Container = "Segnalazioni" })">
+    <a href="@Url.Action("Index", "Documentale", new { SegnalazioneId = Model.id })">
         <input type="button" id="btnDocumentale" value="Documentale" data-mini="true" data-inline="true" />
     </a>
 

@@ -28,5 +28,8 @@ namespace mediatori.Models.etc
         [Required]
         [Display(Name = "Tipo documento")]
         public Anagrafiche.TipoDocumento tipoDocumento { get; set; }
+
+        public int SegnalazioneId { get; set; }
+        public virtual Anagrafiche.Segnalazione  Segnalazione { get; set; }
     }
 }

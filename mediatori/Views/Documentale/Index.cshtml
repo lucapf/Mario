@@ -3,6 +3,12 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     // Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    string temp = "";
+    if (Model.SegnalazioneId != null){
+        temp = " Segnalazione n° " + Model.SegnalazioneId;   
+    }
+    
 }
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
 <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
@@ -17,7 +23,7 @@
     });
 </script>
 
-<h2>Documentale - @Model.Container</h2>
+<h2>Documentale - @temp</h2>
 <a href="#MyPopupUpload" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Aggiungi un allegato</a>
 
 
@@ -40,6 +46,7 @@
 
         @using (Html.BeginForm("Add", "Documentale", FormMethod.Post, new { id = "MyFormUpload", enctype = "multipart/form-data" }))
         {
+            <input type ="hidden" name ="SegnalazioneId" value="@Model.SegnalazioneId" />
             <input type="file" name="MyFile" id="MyFile" value="">
            
             <span style="color: red; visibility: hidden;" id="MyResponseMessage">messaggio</span>
@@ -164,7 +171,7 @@
     function MyAsyncUpdate() {
         //alert("MyAsyncUpdate");
 
-        $.get('@Url.Action("Index", "Documentale")', function (data) {
+        $.get('@Url.Action("Index", "Documentale", new {SegnalazioneId = Model.SegnalazioneId })', function (data) {
             //alert("MyAsyncUpdate " + data);
             $('#AttachmentList').html(data);
             $('#AttachmentList').trigger('create');

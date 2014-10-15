@@ -112,7 +112,7 @@
     <input type="button" id="btnScrollToPreventivo" value="Preventivi" />
     <input type="button" id="btnAggiuntiPreventivo" value="Aggiungi preventivo" />
 
-    <a href="@Url.Action("Index", "Documentale", new { Container="Segnalazioni" })">
+    <a href="@Url.Action("Index", "Documentale", new { SegnalazioneId = Model.id })">
         <input type="button" id="btnDocumentale" value="Documentale" />
     </a>
 

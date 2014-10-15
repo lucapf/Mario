@@ -32,7 +32,13 @@ namespace mediatori.Controllers
         {
 
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            model.documenti = db.Documenti.ToList();
+
+            if (model.SegnalazioneId != null)
+            {
+                model.documenti = db.Documenti.Where(p => p.SegnalazioneId == (int)model.SegnalazioneId).OrderBy( d=>d.nome).ToList();
+            }
+
+          
             model.tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
 
 
@@ -45,7 +51,7 @@ namespace mediatori.Controllers
         }
 
 
-        public JsonResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId)
+        public JsonResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int SegnalazioneId)
         {
             Debug.WriteLine("Add file: " + Request["MyFile"]);
 
@@ -64,6 +70,7 @@ namespace mediatori.Controllers
             documento.descrizione = descrizione;
             //documento.tipoDocumento = new Models.Anagrafiche.TipoDocumento { id = tipoDocumento };
             documento.tipoDocumento = db.TipoDocumenti.Find(tipoDocumentoId);
+            documento.SegnalazioneId = SegnalazioneId;
             documento.id = Guid.NewGuid();
             documento.nome = MyFile.FileName;
 
