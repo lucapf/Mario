@@ -15,8 +15,16 @@ namespace mediatori.Controllers
     {
         //
         // GET: /Agenzia/
-[HttpGet]
+        [HttpGet]
         public ActionResult Index(AgenziaFilter agenziaFilter)
+        {
+            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
+            return View(AgenziaBusiness.findByFilter(agenziaFilter, db));
+        }
+
+
+        public ActionResult IndexV2(AgenziaFilter agenziaFilter)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
 
@@ -58,7 +66,7 @@ namespace mediatori.Controllers
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag(db);
-            Agenzia a = AgenziaBusiness.findByPk(id,db);
+            Agenzia a = AgenziaBusiness.findByPk(id, db);
             return View(a);
         }
         private void valorizzaViewBag(MainDbContext db)
@@ -70,7 +78,7 @@ namespace mediatori.Controllers
                     m.entitaAssociata == EnumEntitaAssociataStato.AGENZIA);
             ViewBag.listaStati = new SelectList(listaStati, "id", "descrizione");
             ViewBag.listaTipoAgenzia = new SelectList(db.TipoAgenzia, "id", "Descrizione");
-           
+
         }
         private AgenziaCreate valorizzaDatiAgenzia(AgenziaCreate agenziaCreate, MainDbContext db)
         {
@@ -83,7 +91,7 @@ namespace mediatori.Controllers
             agenziaCreate.riferimenti.Add(RiferimentoBusiness.valorizzaDatiDefault(new Riferimento()));
             agenziaCreate.note = new List<Nota>();
             agenziaCreate.note.Add(new Nota());
-          
+
             return agenziaCreate;
         }
 

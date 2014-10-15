@@ -10,10 +10,13 @@ namespace mediatori.Models.etc
     [Table("documento")]
     public class Documento
     {
-        [Key]
-        public int id { get; set; }
+        [Required]
+        public Guid id { get; set; }
 
         [Required]
+        [Display(Name = "Nome")]
+        public string nome { get; set; }
+
         [Display(Name = "Descrizione")]
         public String descrizione { get; set; }
 

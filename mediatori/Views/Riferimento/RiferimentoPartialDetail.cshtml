@@ -11,11 +11,14 @@
 
 @Html.Raw(faDetailEventDetection.getHeader(
                  Html.DisplayFor(m => m.tipoRiferimento.descrizione).ToHtmlString()
-                + " <b>" + Html.DisplayFor(m => m.valore).ToHtmlString())+"</b> ")
+                 + " <b>" + Html.DisplayFor(m => m.valore).ToHtmlString()) + "</b> ")
+
 @Html.Raw(editHelper.getStartForm("/Riferimento/Edit"))
+
 <div id="@faDetailEventDetection.getIdFullDetail()">
-   @Html.Partial("RiferimentoInnerDetail", Model) 
+    @Html.Partial("RiferimentoInnerDetail", Model)
 </div>
+
 @Html.Raw(editHelper.getEndForm())
 @Html.Raw(editHelper.getCrudButtons())
 

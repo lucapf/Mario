@@ -22,10 +22,16 @@ namespace mediatori.Controllers
 
             
         }
+        public ActionResult Anagrafiche()
+        {
+            return View();
+        }
+
         public ActionResult Calendar()
         {
             return View();
         }
+
         public ActionResult About()
         {
             ViewBag.Message = "Pagina di descrizione dell'app.";

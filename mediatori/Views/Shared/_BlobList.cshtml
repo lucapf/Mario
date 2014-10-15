@@ -1,0 +1,15 @@
+﻿@model List<Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob> 
+
+<ol data-role="listview" data-inset="true" data-split-icon="delete">
+    @foreach (Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob blob in Model)
+    {
+        <li>
+            <a href="@Url.Action("Download", "Blob", new { id = blob.Name  })">
+                <h2>@blob.Name</h2>
+                <p class="ui-li-aside">Size: <strong>@blob.Properties.Length</strong> Data: <strong>@blob.Properties.LastModified.Value.ToString("dd/MM/yyyy")</strong></p>
+            </a>
+
+            <a href="javascript:MyAsyncDelete('@blob.Name')">Delete</a>
+        </li>
+    }
+</ol>

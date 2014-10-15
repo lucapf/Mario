@@ -77,7 +77,7 @@
                 }
             });
         });
-        function displayError(message){
+        function displayError(message) {
             $("#errorMessage").html(message);
             $("#errorMessage").show("slide", 1000);
             $("<div/>", { html: "[X]", id: "divErroButton", style: "float:right;cursor:hand;cursor:pointer", }).appendTo("#errorMessage");
@@ -92,33 +92,34 @@
         }
 
     </script>
-    <div id="divCalendar" style="display:none">
-
-          <div id="calendarioAgendaEventi" class="dhx_cal_container" style='width:700px; height:300px; '>
-    <div class="dhx_cal_navline">
-        <div class="dhx_cal_prev_button">&nbsp;</div>
-        <div class="dhx_cal_next_button">&nbsp;</div>
-        <div class="dhx_cal_today_button"></div>
-        <div class="dhx_cal_date"></div>
-        <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-        <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-        <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+    <div id="divCalendar" style="display: none">
+        <div id="calendarioAgendaEventi" class="dhx_cal_container" style='width: 700px; height: 300px;'>
+            <div class="dhx_cal_navline">
+                <div class="dhx_cal_prev_button">&nbsp;</div>
+                <div class="dhx_cal_next_button">&nbsp;</div>
+                <div class="dhx_cal_today_button"></div>
+                <div class="dhx_cal_date"></div>
+                <div class="dhx_cal_tab" name="day_tab" style="right: 204px;"></div>
+                <div class="dhx_cal_tab" name="week_tab" style="right: 140px;"></div>
+                <div class="dhx_cal_tab" name="month_tab" style="right: 76px;"></div>
+            </div>
+            <div class="dhx_cal_header"></div>
+            <div class="dhx_cal_data"></div>
+        </div>
     </div>
-    <div class="dhx_cal_header"></div>
-    <div class="dhx_cal_data"></div>       
-</div>
 
-    </div>
-    <table style="width:90%;">
+
+    <table style="width: 90%;">
         <tr>
-            <td style="vertical-align: top;width:260px">
+            <td style="vertical-align: top; width: 260px">
                 <div id="secondaryContent">@Html.Partial("_MenuPrincipale")</div>
             </td>
             <td style="vertical-align: top;">
                 <div id="primaryContent">
-                    <div id="errorMessage" style="display:none"></div>
-                    <div id="displayMessage" style="display:none"></div>
-                    @RenderBody() </div>
+                    <div id="errorMessage" style="display: none"></div>
+                    <div id="displayMessage" style="display: none"></div>
+                    @RenderBody()
+                </div>
             </td>
         </tr>
     </table>

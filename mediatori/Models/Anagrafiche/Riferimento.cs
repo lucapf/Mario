@@ -17,7 +17,7 @@ namespace mediatori.Models.Anagrafiche
         [Display(Name = "Riferimento")]
         public String riferimento;
         [Required]
-        [Display(Name="tipo Riferimento")]
+        [Display(Name="Tipo Riferimento")]
         public TipoRiferimento tipoRiferimento { get; set; }
         [Required]
         [Display(Name = "valore")]

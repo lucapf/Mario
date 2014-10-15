@@ -18,10 +18,6 @@ namespace mediatori.Controllers
     public class GestioneSegnalazioniController : Controller
     {
 
-
-        //
-        // GET: /GestioneSegnalazioni/
-
         public ActionResult Index(SegnalazioneSearch segnalazioniSearch, String message)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
@@ -31,6 +27,20 @@ namespace mediatori.Controllers
             return View(new SegnalazioneBusiness().findByFilter(segnalazioniSearch, db));
         }
 
+
+
+        public ActionResult IndexV2(SegnalazioneSearch segnalazioniSearch, String message)
+        {
+            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
+
+            ViewBag.message = message;
+            return View(new SegnalazioneBusiness().findByFilter(segnalazioniSearch, db));
+        }
+
+
+
+
         //
         // GET: /GestioneSegnalazioni/Details/5
         [HttpGet]
@@ -39,6 +49,18 @@ namespace mediatori.Controllers
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
            if (segnalazione == null)
+            {
+                return HttpNotFound();
+            }
+            return View(segnalazione);
+        }
+
+        [HttpGet]
+        public ActionResult DetailsV2(int id = 0)
+        {
+            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+            Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
+            if (segnalazione == null)
             {
                 return HttpNotFound();
             }

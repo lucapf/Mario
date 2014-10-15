@@ -325,6 +325,8 @@ namespace mediatori.helper
         public String getButtonAnnullaInserimento(String value = "Annulla", String htmlAttributes = "")
         {
             TagBuilder submitForm = new TagBuilder("input");
+            //Rutigliano
+            submitForm.Attributes.Add("data-role", "none");
             submitForm.Attributes.Add("type", "button");
             submitForm.Attributes.Add("value", value);
             submitForm.Attributes.Add("style", "display:none");
