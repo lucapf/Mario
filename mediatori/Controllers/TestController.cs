@@ -27,6 +27,35 @@ namespace mediatori.Controllers
         }
 
 
+        public ActionResult Decimal(mediatori.Models.Test.Decimal model)
+        {
+            model.decimal_01 =  (decimal) 1.5;
+            model.decimal_02 = (decimal)3.3;
+
+
+            model.double_01 = 1.5;
+            model.double_02 = 3.3;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("Decimal")]
+        public ActionResult DecimalPost(mediatori.Models.Test.Decimal model)
+        {
+
+            Debug.WriteLine(String.Format("decimal_01: {0}", model.decimal_01));
+            Debug.WriteLine(String.Format("decimal_02: {0}", model.decimal_02));
+            
+
+            Debug.WriteLine(String.Format("double_01: {0}", model.double_01));
+            Debug.WriteLine(String.Format("double_02: {0}", model.double_02));
+
+            return View(model);
+        }
+
+
+
         public ActionResult Azure(Models.BlobContainer model)
         {
             //http://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/#configure-access

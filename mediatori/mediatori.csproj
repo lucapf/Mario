@@ -262,6 +262,8 @@
     <Compile Include="Controllers\RiferimentoController.cs" />
     <Compile Include="Controllers\StatoController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="DoubleModelBinder.cs" />
+    <Compile Include="DecimalModelBinder.cs" />
     <Compile Include="Filters\AmministrazioneFilter.cs" />
     <Compile Include="Filters\ContattoFilter.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -335,7 +337,9 @@
     <Compile Include="Models\Nota.cs" />
     <Compile Include="Controllers\PreventivoController.cs" />
     <Compile Include="Models\Preventivo.cs" />
+    <Compile Include="Models\Test\Decimal.cs" />
     <Compile Include="Models\Utils.cs" />
+    <Compile Include="MyConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionData.cs" />
   </ItemGroup>
@@ -795,6 +799,8 @@
     <Content Include="Views\Agenzia\IndexV2.cshtml" />
     <Content Include="Views\GestioneSegnalazioni\IndexV2.cshtml" />
     <Content Include="Views\GestioneSegnalazioni\DetailsV2.cshtml" />
+    <Content Include="Views\Test\Decimal.cshtml" />
+    <Content Include="Views\Test\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

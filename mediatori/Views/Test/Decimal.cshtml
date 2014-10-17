@@ -1,0 +1,33 @@
+﻿@model mediatori.Models.Test.Decimal
+@{
+    ViewBag.Title = "Decimal";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Decimal</h2>
+
+
+
+@using (Html.BeginForm("Decimal", "Test", FormMethod.Post, new { id = "MyForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <label for="decimal_01">decimal_01</label>
+    <input type="number" name="decimal_01" id="decimal_01" value="@String.Format(MyConstants.CultureInfoEN, "{0:N2}", Model.decimal_01)"  step="0.1"  />
+    <br />
+    <label for="decimal_02">decimal_02</label>
+    <input type="number" data-clear-btn="true" name="decimal_02" id="decimal_02" step="0.1"  value="@String.Format(MyConstants.CultureInfoEN, "{0:N2}", Model.decimal_02)" data-mini="true" data-inline="true" required >
+    <br />
+    <label for="double_01">double_01</label>
+    <input type="number" name="double_01" id="double_01" value="@String.Format(MyConstants.CultureInfoEN, "{0:N2}", Model.double_01)"  step="0.1"  />
+    <br />
+    <label for="double_02">double_02</label>
+    <input type="number" data-clear-btn="true" name="double_02" id="double_02" step="0.1"  value="@String.Format(MyConstants.CultureInfoEN, "{0:N2}", Model.double_02)" data-mini="true" data-inline="true" required >
+    
+    
+    <input type="submit" data-inline="true" value="Invia" />
+}
+
+
+
+@{ Html.RenderPartial("_Footer"); }
