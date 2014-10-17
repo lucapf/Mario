@@ -801,6 +801,7 @@
     <Content Include="Views\GestioneSegnalazioni\DetailsV2.cshtml" />
     <Content Include="Views\Test\Decimal.cshtml" />
     <Content Include="Views\Test\_Footer.cshtml" />
+    <Content Include="Views\Documentale\DocumentalePartialDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,7 @@ namespace mediatori.Models.etc
     [Table("documento")]
     public class Documento
     {
-        [Required]
+        [Key]
         public Guid id { get; set; }
 
         [Required]

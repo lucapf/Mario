@@ -245,7 +245,6 @@
         }
     }
 
-
     @using (Html.BeginForm("CreateForSegnalazione", "Nota", FormMethod.Post, new { id = "nuovaNota" }))
     {
         <div id="divNuovaNota" style="display: none">
@@ -254,6 +253,26 @@
             <input type="button" value="Salva" onclick='$("#nuovaNota").submit()' /><input type="button" value="Annulla" onclick='    $("#divNuovaNota").hide()' />
         </div>
     }
+
+
+
+     <h3>Documentazione <strong class="h3Link" id="linkNuovoDocumento" 
+         title="Aggiungi Documento">[ + ]</strong></h3>
+    <script>$(function () { $("#linkNuovoDocumento").click(function () { $("#divNuovoDocumento").show(); }) })</script>
+    <hr />
+    @if (Model.documenti != null)
+    {
+        foreach (mediatori.Models.etc.Documento documento in Model.documenti)
+        {
+            {
+                Html.RenderPartial("~/Views/Documentale/DocumentalePartialDetail.cshtml", documento);
+            }
+        }
+    }
+
+
+
+
 
     <p>
         @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |

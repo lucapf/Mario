@@ -90,7 +90,9 @@ namespace mediatori.Controllers.Business
             ContattoInclude<Segnalazione> contattoInclude = new ContattoInclude<Segnalazione>();
             DbQuery<Segnalazione> segnalazioneQuery = contattoInclude
                 .addIncludeStatement(db.Segnalazioni, "contatto").Include("note").Include("stato") ;
-            segnalazioneQuery.Include("preventivi").Include("preventivi.finanziaria").Include("preventivi.assicurazioneVita").Include("preventivi.assicurazioneImpiego");
+                  segnalazioneQuery.Include("preventivi").Include("preventivi.finanziaria")
+                .Include("preventivi.assicurazioneVita").Include("preventivi.assicurazioneImpiego")
+                .Include("documenti").Include("documenti.tipoDocumento");
             Segnalazione segnalazione = segnalazioneQuery.Where(s => s.id == id).FirstOrDefault(); ;
             if (segnalazione.preventivi == null) segnalazione.preventivi = new List<Preventivo>();
             return segnalazione;

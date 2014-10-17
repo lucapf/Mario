@@ -1,0 +1,34 @@
+﻿@model mediatori.Models.etc.Documento
+@{
+    Layout = null;
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("doc", Model.id.ToString());
+     
+}
+@Html.Raw(faDetailEventDetection.getScriptHandler())
+@Html.Raw(faDetailEventDetection.buildShortDetailDiv(
+                "<strong>&#9654 &#9654 Documentazione " + ": </strong>" +
+                Model.nome + " tipo " + Model.tipoDocumento.descrizione))
+<div id="@faDetailEventDetection.getIdFullDetail()">
+    <fieldset>
+        <legend>@Html.Raw(faDetailEventDetection.buildFullDetailDiv("Documentazione"))</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.nome)
+            <div>@Html.Display("nome") </div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.tipoDocumento)
+            <div>@Html.Display("tipoDocumento.descrizione") </div>
+        </div>
+         <div class="editor-label">
+            @Html.LabelFor(m => m.descrizione)
+            <div>@Html.Display("descrizione") </div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.dataInserimento)
+            <div>@Html.Display("dataInserimento") </div>
+        </div>
+        
+    </fieldset>
+</div>
+

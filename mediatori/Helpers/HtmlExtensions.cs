@@ -175,9 +175,15 @@ namespace mediatori.helper
         String idBtnAnnulla = String.Empty;
         String idBtnSalva = String.Empty;
         String idDivMessage = String.Empty;
-        int id = 0;
+        String id = "0";
 
-        public FireAntDetailEventDetection(String prefisso, int id)
+        public FireAntDetailEventDetection(String prefisso, int id):
+            this(prefisso, id + "")
+        {
+        
+
+        }
+        public FireAntDetailEventDetection(String prefisso, string id)
         {
             idShortDetail = prefisso + "Short" + id;
             idFullDetail = prefisso + "Full" + id;
