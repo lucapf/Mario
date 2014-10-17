@@ -1,4 +1,5 @@
-﻿using System;
+﻿using mediatori.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,7 +21,7 @@ namespace mediatori.Controllers
                 return View();
             }
 
-            
+
         }
         public ActionResult Anagrafiche()
         {
@@ -30,6 +31,34 @@ namespace mediatori.Controllers
         public ActionResult Calendar()
         {
             return View();
+        }
+
+        public ActionResult Assegnazioni(mediatori.Models.AssegnazioniModel model)
+        {
+            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
+           // model.DaAssegnare = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto").ToList();
+
+
+            model.DaAssegnare = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
+                                 where !(
+                                 from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
+                                 ).Contains(s.id)
+                                 select s).ToList();
+            
+
+          //  model.Assegnate = db.Assegnazioni.ToList();
+
+            //model.Assegnate = (from s in db.Segnalazioni.Include("stato")
+            //                   join a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto") on s.id equals a.segnalazioneId
+            //                  where s.stato.id == a.statoId
+            //                  select a).ToList();
+
+            model.Assegnate = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
+                                where a.segnalazione.stato.id == a.statoId
+                               select a).ToList();
+
+            return View(model);
         }
 
         public ActionResult About()

@@ -1,0 +1,67 @@
+﻿@model mediatori.Models.AssegnazioniModel
+@{
+    ViewBag.Title = "Assegnazioni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+@if (Layout != "~/Views/Shared/_LayoutMobile.cshtml")
+{
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
+    <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+    
+    <script type="text/javascript">
+        $(document).on("pageinit", function () {
+            // alert("pageinit");
+            $.mobile.ajaxEnabled = false;
+        });
+    </script>
+    
+}
+<h2>Assegnazioni</h2>
+
+
+
+
+
+<ol data-role="listview" data-inset="true">
+    <li data-role="list-divider">Da Assegnare</li>
+    @foreach (mediatori.Models.Anagrafiche.Segnalazione segnalazione in Model.DaAssegnare)
+    {
+        <li>
+            <a href="@Url.Action("Details", "GestioneSegnalazioni", new { id = segnalazione.id })">
+
+
+                <h2>@segnalazione.contatto.nome @segnalazione.contatto.cognome </h2>
+                <p>@segnalazione.prodottoRichiesto.descrizione</p>
+
+                <p class="ui-li-aside">Importo: <strong>@String.Format("{0:N2}", segnalazione.importoRichiesto)</strong>  -  Data: <strong>@segnalazione.dataInserimento.ToShortDateString()</strong></p>
+            </a>
+
+            <a href="@Url.Action("Assegna", "GestioneSEgnalazioni", new { id = segnalazione.id })" >Assegna</a>
+        </li>
+    }
+</ol>
+
+
+
+<ol data-role="listview" data-inset="true">
+    <li data-role="list-divider">Assegnate</li>
+    @foreach (mediatori.Models.etc.Assegnazione assegnazione in Model.Assegnate)
+    {
+        <li>
+            <a href="@Url.Action("Details", "GestioneSegnalazioni", new { id = assegnazione.segnalazioneId })">
+
+                @if (assegnazione.segnalazione.contatto != null)
+                {
+                    <h2>@assegnazione.segnalazione.contatto.nome @assegnazione.segnalazione.contatto.cognome </h2>
+                }
+                <p>@assegnazione.segnalazione.prodottoRichiesto.descrizione</p>
+
+                <p class="ui-li-aside">Importo: <strong>@String.Format("{0:N2}", assegnazione.segnalazione.importoRichiesto)</strong>  -  Data: <strong>@assegnazione.segnalazione.dataInserimento.ToShortDateString()</strong></p>
+            </a>
+
+
+        </li>
+    }
+</ol>

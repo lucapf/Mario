@@ -15,16 +15,13 @@ namespace mediatori.Controllers
         private Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer getAzureContainer()
         {
 
-
             Microsoft.WindowsAzure.Storage.CloudStorageAccount storageAccount = Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse(System.Configuration.ConfigurationManager.ConnectionStrings["AzureConnection"].ConnectionString);
 
             Microsoft.WindowsAzure.Storage.Blob.CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
             // Retrieve a reference to a container. 
             Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = blobClient.GetContainerReference("mycontainer");
 
             return container;
-
         }
 
 
@@ -35,10 +32,10 @@ namespace mediatori.Controllers
 
             if (model.SegnalazioneId != null)
             {
-                model.documenti = db.Documenti.Where(p => p.SegnalazioneId == (int)model.SegnalazioneId).OrderBy( d=>d.nome).ToList();
+                model.documenti = db.Documenti.Where(p => p.SegnalazioneId == (int)model.SegnalazioneId).OrderBy(d => d.nome).ToList();
             }
 
-          
+
             model.tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
 
 
@@ -51,7 +48,9 @@ namespace mediatori.Controllers
         }
 
 
-        public JsonResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int SegnalazioneId)
+        //  public JsonResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int SegnalazioneId)
+
+        public ActionResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int SegnalazioneId)
         {
             Debug.WriteLine("Add file: " + Request["MyFile"]);
 
@@ -134,13 +133,15 @@ namespace mediatori.Controllers
 
 
 
-            return Json(model, JsonRequestBehavior.AllowGet);
+            //return Json(model, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Details", "GestioneSegnalazioni", new { id = SegnalazioneId });
         }
 
 
 
 
-        public JsonResult Delete(string id)
+      //  public JsonResult Delete(string id)
+        public ActionResult Delete(string id, int SegnalazioneId)
         {
             Debug.WriteLine("Documento: " + id);
             Models.JsonMessageModel model = new Models.JsonMessageModel();
@@ -185,7 +186,8 @@ namespace mediatori.Controllers
             }
 
 
-            return Json(model, JsonRequestBehavior.AllowGet);
+           // return Json(model, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Details", "GestioneSegnalazioni", new { id = SegnalazioneId });
         }
 
 

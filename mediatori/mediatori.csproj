@@ -297,6 +297,7 @@
     <Compile Include="Models\Anagrafiche\EnumSesso.cs" />
     <Compile Include="Models\Anagrafiche\EnumStatoCivile.cs" />
     <Compile Include="Models\Anagrafiche\TipoCampagnaPubblicitaria.cs" />
+    <Compile Include="Models\AssegnazioniModel.cs" />
     <Compile Include="Models\BlobContainer.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
     <Compile Include="Models\EnumTipoSoggettoGiuridico.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Models\Anagrafiche\TipoContrattoImpiego.cs" />
     <Compile Include="Models\EnumEntitaRiferimento.cs" />
     <Compile Include="Models\EnumTipoEventoLog.cs" />
+    <Compile Include="Models\etc\Assegnazione.cs" />
     <Compile Include="Models\etc\Documento.cs" />
     <Compile Include="Models\etc\EnumEntitaAssociataStato.cs" />
     <Compile Include="Models\etc\GruppoLavorazione.cs" />
@@ -802,6 +804,7 @@
     <Content Include="Views\Test\Decimal.cshtml" />
     <Content Include="Views\Test\_Footer.cshtml" />
     <Content Include="Views\Documentale\DocumentalePartialDetail.cshtml" />
+    <Content Include="Views\Home\Assegnazioni.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

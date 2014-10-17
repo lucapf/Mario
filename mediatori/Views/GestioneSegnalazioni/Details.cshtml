@@ -73,21 +73,21 @@
         function h2stato(descrizioneStato){
         
             var descrizione="stato @Model.stato.descrizione";
-        if (descrizioneStato!=null){
-            descrizione="stato " + descrizioneStato;
+            if (descrizioneStato!=null){
+                descrizione="stato " + descrizioneStato;
+            }
+            $("#gestioneStato").html("");
+            $("<h2/>",{
+                style:"text-align:right;display:block;width:100%",
+                id:"labelStato",
+                html:descrizione
+            }).appendTo("#gestioneStato");
+            $("#labelStato").mouseenter(function(){
+                statoFocusOn=true;
+                setTimeout(function(){valorizzaStatiDisponibili()},1000)});
+            $("#labelStato").mouseleave(statoFocusOn=false);  
+            statoFocusOn=false;
         }
-        $("#gestioneStato").html("");
-        $("<h2/>",{
-            style:"text-align:right;display:block;width:100%",
-            id:"labelStato",
-            html:descrizione
-        }).appendTo("#gestioneStato");
-        $("#labelStato").mouseenter(function(){
-            statoFocusOn=true;
-            setTimeout(function(){valorizzaStatiDisponibili()},1000)});
-        $("#labelStato").mouseleave(statoFocusOn=false);  
-        statoFocusOn=false;
-    }
     
     
 </script>
@@ -104,6 +104,8 @@
 </script>
 
 <div style="float: right"></div>
+
+
 <div style="float: left">
     <input type="hidden" value="@Model.stato.id" id="codiceStatoCorrente" />
     <input type="hidden" value="@Model.stato.descrizione" id="descrizioneStatoCorrente" />
@@ -127,7 +129,7 @@
     <h3>Importi  @Html.Raw(editHelperSegnalazione.getButtonModifica())
         @Html.Raw(editHelperSegnalazione.getButtonSalvaModifica())
         @Html.Raw(editHelperSegnalazione.getButtonAnnullaModifica())
-        <script>$("#segnbtnEdit"+ @Model.id).show();</script>
+        <script>$("#segnbtnEdit"+ '@Model.id').show();</script>
 
     </h3>
     <hr />
@@ -256,8 +258,8 @@
 
 
 
-     <h3>Documentazione <strong class="h3Link" id="linkNuovoDocumento" 
-         title="Aggiungi Documento">[ + ]</strong></h3>
+    <h3>Documentazione <strong class="h3Link" id="linkNuovoDocumento"
+        title="Aggiungi Documento">[ + ]</strong></h3>
     <script>$(function () { $("#linkNuovoDocumento").click(function () { $("#divNuovoDocumento").show(); }) })</script>
     <hr />
     @if (Model.documenti != null)
@@ -273,9 +275,38 @@
 
 
 
+    @using (Html.BeginForm("Add", "Documentale", FormMethod.Post, new { id = "MyFormUpload", enctype = "multipart/form-data" }))
+    {
+        <div id="divNuovoDocumento" style="display: none">
+            <input type ="hidden" name ="SegnalazioneId" value="@Model.id" />
+            <input type="file" name="MyFile" id="MyFile" value="">
 
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-    </p>
+            <span style="color: red; visibility: hidden;" id="MyResponseMessage">messaggio</span>
+            <br />
+
+            <div class="ui-field-contain">
+                <label for="tipoDocumentoId">Tipo documento:</label>
+                <select name="tipoDocumentoId" id="tipoDocumentoId" required="required">
+                    <option value="" selected="selected">---</option>
+                    @foreach (mediatori.Models.Anagrafiche.TipoDocumento tipo in (List<mediatori.Models.Anagrafiche.TipoDocumento>)ViewData["TIPO_DOCUMENTO"])
+                    {
+                        <option value="@tipo.id">@tipo.descrizione</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="ui-field-contain">
+                <label for="descrizione">Descrizione:</label>
+                <textarea id="descrizione" name="descrizione"></textarea>
+            </div>
+
+            <input type="button" value="Annulla" onclick='$("#divNuovoDocumento").hide()' />
+            <input type="submit" value="Upload" data-inline="true" data-mini="true" onclick="javascript: MyAsyncUpload()" />
+
+            <div id="percent">0%</div>
+        </div>
+    }
+
+
 </div>

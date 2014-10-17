@@ -40,6 +40,33 @@ namespace mediatori.Controllers
 
 
 
+        public ActionResult Assegna(int id)
+        {
+            int segnalazioneId = id;
+            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
+            Segnalazione segnalazione = db.Segnalazioni.Include("stato") .First(d => d.id == segnalazioneId);
+            if (segnalazione == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            mediatori.Models.etc.Assegnazione assegnazione = new Assegnazione();
+            assegnazione.dataInserimento = DateTime.Now;
+            assegnazione.segnalazioneId = segnalazioneId;
+            //assegnazione.segnalazione = segnalazione;
+            assegnazione.statoId = segnalazione.stato.id;
+            assegnazione.login = User.Identity.Name;
+
+            db.Assegnazioni.Add(assegnazione);
+            db.SaveChanges();
+
+
+
+            return RedirectToAction("Assegnazioni", "Home");
+        }
+
 
         //
         // GET: /GestioneSegnalazioni/Details/5
@@ -48,6 +75,12 @@ namespace mediatori.Controllers
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
+
+
+            List<mediatori.Models.Anagrafiche.TipoDocumento> tipoDocumento;
+            tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
+            ViewData["TIPO_DOCUMENTO"] = tipoDocumento;
+
            if (segnalazione == null)
             {
                 return HttpNotFound();

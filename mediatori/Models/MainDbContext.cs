@@ -84,6 +84,8 @@ namespace mediatori.Models
         public DbSet<Documento> Documenti { get; set; }
         public DbSet<TipoDocumento> TipoDocumenti { get; set; }
 
+        public DbSet<etc.Assegnazione> Assegnazioni { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

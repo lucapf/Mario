@@ -38,7 +38,9 @@
         <div id="headerLogo"></div>
         <div id="headerTechub"></div>
         <div id="headerHelp" class=".ui-widget-header .ui-icon .ui-icon-help" title="help"></div>
-        <div id="headerCalendario"></div>
+        <a href="@Url.Action("Assegnazioni", "Home")">
+            <div id="headerCalendario"></div>
+        </a>
         <div id="headerDatiUtente">
             @if (User.Identity.Name != null)
             {
@@ -58,11 +60,11 @@
         $("#topMenuAnagrafica").click(function () { window.location = "/?s=ANAGRAFICA" });
         $("#topMenuSicurezza").click(function () { window.location = "/?s=SICUREZZA" });
         $("#topMenuConfigurazioni").click(function () { window.location = "/?s=CONFIGURAZIONI" });
-        $("#headerCalendario").click(
-            function () {
-                $("#divCalendar").dialog("open");
-                scheduler.init('calendarioAgendaEventi', new Date(), "month")
-            });
+        //$("#headerCalendario").click(
+        //    function () {
+        //        $("#divCalendar").dialog("open");
+        //        scheduler.init('calendarioAgendaEventi', new Date(), "month")
+        //    });
 
         $(function () {
             $("#divCalendar").dialog({

@@ -6,7 +6,7 @@
 }
 @Html.Raw(faDetailEventDetection.getScriptHandler())
 @Html.Raw(faDetailEventDetection.buildShortDetailDiv(
-                "<strong>&#9654 &#9654 Documentazione " + ": </strong>" +
+                "<strong>&#9654 &#9654 Documento: </strong>" +
                 Model.nome + " tipo " + Model.tipoDocumento.descrizione))
 <div id="@faDetailEventDetection.getIdFullDetail()">
     <fieldset>
@@ -14,13 +14,13 @@
 
         <div class="editor-label">
             @Html.LabelFor(m => m.nome)
-            <div>@Html.Display("nome") </div>
+            <div><a href="@Url.Action("Download", "Documentale", new { id = Model.id })">@Html.Display("nome")</a></div>
         </div>
         <div class="editor-label">
             @Html.LabelFor(m => m.tipoDocumento)
             <div>@Html.Display("tipoDocumento.descrizione") </div>
         </div>
-         <div class="editor-label">
+        <div class="editor-label">
             @Html.LabelFor(m => m.descrizione)
             <div>@Html.Display("descrizione") </div>
         </div>
@@ -28,7 +28,7 @@
             @Html.LabelFor(m => m.dataInserimento)
             <div>@Html.Display("dataInserimento") </div>
         </div>
-        
+
     </fieldset>
 </div>
 
