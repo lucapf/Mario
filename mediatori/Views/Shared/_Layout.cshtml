@@ -6,6 +6,8 @@
     <title>@ViewBag.Title</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
+
+
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -15,29 +17,80 @@
     @Scripts.Render("~/bundles/fireAntUtils")
     @Scripts.Render("~/bundles/scheduler")
     @Styles.Render("~/Content/css/scheduler")
+
+
+
 </head>
 <script>
     $(function () {
         clock();
+
+        assegnazioni();
+
+        // $("#segnalazioni").hide();
+
+        //setTimeout(function () { assegnazioni(); }, 2000);
     });
+
+
     function clock() {
         var d = new Date();
         $("#headerClock").html(d.toLocaleDateString() + " - " + d.toLocaleTimeString());
-        setTimeout(function () {
 
+        setTimeout(function () {
             clock();
         }, 1000);
-
-
-
-
     }
+
+
+
+    var isFirstTime = true;
+
+    function assegnazioni() {
+        //alert("assegnazioni");
+        $.getJSON('@Url.Action("Assegnazioni", "Home")', function (myresponse) {
+
+            var str = "";
+            str = "Da assegnare: " + myresponse[0].Value;
+            // $("#segnalazioniDaAssegnare").html(str);
+
+            str = "Assegnate: " + myresponse[1].Value;
+            //$("#segnalazioniAssegnate").html(str);
+            str = myresponse[0].Value;
+            // alert(str);
+
+            if ($("#headerSegnalazioni").html() != str) {
+
+                $("#headerSegnalazioni").html(str);
+
+                if (isFirstTime) {
+                    isFirstTime = false;
+                } else {
+                    $("#headerSegnalazioni").effect("shake");
+                }
+            }
+            // alert(str);
+            //$("#segnalazioni").show("slide", 1000)
+
+
+        });
+
+        setTimeout(function () { assegnazioni(); }, 5000);
+    }
+
+
+
 </script>
 <body>
     <div id="header">
         <div id="headerLogo"></div>
         <div id="headerTechub"></div>
         <div id="headerHelp" class=".ui-widget-header .ui-icon .ui-icon-help" title="help"></div>
+        <a href="javascript:assegnazioni();" data-role="none" title="Assegnazioni">
+            <div id="headerSegnalazioni">
+                0
+            </div>
+        </a>
         <a href="@Url.Action("Assegnazioni", "Home")">
             <div id="headerCalendario"></div>
         </a>
@@ -47,7 +100,9 @@
                 @User.Identity.Name
             }
         </div>
-        <div id="headerClock"></div>
+        <div id="headerClock" ></div>
+
+
     </div>
     <div id="topMenu">
         <div class="topMenuItem" id="topMenuHome">Home</div>
@@ -56,10 +111,10 @@
         <div class="topMenuItem" id="topMenuConfigurazioni">Configurazioni</div>
     </div>
     <script>
-        $("#topMenuHome").click(function () { window.location = "/" });
-        $("#topMenuAnagrafica").click(function () { window.location = "/?s=ANAGRAFICA" });
-        $("#topMenuSicurezza").click(function () { window.location = "/?s=SICUREZZA" });
-        $("#topMenuConfigurazioni").click(function () { window.location = "/?s=CONFIGURAZIONI" });
+        $("#topMenuHome").click(function () { window.location = "@Url.Action("Index", "Home")" });
+        $("#topMenuAnagrafica").click(function () { window.location = "@Url.Action("Index", "Home")?s=ANAGRAFICA" });
+        $("#topMenuSicurezza").click(function () { window.location = "@Url.Action("Index", "Home")?s=SICUREZZA" });
+        $("#topMenuConfigurazioni").click(function () { window.location = "@Url.Action("Index", "Home")?s=CONFIGURAZIONI" });
         //$("#headerCalendario").click(
         //    function () {
         //        $("#divCalendar").dialog("open");

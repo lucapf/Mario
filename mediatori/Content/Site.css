@@ -5,112 +5,138 @@
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
+
 #header {
-    height:60px;
-    width:100%;
-    background:url("../images/topImage.png") repeat-x;
+    height: 60px;
+    width: 100%;
+    background: url("../images/topImage.png") repeat-x;
     margin: 0px 0px 0px;
     padding: 0px;
 }
+
 #topMenu {
-    width:100%;
-    height:30px;
-    margin:0px 0px 0px 0px;
-    background:url("../images/topfillmenu.png") repeat-x;
+    width: 100%;
+    height: 30px;
+    margin: 0px 0px 0px 0px;
+    background: url("../images/topfillmenu.png") repeat-x;
 }
+
 div.topMenuItem {
-    display:inline-block;
+    display: inline-block;
     font: 16px "klavika-web","Helvetica Neue",Helvetica,Arial,Geneva,sans-serif;
-    color:white;
-    width:150px;
-    font-weight:bold;
-    float:left;
-    margin-top:5px;
-    cursor:pointer;
-    cursor:hand;
+    color: white;
+    width: 150px;
+    font-weight: bold;
+    float: left;
+    margin-top: 5px;
+    cursor: pointer;
+    cursor: hand;
 }
-div.topMenuItem:hover{
-     background:url("../images/topfillmenuLight.png") repeat-x;
-}
-#headerLogo {
-    float:left;
-    height:100%;
-    width:62px;
-    margin:0px 10px 0px;
-    background-image:url("../images/marioh62.png");
-    background-repeat:no-repeat;  
-      
-}
-#headerCalendario {
-    display:block;
-    float:right;
-    height:100%;
-    height:62px;
-    width:60px;
-    margin:0px 10px 0px;
-    background-image:url("../images/calendario.png");
-    background-repeat:no-repeat; 
-    cursor:pointer;
-    cursor:hand;
-      
-}
- #documentale {
-            display:block;
-    float:right;
-    height:100%;
-    height:60px;
-    width:60px;
-    margin:0px 10px 0px;
-    background-image:url("../images/documenti.png");
-    background-repeat:no-repeat; 
-    cursor:pointer;
-    cursor:hand;
+
+    div.topMenuItem:hover {
+        background: url("../images/topfillmenuLight.png") repeat-x;
     }
+
+#headerLogo {
+    float: left;
+    height: 100%;
+    width: 62px;
+    margin: 0px 10px 0px;
+    background-image: url("../images/marioh62.png");
+    background-repeat: no-repeat;
+}
+
+#headerCalendario {
+    display: block;
+    float: right;
+    height: 100%;
+    height: 62px;
+    width: 60px;
+    margin: 0px 10px 0px;
+    background-image: url("../images/calendario.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    cursor: hand;
+}
+
+#headerSegnalazioni {
+    display: block;
+    float: right;
+    margin-top: 1em;
+    margin-right: 1em;
+    font-size: 20px;
+    color: white;
+}
+
+/*
+#headerSegnalazioni div {
+   color:white;
+   text-align:right;
+   margin-right:3px;
+
+  }*/
+
+#documentale {
+    display: block;
+    float: right;
+    height: 100%;
+    height: 60px;
+    width: 60px;
+    margin: 0px 10px 0px;
+    background-image: url("../images/documenti.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    cursor: hand;
+}
+
 #divCalendar {
- width:700px;
- height:300px;
- border-style:solid;
- border-color:#617805;
- border-width:2px;
+    width: 700px;
+    height: 300px;
+    border-style: solid;
+    border-color: #617805;
+    border-width: 2px;
 }
+
 #headerTechub {
-    float:left;
-    height:100%;
-    width:217px;
-    margin:0px 10px 0px;
-    background-image:url("../images/techubh62.png");
-    background-repeat:no-repeat;  
-      
+    float: left;
+    height: 100%;
+    width: 217px;
+    margin: 0px 10px 0px;
+    background-image: url("../images/techubh62.png");
+    background-repeat: no-repeat;
 }
+
 #headerDatiUtente {
-    float:right;
-    height:62px;
-    color:white;
-    font-weight:bold;
-    min-width:150px;
-    margin-top:5px;
-    margin-right:10px;
-    vertical-align:central;
-    margin-left:20px;
+    float: right;
+    height: 62px;
+    color: white;
+    font-weight: bold;
+    min-width: 150px;
+    margin-top: 5px;
+    margin-right: 10px;
+    vertical-align: central;
+    margin-left: 20px;
 }
+
 #headerClock {
-     float:right;
-    height:62px;
-    color:white;
-    font-weight:bold;
-    min-width:80px;
-    margin-top:5px;
-    margin-right:10px;
-    vertical-align:central;
-    margin-left:20px;
+    float: right;
+    height: 62px;
+    color: white;
+    font-weight: bold;
+    min-width: 80px;
+    margin-top: 5px;
+    margin-right: 10px;
+    vertical-align: central;
+    margin-left: 20px;
 }
+
 #headerHelp {
-    float:right;
-   
-    margin-right:10px;
-    cursor:pointer;
-    cursor:hand;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+    cursor: hand;
 }
+
 body {
     margin: 0px 0px 10px;
     padding: 0px;
@@ -253,24 +279,26 @@ h3 {
     margin-top: 7px;
     margin-bottom: 2px;
 }
+
 h1 {
-    display:inline-block;
+    display: inline-block;
     font-size: large;
     width: 100%;
     color: #718E3E;
     margin-top: 10px;
     text-align: center;
     text-transform: uppercase;
-    border-bottom-style:solid;
-    border-width:1px;
-    border-color:#718E3E;
-    width:100%;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #718E3E;
+    width: 100%;
 }
+
 h2 {
-    font-size:large;
+    font-size: large;
     color: #718E3E;
-    font-weight:bold;
-    letter-spacing:+1px;
+    font-weight: bold;
+    letter-spacing: +1px;
 }
 
 p {
@@ -287,7 +315,7 @@ p {
 }
 
 #primaryContent li {
-  /*  background: url("../images/content_bullet.png") no-repeat left top;*/
+    /*  background: url("../images/content_bullet.png") no-repeat left top;*/
     list-style: none;
     margin: 8px 0px;
     padding-left: 25px;
@@ -337,14 +365,14 @@ img {
 #primaryContent {
     padding-left: 10px;
     padding-top: 5px;
-    padding-right:5px;
-    margin-right:10px;
-    display:inline-block;
-    width:100%;
-    max-width:1280px;
+    padding-right: 5px;
+    margin-right: 10px;
+    display: inline-block;
+    width: 100%;
+    max-width: 1280px;
     clear: none;
     font-size: 11px;
-    text-align:left;
+    text-align: left;
     border-left-color: rgb(231, 231, 231);
     border-left-width: 5px;
     border-left-style: solid;
@@ -366,8 +394,7 @@ img {
     clear: none;
     font-size: 11px;
     float: left;
-    display:inline-block;
-   
+    display: inline-block;
 }
 
     #secondaryContent h2 {
@@ -635,7 +662,7 @@ select {
 
 .editor-label {
     display: inline-block;
-     vertical-align: top;
+    vertical-align: top;
 }
 
     .editor-label label {
@@ -714,69 +741,73 @@ select {
     cursor: pointer;
     cursor: hand;
 }
-.display-nota{
-    border-bottom-style:solid;
+
+.display-nota {
+    border-bottom-style: solid;
     border-bottom-width: 1px;
 }
-.form-ricerca{
-}
-.form-ricerca label{
-    width:120px;
-  
-}
-.form-ricerca input{
-    width: 130px;
-    height:10px;
-}
-.form-ricerca option{
-    width:  120px;
-    height:10px
+
+.form-ricerca {
 }
 
-.form-ricerca-submit{
-    
+    .form-ricerca label {
+        width: 120px;
+    }
+
+    .form-ricerca input {
+        width: 130px;
+        height: 10px;
+    }
+
+    .form-ricerca option {
+        width: 120px;
+        height: 10px;
+    }
+
+.form-ricerca-submit {
 }
 
-#btnAggiuntiPreventivo,#btnDocumentale, #btnSalvaGestioneStato,#btnAnnullaGestioneStato{
-    float:right;
-    font-weight:bold;
-     color: #637A05;
-
+#btnAggiuntiPreventivo, #btnDocumentale, #btnSalvaGestioneStato, #btnAnnullaGestioneStato {
+    float: right;
+    font-weight: bold;
+    color: #637A05;
 }
 
-#selectGestioneStato-button{
-    display:inline-block;
-    float:right;
-    width:350px;
-    margin:5px;
-  
+#selectGestioneStato-button {
+    display: inline-block;
+    float: right;
+    width: 350px;
+    margin: 5px;
 }
-#btnSalvaGestioneStato,#btnAnnullaGestioneStato {
-    display:inline-block;
-    float:right;
-    width:70px;
+
+#btnSalvaGestioneStato, #btnAnnullaGestioneStato {
+    display: inline-block;
+    float: right;
+    width: 70px;
 }
+
 #errorMessage {
-    width:97%;
-    border-color:red;
-    border-style:solid;
-    border-width:1px;
-    background-color:lightsalmon;
-    padding:15px 15px 15px 15px;
-    text-align:center;
-    color:white;
-    font-weight:bold;
-    font-size:large;
+    width: 97%;
+    border-color: red;
+    border-style: solid;
+    border-width: 1px;
+    background-color: lightsalmon;
+    padding: 15px 15px 15px 15px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: large;
 }
+
 #displayMessage {
-    width:97%;
-    border-color:darkblue;
-    border-style:solid;
-    border-width:1px;
-    background-color:lightskyblue;
-    padding:15px 15px 15px 15px;
-    text-align:center;
-    color:white;
-    font-weight:bold;
-    font-size:large;
+    width: 97%;
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 1px;
+    background-color: lightskyblue;
+    padding: 15px 15px 15px 15px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: large;
 }

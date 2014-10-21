@@ -336,6 +336,7 @@
     <Compile Include="Models\MainDbContext.cs" />
     <Compile Include="Models\Anagrafiche\Provincia.cs" />
     <Compile Include="Models\Anagrafiche\Toponimo.cs" />
+    <Compile Include="Models\MyItem.cs" />
     <Compile Include="Models\Nota.cs" />
     <Compile Include="Controllers\PreventivoController.cs" />
     <Compile Include="Models\Preventivo.cs" />
@@ -423,6 +424,8 @@
     <Content Include="Content\dhtmlxscheduler\imgs_glossy\top-separator.gif" />
     <Content Include="Content\dhtmlxscheduler\imgs_glossy\white_tab.png" />
     <Content Include="Content\dhtmlxscheduler\imgs_glossy\white_tab_wide.png" />
+    <Content Include="Content\js\jquery-2.1.1.js" />
+    <Content Include="Content\js\jquery-ui.min-1.11.1.js" />
     <Content Include="Content\js\jquery.form.js" />
     <Content Include="Content\Style\SiteMINI.css" />
     <Content Include="Content\Style\themes\Admin.css" />
@@ -640,6 +643,7 @@
     <Content Include="Scripts\dhtmlxscheduler\locale\locale_ua.js" />
     <Content Include="Scripts\fireAntUtils.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

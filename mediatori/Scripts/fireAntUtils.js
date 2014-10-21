@@ -29,7 +29,8 @@ idElementoProvincia : codice Elemento provincia
 idElementoComune    : codice Elemento comune
 */
 function popolaComboProvince(idElementoProvincia, idElementoComune) {
-
+    
+    alert("popolaComboProvince");
     $.ajax({
         url: "/Configurazioni/popolaDropDownlistProvince",
         error: function () { alert("popolamento lista Province fallito"); },
@@ -53,12 +54,18 @@ function popolaComboProvince(idElementoProvincia, idElementoComune) {
    Effettua l'aggiornamento dei dati di validazione
 */
 function popolaComboComuni(idElementoProvincia, idElementoComune) {
+    //alert("popolaComboComuni");
     //+ '__comune_denominazione'
     var provinciaSelezionata = $('#' + idElementoProvincia).val();
+
+    //alert("provinciaSelezionata: " + provinciaSelezionata);
     if ($("#" + idElementoProvincia).val() == "") return true;
+
+
     $.getJSON("/Configurazioni/popolaDropDownlistComuni",
                   { comboComunElementId: idElementoComune, denominazioneProvincia: provinciaSelezionata },
                   function (data) {
+                      //alert("popolaComboComuni");
                       $("#" + data.idElemento).html(data.html);
                       refreshValidation("createForm");
                   });

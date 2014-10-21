@@ -95,9 +95,15 @@
 <script>
     $(document).ready(function (){
         $("#btnScrollToPreventivo").click(function (){
-              
             $('html, body').animate({
                 scrollTop: $("#preventivi").offset().top
+            }, 500);
+        });
+
+
+        $("#btnScrollDocumentale").click(function (){
+            $('html, body').animate({
+                scrollTop: $("#Documentale").offset().top
             }, 500);
         });
     });
@@ -111,15 +117,11 @@
     <input type="hidden" value="@Model.stato.descrizione" id="descrizioneStatoCorrente" />
 
     <div id="gestioneOperazioni"></div>
+
     <input type="button" id="btnScrollToPreventivo" value="Preventivi" />
     <input type="button" id="btnAggiuntiPreventivo" value="Aggiungi preventivo" />
-
-    <a href="@Url.Action("Index", "Documentale", new { SegnalazioneId = Model.id })">
-        <input type="button" id="btnDocumentale" value="Documentale" />
-    </a>
-
-
-
+    <input type="button" id="btnScrollDocumentale" value="Documentale" />
+    
     <br />
     <h1>Dettaglio segnalazione: @Model.contatto.nome  @Model.contatto.cognome</h1>
     <div id="gestioneStato">
@@ -258,7 +260,7 @@
 
 
 
-    <h3>Documentazione <strong class="h3Link" id="linkNuovoDocumento"
+    <h3 id="Documentale">Documentazione <strong class="h3Link" id="linkNuovoDocumento"
         title="Aggiungi Documento">[ + ]</strong></h3>
     <script>$(function () { $("#linkNuovoDocumento").click(function () { $("#divNuovoDocumento").show(); }) })</script>
     <hr />

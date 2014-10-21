@@ -5,18 +5,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="editor-label">
     @Html.LabelFor(m => m.tipoIndirizzo)
     @Html.DropDownListFor(m => m.tipoIndirizzo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoIndirizzo, "")<br />
@@ -72,9 +60,11 @@
 <script>
     $(function () {
         $("#provincia_denominazione").change(function () {
+            alert("provincia_denominazione CHANGE");
             popolaComboComuni("provincia_denominazione", "comune_denominazione");
         })
     });
+
     $('input[name$="interno"]').each(function () { this.style.width = "30px"; });
     $('input[name$="indirizzo"]').each(function () { this.style.width = "300px"; });
     $('input[name$="numeroCivico"]').each(function () { this.style.width = "70px"; });

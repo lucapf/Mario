@@ -76,15 +76,15 @@
     $(function () {
         $("#sortable").sortable();
         $("#sortable").disableSelection();
-        $("#divHome").click(function () { window.location.href = "/" });
+        $("#divHome").click(function () { window.location.href = "@Url.Action("Index", "Home")" });
         $("#divAnagrafiche").click(function () { showAnagrafiche() });
 
         $("#divSicurezza").click(function () { showSicurezza() });
 
         $("#divConfigurazioni").click(function () { showConfigurazioni() });
 
-        $("#divRicercaSegnalazioni").click(function () { window.location.href = "/GestioneSegnalazioni" });
-        $("#divNuovaSegnalazione").click(function () { window.location.href = "/GestioneSegnalazioni/Create" });
+        $("#divRicercaSegnalazioni").click(function () { window.location.href = "@Url.Action("Index", "Home")GestioneSegnalazioni" });
+        $("#divNuovaSegnalazione").click(function () { window.location.href = "@Url.Action("Index", "Home")GestioneSegnalazioni/Create" });
         function showAnagrafiche() {
             $(".ANAGRAFICA").show("drop", {}, 1000);
             $("#liSicurezza").hide("explode", {}, 1000);
@@ -141,7 +141,7 @@
     @foreach(mediatori.Helpers.EMenuSection me in Enum.GetValues(typeof(mediatori.Helpers.EMenuSection))){ 
      foreach(mediatori.Helpers.MenuElement mi in mediatori.Helpers.MenuBuilder.getMenuData(me,ruoli )){
     <li class="ui-state-default @me" style="display:none">
-            <div class="actionLink" onclick='window.location.href= "@mi.url"' >
+            <div class="actionLink" onclick='window.location.href= "@Url.Action("Index", "Home")@mi.url"' >
                 <span>@mi.display</span>
 
             </div>

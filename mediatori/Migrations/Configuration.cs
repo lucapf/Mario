@@ -19,7 +19,7 @@ namespace mediatori.Migrations
 
         protected override void Seed(mediatori.Models.MainDbContext context)
         {
-            TipoMigrazione tipoMigrazione = TipoMigrazione.AGGIORNAMENTO;
+            TipoMigrazione tipoMigrazione = TipoMigrazione.INIZIALE;
             if (!WebSecurity.Initialized)
                 WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
 
@@ -42,7 +42,7 @@ namespace mediatori.Migrations
                 new Toponimo { sigla = "Via" },
                 new Toponimo { sigla = "Piazza" });
 
-            if (tipoMigrazione.Equals(TipoMigrazione.INIZIALE))
+            if (tipoMigrazione.Equals(TipoMigrazione.AGGIORNAMENTO))
             {
                 codiciProvince(context);
                 MigrazioneComuni.codiciComuni(context);

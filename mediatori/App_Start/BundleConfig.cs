@@ -8,20 +8,36 @@ namespace mediatori
         // Per ulteriori informazioni sul Bundling, visitare il sito Web all'indirizzo http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+            //            "~/Scripts/jquery-{version}.js", 
+            //            "~/Scripts/jquery-{version}.min.js", 
+            //            "~/Scripts/jquery-{version}.intellisense.js",
+            //            "~/Scripts/jquery-{version}.min.map", "~/Scripts/jquery.form*"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js", 
-                        "~/Scripts/jquery-{version}.min.js", 
-                        "~/Scripts/jquery-{version}.intellisense.js",
-                        "~/Scripts/jquery-{version}.min.map", "~/Scripts/jquery.form*"));
+                        "~/Content/js/jquery-2.1.1.js",
+                        "~/Scripts/jquery-2.1.1.intellisense.js"
+                        ));
+            //"~/Scripts/jquery-2.1.1.min.map"
+
             bundles.Add(new ScriptBundle("~/bundles/scheduler")
                 .Include("~/Scripts/dhtmlxscheduler/dhtmlxscheduler.js",
                 "~/Scripts/dhtmlxscheduler/locale/locale_it.js"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+            //            "~/Scripts/jquery-ui-{version}.js",
+            //            "~/Scripts/jquery-ui-{version}.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/jquery-ui-{version}.js", "~/Scripts/jquery-ui-{version}.min.js"));
-           
+                          "~/Content/js/jquery-ui.min-1.11.1.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.unobtrusive*","~/Scripts/jquery.unobtrusive-ajax.min.js",
+                        "~/Scripts/jquery.unobtrusive*",
+                        "~/Scripts/jquery.unobtrusive-ajax.min.js",
                         "~/Scripts/jquery.validate*"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/fireAntUtils").Include(
                         "~/Scripts/fireAntUtils.js"));
 
@@ -30,12 +46,15 @@ namespace mediatori
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/Site.css"));
+
             //bundles.Add(new StyleBundle("~/Content/css/scheduler").Include("~/Content/dhtmlxscheduler/dhtmlxscheduler.css"));
+
             bundles.Add(new StyleBundle("~/Content/css/scheduler").Include("~/Content/dhtmlxscheduler/dhtmlxscheduler_glossy.css"));
+
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
-                         "~/Content/themes/base/theme.css",
+                        "~/Content/themes/base/theme.css",
                         "~/Content/themes/base/jquery.ui.resizable.css",
                         "~/Content/themes/base/jquery.ui.selectable.css",
                         "~/Content/themes/base/jquery.ui.accordion.css",
@@ -48,7 +67,7 @@ namespace mediatori
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
-                         "~/Content/themes/base/selectmenu.css",
+                        "~/Content/themes/base/selectmenu.css",
                         "~/Content/themes/base/jquery.ui.all.css"));
         }
     }
