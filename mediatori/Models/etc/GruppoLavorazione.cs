@@ -65,6 +65,7 @@ namespace mediatori.Models.etc
             glw.popolaView(allUsers);
             return glw;
         }
+
         public static String toTockenizedView(List<String> listUsers)
         {
             String retString = ";";

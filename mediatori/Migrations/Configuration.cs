@@ -19,7 +19,9 @@ namespace mediatori.Migrations
 
         protected override void Seed(mediatori.Models.MainDbContext context)
         {
-            TipoMigrazione tipoMigrazione = TipoMigrazione.INIZIALE;
+            TipoMigrazione tipoMigrazione = TipoMigrazione.AGGIORNAMENTO;
+
+
             if (!WebSecurity.Initialized)
                 WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
 
@@ -31,13 +33,23 @@ namespace mediatori.Migrations
                 Roles.CreateRole("Front Office");
 
 
-            if (!WebSecurity.UserExists("Terence-Hill"))
-                WebSecurity.CreateUserAndAccount(
-                    "Terence-Hill",
-                    "password");
+            //if (!WebSecurity.UserExists("Terence-Hill"))
+            //    WebSecurity.CreateUserAndAccount(
+            //        "Terence-Hill",
+            //        "password");
+            //if (!Roles.GetRolesForUser("Terence-Hill").Contains("Amministratore"))
+            //    Roles.AddUsersToRoles(new[] { "Terence-Hill" }, new[] { "Amministratore" });
 
-            if (!Roles.GetRolesForUser("Terence-Hill").Contains("Amministratore"))
-                Roles.AddUsersToRoles(new[] { "Terence-Hill" }, new[] { "Amministratore" });
+            if (!WebSecurity.UserExists("Operatore"))
+            {
+                WebSecurity.CreateUserAndAccount( "Operatore", "password");
+            }
+            if (!Roles.GetRolesForUser("Operatore").Contains("Amministratore"))
+                Roles.AddUsersToRoles(new[] { "Operatore" }, new[] { "Amministratore" });
+
+           
+
+
             context.Toponimi.AddOrUpdate<Toponimo>(t => t.sigla,
                 new Toponimo { sigla = "Via" },
                 new Toponimo { sigla = "Piazza" });
@@ -53,6 +65,8 @@ namespace mediatori.Migrations
                 + " provincia_sigla=@p0 where codiceProvincia=@p1", p.sigla, p.id);
                 }
             }
+
+
             context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
             new Stato { id = 1, descrizione = "Segnalazione caricata", statoBase = EnumStatoBase.ATTIVO, entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE });
             context.Parametri.AddOrUpdate<Parametro>(p => p.id,
@@ -130,10 +144,9 @@ namespace mediatori.Migrations
                          new TipoDocumento { id = 2, descrizione = "Passaporto" },
                           new TipoDocumento { id = 3, descrizione = "Benestare" },
                            new TipoDocumento { id = 4, descrizione = "Proposta" },
-                            new TipoDocumento { id = 5, descrizione = "Contratto" }
+                            new TipoDocumento { id = 5, descrizione = "Contratto" },
+                             new TipoDocumento { id = 6, descrizione = "Busta paga" }
                          );
-
-
 
 
             context.TipoCategoriaAmministrazione.AddOrUpdate<TipoCategoriaAmministrazione>(t => t.id,
@@ -143,39 +156,38 @@ namespace mediatori.Migrations
                          new TipoCategoriaAmministrazione { id = 4, descrizione = "Statale" }
                          );
 
-
             context.TipoAssumibilitaAmministrazione.AddOrUpdate<TipoAssumibilitaAmministrazione>(t => t.id,
                        new TipoAssumibilitaAmministrazione { id = 1, descrizione = "Assumibile" },
                        new TipoAssumibilitaAmministrazione { id = 2, descrizione = "Non assumibile" }
                          );
 
 
-            context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
-                //AMMINISTRAZIONI
-                new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 3, descrizione = "DISATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.CHIUSO },
-                //SEGNALAZIONI
-                new Stato { id = 20, descrizione = "Assegnazione ad operatori di telemarketing", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 21, descrizione = "Primo contatto", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 22, descrizione = "Attesa documentazione per analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 23, descrizione = "Analisi in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 24, descrizione = "Proposta in analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 25, descrizione = "Mancato appuntamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 26, descrizione = "Proposta analizzata", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 27, descrizione = "Attesa decisione cliente collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 28, descrizione = "Incontro in sede per esito positivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 29, descrizione = "Raccolta in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 30, descrizione = "Raccolta a domicilio", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 31, descrizione = "Raccolta fax – corrispondenza - collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 32, descrizione = "Attesa documenti per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 33, descrizione = "Inoltro documentazione sede centrale per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 34, descrizione = "Avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 35, descrizione = "Annullamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ANNULLATO },
-                new Stato { id = 36, descrizione = "Ripristino per cliente finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 37, descrizione = "Ripristino per cliente non finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 38, descrizione = "Chiusura", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.CHIUSO}
-                       );
+            //context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
+            //    //AMMINISTRAZIONI
+            //    new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 3, descrizione = "DISATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.CHIUSO },
+            //    //SEGNALAZIONI
+            //    new Stato { id = 20, descrizione = "Assegnazione ad operatori di telemarketing", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 21, descrizione = "Richiesta preventivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 22, descrizione = "Attesa documentazione per analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 23, descrizione = "Analisi in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 24, descrizione = "Proposta in analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 25, descrizione = "Mancato appuntamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 26, descrizione = "Proposta analizzata", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 27, descrizione = "Attesa decisione cliente collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 28, descrizione = "Incontro in sede per esito positivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 29, descrizione = "Raccolta in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 30, descrizione = "Raccolta a domicilio", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 31, descrizione = "Raccolta fax – corrispondenza - collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 32, descrizione = "Attesa documenti per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 33, descrizione = "Inoltro documentazione sede centrale per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 34, descrizione = "Avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 35, descrizione = "Annullamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ANNULLATO },
+            //    new Stato { id = 36, descrizione = "Ripristino per cliente finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 37, descrizione = "Ripristino per cliente non finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+            //    new Stato { id = 38, descrizione = "Chiusura", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.CHIUSO}
+            //    );
 
 
 

@@ -29,8 +29,6 @@
     @Html.EditorFor(m => m.tabellaFinanziaria)<br />
     @Html.ValidationMessageFor(m => m.tabellaFinanziaria)
 </div>
-
-
 <div class="editor-label">
     @Html.LabelFor(m => m.assicurazioneVita)
     @Html.DropDownListFor(m => m.assicurazioneVita.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "")<br />
@@ -41,7 +39,6 @@
     @Html.EditorFor(m => m.importoCoperturaVita)<br />
     @Html.ValidationMessageFor(m => m.importoCoperturaVita)
 </div>
-
 <div class="editor-label">
     @Html.LabelFor(m => m.assicurazioneImpiego)
     @Html.DropDownListFor(m => m.assicurazioneImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "")<br />

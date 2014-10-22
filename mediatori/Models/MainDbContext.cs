@@ -26,6 +26,8 @@ namespace mediatori.Models
 
         public static string getConnectionByUrl(string url)
         {
+
+            return "DefaultConnection";
             String defaultConnection = "DefaultConnection";
             if (url.Equals(String.Empty)) return defaultConnection;
             if (!(url.Contains("http://") || url.Contains("https://")))
@@ -90,6 +92,7 @@ namespace mediatori.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
             modelBuilder.Entity<Preventivo>()
        .HasRequired(p => p.assicurazioneImpiego)
        .WithRequiredDependent()

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mediatori", "mediatori\mediatori.csproj", "{2DB97B98-F859-4FE2-A68A-B73B7EBB6538}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DC3EDA75-61D5-46CB-92C3-35755AA517C4}"
@@ -11,6 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DC3EDA
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatoriTest", "MediatoriTest\MediatoriTest.csproj", "{6FAA7C8B-F2AC-4281-969E-395B2DEED4FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataBase", "DataBase", "{56B1B4C2-48AE-42B6-9F62-5D0E79BC338E}"
+	ProjectSection(SolutionItems) = preProject
+		Insert.sql = Insert.sql
+		Update01.sql = Update01.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

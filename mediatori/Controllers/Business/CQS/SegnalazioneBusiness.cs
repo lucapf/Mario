@@ -19,11 +19,11 @@ namespace mediatori.Controllers.Business
     {
         public Segnalazione create(Segnalazione segnalazione, String operatore, MainDbContext db)
         {
-            
-           // segnalazione = popolaDatiSegnalazione(segnalazione, operatore, db);
+
+            // segnalazione = popolaDatiSegnalazione(segnalazione, operatore, db);
             db.Segnalazioni.Add(segnalazione);
             db.SaveChanges();
-           
+
             LogEventiManager.save(
                    LogEventiManager.getEventoForCreate(operatore, segnalazione.id, EnumEntitaRiferimento.CEDENTE), db);
             return segnalazione;
@@ -37,11 +37,11 @@ namespace mediatori.Controllers.Business
             segnalazione.note = new NotaBusiness().valorizzaDatiDefault(segnalazione.note, opreratore);
             if (segnalazione.contatto.id != null && segnalazione.contatto.id > 0)
             {
-                Contatto contattoOriginale =segnalazione.contatto;
-                   segnalazione.contatto = new ContattoBusiness().findByPK(segnalazione.contatto.id,db);
+                Contatto contattoOriginale = segnalazione.contatto;
+                segnalazione.contatto = new ContattoBusiness().findByPK(segnalazione.contatto.id, db);
                 //CopyObject.copy(segnalazione.contatto,contattoOriginale);
             }
-          
+
             segnalazione.contatto.impieghi = ImpiegoBusiness.valorizzaDatiImpiego(segnalazione.contatto.impieghi, db);
             segnalazione.contatto.riferimenti = RiferimentoBusiness.valorizzaDatiRiferimento(segnalazione.contatto.riferimenti, db);
             segnalazione.altroPrestito = TipoPrestitoBusiness.valorizzaDatiTipologiaPrestito(segnalazione.altroPrestito, db);
@@ -57,7 +57,7 @@ namespace mediatori.Controllers.Business
 
         public List<Segnalazione> findByFilter(SegnalazioneSearch segnalazioniSearch, MainDbContext db)
         {
-            IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto") ;
+            IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto");
             if (segnalazioniSearch.cognome != null)
             {
                 listaSegnalazioni = listaSegnalazioni.Where(s => s.contatto.cognome == segnalazioniSearch.cognome);
@@ -84,17 +84,28 @@ namespace mediatori.Controllers.Business
             return segnalazioni;
         }
 
-        internal Segnalazione findByPk(int id, MainDbContext db)
+        public Segnalazione findByPk(int id, MainDbContext db)
         {
+
+            if (id == 0)
+            {
+                return null;
+            }
+
             ContattoBusiness contattoBusiness = new ContattoBusiness();
             ContattoInclude<Segnalazione> contattoInclude = new ContattoInclude<Segnalazione>();
+            
             DbQuery<Segnalazione> segnalazioneQuery = contattoInclude
-                .addIncludeStatement(db.Segnalazioni, "contatto").Include("note").Include("stato") ;
-                  segnalazioneQuery.Include("preventivi").Include("preventivi.finanziaria")
+                .addIncludeStatement(db.Segnalazioni, "contatto").Include("note").Include("stato");
+
+            segnalazioneQuery.Include("preventivi").Include("preventivi.finanziaria")
                 .Include("preventivi.assicurazioneVita").Include("preventivi.assicurazioneImpiego")
                 .Include("documenti").Include("documenti.tipoDocumento");
-            Segnalazione segnalazione = segnalazioneQuery.Where(s => s.id == id).FirstOrDefault(); ;
+
+            Segnalazione segnalazione = segnalazioneQuery.Where(s => s.id == id).FirstOrDefault(); 
+
             if (segnalazione.preventivi == null) segnalazione.preventivi = new List<Preventivo>();
+
             return segnalazione;
         }
     }

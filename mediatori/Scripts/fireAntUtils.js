@@ -11,7 +11,6 @@ function getGUID(htmlString) {
 }
 
 function getUrlParameter(sParam) {
-   
     var sPageURL = window.location.search.substring(1);
     var sURLVariables = sPageURL.split('&');
     for (var i = 0; i < sURLVariables.length; i++) {
@@ -29,10 +28,10 @@ idElementoProvincia : codice Elemento provincia
 idElementoComune    : codice Elemento comune
 */
 function popolaComboProvince(idElementoProvincia, idElementoComune) {
-    
-    alert("popolaComboProvince");
+
+    //alert("popolaComboProvince");
     $.ajax({
-        url: "/Configurazioni/popolaDropDownlistProvince",
+        url: contextPath + "/Configurazioni/popolaDropDownlistProvince",
         error: function () { alert("popolamento lista Province fallito"); },
         success: function (html) {
 
@@ -62,7 +61,7 @@ function popolaComboComuni(idElementoProvincia, idElementoComune) {
     if ($("#" + idElementoProvincia).val() == "") return true;
 
 
-    $.getJSON("/Configurazioni/popolaDropDownlistComuni",
+    $.getJSON(contextPath + "/Configurazioni/popolaDropDownlistComuni",
                   { comboComunElementId: idElementoComune, denominazioneProvincia: provinciaSelezionata },
                   function (data) {
                       //alert("popolaComboComuni");
@@ -84,10 +83,10 @@ function refreshValidation(idForm) {
 /*
 permette di visualizzare il dettaglio
 */
-function FireAntDetailEventDetection_MostraDettaglio(idFullDetail, idShortDetail, idBtnModifica, idBtnAnnulla, idBtnSalva,idBtnHideDetail) {
+function FireAntDetailEventDetection_MostraDettaglio(idFullDetail, idShortDetail, idBtnModifica, idBtnAnnulla, idBtnSalva, idBtnHideDetail) {
     if (idFullDetail != null) {
         $("#" + idFullDetail).show("slide", { direction: "left" }, 500);
-       
+
     }
     if (idShortDetail != null) {
         $("#" + idShortDetail).hide("slide", { direction: "right" }, 500);
@@ -95,113 +94,112 @@ function FireAntDetailEventDetection_MostraDettaglio(idFullDetail, idShortDetail
     if (idBtnModifica != null) {
         $("#" + idBtnModifica).show();
     }
-    if (idBtnHideDetail!= null) {
+    if (idBtnHideDetail != null) {
         $("#" + idBtnHideDetail).show();
     }
 
     if (idBtnSalva != null) {
         $("#" + idBtnSalva).hide();
     }
-    if (idBtnAnnulla!= null) {
+    if (idBtnAnnulla != null) {
         $("#" + idBtnAnnulla).hide();
     }
 }
 function FireAntDetailEventDetection_NascondiDettaglio(idFullDetail, idShortDetail, idBtnModifica, idBtnAnnulla, idBtnSalva, idBtnHideDetail) {
-    
-        if (idFullDetail != null) {
-            $("#" + idFullDetail).hide('slide', { direction: 'right' }, 500);
-        }
-        if (idShortDetail != null) {
-            $("#" + idShortDetail).show("slide", { direction: "left" }, 500);
-        }
-        if (idBtnModifica != null) {
-            $("#" + idBtnModifica).hide();
-        }
-        if (idBtnSalva != null) {
-            $("#" + idBtnSalva).hide();
-        }
-        if (idBtnAnnulla!= null) {
-            $("#" + idBtnAnnulla).hide();
-        }
-        if (idBtnHideDetail != null) {
-            $("#" + idBtnHideDetail).hide();
-        }
 
+    if (idFullDetail != null) {
+        $("#" + idFullDetail).hide('slide', { direction: 'right' }, 500);
     }
+    if (idShortDetail != null) {
+        $("#" + idShortDetail).show("slide", { direction: "left" }, 500);
+    }
+    if (idBtnModifica != null) {
+        $("#" + idBtnModifica).hide();
+    }
+    if (idBtnSalva != null) {
+        $("#" + idBtnSalva).hide();
+    }
+    if (idBtnAnnulla != null) {
+        $("#" + idBtnAnnulla).hide();
+    }
+    if (idBtnHideDetail != null) {
+        $("#" + idBtnHideDetail).hide();
+    }
+
+}
 /*
 "0", "/DocumentoIdentita/DocumentoIdentitaPartialById", "DIdivMesg0", "DIdiv0", "DIbtnEdit0", "DIbtnAnnulla0", "DIbtnSalva0", "DIForm0", ""
 
 */
 
 function FireAntEditHelper_ModificaDati(idEntita, urlPercorso, idDivMessage, idDivElement, idDivFullDetail, idDivShortDetail, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idFormModifica, styleCustomAttributes) {
-        $("#"+idDivMessage).html("caricamento in corso");
-        $.ajax({
-            url: urlPercorso,
-            data: { id: idEntita, tipoAzione: "MODIFICA" },
-            cache: false,
-            error: function (html) {
-                $("#" + idDivMessage).html("");
-                alert("errore nella gestione della richiesta\n" + html)
-            },
-            success: function (html) {
-                $("#" + idDivMessage).html("");
-              
-                $("#" + idDivFullDetail).html(html);
-                refreshValidation(idFormModifica);
-                $("#" + idBtnEdit).hide();
-                $("#" + idBtnAnnulla).show();
-                $("#" + idBtnSalva).show();
-                $("#" + idBtnHideDetail).hide();
-            }
-        });
-    }
+    $("#" + idDivMessage).html("caricamento in corso");
+    $.ajax({
+        url: urlPercorso,
+        data: { id: idEntita, tipoAzione: "MODIFICA" },
+        cache: false,
+        error: function (html) {
+            $("#" + idDivMessage).html("");
+            alert("errore nella gestione della richiesta\n" + html)
+        },
+        success: function (html) {
+            $("#" + idDivMessage).html("");
+
+            $("#" + idDivFullDetail).html(html);
+            refreshValidation(idFormModifica);
+            $("#" + idBtnEdit).hide();
+            $("#" + idBtnAnnulla).show();
+            $("#" + idBtnSalva).show();
+            $("#" + idBtnHideDetail).hide();
+        }
+    });
+}
 /*
    "1005", "/DocumentoIdentita/DocumentoIdentitaPartialById","DIdivMesg1005","DIFull1005",
    "DIbtnEdit1005","DIbtnAnnulla1005","DIbtnSalva1005","DIForm1005","" 
 */
 function FireAntEditHelper_AnnullaModificaDati(idEntita, urlPercorso, idDivMessage, idDivElement, idDivFullDetail, idDivShortDetail, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idFormModifica, styleCustomAttributes) {
     $("#" + idDivMessage).html("caricamento in corso");
-   
-        $.ajax({
-            url: urlPercorso,
-            data: { id: idEntita, tipoAzione: "VISUALIZZAZIONE" },
-            cache: false,
-            error: function (html) {
-                $("#" + idDivMessage).html("");
-                alert("errore nella gestione della richiesta\n" + html)
-            },
-            success: function (html) {
-                $("#" + idDivMessage).html("");
-               
-                $("#" + idDivFullDetail).html(html);
-                refreshValidation(idFormModifica)
-                $("#" + idBtnEdit).hide();
-                $("#" + idBtnAnnulla).hide();
-                $("#" + idBtnSalva).hide();
-                $("#" + idBtnHideDetail).show();
-               
 
-            }
-        });
-    }
-    function FireAntEditHelper_AnnullaInserimento(idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idDivElement) {
-        $("#"+idBtnEdit).show();
-        $("#"+idDivElement).html("");
-        $("#"+idBtnAnnulla).hide();
-        $("#"+idBtnSalva).hide();
-        $("#" + idBtnHideDetail).hide();
-    }
+    $.ajax({
+        url: urlPercorso,
+        data: { id: idEntita, tipoAzione: "VISUALIZZAZIONE" },
+        cache: false,
+        error: function (html) {
+            $("#" + idDivMessage).html("");
+            alert("errore nella gestione della richiesta\n" + html)
+        },
+        success: function (html) {
+            $("#" + idDivMessage).html("");
+
+            $("#" + idDivFullDetail).html(html);
+            refreshValidation(idFormModifica)
+            $("#" + idBtnEdit).hide();
+            $("#" + idBtnAnnulla).hide();
+            $("#" + idBtnSalva).hide();
+            $("#" + idBtnHideDetail).show();
+
+
+        }
+    });
+}
+function FireAntEditHelper_AnnullaInserimento(idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idDivElement) {
+    $("#" + idBtnEdit).show();
+    $("#" + idDivElement).html("");
+    $("#" + idBtnAnnulla).hide();
+    $("#" + idBtnSalva).hide();
+    $("#" + idBtnHideDetail).hide();
+}
 
 
 /*
 "DIForm1005", "DIdiv1005", "DIbtnEdit1005", "DIbtnAnnulla1005", "DIbtnSalva1005"
 */
-    function FireAntEditHelper_SubmitInnerForm(modelId, url, codiceMessage, idDiv,idDivElement, idDivShort, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idForm) {
-        if ($("#" + idForm).valid()) {
-            $("#" + idForm).submit();
-        } 
-     
+function FireAntEditHelper_SubmitInnerForm(modelId, url, codiceMessage, idDiv, idDivElement, idDivShort, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idForm) {
+    if ($("#" + idForm).valid()) {
+        $("#" + idForm).submit();
+    }
 
-    };
 
-   
+};
+

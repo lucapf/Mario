@@ -85,6 +85,8 @@
     <Compile Include="PopolamentoDropDownListTest.cs" />
     <Compile Include="TestCedente.cs" />
     <Compile Include="TestIndirizzo.cs" />
+    <Compile Include="TestPreventivo.cs" />
+    <Compile Include="TestSegnalazione.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mediatori\mediatori.csproj">

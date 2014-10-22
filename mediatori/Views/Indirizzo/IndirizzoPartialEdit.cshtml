@@ -51,19 +51,20 @@
 </div>
 <div class="editor-label">
     @Html.LabelFor(m => m.comune)
-    @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare Provincia..")
+    @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare Provincia ...")
     @Html.ValidationMessageFor(m => m.comune.denominazione)<br />
     @Html.HiddenFor(m => m.id)
 </div>
 
 
 <script>
-    $(function () {
-        $("#provincia_denominazione").change(function () {
-            alert("provincia_denominazione CHANGE");
-            popolaComboComuni("provincia_denominazione", "comune_denominazione");
-        })
+
+   // $(function () {
+    $("#provincia_denominazione").change(function () {
+       // alert("provincia_denominazione CHANGE");
+        popolaComboComuni("provincia_denominazione", "comune_denominazione");
     });
+    //});
 
     $('input[name$="interno"]').each(function () { this.style.width = "30px"; });
     $('input[name$="indirizzo"]').each(function () { this.style.width = "300px"; });

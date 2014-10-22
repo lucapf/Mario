@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = Model.contatto.nome + " " + Model.contatto.cognome;
-    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("cnt", "/Contatto/contattoPartialById", Model.contatto.id.ToString());
+    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("cnt", Url.Action("contattoPartialById","Contatto"), Model.contatto.id.ToString());
     var edContatto = new mediatori.helper.FireAntDetailEventDetection("cnt", Model.id);
-    mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("segn", "/GestioneSegnalazioni/segnalazionePartialById", Model.contatto.id.ToString());
+    mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("segn", Url.Action("segnalazionePartialById","GestioneSegnalazioni") , Model.contatto.id.ToString());
     var edSegnalazione = new mediatori.helper.FireAntDetailEventDetection("segn", Model.id);
-    mediatori.helper.FireAntEditHelper editHelperPreventivo = new mediatori.helper.FireAntEditHelper("prv", "/preventivo/preventivoPartialById", Model.contatto.id.ToString());
+    mediatori.helper.FireAntEditHelper editHelperPreventivo = new mediatori.helper.FireAntEditHelper("prv", Url.Action("preventivoPartialById","Preventivo") , Model.contatto.id.ToString());
     var edPreventivo = new mediatori.helper.FireAntDetailEventDetection("prv", Model.id);
 
     //verifico se la segnalazione è ha un preventivo confermato
@@ -26,7 +26,7 @@
     });
 
     function confermaPreventivo(codicePreventivo){
-        $.getJSON("/Preventivo/conferma",{id:codicePreventivo},
+        $.getJSON("@Url.Action("conferma","Preventivo")",{id:codicePreventivo},
             function (jsonPreventivo){
 
             });
@@ -38,7 +38,7 @@
             return;
         }
         var codiceStato= $("#codiceStatoCorrente").val();
-        $.getJSON("/Stato/targets",{codiceStato:codiceStato,entita:"SEGNALAZIONE"}, 
+        $.getJSON("@Url.Action("targets","Stato")",{codiceStato:codiceStato,entita:"SEGNALAZIONE"}, 
             function (jsonStati){
               
                 var items=[];
@@ -52,21 +52,24 @@
                 $("#gestioneStato").html("");
                 $("<input/>",{id:"btnAnnullaGestioneStato",type:"button", value:"Annulla",onclick:"h2stato()"}).appendTo("#gestioneStato");
                 $("<input/>",{id:"btnSalvaGestioneStato",type:"button", value:"Salva",onclick:"save()"}).appendTo("#gestioneStato");
+
                 $("<select/>",{id:"selectGestioneStato",html: items.join("")}).appendTo("#gestioneStato");
+               
+
                 $("<br/>").appendTo("#gestioneStato");
                 $("#btnSalvaGestioneStato").button();
                 $("#btnAnnullaGestioneStato").button();
 
                 $("#selectGestioneStato").selectmenu().addClass( "selectModificaStato" );
             })
-    };
+    }; 
     function save(){
         var statoSelezionato = $("#selectGestioneStato").val();
         if (statoSelezionato==""){
             displayError("selezionare lo stato di destinazione");
             return ;
         }
-        $.post("/stato/update",
+        $.post("@Url.Action("update","Stato")",
            {codiceStato: statoSelezionato, codiceEntita:@Model.id , entita:"SEGNALAZIONE"})
           .done(function(jsonResponse){h2stato(jsonResponse);displayMessage("aggiornamento avvenuto con successo")});
         }
@@ -135,7 +138,7 @@
 
     </h3>
     <hr />
-    @Html.Raw(editHelperSegnalazione.getStartForm("/GestioneSegnalazioni/Edit"))
+    @Html.Raw(editHelperSegnalazione.getStartForm(Url.Action("Edit","GestioneSegnalazioni")))
     <div id="@edSegnalazione.getIdFullDetail()">
         @Html.Partial("SegnalazionePartialDetail", Model)
     </div>
@@ -175,7 +178,7 @@
     </h3>
     <script>$("#cntbtnEdit"+ @Model.id).show();</script>
     <hr />
-    @Html.Raw(editHelperContatto.getStartForm("/Contatto/Edit"))
+    @Html.Raw(editHelperContatto.getStartForm(Url.Action("Edit","Contatto")))
     <div id="@edContatto.getIdFullDetail()">
         @{Html.RenderAction("contattoPartial", "contatto", new { contatto = Model.contatto, tipoAzione = "VISUALIZZAZIONE" });}
     </div>

@@ -22,6 +22,17 @@
 
 </head>
 <script>
+
+   @{ String contesto = Request.ApplicationPath;
+      if (contesto == "/")
+      {
+          contesto = "";
+      }
+    }
+
+    var contextPath = '@contesto';
+
+
     $(function () {
         clock();
 
@@ -75,15 +86,15 @@
 
         });
 
-        setTimeout(function () { assegnazioni(); }, 5000);
+        setTimeout(function () { assegnazioni(); }, 2000);
     }
-
-
-
 </script>
+
 <body>
     <div id="header">
-        <div id="headerLogo"></div>
+        <a href="@Url.Action("Index", "Home")">
+            <div id="headerLogo"></div>
+        </a>
         <div id="headerTechub"></div>
         <div id="headerHelp" class=".ui-widget-header .ui-icon .ui-icon-help" title="help"></div>
         <a href="javascript:assegnazioni();" data-role="none" title="Assegnazioni">
@@ -100,16 +111,17 @@
                 @User.Identity.Name
             }
         </div>
-        <div id="headerClock" ></div>
-
-
+        <div id="headerClock"></div>
     </div>
+    <!-- /header -->
+
     <div id="topMenu">
         <div class="topMenuItem" id="topMenuHome">Home</div>
         <div class="topMenuItem" id="topMenuAnagrafica">Anagrafica</div>
         <div class="topMenuItem" id="topMenuSicurezza">Sicurezza</div>
         <div class="topMenuItem" id="topMenuConfigurazioni">Configurazioni</div>
     </div>
+
     <script>
         $("#topMenuHome").click(function () { window.location = "@Url.Action("Index", "Home")" });
         $("#topMenuAnagrafica").click(function () { window.location = "@Url.Action("Index", "Home")?s=ANAGRAFICA" });
@@ -134,6 +146,7 @@
                 }
             });
         });
+
         function displayError(message) {
             $("#errorMessage").html(message);
             $("#errorMessage").show("slide", 1000);
@@ -168,9 +181,12 @@
 
     <table style="width: 90%;">
         <tr>
-            <td style="vertical-align: top; width: 260px">
-                <div id="secondaryContent">@Html.Partial("_MenuPrincipale")</div>
-            </td>
+            @if (User.IsInRole("Amministratore"))
+            {
+                <td style="vertical-align: top; width: 260px">
+                    <div id="secondaryContent">@Html.Partial("_MenuPrincipale")</div>
+                </td>
+            }
             <td style="vertical-align: top;">
                 <div id="primaryContent">
                     <div id="errorMessage" style="display: none"></div>
@@ -182,14 +198,12 @@
     </table>
 
     @RenderSection("scripts", required: false)
+
     <script>
         $(function () {
             $("input[type=submit], button,input[type=button]").button();
 
         });
-
-
     </script>
-
 </body>
 </html>

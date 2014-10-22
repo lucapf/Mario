@@ -39,11 +39,12 @@ namespace mediatori.Controllers
 
             // model.DaAssegnare = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto").ToList();
 
+            //List<mediatori.Models.etc.GruppoLavorazione> gruppi = db.gruppiLavorazione.Where ( p => p.utenti.Contains (""User.Identity.Name
 
             model.DaAssegnare = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
                                  where !(
                                  from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
-                                 ).Contains(s.id)
+                                 ).Contains(s.id) && s.stato.gruppoLavorazione.utenti.Contains (";" + User.Identity.Name + ";")
                                  select s).ToList();
 
 
@@ -55,7 +56,7 @@ namespace mediatori.Controllers
             //                  select a).ToList();
 
             model.Assegnate = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
-                               where a.segnalazione.stato.id == a.statoId
+                               where a.segnalazione.stato.id == a.statoId && a.stato.gruppoLavorazione.utenti.Contains(";" + User.Identity.Name + ";")
                                select a).ToList();
 
 

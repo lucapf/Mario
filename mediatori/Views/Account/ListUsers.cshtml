@@ -5,14 +5,14 @@
 <h3>@ViewBag.message</h3>
 <h2>@ViewBag.Title</h2>
 @Html.Partial("commonAccount")
-    @foreach (String utente in ViewBag.utenti)
-    {
-         <div style="display:inline-block;width:20%">@utente</div>
-         <div style="display:inline-block"> @Html.ActionLink("Cancella", "Disassociate", "Account",new { user = utente },null)</div>
-        <div style="display:inline-block"> @Html.ActionLink("Reset Password", "Manage", "Account", new { user = utente },null)</div>
-        <div style="display:inline-block"> @Html.ActionLink("Modifica Ruoli", "GestisciRuoli", "Account", new { user = utente },null)</div>
-        <br />
+@foreach (String utente in ViewBag.utenti)
+{
+    <div style="display: inline-block; width: 20%">@utente</div>
+    <div style="display: inline-block">@Html.ActionLink("Cancella", "Disassociate", "Account", new { user = utente }, null)</div>
+    <div style="display: inline-block">@Html.ActionLink("Reset Password", "Manage", "Account", new { user = utente }, null)</div>
+    <div style="display: inline-block">@Html.ActionLink("Modifica Ruoli", "GestisciRuoli", "Account", new { user = utente }, null)</div>
+    <br />
 
-    }   
+}
 
 

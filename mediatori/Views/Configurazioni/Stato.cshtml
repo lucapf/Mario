@@ -30,10 +30,10 @@
                 $("#gruppoLavorazione").html("<option value=\"NON ASSOCIATO\">NON ASSOCIATO</option>");
             }
         });
-     
+
     });
     function checkLength(o, n, min, max) {
-            
+
         if (o.val().length > max || o.val().length < min) {
             o.addClass("ui-state-error");
             updateTips("il campo   " + n + " è obbligatorio.");
@@ -43,10 +43,10 @@
         }
     }
 
-    function modificaGruppoAssegnazione(divContanier,idStato, btnModifica, divModificaStato, btnSalvaUtentiGruppo, formModifica) {
-        alert("modificaGruppoAssegnazione");
+    function modificaGruppoAssegnazione(divContanier, idStato, btnModifica, divModificaStato, btnSalvaUtentiGruppo, formModifica) {
+        //alert("modificaGruppoAssegnazione");
         $.ajax({
-            url: "/Configurazioni/ModificaStato",
+            url: "@Url.Action("ModificaStato", "Configurazioni")",
             data: { id: idStato },
             error: function () { alert("impossibile modificare lo stato, errore interno di sistema"); },
             success: function (html) {
@@ -72,20 +72,20 @@
 
 
                 });
-              //  $('#' + btnSalvaUtentiGruppo).show(500);
-            
+                //  $('#' + btnSalvaUtentiGruppo).show(500);
+
                 //refreshValidation("createForm");
             }
         });
     }
     function annullaModifica(idStato, btnModifica, divModificaStato, btnSalvaUtentiGruppo, formModifica) {
-        $("#"+divModificaStato).hide(500);
+        $("#" + divModificaStato).hide(500);
         $('#' + btnSalvaUtentiGruppo).hide(500);
-       
+
         $('#' + btnModifica).show(500);
     }
 </script>
-<input type="button" id="NuovoStato" Value="Nuovo"/>
+<input type="button" id="NuovoStato" value="Nuovo" />
 <!-- <div id="NuovoStato" class="action">Nuovo</div> -->
 <div id="NascondiNuovoStato" class="action" style="display: none">Nascondi</div>
 <div id="NuovoStatoDiv" style="display: none">
@@ -93,7 +93,7 @@
        
     </script>
     <fieldset>
-        <legend>Nuovo Gruppo di Lavorazione</legend>
+        <legend>Nuovo Stato</legend>
         @using (Html.BeginForm("Stato", "Configurazioni", FormMethod.Post, new { @id = "formNuovoGruppoLavorazione" }))
         {
             @Html.Partial("StatoPartialEdit", (mediatori.Models.etc.StatoView)ViewBag.statoViewEmpty)
@@ -106,7 +106,7 @@
 
 
 <fieldset>
-    <legend>lista Stati Configurati</legend>
+    <legend>Lista Stati configurati</legend>
     <table class="listTable">
         <tr>
             <th><strong>Descrizione</strong></th>
@@ -124,15 +124,15 @@
             var divModificaStato = String.Format("divModificaStato{0}", statoView.stato.id);
             var formModifica = String.Format("formModificaStato{0}", statoView.stato.id);
             var divContainerModificaStato = String.Format("divContainerModificaStato{0}", statoView.stato.id);
-            String utenti = statoView.stato.gruppoLavorazione != null && statoView.stato.gruppoLavorazione.id>0 ?
-                   (statoView.stato.gruppoLavorazione.utenti  != null &&
+            String utenti = statoView.stato.gruppoLavorazione != null && statoView.stato.gruppoLavorazione.id > 0 ?
+                   (statoView.stato.gruppoLavorazione.utenti != null &&
                    statoView.stato.gruppoLavorazione.utenti != string.Empty ? statoView.stato.gruppoLavorazione.utenti : String.Empty)
                    : ";";
             String[] lstUtenti = utenti.Split(';');    
             <tr>
                 <td>@statoView.stato.descrizione</td>
                 <td>@statoView.stato.entitaAssociata.ToString()</td>
-                 <td>@statoView.stato.statoBase.ToString()</td>
+                <td>@statoView.stato.statoBase.ToString()</td>
                 <td>
                     <script>
                         $(function () {
@@ -158,9 +158,9 @@
                     @using (Html.BeginForm("ModificaStato", "Configurazioni", FormMethod.Post, new { @id = formModifica }))
                     {
                         <div id="@divContainerModificaStato"  title="Modifica Stato">
-                                <div id="@divModificaStato" ></div>
-                               
-                               
+                            <div id="@divModificaStato" ></div>
+
+
                         </div>
                     }
                     <script>$(function () {
@@ -168,9 +168,9 @@
         modificaGruppoAssegnazione("@divContainerModificaStato", "@statoView.stato.id", "@modificaStato",
             "@divModificaStato", "@salvaModificaStato", "@formModifica")
     });
-                        });
+});
                     </script>
-                    </td>
+                </td>
                 <td>@Html.ActionLink("Cancella", "cancellaStato", new { id = statoView.stato.id }, null) </td>
             </tr>
     
