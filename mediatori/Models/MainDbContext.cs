@@ -20,8 +20,8 @@ namespace mediatori.Models
         public MainDbContext()
             : base("DefaultConnection")
         {
-            Database.SetInitializer<MainDbContext>(new CreateDatabaseIfNotExists<MainDbContext>());
-
+            //Database.SetInitializer<MainDbContext>(new CreateDatabaseIfNotExists<MainDbContext>());
+            Database.SetInitializer<MainDbContext>(new DropCreateDatabaseAlways<MainDbContext>());
         }
 
         public static string getConnectionByUrl(string url)

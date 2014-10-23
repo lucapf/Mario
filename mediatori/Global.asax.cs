@@ -30,6 +30,8 @@ namespace mediatori
 
             ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
             ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
+
+         
         }
     }
 }

@@ -4,11 +4,14 @@ namespace mediatori.Migrations
     using mediatori.Models.Anagrafiche;
     using mediatori.Models.etc;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Web.Security;
     using WebMatrix.WebData;
+    using System.Diagnostics;
+
 
     internal sealed class Configuration : DbMigrationsConfiguration<mediatori.Models.MainDbContext>
     {
@@ -17,13 +20,16 @@ namespace mediatori.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
+
+     
+
         protected override void Seed(mediatori.Models.MainDbContext context)
         {
-            TipoMigrazione tipoMigrazione = TipoMigrazione.AGGIORNAMENTO;
+            //TipoMigrazione tipoMigrazione = TipoMigrazione.INIZIALE;
 
 
-            if (!WebSecurity.Initialized)
-                WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+           if (!WebSecurity.Initialized)
+             WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
 
             if (!Roles.RoleExists("Amministratore"))
                 Roles.CreateRole("Amministratore");
@@ -54,15 +60,17 @@ namespace mediatori.Migrations
                 new Toponimo { sigla = "Via" },
                 new Toponimo { sigla = "Piazza" });
 
-            if (tipoMigrazione.Equals(TipoMigrazione.AGGIORNAMENTO))
+
+           // if (tipoMigrazione.Equals(TipoMigrazione.INIZIALE))
+            if (context.Province.Count() == 0)
             {
                 codiciProvince(context);
                 MigrazioneComuni.codiciComuni(context);
+
                 context.Database.ExecuteSqlCommand("update comune set provincia_sigla=sigla from provincia where provincia.id=comune.codiceProvincia");
                 foreach (Provincia p in context.Province.ToList())
                 {
-                    context.Database.ExecuteSqlCommand("update comune set "
-                + " provincia_sigla=@p0 where codiceProvincia=@p1", p.sigla, p.id);
+                    context.Database.ExecuteSqlCommand("update comune set  provincia_sigla=@p0 where codiceProvincia=@p1", p.sigla, p.id);
                 }
             }
 

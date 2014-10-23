@@ -18,6 +18,13 @@
             ViewBag.confermata = true;
         }
     }
+
+
+    string descrizioneStato = "";
+    if (Model.stato != null){
+        descrizioneStato = Model.stato.descrizione;
+    }
+    
 }
 <script>
     statoFocusOn=false;
@@ -75,11 +82,14 @@
         }
         function h2stato(descrizioneStato){
         
-            var descrizione="stato @Model.stato.descrizione";
+            var descrizione="stato " + "@descrizioneStato";
+
             if (descrizioneStato!=null){
                 descrizione="stato " + descrizioneStato;
             }
+
             $("#gestioneStato").html("");
+
             $("<h2/>",{
                 style:"text-align:right;display:block;width:100%",
                 id:"labelStato",

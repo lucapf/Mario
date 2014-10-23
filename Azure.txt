@@ -1,0 +1,11 @@
+login: azure@techub.it
+psw: t3chub.1t
+
+
+
+SQL
+yacvsl866j.database.windows.net
+
+
+usr: mediatori
+psw: M3d14t0r1
