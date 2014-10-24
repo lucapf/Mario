@@ -51,7 +51,6 @@ namespace mediatori.Controllers.Business
             segnalazione.tipoLuogoRitrovo = TipoLuogoRitrovoBusiness.valorizzaDatiTipoLuogoRitrovo(segnalazione.tipoLuogoRitrovo, db);
             segnalazione.tipoContatto = TipoContattoBusiness.valorizzaDatiTipoContatto(segnalazione.tipoContatto, db);
             return segnalazione;
-
         }
 
 

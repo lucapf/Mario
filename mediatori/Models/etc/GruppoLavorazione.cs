@@ -68,6 +68,11 @@ namespace mediatori.Models.etc
 
         public static String toTockenizedView(List<String> listUsers)
         {
+            if (listUsers == null)
+            {
+                return "";
+            }
+
             String retString = ";";
             foreach (String user in listUsers)
             {

@@ -1,11 +1,24 @@
+
+https://manage.windowsazure.com/ 
 login: azure@techub.it
 psw: t3chub.1t
 
+IIS
+http://mediatori.azurewebsites.net/
 
 
-SQL
+SQL SERVER
 yacvsl866j.database.windows.net
-
 
 usr: mediatori
 psw: M3d14t0r1
+
+
+
+UTENZE APPLICATIVE
+Amministratore / password
+Operatore / password
+Collaboratore / password
+FrontOffice / password
+
+

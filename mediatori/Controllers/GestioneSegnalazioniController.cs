@@ -76,7 +76,6 @@ namespace mediatori.Controllers
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
 
-
             List<mediatori.Models.Anagrafiche.TipoDocumento> tipoDocumento;
             tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
             ViewData["TIPO_DOCUMENTO"] = tipoDocumento;

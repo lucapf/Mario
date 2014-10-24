@@ -108,15 +108,14 @@ namespace mediatori.Models
 
                 }
                 ViewBag.message = "Preventivo salvato con successo";
-                return RedirectToAction("Details", "GestioneSegnalazioni", idSegnalazione);
+               
             }
             else
             {
                 ViewBag.erroMessage = "Impossibile salvare il preventivo, verificare i dati";
-                return View(p);
             }
 
-
+            return RedirectToAction("Details", "GestioneSegnalazioni", idSegnalazione);
         }
         private void valorizzaViewBag(MainDbContext db)
         {
