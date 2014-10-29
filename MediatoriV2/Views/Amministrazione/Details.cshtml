@@ -1,0 +1,21 @@
+﻿@model mediatori.Models.Anagrafiche.Amministrazione
+@{
+    mediatori.helper.FireAntEditHelper editHelperAmministrazione = new mediatori.helper.FireAntEditHelper("amm", "/Amministrazione/AmministrazionePartialById", Model.id.ToString());
+    mediatori.helper.FireAntDetailEventDetection edAmministrazione = new mediatori.helper.FireAntDetailEventDetection("amm", Model.id);
+}
+<h3>Dettaglio Amministrazione 
+                @Html.Raw(editHelperAmministrazione.getSimpleCrudButtons())
+</h3>
+<hr />
+<br />
+@Html.Raw(editHelperAmministrazione.getStartForm("/Amministrazione/Edit"))
+<div id="@Html.Raw(edAmministrazione.getIdFullDetail())">
+    @{
+        Html.RenderAction("ViewDetail", Model);
+    }
+</div>@Html.Raw(editHelperAmministrazione.getEndForm())
+@{
+    Html.RenderAction("SoggettoGiuridicoDetail", "SoggettoGiuridico", new { soggettoGiuridico = Model.soggettoGiuridico, tipoAzione = "VISUALIZZAZIONE" });
+}
+
+

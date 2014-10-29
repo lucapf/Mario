@@ -1,0 +1,18 @@
+﻿@model mediatori.Models.RolesManagement
+@{
+    ViewBag.Title = "Getione Ruoli";
+}
+
+<h2>Gestione Ruoli  </h2>
+@Html.Partial("commonAccount")
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <fieldset>
+        <legend>Utente @ViewBag.username</legend>
+        @Html.Hidden("username")
+        @Html.ListBox("ruoli")
+       <input type="submit" value="sottometti" />
+    </fieldset>
+}

@@ -1,0 +1,20 @@
+﻿@model mediatori.Models.Anagrafiche.Cedente
+@{Layout = null;}
+    <table class="datiGenerali">
+        <tr><td>@Html.LabelFor(model => model.nome)</td><td> @Html.Display("nome")</td>
+            <td> @Html.LabelFor(model => model.cognome)</td><td> @Html.Display("cognome")</td>
+
+        </tr><tr>
+            <td>@Html.LabelFor(model => model.codiceFiscale)</td><td> @Html.Display("codiceFiscale")</td>
+            <td>@Html.LabelFor(model => model.sesso)</td><td> @Html.Display("sesso")</td>
+        </tr><tr>
+            <td>@Html.LabelFor(model => model.dataNascita)</td><td> @Html.Display("dataNascita")</td>
+        </tr><tr>
+            <td>@Html.LabelFor(model => model.provinciaNascita)</td><td> @Html.Display("provinciaNascita.denominazione")</td>
+        <td>@Html.LabelFor(model => model.comuneNascita)</td><td> @Html.Display("comuneNascita.denominazione")</td>
+
+          </tr><tr>
+         <td>@Html.LabelFor(model => model.statoCivile)</td><td> @Html.Display("statoCivile")</td>
+         <td>@Html.LabelFor(model => model.cittadinanza)</td><td> @Html.Display("cittadinanza")</td>
+               </tr>
+    </table>

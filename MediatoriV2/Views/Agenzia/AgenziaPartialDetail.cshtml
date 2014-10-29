@@ -1,0 +1,49 @@
+﻿@model mediatori.Models.Anagrafiche.Agenzia
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.partitaIva)
+    <div>@Html.DisplayFor(model => model.partitaIva)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.rea)
+    <div>@Html.DisplayFor(model => model.rea)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.tipoNaturaGiuridica)
+    <div>@Html.DisplayFor(model => model.tipoNaturaGiuridica.descrizione)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.stato)
+    <div>@Html.DisplayFor(model => model.stato.descrizione)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.dataInizioMandato)
+   <div> @Html.DisplayFor(model => model.dataInizioMandato)</div>
+</div>
+
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.dataFineMandato)
+    <div>@Html.DisplayFor(model => model.dataFineMandato)</div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.tipoAgenzia)
+    <div>@Html.DisplayFor(model => model.tipoAgenzia.descrizione)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.codiceRui)
+   <div> @Html.DisplayFor(model => model.codiceRui)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.codiceOam)
+    <div>@Html.DisplayFor(model => model.codiceOam)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.dataOam)
+    <div>@Html.DisplayFor(model => model.dataOam)</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.documentoPagamento)
+   <div> @Html.DisplayFor(model => model.documentoPagamento)</div>
+</div>

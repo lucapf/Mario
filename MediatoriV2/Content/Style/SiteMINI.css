@@ -1,0 +1,121 @@
+﻿h3 {
+    color: #718E3E;
+    letter-spacing: -1px;
+    font-family: "Arial";
+    font-weight: normal;
+    font-size: 20px;
+    margin-top: 7px;
+    margin-bottom: 2px;
+}
+
+.h3Link {
+    color: #637A05;
+    font-weight: bold;
+    float: right;
+    margin-left: 2px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+table.MyTable {
+            width: 100%;
+            display: table;
+            border-collapse: collapse;
+        }
+
+.buttonCollapse {
+    display: inline-block;
+    color: #637A05;
+    font-weight: bold;
+    float: right;
+    text-decoration: none;
+    margin-left: 2px;
+    display: none;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.buttonModifica {
+    color: #637A05;
+    font-weight: bold;
+    float: right;
+    letter-spacing: -1.1px;
+    margin-left: 2px;
+    display: none;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.buttonSalvaModifica {
+    color: #637A05;
+    font-weight: bold;
+    float: right;
+    letter-spacing: -1.1px;
+    display: none;
+    margin-left: 2px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+.buttonAnnullaModifica {
+    color: #637A05;
+    font-weight: bold;
+    float: right;
+    letter-spacing: -1.1px;
+    display: none;
+    margin-left: 2px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+
+
+
+
+
+
+
+
+.editor-label {
+    display: inline-block;
+    vertical-align: top;
+    margin:2px;
+   
+}
+
+    .editor-label label {
+        width: auto;
+        float: left;
+        font-weight:bold; 
+        vertical-align: top;
+    }
+
+    .editor-label input {
+        width: 130px;
+    }
+
+    .editor-label div {
+        display: inline-block;
+        width: auto;
+        vertical-align: top;
+        margin-left: 5px;
+    }
+
+    .editor-label select {
+        width: 140px;
+    }
+
+    .editor-label span {
+        color: #990033;
+    }
+
+
+
+
+    .canvas-flex {
+        display: inline-flexbox;
+        display: flex;
+        align-items: center;
+        flex-flow: row wrap;
+        justify-content: space-around;
+    }

@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+    //  Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Test</h2>
+
+
+<ul data-role="listview" data-inset="true">
+    <li><a href="@Url.Action("Number", "Test")">Number</a></li>
+    <li><a href="@Url.Action("Azure", "Test")" >Azure</a></li>
+    <li><a href="@Url.Action("DhtmlxScheduler", "Test")" >DhtmlxScheduler</a></li>
+</ul>

@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Home page";
+
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    String[] ruoli = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        //ruoli = Roles.Provider.GetRolesForUser(User.Identity.Name);
+    }
+}
+
+
+<script>
+    $(function () {
+
+        $("#divHome").click(function () { window.location.href = "@Url.Action("Index", "Home")" });
+        $("#divAnagrafiche").click(function () { showAnagrafiche() });
+
+        $("#divSicurezza").click(function () { showSicurezza() });
+
+        $("#divConfigurazioni").click(function () { showConfigurazioni() });
+
+        $("#divRicercaSegnalazioni").click(function () { window.location.href = "@Url.Action("Index", "Home")GestioneSegnalazioni" });
+        $("#divNuovaSegnalazione").click(function () { window.location.href = "@Url.Action("Index", "Home")GestioneSegnalazioni/Create" });
+        function showAnagrafiche() {
+            $(".ANAGRAFICA").show("drop", {}, 1000);
+            $("#liSicurezza").hide("explode", {}, 1000);
+            $("#liConfigurazioni").hide("explode", {}, 1000);
+        }
+        function showSicurezza() {
+            $(".SICUREZZA").show("drop", {}, 1000);
+            $("#liAnagrafiche").hide("explode", {}, 1000);
+            $("#liConfigurazioni").hide("explode", {}, 1000);
+        }
+        function showConfigurazioni() {
+            $(".CONFIGURAZIONI").show("drop", {}, 1000);
+            $("#liAnagrafiche").hide("explode", {}, 1000);
+            $("#liSicurezza").hide("explode", {}, 1000);
+        }
+
+        var sezione = getUrlParameter("s");
+
+        switch (sezione) {
+            case "SICUREZZA": showSicurezza(); break;
+            case "CONFIGURAZIONI": showConfigurazioni(); break;
+            case "ANAGRAFICA": showAnagrafiche(); break;
+
+        }
+    });
+
+
+</script>
+
+<div class="canvas-flex">
+
+    <a href="@Url.Action("Index", "Home")" data-role="none">
+        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px; background-color: green;">
+            <h3 style="margin-left: 20%; margin-top: 40%;">Home</h3>
+        </div>
+    </a>
+
+    <a href="@Url.Action("Anagrafiche", "Home")" data-role="none">
+        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
+            <h3 style="margin-left: 20%; margin-top: 40%;">Anagrafiche</h3>
+        </div>
+    </a>
+
+    <a href="@Url.Action("Sicurezza", "Home")" data-role="none">
+        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
+            <h3 style="margin-left: 20%; margin-top: 40%;">Sicurezza</h3>
+        </div>
+    </a>
+
+    <a href="@Url.Action("Configurazioni", "Home")" data-role="none">
+        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
+            <h3 style="margin-left: 20%; margin-top: 40%;">Configurazioni</h3>
+        </div>
+    </a>
+
+
+    @foreach (mediatori.Helpers.EMenuSection me in Enum.GetValues(typeof(mediatori.Helpers.EMenuSection)))
+    {
+        foreach (mediatori.Helpers.MenuElement mi in mediatori.Helpers.MenuBuilder.getMenuData(me, ruoli))
+        {
+        <li class="ui-state-default @me" style="display:none">
+            <div class="actionLink" onclick='window.location.href= "@Url.Action("Index", "Home")@mi.url"' >
+                <span>@mi.display</span>
+
+            </div>
+        </li>     
+        }
+    }
+
+</div>
+
+<br class="clear" />

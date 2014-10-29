@@ -1,0 +1,64 @@
+﻿@model IEnumerable<mediatori.Models.Anagrafiche.Agenzia>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>lista Agenzie</h2>
+<div id="message">@ViewBag.message</div>
+<div id="azioni">
+    @Html.ActionLink("Nuova Agenzia", "Create", "Agenzia")
+    @using (Html.BeginForm("Index", "Agenzia", FormMethod.Get, null))
+    {
+        <div class="form-ricerca">
+            <label>Ragione Sociale</label>
+            @Html.TextBox("ragioneSociale")
+        </div>
+        
+        <div class="form-ricerca">
+            <label>Codice Fiscale</label>
+            @Html.TextBox("partitaIva")
+        </div>
+        <div class="form-ricerca-submit">
+            <input type="submit" value="Ricerca segnalazione" /></div>
+            
+       
+    }
+
+</div>
+
+<table class="listTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.soggettoGiuridico.ragioneSociale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.partitaIva)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoNaturaGiuridica.descrizione)
+        </th>
+
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.soggettoGiuridico.ragioneSociale)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.partitaIva)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.tipoNaturaGiuridica)
+            </td>
+
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { id = item.id })
+
+            </td>
+        </tr>
+    }
+
+</table>

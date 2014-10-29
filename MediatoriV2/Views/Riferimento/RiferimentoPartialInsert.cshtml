@@ -1,0 +1,10 @@
+﻿@model mediatori.Models.Anagrafiche.Riferimento
+@{
+    Layout = null;
+}
+
+
+@using(Html.BeginCollectionItem("riferimenti")) {
+    Html.RenderPartial("RiferimentoPartialEdit");
+ }
+

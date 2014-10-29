@@ -1,0 +1,9 @@
+﻿@model Nullable<DateTime>
+@{
+    
+    String strDate = String.Empty ;
+    if (Model != null){
+    strDate= String.Format("{0:d}", ((DateTime)Model).ToShortDateString());  
+    }
+@Html.TextBox("dataNascita", strDate,new { @class = "datefield", type = "text"  });
+  }

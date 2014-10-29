@@ -1,0 +1,38 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoErogazione>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipologia Erogazione";
+}
+<h2>Tipo Erogazione</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuovo tipo Erogazione</legend>
+@using (Html.BeginForm("tipoErogazione", "Configurazioni",FormMethod.Post))
+{
+    <div class="editor-label">
+    <label for="sigla">Sigla</label> <input type="text" name="sigla" />
+    </div>
+    <div class="editor-label">
+    
+
+   <label for="text">Descrizione</label> <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></div>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Erogazioni</legend>
+    <table>
+<tr><td><strong>Sigla</strong></td><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoErogazione tipoErogazione in Model)
+{
+    <tr>
+        <td>@tipoErogazione.sigla</td>
+        <td>@tipoErogazione.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoErogazione", new {id=tipoErogazione.sigla}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

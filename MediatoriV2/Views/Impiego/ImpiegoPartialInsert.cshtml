@@ -1,0 +1,10 @@
+﻿@model mediatori.Models.Anagrafiche.Impiego
+
+@{
+    Layout = null;
+    
+}
+@using(Html.BeginCollectionItem("impieghi")) {
+    Html.RenderPartial("ImpiegoPartialEdit");
+ }
+         

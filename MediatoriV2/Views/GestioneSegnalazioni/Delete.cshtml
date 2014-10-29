@@ -1,0 +1,77 @@
+﻿@model mediatori.Models.Anagrafiche.Segnalazione
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h2>Cancellazione contatto <strong>@Html.DisplayFor(m=>m.cognome) @Html.DisplayFor(m=>m.nome)</strong></h2>
+
+<h3>Contatto da Rimuovere</h3>
+<fieldset>
+    <legend>Contatto</legend>
+
+    <div class="display-read-only-form"  >
+       <div class="label">@Html.DisplayNameFor(model => model.nome)</div>
+       <div style="float:left">@Html.DisplayFor(model => model.nome)</div>
+        
+    </div>
+
+    <div class="display-read-only-form" >
+        <div class="label">@Html.DisplayNameFor(model => model.cognome)</div> 
+        <div >@Html.DisplayFor(model => model.cognome)</div>    
+    </div>
+
+    <div class="display-read-only-form" >
+         <div class="label">@Html.DisplayNameFor(model => model.dataNascita)</div>
+        <div>@Html.DisplayFor(model => model.dataNascita)</div>
+    </div>
+
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.sesso)</div>
+        <div>@Html.DisplayFor(model => model.sesso)</div>
+    </div>
+
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.importoStipendio)</div>
+        <div>@Html.DisplayFor(model => model.importoStipendio)</div>
+    </div>
+
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.telefono)</div>
+        <div>@Html.DisplayFor(model => model.telefono)</div>
+    </div>
+
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.importoRichiesto)</div>
+        <div>@Html.DisplayFor(model => model.importoRichiesto)</div>
+    </div>
+     <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.tipoAzienda)</div>
+        <div>@Html.DisplayFor(model => model.tipoAzienda.descrizione)</div>
+    </div>
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.fontePubblicitaria)</div>
+        <div>@Html.DisplayFor(model => model.fontePubblicitaria.descrizione)</div>
+    </div>
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.altroPrestito)</div>
+        <div>@Html.DisplayFor(model => model.altroPrestito.descrizione)</div>
+    </div>
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.dataInserimento)</div>
+        <div>@Html.DisplayFor(model => model.dataInserimento)</div>
+    </div>
+
+    <div class="display-read-only-form">
+         <div class="label">@Html.DisplayNameFor(model => model.utenteInserimento)</div>
+        <div>@Html.DisplayFor(model => model.utenteInserimento)</div>    
+
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Cancella" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

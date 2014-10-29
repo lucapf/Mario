@@ -1,0 +1,57 @@
+﻿@model MyUsers.Models.MyUser
+
+<div class="ui-grid-a">
+    <div class="ui-block-a">
+        <div class="ui-bar ui-bar-c">Login:</div>
+        <div class="ui-bar ui-bar-c">Nome:</div>
+        <div class="ui-bar ui-bar-c">Cognome:</div>
+        <div class="ui-bar ui-bar-c">Email:</div>
+        <div class="ui-bar ui-bar-c">Profilo:</div>
+        <div class="ui-bar ui-bar-c">Attivo:</div>
+    </div>
+    <div class="ui-block-b">
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.login)</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.nome)</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.cognome)</div>
+        <div class="ui-bar ui-body-a">
+            @if (String.IsNullOrEmpty(Model.email))
+            {
+                @:N/A
+            }
+            else
+            {
+                <a data-role="none"  href="mailto:@Model.email">@Model.email</a>
+            }
+        </div>
+        <div class="ui-bar ui-body-a">
+            @{
+                string temp;
+
+                if (Model.Profilo == null)
+                {
+                    temp = "N/A";
+                }
+                else
+                {
+                    temp = Model.Profilo.nome;
+                }
+            }
+            @temp
+        </div>
+        <div class="ui-bar ui-body-a">@Model.isEnabled.ToString()</div>
+    </div>
+</div>
+
+
+@if (Model.SID != null)
+{
+    <br />
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <div class="ui-bar ui-bar-c">SID:</div>
+        </div>
+        <div class="ui-block-b">
+            <div class="ui-bar ui-body-a"><a href="@Url.Action("SID", "Users", new { sid = Model.SID.ToString() })" data-role="none">@(Model.SID.ToString())</a></div>
+        </div>
+    </div>
+}

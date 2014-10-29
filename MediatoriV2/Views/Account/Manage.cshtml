@@ -1,0 +1,42 @@
+﻿@model mediatori.Models.UserProfile
+
+@{
+    ViewBag.Title = "Manage";
+
+    if (TempData["AREA"] == "Mobile" || (HttpContext.Current.Request.RequestContext.RouteData.DataTokens["area"] != null && HttpContext.Current.Request.RequestContext.RouteData.DataTokens["area"].ToString() == "Mobile"))
+    {
+        Layout = "~/Areas/Mobile/Views/Shared/MasterPageMobile.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+    }
+
+     
+    
+}
+
+
+
+
+
+@if (User.Identity is MyUsers.MyCustomIdentity || User.Identity is System.Web.Security.FormsIdentity)
+{
+    <a style="float:right; margin-top:20px;" href="@Url.Action("LogOff", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">LogOff</a>
+}
+
+<a style="float:right; margin-top:20px;"  href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
+<h2>My Account</h2>
+
+
+<div class="ui-grid-a">
+    <div class="ui-block-a">
+        <div class="ui-bar ui-bar-c">Login:</div>
+        <div class="ui-bar ui-bar-c">Profilo:</div>
+    </div>
+
+    <div class="ui-block-b">
+        <div class="ui-bar ui-bar-a">@User.Identity.Name</div>
+        <div class="ui-bar ui-bar-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).ProfiloId)</div>
+    </div>
+</div>

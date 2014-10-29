@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipologiaAzienda>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipologia Azienda";
+}
+<h2>Tipologia Azienda</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova Tipologia Azienda</legend>
+@using (Html.BeginForm("tipologiaAzienda", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/> 
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Tipologia azienda configurate</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipologiaAzienda TipologiaAzienda in Model)
+{
+    <tr>
+        <td>@TipologiaAzienda.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoAzienda", new {id=TipologiaAzienda.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

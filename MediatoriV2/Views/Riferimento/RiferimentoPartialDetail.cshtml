@@ -1,0 +1,24 @@
+﻿@model mediatori.Models.Anagrafiche.Riferimento
+@{
+    ViewBag.title = "Riferimenti";
+    Layout = null;
+}
+
+@{
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Rif", Model.id);
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Rif", "/Riferimento/RiferimentoPartialById", Model.id.ToString());
+}
+
+@Html.Raw(faDetailEventDetection.getHeader(
+                 Html.DisplayFor(m => m.tipoRiferimento.descrizione).ToHtmlString()
+                 + " <b>" + Html.DisplayFor(m => m.valore).ToHtmlString()) + "</b> ")
+
+@Html.Raw(editHelper.getStartForm("/Riferimento/Edit"))
+
+<div id="@faDetailEventDetection.getIdFullDetail()">
+    @Html.Partial("RiferimentoInnerDetail", Model)
+</div>
+
+@Html.Raw(editHelper.getEndForm())
+@Html.Raw(editHelper.getCrudButtons())
+

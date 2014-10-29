@@ -1,0 +1,71 @@
+﻿@model mediatori.Models.Anagrafiche.Impiego
+@{
+    ViewBag.title = "Impiego";
+    Layout = null;
+}
+
+
+<div class="editor-label">
+    @Html.LabelFor(m => m.dataAssunzione)
+    @Html.EditorFor(m => m.dataAssunzione)<br />
+    @Html.ValidationMessageFor(m => m.dataAssunzione)
+    @Html.HiddenFor(m => m.id)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.dataLicenziamento)
+    @Html.EditorFor(m => m.dataLicenziamento)<br />
+    @Html.ValidationMessageFor(m => m.dataLicenziamento)
+
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.stipendioNetto)
+    @Html.EditorFor(m => m.stipendioNetto)<br />
+    @Html.ValidationMessageFor(m => m.stipendioNetto)
+
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.tipoImpiego)
+    @Html.DropDownListFor(m => m.tipoImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoImpiego, "")<br />
+    @Html.ValidationMessageFor(m => m.tipoImpiego.id)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.categoriaImpiego)
+    @Html.DropDownListFor(m => m.categoriaImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCategoriaImpiego, "")<br />
+    @Html.ValidationMessageFor(m => m.categoriaImpiego.id)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.adesioneTFR)
+    @Html.EditorFor(m => m.adesioneTFR)<br />
+    @Html.ValidationMessageFor(m => m.adesioneTFR)
+    <script>
+        $("#adesioneTFR").datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true, yearRange: "1940:2012" });
+    </script>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.anticipiTFR)
+    @Html.EditorFor(m => m.anticipiTFR)<br />
+    @Html.ValidationMessageFor(m => m.anticipiTFR)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.mansione)
+    @Html.EditorFor(m => m.mansione)<br />
+    @Html.ValidationMessageFor(m => m.mansione)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.mensilita)
+    @Html.TextBoxFor(m => m.mensilita)<br />
+    @Html.ValidationMessageFor(m => m.mensilita)
+</div>
+
+<script>
+    $('input[name$="dataAssunzione"]').each(function () {
+        $("#" + this.id).datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true, changeYear: true, yearRange: "@ViewBag.inizioValiditaImpiego:@ViewBag.oggi"
+                  });
+              });
+</script>
+
+
+
+

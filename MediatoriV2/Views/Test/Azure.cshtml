@@ -1,0 +1,131 @@
+﻿@model mediatori.Models.BlobContainer
+@{
+    ViewBag.Title = "Azure";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Azure Blobs</h2>
+
+<a href="#MyPopupUpload" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Aggiungi un allegato</a>
+
+<div id="AttachmentList">
+    @{Html.RenderPartial("_BlobList", Model.Blobs);}
+</div>
+
+
+<div data-role="popup" id="MyPopupUpload" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="max-width: 400px;" class="ui-corner-all">
+    <div data-role="header" data-theme="a" class="ui-corner-top">
+        <h1>Aggiungi un allegato</h1>
+    </div>
+    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+        <h3 class="ui-title">Selezionale un file</h3>
+
+        @using (Html.BeginForm("Add", "Blob", FormMethod.Post, new { id = "MyFormUpload", enctype = "multipart/form-data" }))
+        {
+            <input type="file" name="MyFile" id="MyFile" value="">
+                      
+            
+            <span style="color: red; visibility: hidden;" id="MyResponseMessage">messaggio</span>
+            <br />
+            
+            <a href="#" data-role="button" data-inline="true" data-mini="true" data-rel="back" data-theme="c">Annulla</a>
+            <input type="submit" value="Upload" data-inline="true" data-mini="true" onclick="javascript: MyAsyncUpload()" />
+            
+            <div id="percent">0%</div>
+        }
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+
+
+<script type="text/javascript">
+    function MyAsyncUpload() {
+
+        //alert("MyAsyncUpload");
+
+        var options = {
+            beforeSend: function () {
+                //alert("beforeSend");
+                $("#MyResponseMessage").css('visibility', 'hidden');
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+                $('#percent').html(percentComplete + "%");
+            },
+            success: function () {
+                //alert("success");
+            },
+            complete: function (response) {
+                //response text from the server.
+                //alert("complete");
+                var obj = JSON.parse(response.responseText);
+
+                $("#MyFile").val("");
+                $('#percent').html("0%");
+                // alert("esito: " + obj.messaggio);
+
+                if (obj.esito == "Failed") {
+                    $("#MyResponseMessage").html(obj.messaggio);
+                    $("#MyResponseMessage").css('visibility', 'visible');
+                } else {
+                    MyAsyncUpdate();
+                    $("#MyPopupUpload").popup("close");
+                }
+
+            }
+        };
+
+        $('#MyFormUpload').ajaxForm(options);
+    }
+
+
+
+    function MyAsyncDelete(id) {
+        var temp;
+        temp = "@Url.Action("Delete", "Blob")/" + id;
+
+       //alert("aaa: " + temp);
+
+        $.get(temp, function (response) {
+            //alert("success");
+            if (response.esito == "Success") {
+                MyAsyncUpdate();
+            }
+            else {
+                //FAILED
+                alert(response.messaggio);
+            }
+       })
+ .done(function () {
+     //alert("second success");
+ })
+ .fail(function (response) {
+     alert("error" + response );
+ })
+ .always(function () {
+     //alert("finished");
+ });
+
+
+        //    function (response) {
+        //    alert("MyAsyncDelete ");
+        //    var obj = JSON.parse(response.responseText);
+        //});
+
+   }
+
+   function MyAsyncUpdate() {
+       //alert("MyAsyncUpdate");
+
+       $.get('@Url.Action("Azure", "Test")', function (data) {
+            //alert("MyAsyncUpdate " + data);
+            $('#AttachmentList').html(data);
+            $('#AttachmentList').trigger('create');
+        });
+    }
+
+</script>

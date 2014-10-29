@@ -7,12 +7,12 @@
 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
-    
+
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/themes/MyTheme.min.css")" />
     <link rel="stylesheet" media="all" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile.structure-1.4.4.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/SiteMINI.css")" />
-    
+
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
 
@@ -40,10 +40,10 @@
 
 <body>
     <div data-role="page" id="Page1" data-theme="b" style="background-color: white;">
-        <div data-role="header" data-position="fixed" style=" background-position: 90px 2px; background-repeat:no-repeat;background-image:url(@Url.Content("~/Images/Techubh62.png"));">
+        <div data-role="header" data-position="fixed" style="background-color:#5F7605; background-repeat:no-repeat;background-image:url(@Url.Content("~/Images/topImage.png"));">
             <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
             <div style="height: 40px">
-                <a href="@Url.Action("Index", "Home")" class="ui-btn-left" style="margin-left:20px;" >
+                <a href="@Url.Action("Index", "Home")" data-role="none" class="ui-btn-left" style="margin-left:20px;" >
                     <img  src ="@Url.Content("~/Images/marioh62.png")"  >
                 </a>
 
@@ -81,7 +81,6 @@
 
 
 
-
         <div data-role="panel" data-position-fixed="false" data-display="overlay" data-theme="a" id="nav-panel">
             <ul data-role="listview">
                 <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
@@ -91,9 +90,7 @@
                 <li><a href="@Url.Action("Index", "Product")">Configurazioni</a></li>
             </ul>
         </div>
-
-
-
+        
 
     </div>
     <!-- /page -->

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<mediatori.Models.Anagrafiche.Amministrazione>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lista Amministrazioni</h2>
+<div id="message">@ViewBag.message</div>
+<div id="azioni">
+    @Html.ActionLink("Nuova Ammistrazione", "Create", "Amministrazione")
+    @using (Html.BeginForm("Index", "Amministrazione", FormMethod.Get, null))
+    {
+        <div class="form-ricerca">
+            <label>Ragione Sociale</label>
+            @Html.TextBox("ragioneSociale")
+        </div>
+        
+        <div class="form-ricerca">
+            <label>Codice Fiscale</label>
+            @Html.TextBox("partitaIva")
+        </div>
+        <div class="form-ricerca-submit">
+            <input type="submit" value="Ricerca amministrazione" /></div>
+            
+       
+         
+@* <table>
+           <tr>
+                <td>Ragione sociale</td> <td>@Html.TextBox("ragioneSociale")</td>
+                <td>Partita IVA</td> <td>@Html.TextBox("partitaIva")</td>
+               <td>Tipologia</td> <td>@Html.DropDownList("tipoSoggetto",(SelectList) ViewBag.listaTipiSoggettiGiuridici)</td>
+           </tr>
+        </table>*@
+       
+    }
+
+
+</div>
+
+<table class="listTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.soggettoGiuridico.ragioneSociale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.partitaIva)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoNaturaGiuridica.descrizione)
+        </th>
+
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.soggettoGiuridico.ragioneSociale)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.partitaIva)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.tipoNaturaGiuridica)
+            </td>
+
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { id = item.id })
+
+            </td>
+        </tr>
+    }
+
+</table>

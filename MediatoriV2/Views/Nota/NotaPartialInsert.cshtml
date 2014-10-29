@@ -1,0 +1,15 @@
+﻿@model mediatori.Models.Nota
+@{
+    Layout = null;
+}
+
+
+@using(Html.BeginCollectionItem("note")) {
+    Html.RenderPartial("NotaPartialEdit");
+ }
+
+
+
+
+
+

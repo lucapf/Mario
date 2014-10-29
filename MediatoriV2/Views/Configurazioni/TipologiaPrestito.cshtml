@@ -1,0 +1,30 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipologiaPrestito>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipologia Prestito";
+}
+<h2>Tipologia Prestito</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova Tipologia Prestito</legend>
+@using (Html.BeginForm("tipologiaPrestito", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/> <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista fonti pubblicitarie configurate</legend>
+    <table>
+<tr><td><strong>sigla</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipologiaPrestito TipologiaPrestito in Model)
+{
+    <tr>
+        <td>@TipologiaPrestito.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipologiaPrestito", new {id=TipologiaPrestito.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

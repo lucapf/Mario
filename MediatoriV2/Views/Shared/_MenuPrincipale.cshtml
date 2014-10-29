@@ -1,0 +1,96 @@
+﻿@if (WebSecurity.IsAuthenticated)
+{
+    String[] ruoli = null;
+    ruoli = Roles.Provider.GetRolesForUser(WebSecurity.CurrentUserName);
+   
+    <script>
+        $(function () { $("#menuPrincipale").accordion({ collapsible: true }); });
+    </script>
+    <style>
+        .menuLivello1 {
+            font-weight: bold;
+        }
+
+        .menuLivello2 li a {
+            font-weight: 100;
+            text-decoration: none;
+            margin: 2px;
+        }
+    </style>
+    <div id="menuPrincipale">
+        <h3>Anagrafiche</h3>
+
+        <ul class="menuLivello1">
+            <li>@Html.ActionLink("Segnalazioni", "Index", "GestioneSegnalazioni")
+                <ul class="menuLivello2">
+                    <li></li>
+                    <li>@Html.ActionLink("Nuova ", "Create", "GestioneSegnalazioni")</li>
+                </ul>
+            </li>
+            <li>@Html.ActionLink("Cedente", "Index", "Cedente")
+                <ul class="menuLivello2">
+                    <li>@Html.ActionLink("Registrazione", "Create", "Cedente")</li>
+                </ul>
+            </li>
+            <li>@Html.ActionLink("Amministrazioni","Index","Amministrazione")
+                <ul class="menuLivello2">
+                    <li>@Html.ActionLink("Nuova", "Create", "Amministrazione")</li>
+                </ul>
+            </li>
+
+            <li>@Html.ActionLink("Societa'","Index","SoggettoGiuridico")
+                <ul class="menuLivello2">
+                    <li>@Html.ActionLink("Nuova", "Create", "SoggettoGiuridico")</li>
+                </ul>
+            </li>
+            <li>@Html.ActionLink("Agenzia","Index","Agenzia")
+                <ul class="menuLivello2">
+                    <li>@Html.ActionLink("Nuova", "Create", "Agenzia")</li>
+                </ul>
+            </li>
+        </ul>
+        <h3>Sicurezza</h3>
+        <p>
+            @if (ruoli.Contains("Amministratore"))
+            {
+                @Html.ActionLink("Registra nuovo utente", "Register", "Account")<br />
+                @Html.ActionLink("Lista utenti", "ListUsers", "Account")<br />
+            }
+            @Html.ActionLink("Modifica Password", "Manage", "Account")<br />
+            @Html.ActionLink("Esci", "LogOff", "Account")<br />
+        </p>
+        @if (ruoli.Contains("Amministratore"))
+        {
+          
+            <h3>Configurazioni</h3>
+            <p>
+
+                @Html.ActionLink("Province", "Province", "Configurazioni")<br />
+                @Html.ActionLink("Toponimi", "Toponimi", "Configurazioni")<br />
+                @Html.ActionLink("Fonti Pubblicitarie", "fontePubblicitaria", "Configurazioni")<br />
+                @Html.ActionLink("Tipo prestito", "tipologiaPrestito", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Azienda", "tipologiaAzienda", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Indirizzo", "tipologiaIndirizzo", "Configurazioni")<br />
+                @Html.ActionLink("Impiego - Tipo Contratto ", "tipoContrattoImpiego", "Configurazioni")<br />
+                @Html.ActionLink("impiego - Categoria", "tipoCategoriaImpiego", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Ente Rilascio", "tipoEnteRilascio", "Configurazioni")<br />
+                @Html.ActionLink("Tipo DocumentoIdentita", "tipoDocumentoIdentita", "Configurazioni")<br />
+                @Html.ActionLink("Gruppi Lavorazione", "GruppoLavorazione", "Configurazioni")<br />
+                @Html.ActionLink("Campagna Pubblicitaria", "tipoCampagnaPubblicitaria", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Contatto", "tipoContatto", "Configurazioni")<br />
+                @Html.ActionLink("Canale acquisizione", "tipoCanaleAcquisizione", "Configurazioni")<br />
+                @Html.ActionLink("Luogo Ritrovo", "tipoLuogoRitrovo", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Riferimento", "tipoRiferimento", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Prodotto", "tipoProdotto", "Configurazioni")<br />
+                 @Html.ActionLink("Tipo Categoria", "tipoCategoriaAmministrazione", "Configurazioni")<br />
+                  @Html.ActionLink("Tipo Agenzia", "tipoAgenzia", "Configurazioni")<br />
+                  @Html.ActionLink("Tipo Erogazione", "tipoErogazione", "Configurazioni")<br />
+                @Html.ActionLink("Tipo Assumibilita", "tipoAssumibilitaAmministrazione", "Configurazioni")<br />
+                @Html.ActionLink("Stato", "Stato", "Configurazioni")<br />
+
+
+            </p>
+        }
+    </div>
+
+}

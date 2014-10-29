@@ -1,0 +1,27 @@
+﻿@model List<mediatori.Models.etc.Parametro>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Parametri";
+}
+<h2>Parametro</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Parametri</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.etc.Parametro p in Model)
+{
+     using (Html.BeginForm("parametro", "Configurazioni",FormMethod.Post)){
+    <tr>
+        <td>@p.descrizione</td>
+        <td><input type="hidden" name="id" value="@p.id" />
+            <input type="text" name="value" value="@p.value " /></td>
+        <td><input type="submit" /></td>
+    </tr>
+     }
+    
+}
+    </table>
+</fieldset>

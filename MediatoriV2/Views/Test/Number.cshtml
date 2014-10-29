@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Number";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Number</h2>
+
+
+@using (Html.BeginForm("Number", "Test", FormMethod.Post, new { id = "MyForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <input  type="hidden" name="serverId"       value="@Model.Id" />
+    <input  type="hidden" name="dataCenterId"   value="@Model.dataCenterId" />
+    
+    <div data-role="controlgrup" data-type="horizontal">
+        <a href="@Url.Action("DC", "Asset", new { id = Model.dataCenterId })"  class="ui-btn-inline ui-btn ui-corner-all ui-mini" >Torna al Data Center</a>
+        <a href="@Url.Action("Details", "Asset", new { id = Model.Id })"  class="ui-btn-inline ui-btn ui-corner-all ui-mini" >Annulla</a>
+        <input type="submit" value="Elimina" data-inline="true" data-icon="delete" data-mini="true" />
+    </div>
+}

@@ -1,0 +1,58 @@
+﻿@model mediatori.Models.MyUserModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Utente: @Model.Utente.login</h2>
+
+<div class="ui-grid-a">
+    <div class="ui-block-a">
+        <div class="ui-bar ui-bar-c">Login:</div>
+        <div class="ui-bar ui-bar-c">Attivo:</div>
+        <div class="ui-bar ui-bar-c">Data inserimento:</div>
+        <div class="ui-bar ui-bar-c">Login success:</div>
+        <div class="ui-bar ui-bar-c">Login failed:</div>
+        <div class="ui-bar ui-bar-c">Date last login:</div>
+    </div>
+    <div class="ui-block-b">
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.login)</div>
+        <div class="ui-bar ui-body-a">@Model.Utente.isEnabled.ToString()</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.dateAdded)</div>
+        <div class="ui-bar ui-body-a">@Model.Utente.loginSuccess </div>
+        <div class="ui-bar ui-body-a">@Model.Utente.loginFailed</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.dateLastLogin)</div>
+    </div>
+</div>
+
+
+
+
+<h3>Ruoli</h3>
+
+@using (Html.BeginForm("AddRole", "Utenti", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false)
+
+    <input  type="hidden" name="userId" value="@Model.Utente.userId" />
+     
+    int conta = 0;
+    bool selected = false;
+
+    foreach (MyUsers.Models.MyRole r in Model.Ruoli)
+    {
+        selected = Model.Utente.Ruoli.Find(x => x.ruoloId == r.ruoloId) != null;
+        
+    <input type ="checkbox" name="ruoliIDs" id="Ruolo_@(conta)" @(selected ? "checked" : "")   value ="@(r.ruoloId)" />
+    <label for="Ruolo_@(conta++)">@(r.nome)</label>
+    }
+    
+   
+    <div data-role="controlgrup" data-type="horizontal">
+        <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini">Elimina</a>
+    </div>
+    
+}

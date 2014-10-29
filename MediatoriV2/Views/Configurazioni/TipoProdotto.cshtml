@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoProdotto>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Prodotti";
+}
+<h2>Configurazione Prodotti</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuovo prodotto</legend>
+@using (Html.BeginForm("tipoProdotto", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Prodotti </legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoProdotto tipoProdotto in Model)
+{
+    <tr>
+        <td>@tipoProdotto.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoProdotto", new {id=tipoProdotto.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

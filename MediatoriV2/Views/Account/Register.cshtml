@@ -1,0 +1,33 @@
+﻿@model mediatori.Models.RegisterModel
+@{
+    ViewBag.Title = "Registrazione";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Creare un nuovo account.</h2>
+    @Html.Partial("commonAccount")
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Form di registrazione</legend>
+        <table>
+            <tr><td>@Html.LabelFor(m => m.UserName)</td>
+                <td>@Html.TextBoxFor(m => m.UserName)</td>
+                <td colspan="3"><input type="submit" value="Registrazione" /></td>
+            </tr>
+            <tr><td>@Html.LabelFor(m => m.Password)</td><td>@Html.PasswordFor(m => m.Password)</td></tr>
+            <tr><td>@Html.LabelFor(m => m.ConfirmPassword)</td><td>@Html.PasswordFor(m => m.ConfirmPassword)</td></tr>
+            <tr><td>@Html.LabelFor(m => m.roles )</td><td>@Html.ListBox("roles")</td></tr>
+        </table>
+
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

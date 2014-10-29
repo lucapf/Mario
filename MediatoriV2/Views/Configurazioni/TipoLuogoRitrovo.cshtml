@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoLuogoRitrovo>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Luogo Ritrovo";
+}
+<h2>Luogo Ritrovo</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuovo Luogo ritrovo</legend>
+@using (Html.BeginForm("TipoLuogoRitrovo", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Luoghi ritrovo configurati</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoLuogoRitrovo tipoLuogoRitrovo in Model)
+{
+    <tr>
+        <td>@tipoLuogoRitrovo.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoLuogoRitrovo", new {id=tipoLuogoRitrovo.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoCampagnaPubblicitaria>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipo Campagne Pubblicitarie";
+}
+<h2>Campagna Pubblicitaria</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova Tipologia Indirizzo</legend>
+@using (Html.BeginForm("TipoCampagnaPubblicitaria", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Campagne pubblicitarie configurate</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoCampagnaPubblicitaria TipoCampagnaPubblicitaria in Model)
+{
+    <tr>
+        <td>@TipoCampagnaPubblicitaria.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaCampagnaPubblicitaria", new {id=TipoCampagnaPubblicitaria.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

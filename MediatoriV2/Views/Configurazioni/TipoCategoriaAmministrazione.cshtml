@@ -1,0 +1,31 @@
+﻿@model List<mediatori.Models.Anagrafiche.TipoCategoriaAmministrazione>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Tipologie categorie amministrazione";
+}
+<h2>Categoria amministrazione</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+<fieldset>
+    <legend>Inserimento nuova categora amministrazione</legend>
+@using (Html.BeginForm("TipoCategoriaAmministrazione", "Configurazioni",FormMethod.Post))
+{
+ <text>descrizione <input type="text" name="descrizione"/>
+ <input type="submit" value="inserisci" /></text>
+}
+</fieldset>
+<fieldset>
+    <legend>Lista Categorie amministrazione configurate</legend>
+    <table>
+<tr><td><strong>Descrizione</strong></td><td></td></tr>
+@foreach (mediatori.Models.Anagrafiche.TipoCategoriaAmministrazione tipoCategoriaAmministrazione in Model)
+{
+    <tr>
+        <td>@tipoCategoriaAmministrazione.descrizione</td>
+        <td>@Html.ActionLink("Cancella", "cancellaTipoCategoriaAmministrazione", new {id=tipoCategoriaAmministrazione.id}, null)</td>
+    </tr>
+    
+}
+    </table>
+</fieldset>

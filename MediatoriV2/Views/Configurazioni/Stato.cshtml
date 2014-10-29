@@ -1,0 +1,179 @@
+﻿@model List<mediatori.Models.etc.StatoView>
+@using mediatori.Models
+@{
+    ViewBag.Title = "Gestione Stati Lavorazione";
+}
+<h2>Gestione stati</h2>
+<h3>@ViewBag.errorMessage</h3>
+<h3>@ViewBag.message</h3>
+@Html.Partial("commonConfigurazioni")
+
+
+<script>
+    $(function () {
+        $("#NuovoStato").click(function () {
+            $("#NuovoStatoDiv").effect("slide", { direction: "right" }, 500);
+            $("#NascondiNuovoStato").show(500);
+            $("#NuovoStato").hide(500);
+        });
+        $("#NascondiNuovoStato").click(function () {
+            $("#NuovoStatoDiv").hide("slide", { direction: "left" }, 500);
+            $("#NascondiNuovoStato").hide(500);
+            $("#NuovoStato").show(500);
+        });
+        var optionsGruppiLavorazione = $("#gruppoLavorazione").html();
+
+        $("#statoBase").change(function () {
+            if ($("#statoBase").val() == "ATTIVO") {
+                $("#gruppoLavorazione").html(optionsGruppiLavorazione);
+            } else {
+                $("#gruppoLavorazione").html("<option value=\"NON ASSOCIATO\">NON ASSOCIATO</option>");
+            }
+        });
+
+    });
+    function checkLength(o, n, min, max) {
+
+        if (o.val().length > max || o.val().length < min) {
+            o.addClass("ui-state-error");
+            updateTips("il campo   " + n + " è obbligatorio.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function modificaGruppoAssegnazione(divContanier, idStato, btnModifica, divModificaStato, btnSalvaUtentiGruppo, formModifica) {
+        //alert("modificaGruppoAssegnazione");
+        $.ajax({
+            url: "@Url.Action("ModificaStato", "Configurazioni")",
+            data: { id: idStato },
+            error: function () { alert("impossibile modificare lo stato, errore interno di sistema"); },
+            success: function (html) {
+                //$('#' + btnModifica).hide(500);
+                $('#' + divModificaStato).html("");
+                $('<h3/>').html("Modifica Stato").appendTo("#" + divModificaStato);
+                $('#' + divModificaStato).append(html);
+                $('#' + divContanier).dialog({
+                    modal: true,
+                    buttons: {
+                        "Modifica": function () {
+                            var bValid = true
+                            bValid = bValid && checkLength(descrizione, "descrizione", 1, 50);
+                            bValid = bValid && checkLength(EntitaAssociata, "EntitaAssociata", 1, 50);
+                            bValid = bValid && checkLength(statoBase, "statoBase", 1, 50);
+                            if (bValid) {
+                                //inserire il codice per la submit
+                            }
+                            Cancel: $(this).dialog("close");
+                        }
+                    }
+
+
+
+                });
+                //  $('#' + btnSalvaUtentiGruppo).show(500);
+
+                //refreshValidation("createForm");
+            }
+        });
+    }
+    function annullaModifica(idStato, btnModifica, divModificaStato, btnSalvaUtentiGruppo, formModifica) {
+        $("#" + divModificaStato).hide(500);
+        $('#' + btnSalvaUtentiGruppo).hide(500);
+
+        $('#' + btnModifica).show(500);
+    }
+</script>
+<input type="button" id="NuovoStato" value="Nuovo" />
+<!-- <div id="NuovoStato" class="action">Nuovo</div> -->
+<div id="NascondiNuovoStato" class="action" style="display: none">Nascondi</div>
+<div id="NuovoStatoDiv" style="display: none">
+    <script>
+       
+    </script>
+    <fieldset>
+        <legend>Nuovo Stato</legend>
+        @using (Html.BeginForm("Stato", "Configurazioni", FormMethod.Post, new { @id = "formNuovoGruppoLavorazione" }))
+        {
+            @Html.Partial("StatoPartialEdit", (mediatori.Models.etc.StatoView)ViewBag.statoViewEmpty)
+            <input type="submit" value="inserisci" />
+            
+        }
+    </fieldset>
+</div>
+
+
+
+<fieldset>
+    <legend>Lista Stati configurati</legend>
+    <table class="listTable">
+        <tr>
+            <th><strong>Descrizione</strong></th>
+            <th>Associato A</th>
+            <th>Stato base</th>
+            <th>Gruppo Lavorazione</th>
+            <th colspan="2"></th>
+        </tr>
+        @foreach (mediatori.Models.etc.StatoView statoView in Model)
+        {
+            var divStato = String.Format("divStato{0}", statoView.stato.id);
+            var linkStato = String.Format("linkStato{0}", statoView.stato.id);
+            var modificaStato = String.Format("modificaStato{0}", statoView.stato.id);
+            var salvaModificaStato = String.Format("salvaModificaStato{0}", statoView.stato.id);
+            var divModificaStato = String.Format("divModificaStato{0}", statoView.stato.id);
+            var formModifica = String.Format("formModificaStato{0}", statoView.stato.id);
+            var divContainerModificaStato = String.Format("divContainerModificaStato{0}", statoView.stato.id);
+            String utenti = statoView.stato.gruppoLavorazione != null && statoView.stato.gruppoLavorazione.id > 0 ?
+                   (statoView.stato.gruppoLavorazione.utenti != null &&
+                   statoView.stato.gruppoLavorazione.utenti != string.Empty ? statoView.stato.gruppoLavorazione.utenti : String.Empty)
+                   : ";";
+            String[] lstUtenti = utenti.Split(';');    
+            <tr>
+                <td>@statoView.stato.descrizione</td>
+                <td>@statoView.stato.entitaAssociata.ToString()</td>
+                <td>@statoView.stato.statoBase.ToString()</td>
+                <td>
+                    <script>
+                        $(function () {
+                            $("#@linkStato").click(function () {
+                                $("#@divStato").toggle("clip", {}, 500);
+                            });
+                        });
+
+                    </script>
+                    <div class="action" title="visualizza la lista degli utenti associati al gruppo" id="@linkStato">@statoView.stato.gruppoLavorazione.nome</div>
+                    <div id="@divStato"  class="ui-widget-content ui-corner-all" style="display:none">
+                        <h4>Utenti</h4>
+                        <ul>
+                            @foreach (String u in lstUtenti)
+                            {
+                                <li>@u</li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <div class="action" id="@modificaStato">Modifica</div>
+                    @using (Html.BeginForm("ModificaStato", "Configurazioni", FormMethod.Post, new { @id = formModifica }))
+                    {
+                        <div id="@divContainerModificaStato"  title="Modifica Stato">
+                            <div id="@divModificaStato" ></div>
+
+
+                        </div>
+                    }
+                    <script>$(function () {
+    $("#@modificaStato").click(function () {
+        modificaGruppoAssegnazione("@divContainerModificaStato", "@statoView.stato.id", "@modificaStato",
+            "@divModificaStato", "@salvaModificaStato", "@formModifica")
+    });
+});
+                    </script>
+                </td>
+                <td>@Html.ActionLink("Cancella", "cancellaStato", new { id = statoView.stato.id }, null) </td>
+            </tr>
+    
+        }
+    </table>
+</fieldset>

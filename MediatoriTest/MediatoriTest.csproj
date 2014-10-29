@@ -89,12 +89,6 @@
     <Compile Include="TestSegnalazione.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mediatori\mediatori.csproj">
-      <Project>{2db97b98-f859-4fe2-a68a-b73b7ebb6538}</Project>
-      <Name>mediatori</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -317,6 +311,12 @@
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mediatori\mediatori.csproj">
+      <Project>{2db97b98-f859-4fe2-a68a-b73b7ebb6538}</Project>
+      <Name>mediatori</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -1,0 +1,60 @@
+﻿@model mediatori.Models.Anagrafiche.Impiego
+@{
+    ViewBag.title = "Impiego";
+    Layout = null;
+}
+<div class="editor-label">
+    @Html.LabelFor(m => m.dataAssunzione)
+    <div>@Html.Display("dataAssunzione") </div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.dataLicenziamento)
+    <div>@Html.Display("dataLicenziamento") </div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.stipendioNetto)
+    <div>@Html.Display("stipendioNetto") </div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.tipoImpiego)
+    <div>@Html.Display("tipoImpiego.descrizione")</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.categoriaImpiego)
+    <div>@Html.Display("categoriaImpiego.descrizione")</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.adesioneTFR)
+    <div>@Html.Display("adesioneTFR")</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.anticipiTFR)
+    <div>@Html.Display("anticipiTFR")</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.mansione)
+    <div>@Html.Display("mansione")</div>
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.mensilita)
+    <div>@Html.Display("mensilita")</div>
+</div>
+
+
+<script>
+    $('input[name$="stipendioNetto"]').each(function () {
+        this.style.width = "30px";
+        $("#" + this.id).spinner({ min: 0, max: 25000, step: 100, start: 1000, culture: 'de-DE', numberFormat: 'C' });
+    });
+    $('input[name$="mensilita"]').each(function () {
+        this.style.width = "30px";
+        $("#" + this.id).spinner({ min: 0, max: 25, step: 1, start: 12, numberFormat: 'C' });
+    });
+    $('input[name$="dataAssunzione"]').each(function () {
+        this.style.width = "80px";
+        $("#" + this.id).datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true, changeYear: true, yearRange: "@ViewBag.inizioValiditaImpiego:@ViewBag.oggi"
+        });
+    });
+</script>

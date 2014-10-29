@@ -1,0 +1,182 @@
+﻿@model mediatori.Models.Documentale.DocumentaleIndex
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    string temp = "";
+    if (Model.SegnalazioneId != null){
+        temp = " Segnalazione n° " + Model.SegnalazioneId;   
+    }
+    
+}
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        // alert("pageinit");
+        $.mobile.ajaxEnabled = false;
+    });
+</script>
+
+<h2>Documentale - @temp</h2>
+<a href="#MyPopupUpload" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Aggiungi un allegato</a>
+
+
+<div id="AttachmentList">
+    @{Html.RenderPartial("_DocumentList", Model.documenti);}
+</div>
+
+
+<div data-role="controlgrup" data-type="horizontal" data-mini="true">
+    <a href="javascript:history.back()" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+</div>
+
+
+<div data-role="popup" id="MyPopupUpload" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="max-width: 400px;" class="ui-corner-all">
+    <div data-role="header" data-theme="a" class="ui-corner-top">
+        <h5>Aggiungi un allegato</h5>
+    </div>
+    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+        <h3 class="ui-title">Selezionale un file</h3>
+
+        @using (Html.BeginForm("Add", "Documentale", FormMethod.Post, new { id = "MyFormUpload", enctype = "multipart/form-data" }))
+        {
+            <input type ="hidden" name ="SegnalazioneId" value="@Model.SegnalazioneId" />
+            <input type="file" name="MyFile" id="MyFile" value="">
+           
+            <span style="color: red; visibility: hidden;" id="MyResponseMessage">messaggio</span>
+            <br />
+            
+            <div class="ui-field-contain">
+                <label for="tipoDocumentoId">Tipo documento:</label>
+                <select name="tipoDocumentoId" id="tipoDocumentoId" required="required">
+                    <option value="" selected="selected">---</option>
+                    @foreach (mediatori.Models.Anagrafiche.TipoDocumento tipo in Model.tipoDocumento)
+                    {
+                        <option value="@tipo.id">@tipo.descrizione</option>
+                    }
+                </select>
+            </div>
+            
+            
+            <div class="ui-field-contain">
+                <label for="descrizione">Descrizione:</label>
+                <textarea id="descrizione" name="descrizione"></textarea>
+            </div>
+            
+            <a href="#" data-role="button" data-inline="true" data-mini="true" data-rel="back" data-theme="c">Annulla</a>
+            <input type="submit" value="Upload" data-inline="true" data-mini="true" onclick="javascript: MyAsyncUpload()" />
+            
+            <div id="percent">0%</div>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function MyAsyncUpload() {
+
+        //alert("MyAsyncUpload");
+
+        var options = {
+            beforeSend: function () {
+                //alert("beforeSend");
+                $("#MyResponseMessage").css('visibility', 'hidden');
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+                $('#percent').html(percentComplete + "%");
+            },
+            success: function () {
+                //alert("success");
+            },
+            complete: function (response) {
+                //response text from the server.
+                //alert("complete");
+                var obj = JSON.parse(response.responseText);
+
+                $("#MyFile").val("");
+                $('#percent').html("0%");
+
+                //alert("esito: " + obj.esito + " Messaggio: " + obj.messaggio);
+
+                if (obj.esito == 0) {
+                    //FAILED
+                    $("#MyResponseMessage").html(obj.messaggio);
+                    $("#MyResponseMessage").css('visibility', 'visible');
+                } else {
+                    //SUCCESS
+                    MyAsyncUpdate();
+                    $("#MyPopupUpload").popup("close");
+                }
+
+            }
+        };
+
+        $('#MyFormUpload').ajaxForm(options);
+    }
+
+
+
+    function MyAsyncDelete(id) {
+        var r = confirm("Confermare la cancellazione del documento?");
+        if (r == false) {
+            return;
+        }
+
+
+
+        var temp;
+        temp = "@Url.Action("Delete", "Documentale")/" + id;
+
+        //alert("aaa: " + temp);
+
+        $.get(temp, function (response) {
+            //alert("success");
+            if (response.esito == 1) {
+                MyAsyncUpdate();
+            }
+            else {
+                //FAILED
+                alert(response.messaggio);
+            }
+        })
+ .done(function () {
+     //alert("second success");
+ })
+ .fail(function (response) {
+     alert("error" + response);
+ })
+ .always(function () {
+     //alert("finished");
+ });
+
+
+        //    function (response) {
+        //    alert("MyAsyncDelete ");
+        //    var obj = JSON.parse(response.responseText);
+        //});
+
+    }
+
+    function MyAsyncUpdate() {
+        //alert("MyAsyncUpdate");
+
+        $.get('@Url.Action("Index", "Documentale", new {SegnalazioneId = Model.SegnalazioneId })', function (data) {
+            //alert("MyAsyncUpdate " + data);
+            $('#AttachmentList').html(data);
+            $('#AttachmentList').trigger('create');
+        });
+    }
+
+</script>
+
