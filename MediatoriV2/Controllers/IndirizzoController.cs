@@ -58,6 +58,7 @@ namespace mediatori.Controllers
                 case EnumTipoAzione.INSERIMENTO:
                     valorizzaListeIndirizzoEdit(db, indirizzo);
                     return View("IndirizzoPartialInsert", indirizzo);
+                  //  return View("IndirizzoPartialEdit", indirizzo);
                 case EnumTipoAzione.MODIFICA:
                     valorizzaListeIndirizzoEdit(db, indirizzo);
                     return View("IndirizzoPartialEdit", indirizzo);

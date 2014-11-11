@@ -1,64 +1,71 @@
-﻿@model IEnumerable<mediatori.Models.Anagrafiche.Agenzia>
+﻿@model IList<mediatori.Models.Anagrafiche.Agenzia>
 @{
     ViewBag.Title = "Index";
+
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
+<h2>Lista Agenzie</h2>
 
-<h2>lista Agenzie</h2>
-<div id="message">@ViewBag.message</div>
-<div id="azioni">
-    @Html.ActionLink("Nuova Agenzia", "Create", "Agenzia")
-    @using (Html.BeginForm("Index", "Agenzia", FormMethod.Get, null))
+<a href="@Url.Action("Create", "Agenzia")" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuova agenzia</a>
+
+@using (Html.BeginForm("Index", "Agenzia", FormMethod.Post, null))
+{
+    <fieldset>
+        <legend>Ricerca agenzia</legend>
+        <table>
+            <tr>
+                <td>Ragione Sociale</td>
+                <td>@Html.TextBox("ragioneSociale")</td>
+                <td>Codice Fiscale</td>
+                <td>@Html.TextBox("partitaIva")</td>
+            </tr>
+
+        </table>
+        <input type="submit" value="Ricerca" data-inline="true" data-icon="search" data-mini="true" />
+
+    </fieldset>
+
+
+    if (Model.Count == 0)
     {
-        <div class="form-ricerca">
-            <label>Ragione Sociale</label>
-            @Html.TextBox("ragioneSociale")
-        </div>
-        
-        <div class="form-ricerca">
-            <label>Codice Fiscale</label>
-            @Html.TextBox("partitaIva")
-        </div>
-        <div class="form-ricerca-submit">
-            <input type="submit" value="Ricerca segnalazione" /></div>
-            
-       
+        <h3>Non è stata trovata nessuna agenzia. Modificare i filtri di ricerca.</h3>
     }
-
-</div>
-
-<table class="listTable">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.soggettoGiuridico.ragioneSociale)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.partitaIva)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tipoNaturaGiuridica.descrizione)
-        </th>
-
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
+    else
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(m => item.soggettoGiuridico.ragioneSociale)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.partitaIva)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.tipoNaturaGiuridica)
-            </td>
+        <table class="listTable">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].soggettoGiuridico.ragioneSociale)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].partitaIva)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].tipoNaturaGiuridica.descrizione)
+                </th>
 
-            <td>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.soggettoGiuridico.ragioneSociale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.partitaIva)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.tipoNaturaGiuridica)
+                    </td>
 
-                @Html.ActionLink("Details", "Details", new { id = item.id })
+                    <td>
 
-            </td>
-        </tr>
+                        @Html.ActionLink("Details", "Details", new { id = item.id })
+
+                    </td>
+                </tr>
+            }
+        </table>
     }
-
-</table>
+}

@@ -15,37 +15,39 @@ namespace mediatori.Models
         public int id { get; set; }
 
         [Required]
-        [Display(Name="Progressivo")]
+        [Display(Name = "Progressivo")]
         public int progressivo { get; set; }
 
         [Required]
-        [Display(Name = "nome Prodotto")]
+        [Display(Name = "Nome Prodotto")]
         public string nomeProdotto { get; set; }
-
-        [Required]
+            
         [Display(Name = "Intermediario")]
         public SoggettoGiuridico finanziaria { get; set; }
-        public int finanziariaId { get; set; }
-
         [Required]
+        public int finanziariaId { get; set; }
+        
         [Display(Name = "Importo Rata")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
-        public float? importoRata { get; set; }
+        public decimal? importoRata { get; set; }
+       
         [Required]
         [Display(Name = "Durata (mesi)")]
         public int? durata { get; set; }
+
         [Required]
         [Display(Name = "Tabella  finanziara")]
         public string tabellaFinanziaria { get; set; }
 
-        [Required]
         [Display(Name = "Comp. Ass. vita")]
         public SoggettoGiuridico assicurazioneVita { get; set; }
+        [Required]
         public int assicurazioneVitaId { get; set; }
 
-        [Required]
+
         [Display(Name = "Comp. Ass. impiego")]
         public SoggettoGiuridico assicurazioneImpiego { get; set; }
+        [Required]
         public int assicurazioneImpiegoId { get; set; }
 
         [Required]
@@ -72,7 +74,7 @@ namespace mediatori.Models
         [Required]
         [Display(Name = "Imp. provvigioni")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
-        public float? importoProvvigioni { get; set; }
+        public decimal? importoProvvigioni { get; set; }
 
         [Required]
         [Display(Name = "Montante")]
@@ -112,23 +114,23 @@ namespace mediatori.Models
         [Required]
         [Display(Name = "TAN")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:P2}")]
-        public float? tan { get; set; }
+        public decimal? tan { get; set; }
 
         [Required]
         [Display(Name = "TAEG")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:P2}")]
-        public float? taeg { get; set; }
+        public decimal? taeg { get; set; }
 
         [Required]
         [Display(Name = "TEG")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:P2}")]
-        public float? teg { get; set; }
-        
+        public decimal? teg { get; set; }
+
         [Display(Name = "Data Conferma Preventivo")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
-        public DateTime? dataConferma {get;set;}
-        
+        public DateTime? dataConferma { get; set; }
+
         [Display(Name = "Operatore conferma")]
         public String operatoreConferma;
 

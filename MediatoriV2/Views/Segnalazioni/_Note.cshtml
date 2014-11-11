@@ -1,0 +1,28 @@
+﻿@model dynamic
+
+<h3>Note <strong class="h3Link" id="linkNuovaNota" title="Aggiungi Nota">[ + ]</strong></h3>
+<script>$(function () { $("#linkNuovaNota").click(function () { $("#divNuovaNota").show(); }) })</script>
+<hr />
+@if (Model.note != null)
+{
+    foreach (mediatori.Models.Nota nota in Model.note)
+    {
+        {
+            Html.RenderPartial("~/Views/Nota/NotaPartialDetail.cshtml", nota);
+        }
+    }
+}
+
+@using (Html.BeginForm("CreateForSegnalazione", "Nota", FormMethod.Post, new { id = "nuovaNota" }))
+{
+    <div id="divNuovaNota" style="display: none">
+        <input type="hidden" name="codiceSegnalazione" value="@Model.id" />
+
+        @{ Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", new mediatori.Models.Nota()); }
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="button" value="Salva" onclick='$("#nuovaNota").submit()' />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovaNota").hide()' />
+        </div>
+    </div>
+}

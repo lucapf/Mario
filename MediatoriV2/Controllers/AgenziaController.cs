@@ -51,6 +51,7 @@ namespace mediatori.Controllers
             agenzia.soggettoGiuridico.tipoSoggettoGiuridico = "AMMINISTRAZIONE";
             agenzia.soggettoGiuridico.indirizzi = agCreate.indirizzi;
             agenzia.soggettoGiuridico.note = agCreate.note;
+          
             AgenziaBusiness.valorizzaDati(agenzia, User.Identity.Name, db);
             ModelState.Clear();
             TryValidateModel(agenzia);
@@ -59,8 +60,10 @@ namespace mediatori.Controllers
                 db.Agenzia.Add(agenzia);
                 db.SaveChanges();
             }
-            return View("Details", agenzia);
+
+            return RedirectToAction("Index");
         }
+
         [HttpGet]
         public ActionResult Details(int id)
         {
@@ -69,17 +72,20 @@ namespace mediatori.Controllers
             Agenzia a = AgenziaBusiness.findByPk(id, db);
             return View(a);
         }
+
+
         private void valorizzaViewBag(MainDbContext db)
         {
             ViewBag.listaTipoNaturaGiuridica = new SelectList(db.tipoNaturaGiuridica.OrderBy(p => p.descrizione), "id", "Descrizione");
             ViewBag.listaTipoCategoria = new SelectList(db.TipoCategoriaAmministrazione, "id", "Descrizione");
             ViewBag.listaTipoAssumibilita = new SelectList(db.TipoAssumibilitaAmministrazione, "id", "Descrizione");
-            IQueryable<Stato> listaStati = db.statiSegnalazione.Where(m =>
-                    m.entitaAssociata == EnumEntitaAssociataStato.AGENZIA);
+            IQueryable<Stato> listaStati = db.statiSegnalazione.Where(m => m.entitaAssociata == EnumEntitaAssociataStato.AGENZIA);
             ViewBag.listaStati = new SelectList(listaStati, "id", "descrizione");
             ViewBag.listaTipoAgenzia = new SelectList(db.TipoAgenzia, "id", "Descrizione");
 
         }
+
+
         private AgenziaCreate valorizzaDatiAgenzia(AgenziaCreate agenziaCreate, MainDbContext db)
         {
             agenziaCreate.agenzia = new Agenzia();

@@ -16,16 +16,21 @@ namespace mediatori.Models.Anagrafiche
          [Required]
          [Display(Name="Ragione sociale")]
          public string ragioneSociale { get; set; }
+
          [Required]
          [Display(Name = "Tipo soggetto")]
          public String tipoSoggettoGiuridico { get; set; }
+
          [Required]
          [Display(Name = "Codice Fiscale")]
          public String codiceFiscale { get; set; }
+
          [Display(Name="Indirizzi")]
          public ICollection<Indirizzo> indirizzi { get; set; }
+
          [Display(Name = "Riferimenti")]
          public ICollection<Riferimento> riferimenti { get; set; }
+
          [Display(Name = "Note")]
          public ICollection<Nota> note { get; set; }
     }
@@ -86,9 +91,10 @@ namespace mediatori.Models.Anagrafiche
         [Required]
         [Display(Name = "Natura Giuridica")]
         public TipoNaturaGiuridica tipoNaturaGiuridica { get; set; }
-        [Required]
+     
         [Display(Name = "Stato")]
         public Stato stato { get; set; }
+
         [Display(Name="Data inizio mandato")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? dataInizioMandato {get;set;}

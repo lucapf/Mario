@@ -3,114 +3,72 @@
     ViewBag.title = "Preventivo";
     Layout = null;
 }
-
 <div class="editor-label">
     @Html.LabelFor(m => m.finanziaria)
-    @Html.DropDownListFor(m => m.finanziaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFinanziarie, "")<br />
+    @Html.DropDownListFor(m => m.finanziaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFinanziarie, "", new { data_mini = "true" })<br />
     @Html.ValidationMessageFor(m => m.finanziaria.id)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.nomeProdotto)
-    @Html.EditorFor(m => m.nomeProdotto)<br />
-    @Html.ValidationMessageFor(m => m.nomeProdotto)
+    @Html.MyInputType(m => m.nomeProdotto)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.importoRata)
-    @Html.EditorFor(m => m.importoRata)<br />
-    @Html.ValidationMessageFor(m => m.importoRata)
+    @Html.MyInputType(m => m.importoRata)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.durata)
-    @Html.EditorFor(m => m.durata)<br />
-    @Html.ValidationMessageFor(m => m.durata)
+    @Html.MyInputType(m => m.durata)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.tabellaFinanziaria)
-    @Html.EditorFor(m => m.tabellaFinanziaria)<br />
-    @Html.ValidationMessageFor(m => m.tabellaFinanziaria)
+    @Html.MyInputType(m => m.tabellaFinanziaria)
 </div>
 <div class="editor-label">
     @Html.LabelFor(m => m.assicurazioneVita)
-    @Html.DropDownListFor(m => m.assicurazioneVita.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "")<br />
+    @Html.DropDownListFor(m => m.assicurazioneVita.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "", new { data_mini = "true" })<br />
     @Html.ValidationMessageFor(m => m.assicurazioneVita.id)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.importoCoperturaVita)
-    @Html.EditorFor(m => m.importoCoperturaVita)<br />
-    @Html.ValidationMessageFor(m => m.importoCoperturaVita)
+    @Html.MyInputType(m => m.importoCoperturaVita)
 </div>
 <div class="editor-label">
     @Html.LabelFor(m => m.assicurazioneImpiego)
-    @Html.DropDownListFor(m => m.assicurazioneImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "")<br />
+    @Html.DropDownListFor(m => m.assicurazioneImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "", new { data_mini = "true" })<br />
     @Html.ValidationMessageFor(m => m.assicurazioneImpiego.id)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.importoCoperturaImpego)
-    @Html.EditorFor(m => m.importoCoperturaImpego)<br />
-    @Html.ValidationMessageFor(m => m.importoCoperturaImpego)
+    @Html.MyInputType(m => m.importoCoperturaImpego)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.dataDecorrenza)
-    @Html.EditorFor(m => m.dataDecorrenza)<br />
-    @Html.ValidationMessageFor(m => m.dataDecorrenza)
-</div>
- <script>
-     $("#dataDecorrenza").datepicker({ dateFormat: "yy-mm-dd", changeMonth: true, changeYear: false });
-    </script>
-
-<div class="editor-label">
-    @Html.LabelFor(m => m.importoProvvigioni)
-    @Html.EditorFor(m => m.importoProvvigioni)<br />
-    @Html.ValidationMessageFor(m => m.importoProvvigioni)
+    @Html.MyInputType(m => m.dataDecorrenza)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.montante)
-    @Html.EditorFor(m => m.montante)<br />
-    @Html.ValidationMessageFor(m => m.montante)
+    @Html.MyInputType(m => m.importoProvvigioni)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.importoInteressi)
-    @Html.EditorFor(m => m.importoInteressi)<br />
-    @Html.ValidationMessageFor(m => m.importoInteressi)
+    @Html.MyInputType(m => m.montante)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.speseAttivazione)
-    @Html.EditorFor(m => m.speseAttivazione)<br />
-    @Html.ValidationMessageFor(m => m.speseAttivazione)
-</div>
-
-<div class="editor-label">
-    @Html.LabelFor(m => m.speseIncasso)
-    @Html.EditorFor(m => m.speseIncasso)<br />
-    @Html.ValidationMessageFor(m => m.speseIncasso)
+    @Html.MyInputType(m => m.importoInteressi)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.oneriFiscali)
-    @Html.EditorFor(m => m.oneriFiscali)<br />
-    @Html.ValidationMessageFor(m => m.oneriFiscali)
+    @Html.MyInputType(m => m.speseAttivazione)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.importoImpegniDaEstinguere)
-    @Html.EditorFor(m => m.importoImpegniDaEstinguere)<br />
-    @Html.ValidationMessageFor(m => m.importoImpegniDaEstinguere)
+    @Html.MyInputType(m => m.speseIncasso)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.nettoCliente)
-    @Html.EditorFor(m => m.nettoCliente)<br />
-    @Html.ValidationMessageFor(m => m.nettoCliente)
+    @Html.MyInputType(m => m.oneriFiscali)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.tan)
-    @Html.EditorFor(m => m.tan)<br />
-    @Html.ValidationMessageFor(m => m.tan)
+    @Html.MyInputType(m => m.importoImpegniDaEstinguere)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.taeg)
-    @Html.EditorFor(m => m.taeg)<br />
-    @Html.ValidationMessageFor(m => m.taeg)
+    @Html.MyInputType(m => m.nettoCliente)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.teg)
-    @Html.EditorFor(m => m.teg)<br />
-    @Html.ValidationMessageFor(m => m.teg)
+    @Html.MyInputType(m => m.tan)
+</div>
+<div class="editor-label">
+    @Html.MyInputType(m => m.taeg)
+</div>
+<div class="editor-label">
+    @Html.MyInputType(m => m.teg)
 </div>

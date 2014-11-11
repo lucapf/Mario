@@ -1,0 +1,60 @@
+﻿@model mediatori.Models.Pratica.SearchPratica 
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+    WebGrid wGrid = new WebGrid(Model.Pratiche, rowsPerPage: Model.PageSize , canPage: true);
+}
+
+<h2>Lista pratiche</h2>
+
+
+@using (Html.BeginForm("Index", "Pratiche", FormMethod.Get, null))
+{
+    <fieldset>
+        <legend>Ricerca</legend>
+        <table>
+            <tr>
+                <td>Nome</td>
+                <td>@Html.TextBox("nome")</td>
+                <td>Cognome</td>
+                <td>@Html.TextBox("cognome")</td>
+            </tr>
+          
+        </table>
+        <input type="submit" value="Ricerca" data-inline="true" data-icon="search" data-mini="true" />
+    </fieldset>
+
+
+    if (Model.Pratiche.Count() == 0)
+    {
+        <h3>Non è stata trovata nessuna pratica. Modificare i filtri di ricerca.</h3>
+    }
+    else
+    {
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
+            fillEmptyRows: false,
+            tableStyle: "MyTable ui-responsive",
+            headerStyle: "ui-bar-b",
+            footerStyle: "ui-bar-b",
+            rowStyle: "ui-bar-a",
+            alternatingRowStyle: "ui-bar-d",
+            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+            columns: new[]{
+                    wGrid.Column (columnName:"contatto.nome", header :"Nome", canSort:false),
+                    wGrid.Column (columnName:"contatto.cognome", header :"Cognome", canSort:false),
+                    wGrid.Column (columnName:"importoRichiesto", header :"Importo", canSort:false, format: p=> String.Format("{0:N2}",p.importoRichiesto)),
+                    wGrid.Column (columnName:"durataRichiesta", header :"Durata", canSort:false),
+                    wGrid.Column (columnName:"prodottoRichiesto.descrizione", header :"Prodotto", canSort:false),
+                    wGrid.Column ("", header :"Dettaglio",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Segnalazioni", new { id = item.id })">Info</a>
+                        </text>, canSort : false)
+                })
+
+        </div>
+    }
+
+
+
+}

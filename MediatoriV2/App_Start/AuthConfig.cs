@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Web.WebPages.OAuth;
+
 using mediatori.Models.Anagrafiche;
-using WebMatrix.WebData;
 
 namespace mediatori
 {
@@ -12,8 +11,8 @@ namespace mediatori
     {
         public static void RegisterAuth()
         {
-            if (!WebSecurity.Initialized)
-                WebSecurity.InitializeDatabaseConnection("DefaultConnection",  "UserProfile", "UserId", "UserName", false);
+            //if (!WebSecurity.Initialized)
+              //  WebSecurity.InitializeDatabaseConnection("DefaultConnection",  "UserProfile", "UserId", "UserName", false);
 
             // Per consentire agli utenti di questo sito di accedere utilizzando account di altri siti quali Microsoft, Facebook e Twitter,
             // è necessario eseguire l'aggiornamento del sito. Per ulteriori informazioni, visitare http://go.microsoft.com/fwlink/?LinkID=252166

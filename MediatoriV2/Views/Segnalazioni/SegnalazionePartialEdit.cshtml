@@ -1,0 +1,53 @@
+﻿@model mediatori.Models.Anagrafiche.Segnalazione
+@{
+    Layout = null;
+}
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.importoRichiesto)
+    @MyHelper.input("importoRichiesto", Model.importoRichiesto)<br />
+    @Html.ValidationMessageFor(model => model.importoRichiesto)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.durataRichiesta)
+    @MyHelper.input("durataRichiesta", Model.durataRichiesta)<br />
+    @Html.ValidationMessageFor(model => model.durataRichiesta)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.rataRichiesta)
+    @MyHelper.input("rataRichiesta", Model.rataRichiesta)<br />
+    @Html.ValidationMessageFor(m => m.rataRichiesta)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.altroPrestito)
+    @Html.DropDownListFor(m => m.altroPrestito.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoPrestito, "")<br />
+    @Html.ValidationMessageFor(m => m.altroPrestito)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(m => m.prodottoRichiesto)
+    @Html.DropDownListFor(m => m.prodottoRichiesto.id, (IEnumerable<SelectListItem>)ViewBag.listaProdotti, "")<br />
+    @Html.ValidationMessageFor(m => m.prodottoRichiesto)
+</div>
+
+<h3>Dati Campagna</h3>
+<hr />
+<div class="editor-label">
+    @Html.LabelFor(model => model.fontePubblicitaria)
+    @Html.DropDownListFor(m => m.fontePubblicitaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFontePubblicitaria, "")<br />
+    @Html.ValidationMessageFor(model => model.fontePubblicitaria)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.canaleAcquisizione)
+    @Html.DropDownListFor(m => m.canaleAcquisizione.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoCanaleAcquisizione, "")<br />
+    @Html.ValidationMessageFor(model => model.fontePubblicitaria)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.tipoLuogoRitrovo)
+    @Html.DropDownListFor(m => m.tipoLuogoRitrovo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoLuogoRitrovo, "")<br />
+    @Html.ValidationMessageFor(model => model.tipoLuogoRitrovo)
+</div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.tipoContatto)
+    @Html.DropDownListFor(m => m.tipoContatto.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoContatto, "")<br />
+    @Html.ValidationMessageFor(model => model.tipoContatto)
+</div>

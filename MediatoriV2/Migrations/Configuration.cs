@@ -9,7 +9,6 @@ namespace mediatori.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Web.Security;
-    using WebMatrix.WebData;
     using System.Diagnostics;
 
 
@@ -17,43 +16,53 @@ namespace mediatori.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
+            Console.WriteLine("Configuration AutomaticMigrationsEnabled: " + AutomaticMigrationsEnabled);
         }
 
 
-     
-
-        protected override void Seed(mediatori.Models.MainDbContext context)
+        protected override void Seed(MainDbContext context)
         {
+            Debug.WriteLine("*** Configuration  Seed ***");
+            Console.WriteLine("*** Configuration Seed ***");
+
+            base.Seed(context);
+        }
+
+        protected  void  ov (mediatori.Models.MainDbContext context)
+        {
+
+            Debug.WriteLine("*** Seed ***");
+            Console.WriteLine("*** Seed ***");
             //TipoMigrazione tipoMigrazione = TipoMigrazione.INIZIALE;
 
 
-           if (!WebSecurity.Initialized)
-             WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            //if (!WebSecurity.Initialized)
+            //  WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
 
-            if (!Roles.RoleExists("Amministratore"))
-                Roles.CreateRole("Amministratore");
-            if (!Roles.RoleExists("Back Office"))
-                Roles.CreateRole("Back Office");
-            if (!Roles.RoleExists("Front Office"))
-                Roles.CreateRole("Front Office");
+            // if (!Roles.RoleExists("Amministratore"))
+            //     Roles.CreateRole("Amministratore");
+            // if (!Roles.RoleExists("Back Office"))
+            //     Roles.CreateRole("Back Office");
+            // if (!Roles.RoleExists("Front Office"))
+            //     Roles.CreateRole("Front Office");
 
 
-            //if (!WebSecurity.UserExists("Terence-Hill"))
-            //    WebSecurity.CreateUserAndAccount(
-            //        "Terence-Hill",
-            //        "password");
-            //if (!Roles.GetRolesForUser("Terence-Hill").Contains("Amministratore"))
-            //    Roles.AddUsersToRoles(new[] { "Terence-Hill" }, new[] { "Amministratore" });
+            // //if (!WebSecurity.UserExists("Terence-Hill"))
+            // //    WebSecurity.CreateUserAndAccount(
+            // //        "Terence-Hill",
+            // //        "password");
+            // //if (!Roles.GetRolesForUser("Terence-Hill").Contains("Amministratore"))
+            // //    Roles.AddUsersToRoles(new[] { "Terence-Hill" }, new[] { "Amministratore" });
 
-            if (!WebSecurity.UserExists("Operatore"))
-            {
-                WebSecurity.CreateUserAndAccount( "Operatore", "password");
-            }
-            if (!Roles.GetRolesForUser("Operatore").Contains("Amministratore"))
-                Roles.AddUsersToRoles(new[] { "Operatore" }, new[] { "Amministratore" });
+            // if (!WebSecurity.UserExists("Operatore"))
+            // {
+            //     WebSecurity.CreateUserAndAccount( "Operatore", "password");
+            // }
+            // if (!Roles.GetRolesForUser("Operatore").Contains("Amministratore"))
+            //     Roles.AddUsersToRoles(new[] { "Operatore" }, new[] { "Amministratore" });
 
-           
+
 
 
             context.Toponimi.AddOrUpdate<Toponimo>(t => t.sigla,
@@ -61,11 +70,11 @@ namespace mediatori.Migrations
                 new Toponimo { sigla = "Piazza" });
 
 
-           // if (tipoMigrazione.Equals(TipoMigrazione.INIZIALE))
+            // if (tipoMigrazione.Equals(TipoMigrazione.INIZIALE))
             if (context.Province.Count() == 0)
             {
-                codiciProvince(context);
-                MigrazioneComuni.codiciComuni(context);
+                MigrazioneProvinceComuni.codiciProvince(context);
+                MigrazioneProvinceComuni.codiciComuni(context);
 
                 context.Database.ExecuteSqlCommand("update comune set provincia_sigla=sigla from provincia where provincia.id=comune.codiceProvincia");
                 foreach (Provincia p in context.Province.ToList())
@@ -75,10 +84,9 @@ namespace mediatori.Migrations
             }
 
 
-            context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
-            new Stato { id = 1, descrizione = "Segnalazione caricata", statoBase = EnumStatoBase.ATTIVO, entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE });
-            context.Parametri.AddOrUpdate<Parametro>(p => p.id,
-             new Parametro { id = 1, key = "stato.predefinito.segnalazione", value = "1", descrizione = "Stato predefinito al caricamento della segnalazione" });
+            context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id, new Stato { id = 1, descrizione = "Segnalazione caricata", statoBase = EnumStatoBase.ATTIVO, entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE });
+
+            context.Parametri.AddOrUpdate<Parametro>(p => p.id, new Parametro { id = 1, key = "stato.predefinito.segnalazione", value = "1", descrizione = "Stato predefinito al caricamento della segnalazione" });
 
             context.FontiPubblicitarie.AddOrUpdate<FontePubblicitaria>(t => t.id,
                 new FontePubblicitaria { id = 1, descrizione = "PASSA PAROLA" },
@@ -90,6 +98,7 @@ namespace mediatori.Migrations
                 new TipologiaAzienda { id = 3, descrizione = "MINISTERIALE" },
                 new TipologiaAzienda { id = 4, descrizione = "PRIVATA" }
                   );
+
             context.TipoContrattoImpiego.AddOrUpdate<TipoContrattoImpiego>(t => t.id,
             new TipoContrattoImpiego { id = 1, descrizione = "PUBBLICO" },
             new TipoContrattoImpiego { id = 2, descrizione = "PRIVATO" });
@@ -170,32 +179,32 @@ namespace mediatori.Migrations
                          );
 
 
-            //context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
-            //    //AMMINISTRAZIONI
-            //    new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 3, descrizione = "DISATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.CHIUSO },
-            //    //SEGNALAZIONI
-            //    new Stato { id = 20, descrizione = "Assegnazione ad operatori di telemarketing", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 21, descrizione = "Richiesta preventivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 22, descrizione = "Attesa documentazione per analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 23, descrizione = "Analisi in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 24, descrizione = "Proposta in analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 25, descrizione = "Mancato appuntamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 26, descrizione = "Proposta analizzata", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 27, descrizione = "Attesa decisione cliente collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 28, descrizione = "Incontro in sede per esito positivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 29, descrizione = "Raccolta in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 30, descrizione = "Raccolta a domicilio", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 31, descrizione = "Raccolta fax – corrispondenza - collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 32, descrizione = "Attesa documenti per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 33, descrizione = "Inoltro documentazione sede centrale per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 34, descrizione = "Avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 35, descrizione = "Annullamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ANNULLATO },
-            //    new Stato { id = 36, descrizione = "Ripristino per cliente finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 37, descrizione = "Ripristino per cliente non finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
-            //    new Stato { id = 38, descrizione = "Chiusura", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.CHIUSO}
-            //    );
+            context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
+                //AMMINISTRAZIONI
+                new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 3, descrizione = "DISATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.CHIUSO },
+                //SEGNALAZIONI
+                new Stato { id = 20, descrizione = "Assegnazione ad operatori di telemarketing", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 21, descrizione = "Richiesta preventivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 22, descrizione = "Attesa documentazione per analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 23, descrizione = "Analisi in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 24, descrizione = "Proposta in analisi", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 25, descrizione = "Mancato appuntamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 26, descrizione = "Proposta analizzata", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 27, descrizione = "Attesa decisione cliente collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 28, descrizione = "Incontro in sede per esito positivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 29, descrizione = "Raccolta in sede", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 30, descrizione = "Raccolta a domicilio", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 31, descrizione = "Raccolta fax – corrispondenza - collaboratore", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 32, descrizione = "Attesa documenti per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 33, descrizione = "Inoltro documentazione sede centrale per avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 34, descrizione = "Avvio istruttoria", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 35, descrizione = "Annullamento", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ANNULLATO },
+                new Stato { id = 36, descrizione = "Ripristino per cliente finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 37, descrizione = "Ripristino per cliente non finanziabile", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                new Stato { id = 38, descrizione = "Chiusura", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.CHIUSO }
+                );
 
 
 
@@ -289,121 +298,7 @@ namespace mediatori.Migrations
         }
 
 
-        private void codiciProvince(MainDbContext context)
-        {
-            context.Province.AddOrUpdate<Provincia>(p => p.sigla,
-               new Provincia { denominazione = "Torino", sigla = "TO", id = 1 },
-new Provincia { denominazione = "Vercelli", sigla = "VC", id = 2 },
-new Provincia { denominazione = "Novara", sigla = "NO", id = 3 },
-new Provincia { denominazione = "Cuneo", sigla = "CN", id = 4 },
-new Provincia { denominazione = "Asti", sigla = "AT", id = 5 },
-new Provincia { denominazione = "Alessandria", sigla = "AL", id = 6 },
-new Provincia { denominazione = "Biella", sigla = "BI", id = 96 },
-new Provincia { denominazione = "Verbano-Cusio-Ossola", sigla = "VB", id = 103 },
-new Provincia { denominazione = "Valle d'Aosta/Vallée d'Aoste", sigla = "AO", id = 7 },
-new Provincia { denominazione = "Varese", sigla = "VA", id = 12 },
-new Provincia { denominazione = "Como", sigla = "CO", id = 13 },
-new Provincia { denominazione = "Sondrio", sigla = "SO", id = 14 },
-new Provincia { denominazione = "Milano", sigla = "MI", id = 15 },
-new Provincia { denominazione = "Bergamo", sigla = "BG", id = 16 },
-new Provincia { denominazione = "Brescia", sigla = "BS", id = 17 },
-new Provincia { denominazione = "Pavia", sigla = "PV", id = 18 },
-new Provincia { denominazione = "Cremona", sigla = "CR", id = 19 },
-new Provincia { denominazione = "Mantova", sigla = "MN", id = 20 },
-new Provincia { denominazione = "Lecco", sigla = "LC", id = 97 },
-new Provincia { denominazione = "Lodi", sigla = "LO", id = 98 },
-new Provincia { denominazione = "Monza e della Brianza", sigla = "MB", id = 108 },
-new Provincia { denominazione = "Bolzano/Bozen", sigla = "BZ", id = 21 },
-new Provincia { denominazione = "Trento", sigla = "TN", id = 22 },
-new Provincia { denominazione = "Verona", sigla = "VR", id = 23 },
-new Provincia { denominazione = "Vicenza", sigla = "VI", id = 24 },
-new Provincia { denominazione = "Belluno", sigla = "BL", id = 25 },
-new Provincia { denominazione = "Treviso", sigla = "TV", id = 26 },
-new Provincia { denominazione = "Venezia", sigla = "VE", id = 27 },
-new Provincia { denominazione = "Padova", sigla = "PD", id = 28 },
-new Provincia { denominazione = "Rovigo", sigla = "RO", id = 29 },
-new Provincia { denominazione = "Udine", sigla = "UD", id = 30 },
-new Provincia { denominazione = "Gorizia", sigla = "GO", id = 31 },
-new Provincia { denominazione = "Trieste", sigla = "TS", id = 32 },
-new Provincia { denominazione = "Pordenone", sigla = "PN", id = 93 },
-new Provincia { denominazione = "Imperia", sigla = "IM", id = 8 },
-new Provincia { denominazione = "Savona", sigla = "SV", id = 9 },
-new Provincia { denominazione = "Genova", sigla = "GE", id = 10 },
-new Provincia { denominazione = "La Spezia", sigla = "SP", id = 11 },
-new Provincia { denominazione = "Piacenza", sigla = "PC", id = 33 },
-new Provincia { denominazione = "Parma", sigla = "PR", id = 34 },
-new Provincia { denominazione = "Reggio nell'Emilia", sigla = "RE", id = 35 },
-new Provincia { denominazione = "Modena", sigla = "MO", id = 36 },
-new Provincia { denominazione = "Bologna", sigla = "BO", id = 37 },
-new Provincia { denominazione = "Ferrara", sigla = "FE", id = 38 },
-new Provincia { denominazione = "Ravenna", sigla = "RA", id = 39 },
-new Provincia { denominazione = "Forlì-Cesena", sigla = "FC", id = 40 },
-new Provincia { denominazione = "Rimini", sigla = "RN", id = 99 },
-new Provincia { denominazione = "Massa-Carrara", sigla = "MS", id = 45 },
-new Provincia { denominazione = "Lucca", sigla = "LU", id = 46 },
-new Provincia { denominazione = "Pistoia", sigla = "PT", id = 47 },
-new Provincia { denominazione = "Firenze", sigla = "FI", id = 48 },
-new Provincia { denominazione = "Livorno", sigla = "LI", id = 49 },
-new Provincia { denominazione = "Pisa", sigla = "PI", id = 50 },
-new Provincia { denominazione = "Arezzo", sigla = "AR", id = 51 },
-new Provincia { denominazione = "Siena", sigla = "SI", id = 52 },
-new Provincia { denominazione = "Grosseto", sigla = "GR", id = 53 },
-new Provincia { denominazione = "Prato", sigla = "PO", id = 100 },
-new Provincia { denominazione = "Perugia", sigla = "PG", id = 54 },
-new Provincia { denominazione = "Terni", sigla = "TR", id = 55 },
-new Provincia { denominazione = "Pesaro e Urbino", sigla = "PU", id = 41 },
-new Provincia { denominazione = "Ancona", sigla = "AN", id = 42 },
-new Provincia { denominazione = "Macerata", sigla = "MC", id = 43 },
-new Provincia { denominazione = "Ascoli Piceno", sigla = "AP", id = 44 },
-new Provincia { denominazione = "Fermo", sigla = "FM", id = 109 },
-new Provincia { denominazione = "Viterbo", sigla = "VT", id = 56 },
-new Provincia { denominazione = "Rieti", sigla = "RI", id = 57 },
-new Provincia { denominazione = "Roma", sigla = "RM", id = 58 },
-new Provincia { denominazione = "Latina", sigla = "LT", id = 59 },
-new Provincia { denominazione = "Frosinone", sigla = "FR", id = 60 },
-new Provincia { denominazione = "L'Aquila", sigla = "AQ", id = 66 },
-new Provincia { denominazione = "Teramo", sigla = "TE", id = 67 },
-new Provincia { denominazione = "Pescara", sigla = "PE", id = 68 },
-new Provincia { denominazione = "Chieti", sigla = "CH", id = 69 },
-new Provincia { denominazione = "Campobasso", sigla = "CB", id = 70 },
-new Provincia { denominazione = "Isernia", sigla = "IS", id = 94 },
-new Provincia { denominazione = "Caserta", sigla = "CE", id = 61 },
-new Provincia { denominazione = "Benevento", sigla = "BN", id = 62 },
-new Provincia { denominazione = "Napoli", sigla = "NA", id = 63 },
-new Provincia { denominazione = "Avellino", sigla = "AV", id = 64 },
-new Provincia { denominazione = "Salerno", sigla = "SA", id = 65 },
-new Provincia { denominazione = "Foggia", sigla = "FG", id = 71 },
-new Provincia { denominazione = "Bari", sigla = "BA", id = 72 },
-new Provincia { denominazione = "Taranto", sigla = "TA", id = 73 },
-new Provincia { denominazione = "Brindisi", sigla = "BR", id = 74 },
-new Provincia { denominazione = "Lecce", sigla = "LE", id = 75 },
-new Provincia { denominazione = "Barletta-Andria-Trani", sigla = "BT", id = 110 },
-new Provincia { denominazione = "Potenza", sigla = "PZ", id = 76 },
-new Provincia { denominazione = "Matera", sigla = "MT", id = 77 },
-new Provincia { denominazione = "Cosenza", sigla = "CS", id = 78 },
-new Provincia { denominazione = "Catanzaro", sigla = "CZ", id = 79 },
-new Provincia { denominazione = "Reggio di Calabria", sigla = "RC", id = 80 },
-new Provincia { denominazione = "Crotone", sigla = "KR", id = 101 },
-new Provincia { denominazione = "Vibo Valentia", sigla = "VV", id = 102 },
-new Provincia { denominazione = "Trapani", sigla = "TP", id = 81 },
-new Provincia { denominazione = "Palermo", sigla = "PA", id = 82 },
-new Provincia { denominazione = "Messina", sigla = "ME", id = 83 },
-new Provincia { denominazione = "Agrigento", sigla = "AG", id = 84 },
-new Provincia { denominazione = "Caltanissetta", sigla = "CL", id = 85 },
-new Provincia { denominazione = "Enna", sigla = "EN", id = 86 },
-new Provincia { denominazione = "Catania", sigla = "CT", id = 87 },
-new Provincia { denominazione = "Ragusa", sigla = "RG", id = 88 },
-new Provincia { denominazione = "Siracusa", sigla = "SR", id = 89 },
-new Provincia { denominazione = "Sassari", sigla = "SS", id = 90 },
-new Provincia { denominazione = "Nuoro", sigla = "NU", id = 91 },
-new Provincia { denominazione = "Cagliari", sigla = "CA", id = 92 },
-new Provincia { denominazione = "Oristano", sigla = "OR", id = 95 },
-new Provincia { denominazione = "Olbia-Tempio", sigla = "OT", id = 104 },
-new Provincia { denominazione = "Ogliastra", sigla = "OG", id = 105 },
-new Provincia { denominazione = "Medio Campidano", sigla = "VS", id = 106 },
-new Provincia { denominazione = "Carbonia-Iglesias", sigla = "CI", id = 107 }
-
-);
+    
 
 
 
@@ -411,4 +306,4 @@ new Provincia { denominazione = "Carbonia-Iglesias", sigla = "CI", id = 107 }
 
         }
     }
-}
+

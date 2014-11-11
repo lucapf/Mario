@@ -3,17 +3,15 @@
     Layout = null;
 }
 
+@Html.HiddenFor(m => m.id)
 
 <div class="editor-label">
     @Html.LabelFor(m => m.tipoRiferimento)
-    @Html.DropDownListFor(m => m.tipoRiferimento.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoRiferimento, "")<br />
+    @Html.DropDownListFor(m => m.tipoRiferimento.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoRiferimento, "", new { data_mini = "true" })<br />
     @Html.ValidationMessageFor(m => m.tipoRiferimento.id)
-    @Html.HiddenFor(m => m.id)
 </div>
 <div class="editor-label">
-    @Html.LabelFor(m => m.valore)
-    @Html.TextBoxFor(m => m.valore)<br />
-    @Html.ValidationMessageFor(m => m.valore)
+    @Html.MyInputType( m => m.valore)
 </div>
 
 

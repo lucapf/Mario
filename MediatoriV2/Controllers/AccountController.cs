@@ -5,9 +5,7 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
+
 using mediatori.Filters;
 using mediatori.Models.Anagrafiche;
 using System.Data.SqlClient;
@@ -95,7 +93,7 @@ namespace mediatori.Controllers
                         /** SESSIONE **/
                         mediatori.SessionData session = new mediatori.SessionData(userId);
                         session.Roles = manager.getRoles(userId);
-                        session.ProfiloId = manager.getProfiloId(userId);
+                        session.Profili = manager.getProfili(userId);
                         session.Groups = manager.getGroupSmall(userId);
 
                         Session["MySessionData"] = session;
@@ -224,90 +222,61 @@ namespace mediatori.Controllers
             return View();
         }
 
-        [HttpGet]
-       //Authorize(Roles = "Amministratore")]
-        public ActionResult ListUsers(String message)
-        {
-            if (message != null) ViewBag.message = message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
-            ViewBag.utenti = users;
-            return View();
-        }
+       // [HttpGet]
+       ////Authorize(Roles = "Amministratore")]
+       // public ActionResult ListUsers(String message)
+       // {
+       //     if (message != null) ViewBag.message = message;
+       //     MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+       //     List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
+       //     ViewBag.utenti = users;
+       //     return View();
+       // }
         //
         // POST: /Account/Register
 
-        [HttpPost]
-        //[Authorize(Roles = "Amministratore")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Tentare di registrare l'utente
-                try
-                {
+        //[HttpPost]
+        ////[Authorize(Roles = "Amministratore")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Register(RegisterModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Tentare di registrare l'utente
+        //        try
+        //        {
 
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+        //            WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
 
-                    //  WebSecurity.Login(model.UserName, model.Password);
-                    SimpleRoleProvider srp = (SimpleRoleProvider)Roles.Provider;
-                    String[] usernames = { model.UserName };
-                    srp.AddUsersToRoles(usernames, model.roles);
-                    String message = "utente " + model.UserName + " registrato con successo!";
-                    return RedirectToAction("ListUsers", "Account", new { message = message });
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                    List<SelectListItem> selItems = new List<SelectListItem>();
-                    foreach (String ruolo in Roles.Provider.GetAllRoles())
-                    {
-                        selItems.Add(new SelectListItem() { Value = ruolo, Text = ruolo });
-                    }
-                    ViewBag.roles = selItems;
-                }
-            }
+        //            //  WebSecurity.Login(model.UserName, model.Password);
+        //            SimpleRoleProvider srp = (SimpleRoleProvider)Roles.Provider;
+        //            String[] usernames = { model.UserName };
+        //            srp.AddUsersToRoles(usernames, model.roles);
+        //            String message = "utente " + model.UserName + " registrato con successo!";
+        //            return RedirectToAction("ListUsers", "Account", new { message = message });
+        //        }
+        //        catch (MembershipCreateUserException e)
+        //        {
+        //            ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+        //            List<SelectListItem> selItems = new List<SelectListItem>();
+        //            foreach (String ruolo in Roles.Provider.GetAllRoles())
+        //            {
+        //                selItems.Add(new SelectListItem() { Value = ruolo, Text = ruolo });
+        //            }
+        //            ViewBag.roles = selItems;
+        //        }
+        //    }
 
 
-            // Se si arriva a questo punto, significa che si è verificato un errore, rivisualizzare il form
-            return View(model);
-        }
+        //    // Se si arriva a questo punto, significa che si è verificato un errore, rivisualizzare il form
+        //    return View(model);
+        //}
 
 
         //
         // GET: /Account/Disassociate
 
-        [HttpGet]
-        //[Authorize(Roles = "Amministratore")]
-        public ActionResult Disassociate(string user)
-        {
-            ManageMessageId? message = null;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
-            int userId = WebSecurity.GetUserId(user);
-
-            // Utilizzare una transazione per impedire all'utente di eliminare l'ultima credenziale di accesso utilizzata
-            using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-            {
-
-                bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(userId);
-                if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(user).Count > 1)
-                {
-                    MembershipProvider mmp = Membership.Provider;
-                    mmp.DeleteUser(user, true);
-                    scope.Complete();
-                    message = ManageMessageId.RemoveLoginSuccess;
-                }
-            }
-            if (message == ManageMessageId.RemoveLoginSuccess)
-            {
-                String notifica = "Eliminazione Utente " + userId + " completata con successo!";
-                return RedirectToAction("ListUsers", "Account", new { message = notifica });
-            }
-            return RedirectToAction("Manage", new { Message = message });
-        }
-
+        
 
 
 
@@ -446,51 +415,7 @@ namespace mediatori.Controllers
 
         //Get /Account/GestisciRuoli gestione ruoli utente. punto di partenza la schermata ListUsers
         //     nella schermata corrente viene permesso di aggiungere o rimuovere ruoli per uno specifico utente
-        [HttpGet]
-        [Authorize(Roles = "Amministratore")]
-        public ActionResult gestisciRuoli(String user)
-        {
-            if (user == null) return RedirectToAction("ListUsers", "Account", new { message = "selezionare l'utente" });
-            int userId = WebSecurity.GetUserId(user);
-            String[] ruoliUtente = Roles.Provider.GetRolesForUser(user);
-            //riempio la combon con i ruoli disponibili
-            List<SelectListItem> listSLI = new List<SelectListItem>();
-            foreach (String ruolo in Roles.Provider.GetAllRoles())
-            {
-                listSLI.Add(new SelectListItem { Text = ruolo, Value = ruolo, Selected = (ruoliUtente.Contains(ruolo)) });
-            }
-            ViewBag.ruoli = listSLI;
-            ViewBag.username = user;
-            return View();
-        }
-        //Post /Account/GestisciRuoli
-        // disassocia dall'utente tutti i ruoli e gli riassocia solo quelli passsati nell'oggetto modeler
-        [HttpPost]
-        [Authorize(Roles = "Amministratore")]
-        [ValidateAntiForgeryToken]
-        public ActionResult gestisciRuoli(RolesManagement rm)
-        {
-            //   using (TransactionScope scope = new TransactionScope())
-            //  {
-
-            String[] ruoliAssegnati = Roles.Provider.GetRolesForUser(rm.username);
-            try
-            {
-                RoleProvider rp = Roles.Provider;
-                rp.RemoveUsersFromRoles(new String[] { rm.username }, ruoliAssegnati);
-                rp.AddUsersToRoles(new String[] { rm.username }, rm.ruoli);
-                String notifica = "utente " + rm.ruoli + " associato ai ruoli" + rm.username;
-                //scope.Complete();
-                return RedirectToAction("ListUsers", "Account", new { message = notifica });
-            }
-            catch (SqlException sqle)
-            {
-                ViewBag.erroMessage = "Eccezione durante l'esecuzione dell'operazione codice : " + sqle.Number +
-                    " riga: " + sqle.LineNumber + " descrizione" + sqle.Message;
-                return RedirectToAction("GestisciRuoli", "Account", new { errorMessage = ViewBag.errorMessage });
-            }
-            //}
-        }
+       
         //
         // POST: /Account/ExternalLogin
         /*
@@ -656,22 +581,7 @@ namespace mediatori.Controllers
             RemoveLoginSuccess,
         }
 
-        internal class ExternalLoginResult : ActionResult
-        {
-            public ExternalLoginResult(string provider, string returnUrl)
-            {
-                Provider = provider;
-                ReturnUrl = returnUrl;
-            }
-
-            public string Provider { get; private set; }
-            public string ReturnUrl { get; private set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
-            }
-        }
+       
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

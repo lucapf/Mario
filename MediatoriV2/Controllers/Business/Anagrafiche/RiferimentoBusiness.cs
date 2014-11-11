@@ -10,7 +10,7 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
 {
     public class RiferimentoBusiness
     {
-        public static  ICollection<Riferimento> valorizzaDatiRiferimento(ICollection<Riferimento> listaRiferimenti, MainDbContext db)
+        public static ICollection<Riferimento> valorizzaDatiRiferimento(ICollection<Riferimento> listaRiferimenti, MainDbContext db)
         {
             if (listaRiferimenti != null)
             {
@@ -24,13 +24,13 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
 
         public static Riferimento valorizzaDatiRiferimento(Riferimento r, MainDbContext db)
         {
-          
-                r.tipoRiferimento = db.TipoRiferimento.Find(r.tipoRiferimento.id);
-                return r;
-                  
+
+            r.tipoRiferimento = db.TipoRiferimento.Find(r.tipoRiferimento.id);
+            return r;
+
         }
 
-       
+
         internal static Riferimento findByPk(int id, MainDbContext db)
         {
             return db.Riferimento.Include("tipoRiferimento").Where(r => r.id == id).FirstOrDefault();

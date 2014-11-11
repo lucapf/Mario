@@ -1,42 +1,30 @@
 ﻿@model IEnumerable<mediatori.Models.Anagrafiche.SoggettoGiuridico>
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+<a href="@Url.Action("Create", "SoggettoGiuridico")" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo soggetto giuridico</a>
+
+@using (Html.BeginForm("Index", "SoggettoGiuridico", FormMethod.Post, null))
+{
+    <fieldset>
+        <legend>Ricerca soggetto giuridico</legend>
+        <table>
+            <tr>
+                <td>Ragione sociale</td>
+                <td>@Html.TextBox("ragioneSociale")</td>
+                <td>Codice Fiscale</td>
+                <td>@Html.TextBox("codiceFiscale")</td>
+            </tr>
+            <tr>
+                <td>Tipologia</td>
+                <td colspan="3">@Html.DropDownList("id",(SelectList) ViewBag.listaTipiSoggettiGiuridici)</td>
+            </tr>
+        </table>
+        <input type="submit" value="Ricerca" data-inline="true" data-icon="search" data-mini="true" />
+    </fieldset>
 }
 
-<h2>Lista Soggetti Giuridici</h2>
-<div id="message">@ViewBag.message</div>
-<div id="azioni">
-    @Html.ActionLink("Nuovo Soggetto Giuridico", "Create")
-    @using(Html.BeginForm("Index","SoggettoGiuridico",FormMethod.Get,null)){
-     <div class="form-ricerca">
-            <label>Ragione Sociale</label> 
-            @Html.TextBox("ragioneSociale")
-        </div>
-        
-        <div class="form-ricerca">
-            <label>Tipologia</label> 
-            @Html.DropDownList("tipoSoggettoGiuridico",(SelectList) ViewBag.listaTipiSoggettiGiuridici)
-        </div>
-        <div class="form-ricerca">
-            <label>Codice Fiscale</label> 
-            @Html.TextBox("codiceFiscale")
-        </div>
-       <div class="form-ricerca-submit"><input type="submit" value="Ricerca" /></div>
-            
-       
-         
-       @* <table>
-           <tr>
-                <td>Ragione sociale</td> <td>@Html.TextBox("ragioneSociale")</td>
-                <td>Partita IVA</td> <td>@Html.TextBox("partitaIva")</td>
-               <td>Tipologia</td> <td>@Html.DropDownList("tipoSoggetto",(SelectList) ViewBag.listaTipiSoggettiGiuridici)</td>
-           </tr>
-        </table>*@
-       
-        }
-
-
-</div>
 
 <table class="listTable">
     <tr>

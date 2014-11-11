@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
-using WebMatrix.WebData;
+
 using mediatori.Models.Anagrafiche;
 using mediatori.Models;
 
@@ -19,34 +19,34 @@ namespace mediatori.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // Ensure ASP.NET Simple Membership is initialized only once per app start
-            LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
+          //  LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
         }
 
         private class SimpleMembershipInitializer
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<MainDbContext>(null);
+              //  Database.SetInitializer<MainDbContext>(null);
 
-                try
-                {
+                //try
+                //{
                     
-                    using (var context =  new MainDbContext(String.Empty))
-                    {
+                //    using (var context =  new MainDbContext(String.Empty))
+                //    {
                         
-                        if (!context.Database.Exists())
-                        {
-                            // Create the SimpleMembership database without Entity Framework migration schema
-                            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-                        }
-                    }
-                    if (!WebSecurity.Initialized)
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
-                }
+                //        if (!context.Database.Exists())
+                //        {
+                //            // Create the SimpleMembership database without Entity Framework migration schema
+                //            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                //        }
+                //    }
+                //    if (!WebSecurity.Initialized)
+                //    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                //}
             }
         }
     }

@@ -1,0 +1,34 @@
+﻿@model mediatori.Models.Anagrafiche.Indirizzo
+
+
+<div class="editor-label">
+    <label for="provincia">Provincia</label>
+    <select name="provincia" id="provincia" data-mini="true" data-val-required="Selezionare la provincia">
+        <option value="">---</option>
+        @foreach (SelectListItem i in ViewBag.listaProvincia)
+        {
+            <option value="@i.Value" @((i.Selected) ? "selected" : "")>@i.Text</option>
+        }
+    </select>
+
+    <span class="field-validation-valid" data-valmsg-for="provincia" data-valmsg-replace="true"></span>
+
+</div>
+
+<div class="editor-label">
+    <label for="comune">Comune</label>
+    <select name="comune" id="comune" data-mini="true" data-val-required="Selezionare il comune">
+        <option value="">Selezionare una Provincia ...</option>
+    </select>
+    <span class="field-validation-valid" data-valmsg-for="comune" data-valmsg-replace="true"></span>
+</div>
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("#provincia").change(function () {
+            //   alert("provincia CHANGE");
+            popolaComboComuni("provincia", "comune");
+        });
+    });
+</script>

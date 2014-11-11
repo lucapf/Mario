@@ -215,11 +215,6 @@ namespace mediatori.Controllers.CQS
             }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            db.Dispose();
-            base.Dispose(disposing);
-        }
+       
     }
 }

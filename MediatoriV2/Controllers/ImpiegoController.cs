@@ -13,13 +13,12 @@ namespace mediatori.Controllers
 {
     public class ImpiegoController : MyBaseController
     {
-        //
-        // GET: /Impiego/
+        private MainDbContext db = new MainDbContext();
 
         public ActionResult Index()
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            valorizzaDatiImpiego(db);
+
+            valorizzaViewBag(db);
             return View(new ImpiegoBusiness());
         }
         [HttpGet]
@@ -36,13 +35,40 @@ namespace mediatori.Controllers
             }
             if (tipoAzione == EnumTipoAzione.MODIFICA || tipoAzione == EnumTipoAzione.INSERIMENTO)
             {
-                valorizzaDatiImpiego(db);
+                valorizzaViewBag(db);
                 return View("impiegoPartialEdit", impiego);
             }
             else
             {
                 return View("impiegoInnerDetail", impiego);
             }
+        }
+
+
+
+        [ChildActionOnly]
+        public ActionResult Create(Impiego impiego)
+        {
+          //  Impiego impiego = new Impiego();
+
+#if DEBUG
+            impiego.azienda = "Azienda";
+            impiego.aziendaSedeLavoro = "Sede lavoro";
+            impiego.dataAssunzione = new DateTime(2000, 8, 1);
+            impiego.mansione = "Impiegato";
+            impiego.mensilita = 14;
+            impiego.stipendioLordoAnnuo = 20000;
+            impiego.stipendioLordoMensile = 1200;
+            impiego.stipendioNettoMensile = 900;
+#endif
+
+
+            valorizzaViewBag(db);
+
+            ViewData.TemplateInfo.HtmlFieldPrefix = "impiego";
+            
+
+            return View("ImpiegoPartialEdit", impiego);
         }
 
 
@@ -53,10 +79,10 @@ namespace mediatori.Controllers
             switch (tipoAzione)
             {
                 case EnumTipoAzione.MODIFICA:
-                    valorizzaDatiImpiego(db);
+                    valorizzaViewBag(db);
                     return View("ImpiegoPartialEdit", impiego);
                 case EnumTipoAzione.INSERIMENTO:
-                    valorizzaDatiImpiego(db);
+                    valorizzaViewBag(db);
                     return View("ImpiegoPartialInsert", impiego);
                 default:
                     return View("ImpiegoPartialDetail", impiego);
@@ -80,7 +106,7 @@ namespace mediatori.Controllers
 
         private static Impiego completaDatiImpiegoFromRequest(Impiego impiego, MainDbContext db)
         {
-           // impiego.dataLicenziamento = impiego.dataLicenziamento.Year == 01 ? new DateTime(2050, 12, 31) : impiego.dataLicenziamento;
+            // impiego.dataLicenziamento = impiego.dataLicenziamento.Year == 01 ? new DateTime(2050, 12, 31) : impiego.dataLicenziamento;
 
             impiego.tipoImpiego = db.TipoContrattoImpiego.Find(impiego.tipoImpiego.id);
             impiego.categoriaImpiego = db.TipoCategoriaImpiego.Find(impiego.categoriaImpiego.id);
@@ -111,7 +137,7 @@ namespace mediatori.Controllers
             TryValidateModel(impiego);
             if (ModelState.IsValid)
             {
-                Segnalazione segnalazione= new SegnalazioneBusiness().findByPk(codiceSegnalazione, db);
+                Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(codiceSegnalazione, db);
                 segnalazione.contatto.impieghi.Add(impiego);
                 LogEventiManager.save(LogEventiManager.getEventoForCreate(User.Identity.Name, impiego.id, EnumEntitaRiferimento.IMPIEGO), db);
                 db.SaveChanges();
@@ -119,12 +145,12 @@ namespace mediatori.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
-        private void valorizzaDatiImpiego(MainDbContext db)
+        private void valorizzaViewBag(MainDbContext db)
         {
             ViewBag.listaTipoImpiego = new SelectList(db.TipoContrattoImpiego, "id", "descrizione");
             ViewBag.listaCategoriaImpiego = new SelectList(db.TipoCategoriaImpiego, "id", "descrizione");
-            ViewBag.oggi = System.DateTime.Now.Year;
-            ViewBag.inizioValiditaImpiego = System.DateTime.Now.AddYears(-40).Year;
+            //ViewBag.oggi = System.DateTime.Now.Year;
+            //ViewBag.inizioValiditaImpiego = System.DateTime.Now.AddYears(-40).Year;
 
         }
     }

@@ -12,16 +12,28 @@ namespace mediatori.Controllers
 {
     public class RiferimentoController : MyBaseController
     {
-        //
-        // GET: /Riferimento/
+        private MainDbContext db = new MainDbContext();
 
         public ActionResult Index()
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            valorizzaDatiRiferimento(db);
+           // MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+            valorizzaViewBag(db);
             return View(new Riferimento());
-
         }
+        
+        [ChildActionOnly]
+        public ActionResult Create(Riferimento riferimento)
+        {
+#if DEBUG
+            riferimento.valore = "Prova";
+#endif
+            valorizzaViewBag(db);
+            ViewData.TemplateInfo.HtmlFieldPrefix = "riferimento";
+            return View("RiferimentoPartialEdit", riferimento);
+        }
+
+
+
 
         [HttpGet]
         public ActionResult riferimentoPartialById(int id, EnumTipoAzione tipoAzione)
@@ -43,16 +55,16 @@ namespace mediatori.Controllers
             switch (tipoAzione)
             {
                 case EnumTipoAzione.MODIFICA:
-                    valorizzaDatiRiferimento(db);
+                    valorizzaViewBag(db);
                     return View("RiferimentoPartialEdit", riferimento);
                 case EnumTipoAzione.INSERIMENTO:
-                    valorizzaDatiRiferimento(db);
+                    valorizzaViewBag(db);
                     return View("RiferimentoPartialInsert", riferimento);
                 default:
                     return View("RiferimentoPartialDetail", riferimento);
             }
         }
-        private void valorizzaDatiRiferimento(MainDbContext db)
+        private void valorizzaViewBag(MainDbContext db)
         {
             ViewBag.listaTipoRiferimento = new SelectList(db.TipoRiferimento, "id", "descrizione");
         }

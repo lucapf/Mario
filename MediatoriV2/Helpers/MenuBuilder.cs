@@ -27,8 +27,8 @@ namespace mediatori.Helpers
             configMenu = new Dictionary<EMenuSection, List<MenuElement>>();
             configMenu.Add(EMenuSection.ANAGRAFICA,
                 new List<MenuElement>(){
-                    new MenuElement(){display="Segnalazioni", ordinamento=1,livello=1,url="GestioneSegnalazioni"},
-                    new MenuElement(){display="Nuova Segn.", ordinamento=2,livello=2,url="GestioneSegnalazioni/Create"},
+                    new MenuElement(){display="Segnalazioni", ordinamento=1,livello=1,url="Segnalazioni"},
+                    new MenuElement(){display="Nuova Segn.", ordinamento=2,livello=2,url="Segnalazioni/Create"},
                     new MenuElement(){display="Cedenti", ordinamento=3,livello=1,url="Cedente"},
                     new MenuElement(){display="Registrazione Cedente", ordinamento=4,livello=2,url="Cedente/Create"},
                     new MenuElement(){display="Amministrazione", ordinamento=5,livello=1,url="Amministrazione"},

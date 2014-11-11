@@ -22,7 +22,7 @@ namespace mediatori.Models
         [Display(Name="utente")]
         public String utente { get; set; }
         [Display(Name = "segnalazione")]
-        public Segnalazione segnalazione { get; set; }
+        public Anagrafiche.Segnalazione segnalazione { get; set; }
        
 
 

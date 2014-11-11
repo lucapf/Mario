@@ -1,5 +1,4 @@
 ﻿@model mediatori.Models.Anagrafiche.Indirizzo
-
 @{
     Layout = null;  
 }
@@ -9,17 +8,41 @@
     Html.RenderPartial("IndirizzoPartialEdit");
 }
 
-<script>
-    $(function () {
-       // alert("ggg");
+
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+
+
         $('select[id$="provincia_denominazione"]').each(function () {
-            codice = this.name.split('[')[1].split(']')[0]
-            idProvincia = "indirizzi_" + codice + "__provincia_denominazione"
-            idComune = "indirizzi_" + codice + "__comune_denominazione"
+
+            codice = this.name.split('[')[1].split(']')[0];
+
+//            alert(codice);
+
+            idProvincia = "indirizzi_" + codice + "__provincia_denominazione";
+            idComune = "indirizzi_" + codice + "__comune_denominazione";
+
+  //          alert("idProvincia" + idProvincia);
+
             $("#" + idProvincia).change(function () {
                 popolaComboComuni(idProvincia, idComune);
             })
         })
+        
+
+       
+    });
+</script>
+
+
+
+<script>
+    @*$(function () {
+       //alert("ggg");
+        
     });
 
 
@@ -34,6 +57,6 @@
                 });
                 $('input[name$="numeroDocumento"]').each(function () { this.style.width = "70px"; });
 
-            });
+            });*@
 
 </script>

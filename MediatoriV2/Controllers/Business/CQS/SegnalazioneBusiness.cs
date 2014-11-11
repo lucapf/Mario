@@ -101,7 +101,12 @@ namespace mediatori.Controllers.Business
                 .Include("preventivi.assicurazioneVita").Include("preventivi.assicurazioneImpiego")
                 .Include("documenti").Include("documenti.tipoDocumento");
 
-            Segnalazione segnalazione = segnalazioneQuery.Where(s => s.id == id).FirstOrDefault(); 
+            Segnalazione segnalazione = segnalazioneQuery.Where(s => s.id == id).FirstOrDefault();
+
+            if (segnalazione == null)
+            {
+                return null;
+            }
 
             if (segnalazione.preventivi == null) segnalazione.preventivi = new List<Preventivo>();
 

@@ -37,13 +37,7 @@ namespace mediatori.Controllers
             return ContattoBusiness.asHtml(listaContatti);
         }
        
-        [HttpGet]
-        protected override void Dispose(bool disposing)
-        {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            db.Dispose();
-            base.Dispose(disposing);
-        }
+       
     
 
         public ActionResult contattoPartialById(int id, EnumTipoAzione tipoAzione)

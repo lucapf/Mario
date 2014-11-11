@@ -3,14 +3,13 @@
     Layout = null;
 }
 
+@Html.HiddenFor(m => m.id)
 
 <div class="editor-label">
     @Html.LabelFor(m => m.valore)
-    @Html.TextAreaFor(m => m.valore)
+    <textarea name="valore" id="valore" rows="3" style="width:100%;"></textarea>
     @Html.ValidationMessageFor(m => m.valore)
-    @Html.HiddenFor(m => m.id)
 </div>
-
 
 
 

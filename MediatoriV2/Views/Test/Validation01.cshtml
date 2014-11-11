@@ -1,0 +1,195 @@
+﻿@model mediatori.Models.Test.TestClass
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Validation01</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+</head>
+<body>
+    
+    @using (Html.BeginForm())
+    {
+        <input type="text" name="email" data-val="true" data-val-required="This field is required.">
+        <div class="validation-summary-valid" data-valmsg-summary="true">
+            <ul><li style="display:none"></li></ul>
+        </div>
+        <input type="submit" value="Submit" />
+    }
+
+    <hr />
+
+    @using (Html.BeginForm())
+    {
+
+        @MyHelper.MyInputType(() => Model.dataDiNascita)
+
+        <input type="submit" value="Submit" />
+    }
+
+
+
+
+
+
+
+
+
+    <form action="/Preventivo/createForSegnalazione" id="nuovoPreventivo" method="post">
+        <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="1" />
+
+
+        <div class="editor-label">
+            <label for="finanziaria">Intermediario</label>
+            <select data-mini="true" data-val="true" data-val-number="The field id must be a number." data-val-required="Il campo id è obbligatorio." id="finanziaria_id" name="finanziaria.id">
+                <option value=""></option>
+                <option value="2">Finanziaria</option>
+            </select><br />
+            <span class="field-validation-valid" data-valmsg-for="finanziaria.id" data-valmsg-replace="true"></span>
+        </div>
+        <div class="editor-label">
+            <label for="nomeProdotto">nome Prodotto</label>
+            <input class="text-box single-line" data-val="true" data-val-required="Il campo nome Prodotto è obbligatorio." id="nomeProdotto" name="nomeProdotto" type="text" value="" /><br />
+            <span class="field-validation-valid" data-valmsg-for="nomeProdotto" data-valmsg-replace="true"></span>
+        </div>
+        <div class="editor-label">
+            <label for="importoRata">Importo Rata</label>
+            <input type="number" data-val="true" data-val-required="Il campo Importo Rata è obbligatorio." step="0.1" min="0" id="importoRata" name="importoRata" value="0.40" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="importoRata" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="durata">Durata (mesi)</label>
+            <input type="number" data-val="true" data-val-required="Il campo Durata (mesi) è obbligatorio." step="1" min="0" id="durata" name="durata" value="4" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="durata" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="tabellaFinanziaria">Tabella  finanziara</label>
+            <input class="text-box single-line" data-val="true" data-val-required="Il campo Tabella  finanziara è obbligatorio." id="tabellaFinanziaria" name="tabellaFinanziaria" type="text" value="" /><br />
+            <span class="field-validation-valid" data-valmsg-for="tabellaFinanziaria" data-valmsg-replace="true"></span>
+        </div>
+        <div class="editor-label">
+            <label for="assicurazioneVita">Comp. Ass. vita</label>
+            <select data-val="true" data-val-number="The field id must be a number." data-val-required="Il campo id è obbligatorio." id="assicurazioneVita_id" name="assicurazioneVita.id">
+                <option value=""></option>
+                <option value="1">RRRAAAA</option>
+            </select><br />
+            <span class="field-validation-valid" data-valmsg-for="assicurazioneVita.id" data-valmsg-replace="true"></span>
+        </div>
+        <div class="editor-label">
+            <label for="importoCoperturaVita">Imp. copert. vita</label>
+            <input type="number" data-val="true" data-val-required="Il campo Imp. copert. vita è obbligatorio." step="0.1" min="0" id="importoCoperturaVita" name="importoCoperturaVita" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="importoCoperturaVita" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="assicurazioneImpiego">Comp. Ass. impiego</label>
+            <select data-val="true" data-val-number="The field id must be a number." data-val-required="Il campo id è obbligatorio." id="assicurazioneImpiego_id" name="assicurazioneImpiego.id">
+                <option value=""></option>
+                <option value="1">RRRAAAA</option>
+            </select><br />
+            <span class="field-validation-valid" data-valmsg-for="assicurazioneImpiego.id" data-valmsg-replace="true"></span>
+        </div>
+        <div class="editor-label">
+            <label for="importoCoperturaImpego">Imp. copert. impiego</label>
+            <input type="number" data-val="true" data-val-required="Il campo Imp. copert. impiego è obbligatorio." step="0.1" min="0" id="importoCoperturaImpego" name="importoCoperturaImpego" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="importoCoperturaImpego" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="dataDecorrenza">Data Decorrenza</label>
+            <input type="date" data-val="true" data-val-required="Il campo Data Decorrenza è obbligatorio." data-role="date" id="dataDecorrenza" name="dataDecorrenza" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="dataDecorrenza" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="importoProvvigioni">Imp. provvigioni</label>
+            <input type="number" data-val="true" data-val-required="Il campo Imp. provvigioni è obbligatorio." step="0.1" min="0" id="importoProvvigioni" name="importoProvvigioni" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="importoProvvigioni" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="montante">Montante</label>
+            <input type="number" data-val="true" data-val-required="Il campo Montante è obbligatorio." step="0.1" min="0" id="montante" name="montante" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="montante" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="importoInteressi">Interessi</label>
+            <input type="number" data-val="true" data-val-required="Il campo Interessi è obbligatorio." step="0.1" min="0" id="importoInteressi" name="importoInteressi" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="importoInteressi" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="speseAttivazione">Spese attivazione</label>
+            <input type="number" data-val="true" data-val-required="Il campo Spese attivazione è obbligatorio." step="0.1" min="0" id="speseAttivazione" name="speseAttivazione" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="speseAttivazione" data-valmsg-replace="true"></span>
+
+        </div>
+
+        <div class="editor-label">
+            <label for="speseIncasso">Spese incasso</label>
+            <input type="number" data-val="true" data-val-required="Il campo Spese incasso è obbligatorio." step="0.1" min="0" id="speseIncasso" name="speseIncasso" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="speseIncasso" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="oneriFiscali">Spese oneri fiscali</label>
+            <input type="number" data-val="true" data-val-required="Il campo Spese oneri fiscali è obbligatorio." step="0.1" min="0" id="oneriFiscali" name="oneriFiscali" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="oneriFiscali" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="importoImpegniDaEstinguere">Imp.to Imp.gni da estinguere</label>
+            <input type="number" data-val="true" data-val-required="Il campo Imp.to Imp.gni da estinguere è obbligatorio." step="0.1" min="0" id="importoImpegniDaEstinguere" name="importoImpegniDaEstinguere" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="importoImpegniDaEstinguere" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+
+            <label for="nettoCliente">Netto cliente</label>
+            <input type="number" data-val="true" data-val-required="Il campo Netto cliente è obbligatorio." step="0.1" min="0" id="nettoCliente" name="nettoCliente" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="nettoCliente" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="tan">TAN</label>
+            <input type="number" data-val="true" data-val-required="Il campo TAN è obbligatorio." step="0.1" min="0" id="tan" name="tan" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="tan" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="taeg">TAEG</label>
+            <input type="number" data-val="true" data-val-required="Il campo TAEG è obbligatorio." step="0.1" min="0" id="taeg" name="taeg" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="taeg" data-valmsg-replace="true"></span>
+
+        </div>
+        <div class="editor-label">
+            <label for="teg">TEG</label>
+            <input type="number" data-val="true" data-val-required="Il campo TEG è obbligatorio." step="0.1" min="0" id="teg" name="teg" value="" data-mini="true" />
+            <br /><span class="field-validation-valid" data-valmsg-for="teg" data-valmsg-replace="true"></span>
+
+        </div>
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide()' />
+        </div>
+    </form> 
+
+
+
+
+
+
+
+
+</body>
+</html>

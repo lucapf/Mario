@@ -9,16 +9,57 @@
     mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Imp", "/Impiego/ImpiegoPartialById", Model.id.ToString());
 }
 
+
+
 @Html.Raw(faDetailEventDetection.getHeader(
                  Html.DisplayFor(m => m.tipoImpiego.descrizione).ToHtmlString()
                 + " <b>mensilita</b> " + Html.DisplayFor(m => m.mensilita).ToHtmlString()
-                + " <b>importo</b> " + Html.DisplayFor(m => m.stipendioNetto).ToHtmlString()
+                    + " <b>importo</b> " + Html.DisplayFor(m => m.stipendioNettoMensile).ToHtmlString()
                 + " <b>dal</b> " + Html.DisplayFor(m => m.dataAssunzione).ToHtmlString()
                 + " <b>al</b> " + Html.DisplayFor(m => m.dataLicenziamento).ToHtmlString()))
+
 @Html.Raw(editHelper.getStartForm("/Impiego/Edit"))
+
 <div id="@faDetailEventDetection.getIdFullDetail()">
-   @Html.Partial("ImpiegoInnerDetail", Model) 
+
+
+    <div class="editor-label">
+    @MyHelper.MyDisplay(() => Model.dataAssunzione)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(m => m.dataLicenziamento)
+        <div>@Html.Display("dataLicenziamento") </div>
+    </div>
+    <div class="editor-label">
+        @MyHelper.MyDisplay(() => Model.stipendioNettoMensile)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.tipoImpiego)
+        <div>@Html.Display("tipoImpiego.descrizione")</div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.categoriaImpiego)
+        <div>@Html.Display("categoriaImpiego.descrizione")</div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.adesioneTFR)
+        <div>@Html.Display("adesioneTFR")</div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.anticipiTFR)
+        <div>@Html.Display("anticipiTFR")</div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.mansione)
+        <div>@Html.Display("mansione")</div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(m => m.mensilita)
+        <div>@Html.Display("mensilita")</div>
+    </div>
 </div>
+
 @Html.Raw(editHelper.getEndForm())
 @Html.Raw(editHelper.getCrudButtons())
 

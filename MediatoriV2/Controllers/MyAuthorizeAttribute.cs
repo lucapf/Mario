@@ -51,14 +51,7 @@ namespace mediatori.Controllers
 
 
             MyManagerCSharp.MySessionData session = (MyManagerCSharp.MySessionData)httpContext.Session["MySessionData"];
-
-            if (Roles == "REDATTORE")
-            {
-                return session.ProfiloId == Roles;
-            }
-
-
-            return session.IsInRole(Roles);
+                return session.IsInProfile(Roles);
 
             //if (httpContext.User.Identity is System.Security.Principal.WindowsIdentity)
             //{

@@ -1,0 +1,31 @@
+﻿@model mediatori.Models.Pratica.Pratica
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h1>Dettaglio pratica: @Model.contatto.nome  @Model.contatto.cognome</h1>
+
+
+<h3 id="preventivi">Preventivi</h3>
+<hr />
+@foreach (mediatori.Models.Preventivo p in Model.preventivi)
+{
+    Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", p);
+}
+
+
+
+
+@{Html.RenderPartial("~/Views/Segnalazioni/_Note.cshtml", Model);}
+
+
+
+
+<div data-role="footer" data-position="fixed" data-theme="c">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("Index", "Pratiche")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista delle pratiche</a></li>
+        </ul>
+    </div>
+</div>

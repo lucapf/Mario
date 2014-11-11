@@ -11,8 +11,6 @@
     {
         Layout = "~/Views/Shared/_LayoutMobile.cshtml";
     }
-
-     
     
 }
 
@@ -37,6 +35,6 @@
 
     <div class="ui-block-b">
         <div class="ui-bar ui-bar-a">@User.Identity.Name</div>
-        <div class="ui-bar ui-bar-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).ProfiloId)</div>
+        <div class="ui-bar ui-bar-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.Replace(";", " - " ))</div>
     </div>
 </div>

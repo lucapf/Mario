@@ -45,7 +45,12 @@ namespace mediatori.Controllers.Business.Anagrafiche
         {
           
             agenzia.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(agenzia.tipoNaturaGiuridica.id);
-            agenzia.stato = db.statiSegnalazione.Find(agenzia.stato.id);
+
+            if (agenzia.stato != null)
+            {
+                agenzia.stato = db.statiSegnalazione.Find(agenzia.stato.id);
+            }
+            
             agenzia.tipoAgenzia = db.TipoAgenzia.Find(agenzia.tipoAgenzia.id);
             agenzia.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(agenzia.tipoNaturaGiuridica.id);
             agenzia.soggettoGiuridico = new SoggettoGiuridicoBusiness().completaDati(agenzia.soggettoGiuridico, username, db);

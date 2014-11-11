@@ -8,7 +8,7 @@ using System.Web.Security;
 
 namespace mediatori.Models
 {
-   
+
 
     [Table("UserProfile")]
     public class UserProfile
@@ -17,9 +17,9 @@ namespace mediatori.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
-       
+
     }
-   
+
     public class RegisterExternalLoginModel
     {
         [Required]
@@ -83,17 +83,23 @@ namespace mediatori.Models
         [Display(Name = "Conferma password")]
         [Compare("Password", ErrorMessage = "La password e la password di conferma non corrispondono.")]
         public string ConfirmPassword { get; set; }
-        [Display(Name="Profilo")]
+
+
+        [Display(Name = "Profilo")]
         [Required]
-        public String[] roles{ get; set; }
+        public string[] roles { get; set; }
+
+        public List<MyUsers.Models.MyProfile> ProfiliDisponibili { get; set; }
+
     }
 
     public class RolesManagement
-    {  [Required]
-        [Display(Name="nome utente")]
+    {
+        [Required]
+        [Display(Name = "Nome utente")]
         public String username { get; set; }
         [Required]
-        [Display(Name="Ruoli Utente")]
+        [Display(Name = "Ruoli utente")]
         public String[] ruoli { get; set; }
     }
 

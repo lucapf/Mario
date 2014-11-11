@@ -95,21 +95,8 @@ namespace mediatori.Controllers
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException ex)
                 {
-                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
-                    foreach (var failure in ex.EntityValidationErrors)
-                    {
-                        sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
-                        foreach (var error in failure.ValidationErrors)
-                        {
-                            sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
-                            sb.AppendLine();
-                        }
-                    }
-                    Debug.WriteLine("EntityValidationErrors:" + sb.ToString());
-
                     model.esito = JsonMessageModel.Esito.Failed;
-                    model.messaggio = sb.ToString();
+                    model.messaggio = MyHelper.getDbEntityValidationException(ex);
                 }
                 finally
                 {
@@ -134,7 +121,7 @@ namespace mediatori.Controllers
 
 
             //return Json(model, JsonRequestBehavior.AllowGet);
-            return RedirectToAction("Details", "GestioneSegnalazioni", new { id = SegnalazioneId });
+            return RedirectToAction("Details", "Segnalazioni", new { id = SegnalazioneId });
         }
 
 
@@ -187,7 +174,7 @@ namespace mediatori.Controllers
 
 
            // return Json(model, JsonRequestBehavior.AllowGet);
-            return RedirectToAction("Details", "GestioneSegnalazioni", new { id = SegnalazioneId });
+            return RedirectToAction("Details", "Segnalazioni", new { id = SegnalazioneId });
         }
 
 

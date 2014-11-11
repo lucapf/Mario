@@ -8,19 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace mediatori.Controllers.Business
 {
     public class SoggettoGiuridicoController : MyBaseController
     { 
-        [HttpGet]
-        public ActionResult create()
-        {
-            SoggettoGiuridico soggettoG = new SoggettoGiuridico();
-            valorizzaDatiBaseModel(soggettoG);
-            ValorizzaViewBag();
-            return View(soggettoG);
-        }
+       
 
         private static void valorizzaDatiBaseModel(SoggettoGiuridico soggettoG)
         {
@@ -81,6 +75,16 @@ namespace mediatori.Controllers.Business
              ValorizzaViewBag();
             return dispatch(s, tipoAzione);
         }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            SoggettoGiuridico soggettoG = new SoggettoGiuridico();
+            valorizzaDatiBaseModel(soggettoG);
+            ValorizzaViewBag();
+            return View(soggettoG);
+        }
+
         [HttpPost]
         public ActionResult Create(SoggettoGiuridico soggettoGiuridico)
         {
@@ -90,17 +94,48 @@ namespace mediatori.Controllers.Business
             soggettoGiuridico = sogettoGiuridicoBusiness.completaDati(soggettoGiuridico, User.Identity.Name, db);
             TryValidateModel(soggettoGiuridico);
             
+
+
+
+
             if (ModelState.IsValid)
             {
                 db.SoggettiGiuridici.Add(soggettoGiuridico);
-                db.SaveChanges();
-                LogEventiManager.save(
-                  LogEventiManager.getEventoForCreate(User.Identity.Name, soggettoGiuridico.id, 
+
+                try
+                {
+                    db.SaveChanges();
+                    LogEventiManager.save(
+                  LogEventiManager.getEventoForCreate(User.Identity.Name, soggettoGiuridico.id,
                   EnumEntitaRiferimento.SOCIETA), db);
-           
+
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    string messaggio;
+                    messaggio = MyHelper.getDbEntityValidationException(ex);
+                    ViewBag.erroMessage = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il soggetto giuridico , verificare i dati: " + Environment.NewLine + messaggio);
+
+                    ValorizzaViewBag();
+                    return View(soggettoGiuridico);
+                }
                 
+                
+
+                return RedirectToAction("Index");
             }
-            return View("Details", soggettoGiuridico);
+
+
+            var message = string.Join(" | ", ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage));
+
+            Debug.WriteLine(message);
+
+            ViewBag.erroMessage = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il soggetto giuridico , verificare i dati: " + Environment.NewLine + message);
+
+            ValorizzaViewBag();
+            return View(soggettoGiuridico);
         }
         [HttpGet]
         public ActionResult Details(int id)

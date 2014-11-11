@@ -13,7 +13,7 @@
         <div class="ui-bar ui-bar-c">Data inserimento:</div>
         <div class="ui-bar ui-bar-c">Login success:</div>
         <div class="ui-bar ui-bar-c">Login failed:</div>
-        <div class="ui-bar ui-bar-c">Date last login:</div>
+        <div class="ui-bar ui-bar-c">Data ultimo accesso:</div>
     </div>
     <div class="ui-block-b">
         <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.login)</div>
@@ -28,27 +28,27 @@
 
 
 
-<h3>Ruoli</h3>
+<h3>Profili</h3>
 
-@using (Html.BeginForm("AddRole", "Utenti", FormMethod.Post))
+@using (Html.BeginForm("AddProfilo", "Utenti", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false)
 
     <input  type="hidden" name="userId" value="@Model.Utente.userId" />
-     
+
     int conta = 0;
     bool selected = false;
-
-    foreach (MyUsers.Models.MyRole r in Model.Ruoli)
+    foreach (MyUsers.Models.MyProfile p in Model.Profili)
     {
-        selected = Model.Utente.Ruoli.Find(x => x.ruoloId == r.ruoloId) != null;
-        
-    <input type ="checkbox" name="ruoliIDs" id="Ruolo_@(conta)" @(selected ? "checked" : "")   value ="@(r.ruoloId)" />
-    <label for="Ruolo_@(conta++)">@(r.nome)</label>
+        selected = Model.Utente.Profili.Find(x => x.profiloId == p.profiloId) != null;
+
+        <input type="checkbox" name="profiliIDs" id="profilo_@(conta)" @(selected ? "checked" : "") value="@(p.profiloId)" />
+        <label for="profilo_@(conta++)">@(p.nome)</label>
     }
-    
-   
+
+
+
     <div data-role="controlgrup" data-type="horizontal">
         <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
         <input type="submit" value="Salva" data-inline="true" data-mini="true" />

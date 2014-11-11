@@ -18,10 +18,16 @@
 }
 
 table.MyTable {
-            width: 100%;
-            display: table;
-            border-collapse: collapse;
-        }
+    width: 100%;
+    display: table;
+    border-collapse: collapse;
+}
+
+/*
+fieldset {
+    border: 1px solid lightgray;
+}*/
+
 
 .buttonCollapse {
     display: inline-block;
@@ -79,30 +85,31 @@ table.MyTable {
 .editor-label {
     display: inline-block;
     vertical-align: top;
-    margin:2px;
-   
+    margin: 3px;
+    border: 0px solid gray ;
 }
 
     .editor-label label {
-        width: auto;
+        width: 130px;
         float: left;
-        font-weight:bold; 
-        vertical-align: top;
-    }
+        font-weight: bold;
+        
+       }
 
     .editor-label input {
-        width: 130px;
+        width: 150px;
     }
 
     .editor-label div {
         display: inline-block;
-        width: auto;
-        vertical-align: top;
+        width: 160px;
+        vertical-align: middle;
         margin-left: 5px;
     }
 
     .editor-label select {
-        width: 140px;
+        width: 100px;
+        overflow:hidden;
     }
 
     .editor-label span {
@@ -112,10 +119,23 @@ table.MyTable {
 
 
 
-    .canvas-flex {
-        display: inline-flexbox;
-        display: flex;
-        align-items: center;
-        flex-flow: row wrap;
-        justify-content: space-around;
-    }
+
+
+.canvas-flex {
+    display: inline-flexbox;
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+
+
+#headerSegnalazioni {
+    display: block;
+    float: right;
+    margin-top: 0.5em;
+    margin-right: 1em;
+    font-size: 20px;
+    color: white;
+}

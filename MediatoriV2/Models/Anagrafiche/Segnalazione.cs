@@ -16,22 +16,29 @@ namespace mediatori.Models.Anagrafiche
     {
         [Key]
         public int id { get; set; }
+
         [Required]
         [Display(Name = "Contatto")]
         public Contatto contatto { get; set; }
         //   [Display(Name = "Riferimenti")]
         //   public ICollection<Riferimento> riferimenti { get; set; }
+
+
         [Required]
         [Display(Name = "Importo")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
-        public float? importoRichiesto { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        public decimal? importoRichiesto { get; set; }
+
         [Required]
         [Display(Name="Durata")]
         public int? durataRichiesta { get; set; }
+
         [Required]
         [Display(Name = "Rata")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
-        public float? rataRichiesta { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        public decimal? rataRichiesta { get; set; }
+
+
         [Display(Name = "Prodotto")]
         public TipoProdotto prodottoRichiesto { get; set; }
 
@@ -43,32 +50,37 @@ namespace mediatori.Models.Anagrafiche
 
         [Display(Name = "Luogo ritrovo")]
         public virtual TipoLuogoRitrovo tipoLuogoRitrovo { get; set; }
-        [Display(Name = "tipo Contatto")]
+
+        [Display(Name = "Tipo Contatto")]
         public virtual TipoContatto tipoContatto { get; set; }
-
-
+        
         [Display(Name = "Tipo azienda")]
         public virtual TipologiaAzienda tipoAzienda { get; set; }
+
         [Required]
         [Display(Name = "Altri prestiti in corso")]
         public virtual TipologiaPrestito altroPrestito { get; set; }
+        
         [Required]
         [Display(Name = "Fonte pubbl.")]
         public virtual FontePubblicitaria fontePubblicitaria { get; set; }
+
         public DateTime dataInserimento { get; set; }
         public String utenteInserimento { get; set; }
+
         [Display(Name = "Nota")]
         public ICollection<Nota> note { get; set; }
+
         [Display(Name = "Preventivo")]
         public ICollection<Preventivo> preventivi { get; set; }
+        
         [Display(Name = "Stato")]
         public Stato stato { get; set; }
-
-
-
+        
         [Display(Name = "Documenti")]
         public ICollection<Documento> documenti { get; set; }
 
+        
     }
 
    
@@ -76,10 +88,13 @@ namespace mediatori.Models.Anagrafiche
     public class SegnalazioneCreate
     {
         public Segnalazione segnalazione { set; get; }
+        
         [Display(Name = "Impieghi")]
         public ICollection<Impiego> impieghi { set; get; }
+        
         [Display(Name = "Riferimenti")]
         public ICollection<Riferimento> riferimenti { set; get; }
+        
         [Display(Name="Nota")]
         public ICollection<Nota> note { get; set; }
     }

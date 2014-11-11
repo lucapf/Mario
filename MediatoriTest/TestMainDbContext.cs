@@ -43,11 +43,14 @@ namespace mediatori.Models
             for (int i = 0; i < 3; i++)
             {
                // tables = db.GetType().GetProperties().Where(x => x.PropertyType.Name == "DbSet`1").Select(x => x.Name).ToList();
-                tables = db.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'").ToList();
+               
+                //tables = db.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'").ToList();
 
+                tables = db.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' and TABLE_NAME <> '__MigrationHistory'").ToList();
+                
                 if (tables.Count > 0)
                 {
-                    DropTables(db, tables);
+                   //DropTables(db, tables);
                 }
 
             }

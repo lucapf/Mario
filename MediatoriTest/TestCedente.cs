@@ -49,7 +49,7 @@ namespace mediatori.Controllers.CQS
                 dataAssunzione = new DateTime(2010, 01, 01),
                 mansione = "impiegato",
                 mensilita = 12,
-                stipendioNetto = 1200,
+                stipendioNettoMensile = 1200,
                tipoImpiego = new TipoContrattoImpiego { id = 1 }
             });
 

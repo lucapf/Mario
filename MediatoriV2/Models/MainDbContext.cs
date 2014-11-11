@@ -15,13 +15,24 @@ namespace mediatori.Models
             // : base("DefaultConnection")
             : base(getConnectionByUrl(url))
         {
-
+            Database.SetInitializer<MainDbContext>(new CreateDatabaseIfNotExists<MainDbContext>());
+           // Console.WriteLine("Costruttore con parametro MainDbContext: " + url);
         }
+
         public MainDbContext()
             : base("DefaultConnection")
         {
-            //Database.SetInitializer<MainDbContext>(new CreateDatabaseIfNotExists<MainDbContext>());
-            Database.SetInitializer<MainDbContext>(new DropCreateDatabaseAlways<MainDbContext>());
+           Database.SetInitializer<MainDbContext>(new CreateDatabaseIfNotExists<MainDbContext>());
+
+        //    Database.SetInitializer(new MigrateDatabaseToLatestVersion<MainDbContext, Configuration>());
+
+            // Database.SetInitializer<MainDbContext>(new DropCreateDatabaseAlways<MainDbContext>());
+            //Database.SetInitializer<SchoolDBContext>(new DropCreateDatabaseIfModelChanges<SchoolDBContext>());
+            //Database.SetInitializer<SchoolDBContext>(new DropCreateDatabaseAlways<SchoolDBContext>());
+            //Database.SetInitializer<SchoolDBContext>(new SchoolDBInitializer());
+           
+            //Console.WriteLine("Costruttore MainDbContext");
+
         }
 
         public static string getConnectionByUrl(string url)
@@ -82,6 +93,7 @@ namespace mediatori.Models
         public DbSet<Amministrazione> amministazioni { get; set; }
         public DbSet<Event> eventi { get; set; }
         public DbSet<Preventivo> preventivi { get; set; }
+        public DbSet<Pratica.Pratica> pratiche { get; set; }
 
         public DbSet<Documento> Documenti { get; set; }
         public DbSet<TipoDocumento> TipoDocumenti { get; set; }
@@ -93,21 +105,9 @@ namespace mediatori.Models
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-            modelBuilder.Entity<Preventivo>()
-       .HasRequired(p => p.assicurazioneImpiego)
-       .WithRequiredDependent()
-       .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Preventivo>()
-                   .HasRequired(p => p.assicurazioneVita)
-                   .WithRequiredDependent()
-                   .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Preventivo>()
-       .HasRequired(p => p.finanziaria)
-       .WithRequiredDependent()
-       .WillCascadeOnDelete(false);
-
+           // modelBuilder.Entity<Preventivo>().HasRequired(p => p.assicurazioneImpiego).WithRequiredDependent().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Preventivo>().HasRequired(p => p.assicurazioneVita).WithRequiredDependent().WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Preventivo>().HasRequired(p => p.finanziaria).WithRequiredDependent().WillCascadeOnDelete(false);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿@model mediatori.Models.Anagrafiche.AgenziaCreate
-
 @{
-   
+
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
 <h2>Nuova Agenzia</h2>
@@ -10,74 +10,85 @@
 @using (Html.BeginForm("Create", "Agenzia", FormMethod.Post, new { @id = "createForm" }))
 {
     Html.ValidationSummary(true);
+    
     @Html.HiddenFor(model => model.agenzia.id);
+    
     <h3>Dati Agenzia</h3>
-    <hr />  
+    <hr />
     @Html.EditorFor(model => model.soggettoGiuridico);
-    @Html.EditorFor(a => a.agenzia);                                           
+    @Html.EditorFor(a => a.agenzia);
+    
+    
     <h3>Indirizzi</h3>
-    <hr />  
-                                   using (Html.BeginCollectionItem("indirizzi"))
-                                   {
-                                       foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
-                                       {
-                                           Html.RenderAction("indirizzoPartial", "Indirizzo", new { indirizzo = i, tipoAzione = "INSERIMENTO" });
-                                       }
-                                   }
+    <hr />
+    using (Html.BeginCollectionItem("indirizzi"))
+    {
+        foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
+        {
+            Html.RenderAction("indirizzoPartial", "Indirizzo", new { indirizzo = i, tipoAzione = "INSERIMENTO" });
+        }
+    }
+    
 
-
-   
     <h3>Riferimenti</h3>
     <hr />
-                                   if (Model.riferimenti != null)
-                                   {
-                                       foreach (mediatori.Models.Anagrafiche.Riferimento riferimenti in Model.riferimenti)
-                                       {
-                                           Html.RenderAction("riferimentoPartial", "Riferimento", new { riferimento = riferimenti, tipoAzione = "INSERIMENTO" });
-                                       }
-                                   }
-  
-        
-      <h3>Dati Legale Rappresentante</h3>
-    <hr /> 
+    if (Model.riferimenti != null)
+    {
+        foreach (mediatori.Models.Anagrafiche.Riferimento riferimenti in Model.riferimenti)
+        {
+            Html.RenderAction("riferimentoPartial", "Riferimento", new { riferimento = riferimenti, tipoAzione = "INSERIMENTO" });
+        }
+    }
+
+
+    <h3>Dati Legale Rappresentante</h3>
+    <hr />
+    
+    
     <h3>Note</h3>
     <hr />
-                                   if (Model.note != null)
-                                   {
-                                       foreach (mediatori.Models.Nota nota in Model.note)
-                                       {
-                                           Html.RenderAction("notaPartial", "Nota", new { riferimento = nota, tipoAzione = "INSERIMENTO" });
-                                       }
-                                   }
+    if (Model.note != null)
+    {
+        foreach (mediatori.Models.Nota nota in Model.note)
+        {
+            Html.RenderAction("notaPartial", "Nota", new { riferimento = nota, tipoAzione = "INSERIMENTO" });
+        }
+    }
 
-    <p>
-        <input type="submit" value="Nuovo" id="Nuovo" onended="false" />
-    </p>
 
+
+    <div data-role="footer" data-position="fixed" data-theme="c">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
+                <li><input type="submit" value="Salva" id="Nuovo" data-inline="true" data-mini="true" /></li>
+            </ul>
+        </div>
+    </div>
+    
+    
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 <script>
-    $(function () {
+    //$(function () {
 
-        $("#Nuovo").click(function () {
+    //    $("#Nuovo").click(function () {
 
-            refreshValidation("createForm");
-            if ($("Form").validate().form() && validateForm()) {
-                $("Form").submit();
-            }
-        });
-    });
-    $(function () {
-        $("#agenzia_soggettoGiuridico_ragioneSociale").focus();
-    });
+    //        refreshValidation("createForm");
+    //        if ($("Form").validate().form() && validateForm()) {
+    //            $("Form").submit();
+    //        }
+    //    });
+    //});
+    //$(function () {
+    //    $("#agenzia_soggettoGiuridico_ragioneSociale").focus();
+    //});
 
 
 </script>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("/Scripts/Segnalazioni/Create.js")
+
+    @Scripts.Render("~/Scripts/Segnalazioni/Create.js")
 }

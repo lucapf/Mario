@@ -8,20 +8,50 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
 
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/themes/MyTheme.min.css")" />
-    <link rel="stylesheet" media="all" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile.structure-1.4.4.min.css" />
+    <link rel="stylesheet" media="all" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/SiteMINI.css")" />
 
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+
+
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/fireAntUtils.js")"></script>
+
+    <!-- DatePicker
+    <script id="mobile-datepicker" src="http://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/s"></script>
+        -->
+    <script id="mobile-datepicker" src="@Url.Content("~/Content/js/jquery.mobile.datepicker.js")"></script>
+    <script src="http://rawgithub.com/jquery/jquery-ui/1.10.4/ui/jquery.ui.datepicker.js"></script>
+    <link rel="stylesheet" href="http://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/jquery.mobile.datepicker.css">
 
     <script type="text/javascript">
+
+        @{ String contesto = Request.ApplicationPath;
+            if (contesto == "/")
+            {
+                contesto = "";
+            }
+        }
+
+        var contextPath = '@contesto';
+
         $(document).on("pageinit", function () {
             $.mobile.ajaxEnabled = false;
 
+            //$()datepicker({ dateFormat: 'dd-mm-yyyy' })
             //alert("pageinit");
             clock();
+
+            assegnazioni();
         });
 
 
@@ -35,73 +65,146 @@
         };
 
 
+
+
+        var isFirstTime = true;
+
+        function assegnazioni() {
+            //alert("assegnazioni");
+            $.getJSON('@Url.Action("Assegnazioni", "Home")', function (myresponse) {
+
+                var str = "";
+                str = "Da assegnare: " + myresponse[0].Value;
+                // $("#segnalazioniDaAssegnare").html(str);
+
+                str = "Assegnate: " + myresponse[1].Value;
+                //$("#segnalazioniAssegnate").html(str);
+                str = myresponse[0].Value;
+                // alert(str);
+
+                if ($("#headerSegnalazioni").html() != str) {
+
+                    $("#headerSegnalazioni").html(str);
+
+                    if (isFirstTime) {
+                        isFirstTime = false;
+                    } else {
+                        $("#headerSegnalazioni").effect("shake");
+                    }
+                }
+                // alert(str);
+                //$("#segnalazioni").show("slide", 1000)
+
+
+            });
+
+            setTimeout(function () { assegnazioni(); }, 2000);
+        }
+
     </script>
+
+    @RenderSection("scripts", required: false)
+
 </head>
 
 <body>
     <div data-role="page" id="Page1" data-theme="b" style="background-color: white;">
         <div data-role="header" data-position="fixed" style="background-color:#5F7605; background-repeat:no-repeat;background-image:url(@Url.Content("~/Images/topImage.png"));">
-            <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+            }
             <div style="height: 40px">
-                <a href="@Url.Action("Index", "Home")" data-role="none" class="ui-btn-left" style="margin-left:20px;" >
-                    <img  src ="@Url.Content("~/Images/marioh62.png")"  >
+
+                <a href="@Url.Action("Index", "Home")" data-role="none" class="ui-btn-left" style="margin-left:20px;">
+                    <img src="@Url.Content("~/Images/marioh62.png")">
                 </a>
-
-
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Assegnazioni", "Home")" data-role="none" title="Assegnazioni">
+                        <div id="headerSegnalazioni">
+                            0
+                        </div>
+                    </a>
+                }
                 <div id="headerClock" class="ui-btn-right" style="margin-top: 3em; margin-right: 1em;"></div>
 
-                <a href="#PageCalendar" class="ui-btn-right ui-icon-calendar ui-btn-icon-left" style="margin-top: 1em; margin-left: 1em;" data-rel="dialog" title="Calendario" data-transition="flip"></a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Manage", "Account")" class="ui-btn ui-icon-user ui-btn-icon-left" title="@User.Identity.Name">@User.Identity.Name</a>
+                }
+
+
+                <!--
+                    <a href="#PageCalendar" class="ui-btn-right ui-icon-calendar ui-btn-icon-left" style="margin-top: 1em; margin-left: 1em;" data-rel="dialog" title="Calendario" data-transition="flip"></a>
+                    -->
             </div>
+
             <div data-role="navbar" style="margin-top: 25px;">
-                <ul>
-                    <li><a href="@Url.Action("Index", "Home")"   class="ui-btn ui-icon-home ui-btn-icon-left"           >Home</a></li>
-                    <li><a href="@Url.Action("Anagrafiche", "Home")"        >Anagrafiche</a></li>
-                    <li><a href="@Url.Action("Sicurezza", "Home")"          >Sicurezza</a></li>
-                    <li><a href="@Url.Action("Configurazioni", "Home")"     >Configurazioni</a></li>
-
-
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <li><a href="@Url.Action("Login", "Account")">Utente: Anonymous</a></li>
-                    }
-                    else
-                    {
-                        <li><a href="@Url.Action("Manage", "Account")"   class="ui-btn ui-icon-user ui-btn-icon-left" title="@User.Identity.Name">@User.Identity.Name</a></li>
-                    }
-                </ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul>
+                        <!--<li><a href="@Url.Action("Index", "Home")" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a></li>-->
+                        <li><a href="@Url.Action("Index", "Segnalazioni")">Segnalazioni</a></li>
+                        <li><a href="@Url.Action("Index", "Pratiche")">Pratiche</a></li>
+                        <li><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
+                        <li><a href="@Url.Action("Sicurezza", "Home")">Sicurezza</a></li>
+                        <li><a href="@Url.Action("Configurazioni", "Home")">Configurazioni</a></li>
+                    </ul>
+                }
             </div>
+
         </div>
         <!-- /header -->
 
         <div role="main" class="ui-content ui-body-b">
+            @{
+
+                if (TempData["Message"] != null)
+                {
+
+                    string temp;
+                    if (TempData["Message"].GetType() == typeof(MyMessage))
+                    {
+                        MyMessage message = (MyMessage)TempData["Message"];
+
+                        temp = message.testo;
+
+                        temp = temp.Replace(Environment.NewLine, "<br />").Replace("|", "<br />");
+
+                        HtmlString html = new HtmlString(temp);
+
+                        switch (message.tipo)
+                        {
+                            case MyMessage.MyMessageType.Success:
+                                <h2 style="color:green ; font-size:medium;">@html</h2>
+                                break;
+                            case MyMessage.MyMessageType.Failed:
+                            <h2 style="color:red; font-size:medium;">@html</h2>
+                                break;
+                        }
+                    }
+                }
+            }
+
             @RenderBody()
         </div>
         <!-- /main -->
-
-
 
 
         <div data-role="panel" data-position-fixed="false" data-display="overlay" data-theme="a" id="nav-panel">
             <ul data-role="listview">
                 <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
                 <li><a href="@Url.Action("Index", "Home")">Home Page</a></li>
-                <li><a href="@Url.Action("Index", "Vulnerability")">Anagrafiche</a></li>
-                <li><a href="@Url.Action("Index", "Malicious")">Sicurezza</a></li>
-                <li><a href="@Url.Action("Index", "Product")">Configurazioni</a></li>
+                <li><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
+                <li><a href="@Url.Action("Sicurezza", "Home")">Sicurezza</a></li>
+                <li><a href="@Url.Action("Configurazioni", "Home")">Configurazioni</a></li>
             </ul>
         </div>
 
 
     </div>
     <!-- /page -->
-
-
-
-
-
-
-
-
     <!-- Start of second page: #two -->
     <div data-role="page" id="PageCalendar" data-theme="a" style="width: 80%; height: 80%;">
         <div data-role="header">

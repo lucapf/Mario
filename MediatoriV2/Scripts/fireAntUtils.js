@@ -58,14 +58,17 @@ function popolaComboComuni(idElementoProvincia, idElementoComune) {
     var provinciaSelezionata = $('#' + idElementoProvincia).val();
 
     //alert("provinciaSelezionata: " + provinciaSelezionata);
-    if ($("#" + idElementoProvincia).val() == "") return true;
+    if (provinciaSelezionata == "") return true;
 
 
     $.getJSON(contextPath + "/Configurazioni/popolaDropDownlistComuni",
                   { comboComunElementId: idElementoComune, denominazioneProvincia: provinciaSelezionata },
                   function (data) {
-                      //alert("popolaComboComuni");
-                      $("#" + data.idElemento).html(data.html);
+                      // alert("popolaComboComuni: " + data.html);
+                      $("#" + data.idElemento).empty();
+                      $("#" + data.idElemento).append($('<option/>', { value: "", text: "---" }));
+                      $("#" + data.idElemento).append(data.html);
+                      $("#" + data.idElemento).val(provinciaSelezionata).change();
                       refreshValidation("createForm");
                   });
 };

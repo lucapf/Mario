@@ -1,76 +1,59 @@
 ﻿@model mediatori.Models.Anagrafiche.Indirizzo
 @{
-    ViewBag.title = "Indirizzo";
     Layout = null;
 }
 
+@Html.HiddenFor(m => m.id)
 
 <div class="editor-label">
     @Html.LabelFor(m => m.tipoIndirizzo)
-    @Html.DropDownListFor(m => m.tipoIndirizzo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoIndirizzo, "")<br />
+    @Html.DropDownListFor(m => m.tipoIndirizzo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoIndirizzo, "", new { data_mini = "true" })<br />
     @Html.ValidationMessageFor(m => m.tipoIndirizzo.id)
 </div>
+
 <div class="editor-label">
-    @Html.LabelFor(m => m.presso)
-    @Html.EditorFor(m => m.presso)<br />
-    @Html.ValidationMessageFor(m => m.presso)
+    @Html.MyInputType(p => p.presso)
 </div>
+
 <div class="editor-label">
     @Html.LabelFor(m => m.toponimo)
-    @Html.DropDownListFor(m => m.toponimo.sigla, (IEnumerable<SelectListItem>)ViewBag.listaToponimo, "")<br />
+    @Html.DropDownListFor(m => m.toponimo.sigla, (IEnumerable<SelectListItem>)ViewBag.listaToponimo, "", new { data_mini = "true" })<br />
     @Html.ValidationMessageFor(m => m.toponimo.sigla)
 </div>
+
 <div class="editor-label">
-    @Html.LabelFor(m => m.recapito)
-    @Html.EditorFor(m => m.recapito)<br />
-    @Html.ValidationMessageFor(m => m.recapito)
+    @Html.MyInputType(p => p.recapito)
 </div>
+
 <div class="editor-label">
-    @Html.LabelFor(m => m.numeroCivico)
-    @Html.EditorFor(m => m.numeroCivico)<br />
-    @Html.ValidationMessageFor(m => m.numeroCivico)
+    @Html.MyInputType(p => p.numeroCivico)
 </div>
+
 <div class="editor-label">
-    @Html.LabelFor(m => m.interno)
-    @Html.EditorFor(m => m.interno)<br />
-    @Html.ValidationMessageFor(m => m.interno)
+    @Html.MyInputType(p => p.interno)
 </div>
+
 <div class="editor-label">
-    @Html.LabelFor(m => m.cap)
-    @Html.EditorFor(m => m.cap)<br />
-    @Html.ValidationMessageFor(m => m.cap)
+    @Html.MyInputType(p => p.cap)
 </div>
-<div class="editor-label">
-    @Html.LabelFor(m => m.provincia)
-    @Html.DropDownListFor(m => m.provincia.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "")<br />
-    @Html.ValidationMessageFor(m => m.provincia.denominazione)
-</div>
+
 <div class="editor-label">
     @Html.LabelFor(m => m.corrispondenza)
-    @Html.CheckBoxFor(m => m.corrispondenza)
+    @MyHelper.MyCheckBox("corrispondenza", Model.corrispondenza, "")
 </div>
+
+<div class="editor-label">
+    @Html.LabelFor(m => m.provincia)
+    @Html.DropDownListFor(m => m.provincia.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })<br />
+    @Html.ValidationMessageFor(m => m.provincia.denominazione)
+</div>
+
 <div class="editor-label">
     @Html.LabelFor(m => m.comune)
-    @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare Provincia ...")
-    @Html.ValidationMessageFor(m => m.comune.denominazione)<br />
-    @Html.HiddenFor(m => m.id)
+    @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare Provincia ...", new { data_mini = "true" })<br />
+    @Html.ValidationMessageFor(m => m.comune.denominazione)
 </div>
 
 
-<script>
 
-   // $(function () {
-    $("#provincia_denominazione").change(function () {
-       // alert("provincia_denominazione CHANGE");
-        popolaComboComuni("provincia_denominazione", "comune_denominazione");
-    });
-    //});
 
-    $('input[name$="interno"]').each(function () { this.style.width = "30px"; });
-    $('input[name$="indirizzo"]').each(function () { this.style.width = "300px"; });
-    $('input[name$="numeroCivico"]').each(function () { this.style.width = "70px"; });
-    $('input[name$="interno"]').each(function () { this.style.width = "40px"; });
-    $('input[name$="cap"]').each(function () { this.style.width = "70px"; });
-    $('input[name$="corrispondenza"]').each(function () { this.style.width = "20px"; this.style.borderStyle = "none" });
-
-</script>

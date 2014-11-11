@@ -20,6 +20,13 @@ namespace mediatori.Controllers
             return View();
         }
 
+        public ActionResult Validation01()
+        {
+            mediatori.Models.Test.TestClass model = new Models.Test.TestClass();
+            model.CodiceId = 7;
+            return View(model);
+        }
+
 
         public ActionResult Number()
         {

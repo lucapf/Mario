@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyManagerCSharp;
-using MyUsers.Models;
-using MyUsers;
+
+
 using System.Diagnostics;
 
 
@@ -13,7 +13,7 @@ namespace mediatori.Controllers
 {
     public class UtentiController : Controller
     {
-        private UserManager manager = new UserManager("DefaultConnection");
+        private MyUsers.UserManager manager = new MyUsers.UserManager("DefaultConnection");
 
         public ActionResult Index(MyUsers.Models.SearchUsers model)
         {
@@ -47,7 +47,6 @@ namespace mediatori.Controllers
             return View(model);
         }
 
-
         public ActionResult Details(long id = 0)
         {
             Models.MyUserModel model = new Models.MyUserModel();
@@ -61,11 +60,11 @@ namespace mediatori.Controllers
                     return HttpNotFound();
                 }
 
-                //  manager.setProfilo(model.Utente);
+                 manager.setProfili(model.Utente);
                 //manager.setGroups(model.Utente);
-                manager.setRolesV2(model.Utente);
+                //manager.setRoles(model.Utente);
 
-                CustomerManager c = new CustomerManager(manager.getConnection());
+                 MyUsers.CustomerManager c = new MyUsers.CustomerManager(manager.getConnection());
                 c.set(model.Utente);
 
 
@@ -73,7 +72,7 @@ namespace mediatori.Controllers
                 // MyManagerCSharp.RGraph.Models.RGraphModel report;
                 //MyUsers.Reports.ReportsUsers reportManager = new MyUsers.Reports.ReportsUsers(manager.getConnection());
 
-                model.Ruoli = manager.getRoles();
+                model.Profili = manager.getProfili();
 
 
             }
@@ -84,11 +83,9 @@ namespace mediatori.Controllers
             return View(model);
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddRole(long? userId)
+        public ActionResult AddProfilo(long? userId)
         {
             if (userId == null)
             {
@@ -96,20 +93,20 @@ namespace mediatori.Controllers
             }
 
             Debug.WriteLine("UserId: " + userId);
-            Debug.WriteLine("RuoliIDs: " + Request["ruoliIDs"]);
+            Debug.WriteLine("ProfiliIDs: " + Request["profiliIDs"]);
 
             manager.openConnection();
             try
             {
 
-                List<MyRole> lista = new List<MyRole>();
+                List<MyUsers.Models.MyProfile> lista = new List<MyUsers.Models.MyProfile>();
 
-                foreach (string id in Request["ruoliIDs"].Split(','))
+                foreach (string id in Request["profiliIDs"].Split(','))
                 {
-                    Debug.WriteLine("Ruolo: " + id);
-                    lista.Add(new MyRole(id));
+                    Debug.WriteLine("Profile: " + id);
+                    lista.Add(new MyUsers.Models.MyProfile(id));
                 }
-                manager.updateRoles(lista, (long)userId);
+                manager.updateProfili(lista, (long)userId);
 
 
             }
@@ -123,5 +120,58 @@ namespace mediatori.Controllers
 
             //return new RedirectResult(Url.Action("Details", new { id = userId }) + "#tabs-3");
         }
+
+
+        public ActionResult Register()
+        {
+            Models.RegisterModel model = new Models.RegisterModel();
+
+            model.ProfiliDisponibili = manager.getProfili();
+            model.UserName = "";
+            model.Password = "";
+            model.ConfirmPassword = "";
+
+
+            //model.roles 
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        //[Authorize(Roles = "Amministratore")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Models.RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                MyUsers.Models.MyUser u = new MyUsers.Models.MyUser();
+                u.login = model.UserName;
+                u.password = model.Password;
+
+
+                manager.openConnection();
+                try
+                {
+                    //manager.insert(u);
+                    //manager.updateProfili(u);
+                }
+                finally
+                {
+                    manager.closeConnection();
+                }
+
+                return RedirectToAction("Index");
+            }
+
+
+            model.ProfiliDisponibili = manager.getProfili();
+            model.Password = "";
+            model.ConfirmPassword = "";
+
+            return View(model);
+        }
+
+
     }
 }

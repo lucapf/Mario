@@ -4,7 +4,7 @@ function contattoDetail(idContatto) {
         alert("codice contatto non valido");
         return;
     }
-    window.location.href = "/GestioneSegnalazioni/Create?codiceContatto=" + idContatto
+    window.location.href = contextPath + "/GestioneSegnalazioni/Create?codiceContatto=" + idContatto;
 }
 function ricercaContatto() {
     var clNome = $("#segnalazione_contatto_nome").val();
@@ -12,7 +12,7 @@ function ricercaContatto() {
     var cf = $("#segnalazione_contatto_codiceFiscale").val();
     if (!searchDone && clNome != "" && clCognome != "") {
         $.ajax({
-            url: "/Contatto/findContattoByNomeCognome",
+            url: contextPath + "/Contatto/findContattoByNomeCognome",
             data: { nome: clNome, cognome: clCognome },
             cache: false,
             error: function (html) {
@@ -28,7 +28,7 @@ function ricercaContatto() {
     }
     if (!searchDone && cf != "") {
         $.ajax({
-            url: "/Contatto/findContattoByCodiceFiscale",
+            url: contextPath + "/Contatto/findContattoByCodiceFiscale",
             data: { codiceFiscale: cf },
             cache: false,
             error: function (html) {
