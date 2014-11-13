@@ -16,6 +16,8 @@ namespace DataModel
             //Database.SetInitializer<MediatoriDbContext>(new SchoolDBInitializer());
         }
 
+
+
         //public virtual DbSet<agenzia> agenzia { get; set; }
         //public virtual DbSet<amministrazione> amministrazione { get; set; }
         //public virtual DbSet<assegnazione> assegnazione { get; set; }

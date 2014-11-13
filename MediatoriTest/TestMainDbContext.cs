@@ -3,8 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using mediatori.Models.etc;
 using System.Data.Entity.Migrations;
+using mediatori.Models.etc;
 
 namespace mediatori.Models
 {
@@ -50,7 +50,7 @@ namespace mediatori.Models
                 
                 if (tables.Count > 0)
                 {
-                   //DropTables(db, tables);
+                   DropTables(db, tables);
                 }
 
             }

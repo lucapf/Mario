@@ -251,6 +251,10 @@
     <Content Include="Scripts\dhtmlxscheduler\locale\locale_ua.js" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{2dc00126-5045-4bd2-9612-e79f2a50cb8b}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MediatoriV2\MediatoriV2.csproj">
       <Project>{2db97b98-f859-4fe2-a68a-b73b7ebb6538}</Project>
       <Name>MediatoriV2</Name>

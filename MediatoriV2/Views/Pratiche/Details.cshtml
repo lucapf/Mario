@@ -4,20 +4,31 @@
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
-<h1>Dettaglio pratica: @Model.contatto.nome  @Model.contatto.cognome</h1>
+<h1>Dettaglio pratica: @Model.cedente.nome  @Model.cedente.cognome</h1>
 
 
-<h3 id="preventivi">Preventivi</h3>
+@{Html.RenderPartial("~/Views/Segnalazioni/_Contatto.cshtml", Model);}
+
+
+<h3 id="preventivi">Preventivo</h3>
 <hr />
 @foreach (mediatori.Models.Preventivo p in Model.preventivi)
 {
-    Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", p);
+    if (p.dataConferma != null)
+    {
+        Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", p);
+    }
 }
 
 
+@{Html.RenderAction("Details", "Indirizzo", new { cedenteId = Model.cedente.id });}
 
 
-@{Html.RenderPartial("~/Views/Segnalazioni/_Note.cshtml", Model);}
+@{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.cedente.id });}
+
+
+
+@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, segnalazioneId = Model.id });}
 
 
 

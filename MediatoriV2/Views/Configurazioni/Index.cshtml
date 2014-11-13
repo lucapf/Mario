@@ -1,0 +1,68 @@
+﻿@model List<mediatori.Models.MenuElement>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    int conta = 1;
+}
+
+<h2>Configurazioni</h2>
+
+<div class="canvas-flex">
+    <div id="Home">
+        <a href="@Url.Action("Index", "Home")" data-role="none">
+            <div class="box" style="background-color:green;">
+                <p>Home</p>
+            </div>
+        </a>
+    </div>
+
+    <div>
+        <a href="@Url.Action("Index", "Configurazioni")" data-role="none">
+            <div class="box" style="background-color:lightgreen;">
+                <p>Configurazioni</p>
+            </div>
+        </a>
+    </div>
+    @foreach (mediatori.Models.MenuElement configurazione in Model)
+    {
+
+        <div id="box_@conta">
+            <a href="#" onclick="javascript: explode('@Url.Action(configurazione.url)', @conta);" name="box_@conta" data-role="none">
+                <div class="box" style="background-color: rgb(@(87 + 5 * conta), @(158), 66  );">
+                    <p>@configurazione.display</p>
+                </div>
+            </a>
+        </div>
+       conta++;
+    }
+
+</div>
+
+<script>
+    function explode(url, indice) {
+
+         //alert(obj.name);
+
+       // $("#Home").hide("explode", {}, 1000);
+        //$("#"+obj.name).hide("explode", {}, 1000, function(){
+            //alert(obj.name);
+           
+        //});
+
+        for (i = indice; i < @Model.Count; i++) { 
+            $("#box_"+ i).hide("explode", {}, 1000);
+        }
+
+
+        location.href= url;
+      
+
+        //$(".SICUREZZA").show("drop", {}, 1000);
+
+    }
+</script>
+
+
+
+

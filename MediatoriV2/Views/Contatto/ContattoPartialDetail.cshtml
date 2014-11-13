@@ -1,26 +1,26 @@
 ﻿@model mediatori.Models.Anagrafiche.Contatto
 @{
     ViewBag.title = "Contatto";
-    Layout =null;
- }
-  
-  <div class="editor-label"  >
-       @Html.LabelFor(model => model.nome)
-       <div>@Html.DisplayFor(model => model.nome)</div>
-        
-    </div>
+    Layout = null;
+}
 
-    <div class="editor-label" >
-        @Html.LabelFor(model => model.cognome) 
-        <div>@Html.DisplayFor(model => model.cognome) </div>
-    </div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.nome)
+    <div>@Html.DisplayFor(model => model.nome)</div>
 
-    <div class="editor-label" >
-        @Html.LabelFor(model => model.dataNascita)
-        <div>@Html.DisplayFor(model => model.dataNascita)</div>
-    </div>
+</div>
 
-    <div class="editor-label">
-         @Html.LabelFor(model => model.sesso)
-        <div> @Html.DisplayFor(model => model.sesso)</div>
-    </div>
+<div class="editor-label">
+    @Html.LabelFor(model => model.cognome)
+    <div>@Html.DisplayFor(model => model.cognome) </div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.dataNascita)
+    <div>@Html.DisplayFor(model => model.dataNascita)</div>
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.sesso)
+    <div> @Html.DisplayFor(model => model.sesso)</div>
+</div>

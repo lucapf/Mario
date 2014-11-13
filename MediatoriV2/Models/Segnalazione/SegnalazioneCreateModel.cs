@@ -18,6 +18,8 @@ namespace mediatori.Models.Segnalazione
         {
             segnalazione = new Anagrafiche.Segnalazione();
             segnalazione.contatto = new Anagrafiche.Contatto();
+            //segnalazione.contatto.provinciaNascita = new Anagrafiche.Provincia();
+            //segnalazione.contatto.comuneNascita = new Anagrafiche.Comune();
                         
             impiego = new Anagrafiche.Impiego();
             riferimento = new  Anagrafiche.Riferimento();

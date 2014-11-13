@@ -42,7 +42,7 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
                                    select p).First();
             indirizzo.comune = (from c in db.Comuni
                                 where c.denominazione == indirizzo.comune.denominazione &&
-                                      c.provincia.id == indirizzo.provincia.id
+                                      c.codiceProvincia == indirizzo.provincia.id
                                 select c).First();
             return indirizzo;
 

@@ -5,6 +5,26 @@
 }
 
 
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        
+        idProvincia = "segnalazione_contatto_provinciaNascita_denominazione";
+        idComune = "segnalazione_contatto_comuneNascita_denominazione";
+
+        //alert("idProvincia" + idProvincia);
+
+        $("#segnalazione_contatto_provinciaNascita_denominazione").change(function () {
+            popolaComboComuni(idProvincia, idComune);
+        });
+
+        
+    });
+</script>
+
+
+
 <h2>Nuova Segnalazione</h2>
 
 @using (Html.BeginForm("Create", "Segnalazioni", FormMethod.Post, new { @id = "createForm" }))
@@ -28,6 +48,23 @@
     <div class="editor-label">
         @Html.MyInputType(p => p.segnalazione.contatto.nazioneNascita)
     </div>
+
+
+    
+    <div class="editor-label">
+        @Html.LabelFor(m => m.segnalazione.contatto.provinciaNascita)
+        @Html.DropDownListFor(m => m.segnalazione.contatto.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })<br />
+        @Html.ValidationMessageFor(m => m.segnalazione.contatto.provinciaNascita.denominazione)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(m => m.segnalazione.contatto.comuneNascita)
+        @Html.DropDownListFor(m => m.segnalazione.contatto.comuneNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })<br />
+        @Html.ValidationMessageFor(m => m.segnalazione.contatto.comuneNascita.denominazione)
+    </div>
+
+
+
 
     <div class="editor-label">
         @Html.MyInputType(p => p.segnalazione.contatto.codiceFiscale)

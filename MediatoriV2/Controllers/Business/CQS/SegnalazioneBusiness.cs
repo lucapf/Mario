@@ -57,6 +57,7 @@ namespace mediatori.Controllers.Business
         public List<Segnalazione> findByFilter(SegnalazioneSearch segnalazioniSearch, MainDbContext db)
         {
             IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto");
+            
             if (segnalazioniSearch.cognome != null)
             {
                 listaSegnalazioni = listaSegnalazioni.Where(s => s.contatto.cognome == segnalazioniSearch.cognome);
@@ -79,19 +80,18 @@ namespace mediatori.Controllers.Business
             }
             listaSegnalazioni.OrderByDescending(s => s.id);
             listaSegnalazioni.Take(50);
-            List<Segnalazione> segnalazioni = listaSegnalazioni.ToList();
+            List<Segnalazione> segnalazioni = listaSegnalazioni.Where( o => !(o is Models.Pratica.Pratica)).ToList();
             return segnalazioni;
         }
 
         public Segnalazione findByPk(int id, MainDbContext db)
         {
-
             if (id == 0)
             {
                 return null;
             }
 
-            ContattoBusiness contattoBusiness = new ContattoBusiness();
+           // ContattoBusiness contattoBusiness = new ContattoBusiness();
             ContattoInclude<Segnalazione> contattoInclude = new ContattoInclude<Segnalazione>();
             
             DbQuery<Segnalazione> segnalazioneQuery = contattoInclude

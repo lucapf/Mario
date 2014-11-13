@@ -1,0 +1,24 @@
+﻿@model mediatori.Models.Anagrafiche.Segnalazione
+
+@{
+    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("cnt", "/Contatto/contattoPartialById", Model.contatto.id.ToString());
+    var edContatto = new mediatori.helper.FireAntDetailEventDetection("cnt", Model.id);
+
+}
+
+
+<h3>
+    Dettaglio Contatto  @Html.Raw(editHelperContatto.getButtonModifica())
+    @Html.Raw(editHelperContatto.getButtonSalvaModifica())
+    @Html.Raw(editHelperContatto.getButtonAnnullaModifica())
+</h3>
+
+<script>$("#cntbtnEdit" + "@Model.id").show();</script>
+<hr />
+@Html.Raw(editHelperContatto.getStartForm("/Contatto/Edit"))
+
+<div id="@edContatto.getIdFullDetail()">
+    @{Html.RenderAction("contattoPartial", "contatto", new { contatto = Model.contatto, tipoAzione = "VISUALIZZAZIONE" });}
+</div>
+
+@Html.Raw(editHelperContatto.getEndForm())

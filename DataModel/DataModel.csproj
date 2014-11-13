@@ -7,7 +7,7 @@
     <ProjectGuid>{2DC00126-5045-4BD2-9612-E79F2A50CB8B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataModel</RootNamespace>
+    <RootNamespace>mediatori</RootNamespace>
     <AssemblyName>DataModel</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,14 +51,103 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MediatoriDbContext.cs" />
-    <Compile Include="Migrations\201411111358375_Initial.cs" />
-    <Compile Include="Migrations\201411111358375_Initial.Designer.cs">
-      <DependentUpon>201411111358375_Initial.cs</DependentUpon>
+    <Compile Include="EnumEntitaRiferimento.cs" />
+    <Compile Include="EnumStatoBase.cs" />
+    <Compile Include="EnumTipoEventoLog.cs" />
+    <Compile Include="EnumTipoSoggettoGiuridico.cs" />
+    <Compile Include="Initializer\Populate.cs" />
+    <Compile Include="Migrations\201411121540089_Initial.cs" />
+    <Compile Include="Migrations\201411121540089_Initial.Designer.cs">
+      <DependentUpon>201411121540089_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411121547535_Populate.cs" />
+    <Compile Include="Migrations\201411121547535_Populate.Designer.cs">
+      <DependentUpon>201411121547535_Populate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411121714416_Update01.cs" />
+    <Compile Include="Migrations\201411121714416_Update01.Designer.cs">
+      <DependentUpon>201411121714416_Update01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411121829212_Update02.cs" />
+    <Compile Include="Migrations\201411121829212_Update02.Designer.cs">
+      <DependentUpon>201411121829212_Update02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411131038114_Update03.cs" />
+    <Compile Include="Migrations\201411131038114_Update03.Designer.cs">
+      <DependentUpon>201411131038114_Update03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411131051166_Update04.cs" />
+    <Compile Include="Migrations\201411131051166_Update04.Designer.cs">
+      <DependentUpon>201411131051166_Update04.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411131126332_Update05.cs" />
+    <Compile Include="Migrations\201411131126332_Update05.Designer.cs">
+      <DependentUpon>201411131126332_Update05.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411131209574_Update06.cs" />
+    <Compile Include="Migrations\201411131209574_Update06.Designer.cs">
+      <DependentUpon>201411131209574_Update06.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411131704258_Update07.cs" />
+    <Compile Include="Migrations\201411131704258_Update07.Designer.cs">
+      <DependentUpon>201411131704258_Update07.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\DropCreate.cs" />
+    <Compile Include="Initializer\InitProvinceComuni.cs" />
+    <Compile Include="Models\Anagrafiche\Cedente.cs" />
+    <Compile Include="Models\Anagrafiche\Contatto.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="LogEventi.cs" />
+    <Compile Include="MainDbContext.cs" />
+    <Compile Include="MediatoriDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Anagrafiche\AnagraficaRete.cs" />
+    <Compile Include="Models\Anagrafiche\Comune.cs" />
+    <Compile Include="Models\Anagrafiche\DocumentoIdentita.cs" />
+    <Compile Include="Models\Anagrafiche\ElementoRete.cs" />
+    <Compile Include="Models\Anagrafiche\EnumSesso.cs" />
+    <Compile Include="Models\Anagrafiche\EnumStatoCivile.cs" />
+    <Compile Include="Models\Anagrafiche\Erogazione.cs" />
+    <Compile Include="Models\Anagrafiche\FontePubblicitaria.cs" />
+    <Compile Include="Models\Anagrafiche\Impiego.cs" />
+    <Compile Include="Models\Anagrafiche\Indirizzo.cs" />
+    <Compile Include="Models\Anagrafiche\PersonaFisica.cs" />
+    <Compile Include="Models\Anagrafiche\Provincia.cs" />
+    <Compile Include="Models\Anagrafiche\Riferimento.cs" />
+    <Compile Include="Models\Anagrafiche\Segnalazione.cs" />
+    <Compile Include="Models\Anagrafiche\SoggettoGiuridico.cs" />
     <Compile Include="Models\Anagrafiche\TestAnagrafiche.cs" />
+    <Compile Include="Models\Anagrafiche\TipoAgenzia.cs" />
+    <Compile Include="Models\Anagrafiche\TipoAssumibilita.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCampagnaPubblicitaria.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCanaleAcquisizione.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCategoriaAmministrazione.cs" />
+    <Compile Include="Models\Anagrafiche\TipoCategoriaImpiego.cs" />
+    <Compile Include="Models\Anagrafiche\TipoContatto.cs" />
+    <Compile Include="Models\Anagrafiche\TipoContrattoImpiego.cs" />
+    <Compile Include="Models\Anagrafiche\TipoDocumento.cs" />
+    <Compile Include="Models\Anagrafiche\TipoDocumentoIdentita.cs" />
+    <Compile Include="Models\Anagrafiche\TipoEnteRilascio.cs" />
+    <Compile Include="Models\Anagrafiche\TipoErogazione.cs" />
+    <Compile Include="Models\Anagrafiche\TipologiaAzienda.cs" />
+    <Compile Include="Models\Anagrafiche\TipologiaIndirizzo.cs" />
+    <Compile Include="Models\Anagrafiche\TipologiaPrestito.cs" />
+    <Compile Include="Models\Anagrafiche\TipoLuogoRitrovo.cs" />
+    <Compile Include="Models\Anagrafiche\TipoNaturaGiuridica.cs" />
+    <Compile Include="Models\Anagrafiche\TipoProdotto.cs" />
+    <Compile Include="Models\Anagrafiche\TipoRiferimento.cs" />
+    <Compile Include="Models\Anagrafiche\Toponimo.cs" />
+    <Compile Include="Models\etc\Assegnazione.cs" />
+    <Compile Include="Models\etc\Documento.cs" />
+    <Compile Include="Models\etc\EnumEntitaAssociataStato.cs" />
+    <Compile Include="Models\etc\GruppoLavorazione.cs" />
+    <Compile Include="Models\etc\Parametro.cs" />
+    <Compile Include="Models\etc\Stato.cs" />
+    <Compile Include="Models\Pratica\Pratica.cs" />
     <Compile Include="Models\Test\Test01.cs" />
+    <Compile Include="MyConstants.cs" />
+    <Compile Include="Nota.cs" />
+    <Compile Include="Preventivo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,12 +156,37 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Initializer\" />
+    <Content Include="Migrations\Migrations.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201411111358375_Initial.resx">
-      <DependentUpon>201411111358375_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411121540089_Initial.resx">
+      <DependentUpon>201411121540089_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411121547535_Populate.resx">
+      <DependentUpon>201411121547535_Populate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411121714416_Update01.resx">
+      <DependentUpon>201411121714416_Update01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411121829212_Update02.resx">
+      <DependentUpon>201411121829212_Update02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411131038114_Update03.resx">
+      <DependentUpon>201411131038114_Update03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411131051166_Update04.resx">
+      <DependentUpon>201411131051166_Update04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411131126332_Update05.resx">
+      <DependentUpon>201411131126332_Update05.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411131209574_Update06.resx">
+      <DependentUpon>201411131209574_Update06.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411131704258_Update07.resx">
+      <DependentUpon>201411131704258_Update07.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -22,10 +22,34 @@ namespace mediatori.Controllers
             return View();
         }
 
+
+
+        [ChildActionOnly]
+        public ActionResult Details(int cedenteId)
+        {
+            Cedente cedente;
+            cedente = db.Cedenti.Include("documentiIdentita").Where(p => p.id == cedenteId).First();
+            if (cedente == null)
+            {
+                return HttpNotFound();
+            }
+
+            DocumentiIdentitaModel model = new DocumentiIdentitaModel();
+            model.documentiIdentia = cedente.documentiIdentita.ToList<mediatori.Models.Anagrafiche.DocumentoIdentita>();
+            model.cedenteId = cedenteId;
+
+            valorizzaDatiViewBag();
+
+            return View("_DocumentiIdentita", model);
+        }
+
+
+
+
         public ActionResult DocumentoIdentitaPartialInsert(DocumentoIdentita di)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            valorizzaDatiDocumentoIdentita(db);
+
+            valorizzaDatiViewBag();
             ViewBag.provinciaRilascio = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
             // ViewBag.comuneRilascio = new SelectList((from c in db.Comuni where c.provincia.id == di.provinciaEnte.id select c).ToList(), "denominazione", "denominazione");
 
@@ -45,8 +69,8 @@ namespace mediatori.Controllers
 
         public ActionResult DocumentoIdentitaPartial(DocumentoIdentita di)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            valorizzaDatiDocumentoIdentita(db);
+
+            valorizzaDatiViewBag();
             ViewBag.provinciaRilascio = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
             // ViewBag.comuneRilascio = new SelectList((from c in db.Comuni where c.provincia.id == di.provinciaEnte.id select c).ToList(), "denominazione", "denominazione");
 
@@ -66,7 +90,7 @@ namespace mediatori.Controllers
 
         public ActionResult DocumentoIdentitaPartialById(int id, EnumTipoAzione tipoAzione = EnumTipoAzione.VISUALIZZAZIONE)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
             DocumentoIdentita docI = new DocumentoIdentita();
             if (id != 0)
             {
@@ -78,7 +102,7 @@ namespace mediatori.Controllers
             }
             if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
-                valorizzaDatiDocumentoIdentita(db);
+
                 PopolaDropDownListAnagrafiche pddla = new PopolaDropDownListAnagrafiche();
                 String defaultValue = String.Empty;
                 if (docI.provinciaEnte != null)
@@ -140,7 +164,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult CreateForCedente(DocumentoIdentita di, int codiceCedente)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             di = valorizzaDatiDaRequest(di, db);
 
             ModelState.Remove("enteRilascio.descrizione");
@@ -149,7 +172,7 @@ namespace mediatori.Controllers
             if (ModelState.IsValid)
             {
                 Cedente cedente = RicercaCedenteBusiness.find(codiceCedente, db);
-                cedente.documentoIdentita.Add(di);
+                cedente.documentiIdentita.Add(di);
                 LogEventiManager.save(LogEventiManager.getEventoForCreate(User.Identity.Name, di.id, EnumEntitaRiferimento.DOCUMENTO_IDENTITA), db);
                 db.SaveChanges();
             }
@@ -157,15 +180,17 @@ namespace mediatori.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
-        private void valorizzaDatiDocumentoIdentita(MainDbContext db)
+        private void valorizzaDatiViewBag()
         {
             ViewBag.inizioValidita = System.DateTime.Now.Year - 15;
             ViewBag.oggi = System.DateTime.Now.Year;
             ViewBag.fineValidita = System.DateTime.Now.Year + 15;
             ViewBag.listaEnteRilascio = new SelectList(db.TipoEnteRilascio.ToList(), "id", "descrizione");
+       
+            ViewBag.provinciaRilascio = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
+
             List<SelectListItem> lsli = new List<SelectListItem>();
             lsli.Add(new SelectListItem { Text = "", Value = "" });
-            ViewBag.provinciaRilascio = new SelectList(lsli, "Text", "Value");
             ViewBag.comuneRilascio = new SelectList(lsli, "Text", "Value");
         }
 

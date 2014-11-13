@@ -54,7 +54,7 @@ public static class MyExtensions
             temp = myTextBox.ToHtmlString().Replace(",", ".");
             myTextBox = new MvcHtmlString(temp);
         }
-        else if (dataType.StartsWith("System.Nullable`1[[System.DateTime,"))
+        else if (dataType == "System.DateTime" ||  dataType.StartsWith("System.Nullable`1[[System.DateTime,"))
         {
             myTextBox = htmlHelper.TextBoxFor(expression, "{0:d}", new { type = "date", data_role = "date", data_mini = DATA_MINI });
         }
@@ -113,7 +113,7 @@ public static class MyExtensions
 
 
 
-        return new MvcHtmlString(label.ToHtmlString() + textBox.ToHtmlString() + validation.ToHtmlString());
+        return new MvcHtmlString(label.ToHtmlString() + textBox.ToHtmlString() + "<br />" + validation.ToHtmlString());
     }
 
 

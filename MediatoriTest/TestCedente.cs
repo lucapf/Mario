@@ -33,8 +33,8 @@ namespace mediatori.Controllers.CQS
             cedente.dataNascita = new DateTime(1973, 04, 30);
             cedente.provinciaNascita = new Provincia { denominazione = "Roma" };
             cedente.comuneNascita = new Comune { denominazione = "Roma" };
-            cedente.documentoIdentita = new List<DocumentoIdentita>();
-            cedente.documentoIdentita.Add(new DocumentoIdentita
+            cedente.documentiIdentita = new List<DocumentoIdentita>();
+            cedente.documentiIdentita.Add(new DocumentoIdentita
             {
                 comuneEnte = new Comune { denominazione = "Amatrice" },
                 dataRilascio = new DateTime(2010, 01, 01),

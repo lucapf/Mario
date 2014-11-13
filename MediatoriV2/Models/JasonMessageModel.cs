@@ -13,6 +13,7 @@ namespace mediatori.Models
             Succes = 1
         }
 
+        public string referenceId;
         public string messaggio;
         public Esito esito;
 

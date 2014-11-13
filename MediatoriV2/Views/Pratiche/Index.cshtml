@@ -41,14 +41,14 @@
             alternatingRowStyle: "ui-bar-d",
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
-                    wGrid.Column (columnName:"contatto.nome", header :"Nome", canSort:false),
-                    wGrid.Column (columnName:"contatto.cognome", header :"Cognome", canSort:false),
+                    wGrid.Column (columnName:"cedente.nome", header :"Nome", canSort:false),
+                    wGrid.Column (columnName:"cedente.cognome", header :"Cognome", canSort:false),
                     wGrid.Column (columnName:"importoRichiesto", header :"Importo", canSort:false, format: p=> String.Format("{0:N2}",p.importoRichiesto)),
                     wGrid.Column (columnName:"durataRichiesta", header :"Durata", canSort:false),
                     wGrid.Column (columnName:"prodottoRichiesto.descrizione", header :"Prodotto", canSort:false),
                     wGrid.Column ("", header :"Dettaglio",
                         format:@<text>
-                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Segnalazioni", new { id = item.id })">Info</a>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Pratiche", new { id = item.id })">Info</a>
                         </text>, canSort : false)
                 })
 

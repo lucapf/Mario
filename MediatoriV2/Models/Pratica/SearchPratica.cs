@@ -10,8 +10,5 @@ namespace mediatori.Models.Pratica
         //Filtri di ricerca
         public string nome { get; set; }
         public string cognome { get; set; }
-        
-
-       
     }
 }

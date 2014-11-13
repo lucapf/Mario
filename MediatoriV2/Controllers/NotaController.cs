@@ -19,7 +19,7 @@ namespace mediatori.Controllers
         }
         public ActionResult notaPartial(Nota nota, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
-          
+
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             switch (tipoAzione)
             {
@@ -29,12 +29,13 @@ namespace mediatori.Controllers
                     return View("NotaPartialInsert", nota);
                 default:
                     return View("NotaPartialDetail", nota);
-            }  
+            }
         }
+
+      
         [HttpPost]
         public ActionResult CreateForSegnalazione(Nota nota, int codiceSegnalazione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             nota = new NotaBusiness().valorizzaDatiDefault(nota, User.Identity.Name);
             ModelState.Clear();
             TryValidateModel(nota);

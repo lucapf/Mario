@@ -40,15 +40,10 @@ namespace mediatori.Controllers
 
 
 #if DEBUG
-
             preventivo.importoCoperturaVita = 1000;
-
-
             preventivo.importoCoperturaImpego = 700;
             preventivo.montante = 36000;
             preventivo.nettoCliente = 18000;
-
-
             preventivo.importoProvvigioni = 300;
             preventivo.importoInteressi = 100;
             preventivo.importoImpegniDaEstinguere = 0;
@@ -61,9 +56,9 @@ namespace mediatori.Controllers
             preventivo.tabellaFinanziaria = "TAB";
             preventivo.dataDecorrenza = DateTime.Now;
             preventivo.oneriFiscali = 20;
-            preventivo.assicurazioneImpiegoId = 1;
-            preventivo.assicurazioneVitaId = 1;
-            preventivo.finanziariaId = 2;
+            //preventivo.assicurazioneImpiegoId = 1;
+            //preventivo.assicurazioneVitaId = 1;
+            //preventivo.finanziariaId = 2;
 
 #endif
 
@@ -72,37 +67,63 @@ namespace mediatori.Controllers
         }
 
 
-        public ActionResult Conferma(int id, Boolean statoConferma = true)
+        public JsonResult Conferma(int id, Boolean statoConferma = true)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            Preventivo p = db.preventivi.Find(id);
+            Models.JsonMessageModel model = new Models.JsonMessageModel();
+
+            Preventivo preventivo = db.preventivi.Include("segnalazione").Include("segnalazione.fontePubblicitaria").Include("segnalazione.altroPrestito").Include("segnalazione.contatto").First(d => d.id == id);
+            if (preventivo == null)
+            {
+                model.esito = Models.JsonMessageModel.Esito.Failed;
+                model.messaggio = "Preventivo non trovato";
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+
             if (statoConferma == true)
             {
-                p.dataConferma = System.DateTime.Now;
-                p.operatoreConferma = User.Identity.Name;
+                preventivo.dataConferma = System.DateTime.Now;
+                preventivo.operatoreConferma = User.Identity.Name;
             }
             else
             {
-                p.dataConferma = null;
-                p.operatoreConferma = null;
+                preventivo.dataConferma = null;
+                preventivo.operatoreConferma = null;
             }
 
-
+            preventivo.segnalazione.preventivoConfermatoId = preventivo.id;
 
             try
             {
                 db.SaveChanges();
+
+                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET Discriminator = 'Pratica'  where id = " + preventivo.segnalazione.id);
+
+                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET cedente_id = contatto_id  where id = " + preventivo.segnalazione.id);
+
+                db.Database.ExecuteSqlCommand("UPDATE persona_fisica SET tipoPersonaFisica = 'Cedente'  where id = " + preventivo.segnalazione.contatto.id);
+
+                model.referenceId = preventivo.segnalazione.id.ToString();
+                model.esito = Models.JsonMessageModel.Esito.Succes;
+                model.messaggio = "Operazione conlusa con successo";
+
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                MyHelper.getDbEntityValidationException(ex);
+                string temp;
+                temp = MyHelper.getDbEntityValidationException(ex);
+
+                Debug.WriteLine("DbEntityValidationException: " + temp);
+                model.esito = Models.JsonMessageModel.Esito.Failed;
+                model.messaggio = temp;
+            }
+            catch (Exception ex) {
+                model.esito = Models.JsonMessageModel.Esito.Failed;
+                model.messaggio = ex.Message ;
             }
 
-
-            // return JsonConvert.SerializeObject(p);
-
-            return RedirectToAction("Details", "Segnalazioni", new { id = id });
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
+
         //public ActionResult preventivoPartial(Segnalazione segnalazione, EnumTipoAzione tipoAzione)
         //{
         //    MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
@@ -134,7 +155,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult createForSegnalazione(Preventivo p, int idSegnalazione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione s = new SegnalazioneBusiness().findByPk(idSegnalazione, db);
 
             if (s == null)
@@ -159,6 +179,8 @@ namespace mediatori.Controllers
             p.assicurazioneImpiego = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneImpiego).FirstOrDefault();
             p.finanziaria = db.SoggettiGiuridici.Where(aa => aa.id == idFinanziari).FirstOrDefault();
 
+            p.dataInserimento = DateTime.Now;
+            p.operatoreInserimento = User.Identity.Name;
 
             s.preventivi.Add(p);
 

@@ -1,7 +1,6 @@
 ﻿h3 {
     color: #718E3E;
     letter-spacing: -1px;
-    font-family: "Arial";
     font-weight: normal;
     font-size: 20px;
     margin-top: 7px;
@@ -26,7 +25,7 @@ table.MyTable {
 /*
 fieldset {
     border: 1px solid lightgray;
-}*/
+}
 
 
 .buttonCollapse {
@@ -72,7 +71,7 @@ fieldset {
     margin-left: 2px;
     cursor: pointer;
     cursor: hand;
-}
+}*/
 
 
 
@@ -86,15 +85,14 @@ fieldset {
     display: inline-block;
     vertical-align: top;
     margin: 3px;
-    border: 0px solid gray ;
+    border: 0px solid gray;
 }
 
     .editor-label label {
         width: 130px;
         float: left;
         font-weight: bold;
-        
-       }
+    }
 
     .editor-label input {
         width: 150px;
@@ -109,7 +107,7 @@ fieldset {
 
     .editor-label select {
         width: 100px;
-        overflow:hidden;
+        overflow: hidden;
     }
 
     .editor-label span {
@@ -128,6 +126,37 @@ fieldset {
     flex-flow: row wrap;
     justify-content: space-around;
 }
+
+
+    .canvas-flex div a, .canvas-flex div a:visited {
+        color: black;
+        text-decoration:none;
+    }
+    .canvas-flex div a:hover{
+ text-decoration:underline;
+ color:lightgray;
+    }
+    .canvas-flex .box {
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        margin: 10px;
+        width: 150px;
+        height: 150px;
+        background-color: lightgray;
+        display: table;
+    }
+
+        .canvas-flex .box p {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            text-shadow:none;
+          font-weight:normal;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
 
 
 

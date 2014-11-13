@@ -1,0 +1,39 @@
+﻿@model mediatori.Models.Anagrafiche.DocumentoIdentita
+@{
+    Layout = null;
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("DI", Model.id);
+
+}
+@Html.Raw(faDetailEventDetection.getScriptHandler())
+@Html.Raw(faDetailEventDetection.buildShortDetailDiv(
+                "<strong>&#9654 &#9654 Documento Identita " + ": </strong>" +
+                Model.numeroDocumento + " validita " + Model.dataRilascio + " - " +
+                Model.dataScadenza))
+<div id="@faDetailEventDetection.getIdFullDetail()">
+    <fieldset>
+        <legend>  @Html.Raw(faDetailEventDetection.buildFullDetailDiv("Documento Identita"))</legend>
+
+        <table>
+            <tr>
+                <td>@Html.LabelFor(model => model.dataRilascio, new { @style = "width:100px" })</td>
+                <td>@Model.dataRilascio</td>
+                <td>@Html.LabelFor(model => model.dataScadenza, new { @style = "width:100px" })</td>
+                <td>@Model.dataScadenza</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.numeroDocumento, new { @style = "width:100px" })</td>
+                <td>@Model.numeroDocumento</td>
+                <td>@Html.LabelFor(model => model.enteRilascio)</td>
+                <td>@Model.enteRilascio.descrizione</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.provinciaEnte)</td>
+                <td colspan="3">@Model.provinciaEnte.denominazione</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.comuneEnte)</td>
+                <td colspan="3">@Model.comuneEnte.denominazione</td>
+            </tr>
+        </table>
+    </fieldset>
+</div>

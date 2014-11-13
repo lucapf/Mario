@@ -1,0 +1,95 @@
+﻿@model mediatori.Models.IndirizziModel
+@{
+    Layout = null;
+
+    string actionName = "";
+
+    if (Model.contattoId != null)
+    {
+        actionName = "CreateForPersonaFisica";
+    }
+    else if (Model.soggettoGiuridicoId != null) 
+    {
+        actionName = "CreateForSoggettoGiuridico";
+    }
+    
+}
+<h3>Indirizzi <strong class="h3Link" id="linkNuovoIndirizzo" title="Aggiungi Indirizzo">[ + ]</strong></h3>
+
+<script>$(function () { $("#linkNuovoIndirizzo").click(function () { $("#divNuovoIndirizzo").show(); }) })</script>
+<hr />
+
+@if (Model.indirizzi != null && Model.indirizzi.Count > 0)
+{
+    using (Html.BeginCollectionItem("indirizzi"))
+    {
+        foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
+        {
+
+            Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialDetail.cshtml", i);
+        }
+    }
+}
+
+@using (Html.BeginForm(actionName, "Indirizzo", FormMethod.Post, new { id = "novoIndirizzo" }))
+{
+    <div id="divNuovoIndirizzo" style="display: none">
+        <input type="hidden" name="codiceSoggettoGiuridico" value="@Model.soggettoGiuridicoId" />
+        <input type="hidden" name="codiceId" value="@Model.contattoId" />
+
+        @{ Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Indirizzo()); }
+        
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#novoIndirizzo").hide()' />
+        </div>
+
+    </div>
+}
+
+
+
+<script type="text/javascript">
+    
+    $(document).on("pageinit", function () {
+        
+        idProvincia = "provincia_denominazione";
+        idComune = "comune_denominazione";
+
+        //alert("idProvincia" + idProvincia);
+
+        $("#" + idProvincia).change(function () {
+            popolaComboComuni(idProvincia, idComune);
+        });
+
+        
+    });
+
+    
+   // $(document).on("pageinit", function () {
+        
+
+
+
+        //$('select[id$="provincia_denominazione"]').each(function () {
+
+            
+
+        //    codice = this.name.split('[')[1].split(']')[0];
+
+        //    //            alert(codice);
+
+        //    idProvincia = "indirizzi_" + codice + "__provincia_denominazione";
+        //    idComune = "indirizzi_" + codice + "__comune_denominazione";
+
+        //    //          alert("idProvincia" + idProvincia);
+
+        //    $("#" + idProvincia).change(function () {
+        //        popolaComboComuni(idProvincia, idComune);
+        //    })
+        //})
+
+
+
+    //});
+</script>

@@ -13,19 +13,44 @@ namespace mediatori.Controllers
 {
     public class ConfigurazioniController : MyBaseController
     {
-        //
-        // GET: /Configurazioni/
         public ActionResult Index()
         {
-            return RedirectToAction("Home", "Index");
+
+            List<MenuElement> model = new List<MenuElement>(){
+                    new MenuElement(){display="Province", ordinamento=1,livello=1,role="Amministratore",url="Province"},
+                    new MenuElement(){display="Toponimi", ordinamento=1,livello=1,role="Amministratore",url="Toponimi"},
+                    new MenuElement(){display="Fonti Pubblicitarie", ordinamento=1,livello=1,role="Amministratore",url="fontePubblicitaria"},
+                    new MenuElement(){display="Tipo Prestito", ordinamento=1,livello=1,role="Amministratore",url="tipologiaPrestito"}, 
+                    new MenuElement(){display="Tipo Azienda", ordinamento=1,livello=1,role="Amministratore",url="tipologiaAzienda"},
+                    new MenuElement(){display="Tipo Indirizzo", ordinamento=1,livello=1,role="Amministratore",url="tipologiaIndirizzo"},
+                    new MenuElement(){display="Tipo Impiego", ordinamento=1,livello=1,role="Amministratore",url="tipoContrattoImpiego"},
+                    new MenuElement(){display="Tipo Ente Rilascio", ordinamento=1,livello=1,role="Amministratore",url="tipoEnteRilascio"}, 
+                    new MenuElement(){display="Tipo Documento Identita", ordinamento=1,livello=1,role="Amministratore",url="tipoDocumentoIdentita"},
+                    new MenuElement(){display="Gruppi di lavorazione", ordinamento=1,livello=1,role="Amministratore",url="tipoCampagnaPubblicitaria"},
+                    new MenuElement(){display="Tipo Contatto", ordinamento=1,livello=1,role="Amministratore",url="tipoContatto"},
+                    new MenuElement(){display="Canale Acquisizione", ordinamento=1,livello=1,role="Amministratore",url="tipoCanaleAcquisizione"},
+                    new MenuElement(){display="Tipo Luogo Ritrovo", ordinamento=1,livello=1,role="Amministratore",url="tipoLuogoRitrovo"},
+                    new MenuElement(){display="Tipo Riferimento", ordinamento=1,livello=1,role="Amministratore",url="tipoRiferimento"},
+                    new MenuElement(){display="Tipo Prodotto", ordinamento=1,livello=1,role="Amministratore",url="tipoProdotto"},
+                    new MenuElement(){display="Tipo Categoria", ordinamento=1,livello=1,role="Amministratore",url="tipoCategoriaAmministrazione"},
+                    new MenuElement(){display="Tipo Agenzia", ordinamento=1,livello=1,role="Amministratore",url="tipoAgenzia"},
+                    new MenuElement(){display="Tipo Erogazione", ordinamento=1,livello=1,role="Amministratore",url="tipoErogazione"},
+                    new MenuElement(){display="Tipo Assumibilita", ordinamento=1,livello=1,role="Amministratore",url="tipoAssumibilitaAmministrazione"},
+                    new MenuElement(){display="Stato", ordinamento=1,livello=1,role="Amministratore",url="stato"}
+                    
+                };
+
+            //new MenuElement(){display="Nuova Rete ", ordinamento=1,livello=1,role="Amministratore",url="Rete/Create"}
+            return View(model);
         }
+
+
+
         #region Province
         //GET : /Configurazioni/Province
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
         public ActionResult Province()
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             List<Provincia> listaProvince = db.Province.ToList();
             return View(listaProvince);
         }
@@ -39,18 +64,19 @@ namespace mediatori.Controllers
         #endregion province
         #region comuni
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult comuni(ComuneSearch comuneSearch)
         {
             if (comuneSearch == null) return View();
             IList<Comune> listComune = null;
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             IQueryable<Comune> comuni = db.Comuni.Include("provincia");
-            if (comuneSearch.codiceProvincia>0 )
+            if (comuneSearch.codiceProvincia > 0)
             {
                 comuni = comuni.Where(c => c.codiceProvincia == comuneSearch.codiceProvincia);
             }
-            if (comuneSearch.denominazione!= null && comuneSearch.denominazione!= String.Empty){
+            if (comuneSearch.denominazione != null && comuneSearch.denominazione != String.Empty)
+            {
                 comuni = comuni.Where(c => c.denominazione == comuneSearch.denominazione);
             }
             if (comuneSearch.id > 0)
@@ -72,7 +98,7 @@ namespace mediatori.Controllers
         #endregion comuni
         #region toponimi
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult toponimi(ComuneSearch comuneSearch, String errorMessage, String message)
         {
 
@@ -85,7 +111,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult toponimo(String sigla)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -107,7 +133,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaToponimo(String sigla)
         {
             String errorMessage = string.Empty;
@@ -131,7 +157,7 @@ namespace mediatori.Controllers
         #endregion toponimi
         #region fontePubblicitaria
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult fontePubblicitaria(String errorMessage, String message)
         {
 
@@ -144,7 +170,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult fontePubblicitaria(String descrizione)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -169,7 +195,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaFontePubblicitaria(int id)
         {
             String errorMessage = string.Empty;
@@ -193,7 +219,7 @@ namespace mediatori.Controllers
         #endregion fontePubblicitaria
         #region tipologiaPrestito
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipologiaPrestito(String errorMessage, String message)
         {
 
@@ -206,7 +232,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipologiaPrestito(String descrizione)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -231,7 +257,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipologiaPrestito(int id)
         {
             String errorMessage = string.Empty;
@@ -255,7 +281,7 @@ namespace mediatori.Controllers
         #endregion tipologiaPrestito
         #region tipologiaAzienda
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipologiaAzienda(String errorMessage, String message)
         {
 
@@ -268,7 +294,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipologiaAzienda(TipologiaAzienda ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -293,7 +319,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoAzienda(int id)
         {
             String errorMessage = string.Empty;
@@ -317,7 +343,7 @@ namespace mediatori.Controllers
         #endregion tipologiaAzienda
         #region tipologiaIndirizzo
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipologiaIndirizzo(String errorMessage, String message)
         {
 
@@ -330,7 +356,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipologiaIndirizzo(TipologiaIndirizzo ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -355,7 +381,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoIndirizzo(int id)
         {
             String errorMessage = string.Empty;
@@ -379,7 +405,7 @@ namespace mediatori.Controllers
         #endregion tipologiaIndirizzo
         #region tipoContrattoImpiego
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoContrattoImpiego(String errorMessage, String message)
         {
 
@@ -392,7 +418,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoContrattoImpiego(TipoContrattoImpiego ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -417,7 +443,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoContrattoImpiego(int id)
         {
             String errorMessage = string.Empty;
@@ -441,7 +467,7 @@ namespace mediatori.Controllers
         #endregion tipoContrattoImpiego
         #region tipoEnteRilascio
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoEnteRilascio(String errorMessage, String message)
         {
 
@@ -454,7 +480,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoEnteRilascio(TipoEnteRilascio ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -479,7 +505,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoEnteRilascio(int id)
         {
             String errorMessage = string.Empty;
@@ -503,7 +529,7 @@ namespace mediatori.Controllers
         #endregion tipoEnteRilascio
         #region tipoDocumentoIdentita
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoDocumentoIdentita(String errorMessage, String message)
         {
 
@@ -516,7 +542,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoDocumentoIdentita(TipoDocumentoIdentita ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -541,7 +567,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoDocumentoIdentita(int id)
         {
             String errorMessage = string.Empty;
@@ -565,7 +591,7 @@ namespace mediatori.Controllers
         #endregion tipoDocumentoIdentita
         #region gruppoLavorazione
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult GruppoLavorazione(String errorMessage, String message)
         {
 
@@ -579,7 +605,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult GruppoLavorazione(GruppoLavorazione ta, List<String> utentiAssociati)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -613,7 +639,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult CancellaGruppoLavorazione(int id)
         {
             String errorMessage = string.Empty;
@@ -636,54 +662,54 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult AggiornaGruppiAssegnazione(int id, List<String> utentiAssociati)
         {
-            if (id == 0) return RedirectToAction("gruppoLavorazione", new { errorMessage = "necessario fornire il codice gruppo"});
+            if (id == 0) return RedirectToAction("gruppoLavorazione", new { errorMessage = "necessario fornire il codice gruppo" });
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
                 GruppoLavorazione gl = db.gruppiLavorazione.Find(id);
                 gl.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
                 db.SaveChanges();
             }
-            return RedirectToAction("gruppoLavorazione", new {  message = "Aggiornamento avvenuto con successo"});
-            
+            return RedirectToAction("gruppoLavorazione", new { message = "Aggiornamento avvenuto con successo" });
+
         }
 
         #endregion gruppoLavorazione
         #region stato
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult Stato(String errorMessage, String message)
         {
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            List<StatoView> lstStatoiView =new List<StatoView> ();
+            List<StatoView> lstStatoiView = new List<StatoView>();
             foreach (Stato stato in getStati(db))
             {
                 lstStatoiView.Add(new StatoView(stato, db));
             }
             ViewBag.statoViewEmpty = new StatoView(db);
-                return View(lstStatoiView);
+            return View(lstStatoiView);
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult ModificaStato(int id)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            Stato statoToEdit = getStato(db,id);
+            Stato statoToEdit = getStato(db, id);
             return View("StatoPartialEdit", new StatoView(statoToEdit, db));
         }
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult ModificaStato(Stato stato)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            if (stato.gruppoLavorazione==null)
-                return RedirectToAction("Stato", 
+            if (stato.gruppoLavorazione == null)
+                return RedirectToAction("Stato",
                     new { errorMessage = "indicare il gruppo di lavorazione" });
             stato.gruppoLavorazione = (db.gruppiLavorazione.Find(stato.gruppoLavorazione.id));
             ModelState.Remove("gruppoLavorazione.nome");
@@ -695,43 +721,43 @@ namespace mediatori.Controllers
             statoOriginale = (Stato)CopyObject.simpleCompy(statoOriginale, stato);
             LogEventiManager.save(le, db);
             return RedirectToAction("Stato",
-                    new { message = String.Format("Stato {0} inserito con successo",stato.descrizione) });
+                    new { message = String.Format("Stato {0} inserito con successo", stato.descrizione) });
         }
 
 
-    
+
         private Stato getStato(MainDbContext db, int id)
         {
-            return(from s in db.statiSegnalazione.Include("gruppoLavorazione") where s.id==id select s).First();
+            return (from s in db.statiSegnalazione.Include("gruppoLavorazione") where s.id == id select s).First();
         }
-        private  List<Stato> getStati(MainDbContext db)
+        private List<Stato> getStati(MainDbContext db)
         {
             return (from s in db.statiSegnalazione.Include("gruppoLavorazione") select s).ToList();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult Stato(Stato s)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            if (s.gruppoLavorazione==null)
-                return RedirectToAction("Stato", 
+            if (s.gruppoLavorazione == null)
+                return RedirectToAction("Stato",
                     new { errorMessage = "indicare il gruppo di lavorazione" });
             s.gruppoLavorazione = (db.gruppiLavorazione.Find(s.gruppoLavorazione.id));
             ModelState.Remove("gruppoLavorazione.nome");
             if (!ModelState.IsValid)
                 return RedirectToAction("Stato", new { errorMessage = "non tutti i dati obbligatori sono stati inseriti, impossibile procedere" });
-                db.statiSegnalazione.Add(s);
-                LogEventi le = LogEventiManager.getEventoForCreate(User.Identity.Name, s.id,EnumEntitaRiferimento.STATO);
-                LogEventiManager.save(le, db);
-                db.SaveChanges();
-             return RedirectToAction("Stato",new {message = String.Format("inserimento stato {0} avvenuto con successo",s.descrizione)});
+            db.statiSegnalazione.Add(s);
+            LogEventi le = LogEventiManager.getEventoForCreate(User.Identity.Name, s.id, EnumEntitaRiferimento.STATO);
+            LogEventiManager.save(le, db);
+            db.SaveChanges();
+            return RedirectToAction("Stato", new { message = String.Format("inserimento stato {0} avvenuto con successo", s.descrizione) });
 
         }
         public ActionResult CancellaStato(int id)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            Stato statoDaCancellare=db.statiSegnalazione.Find(id);
+            Stato statoDaCancellare = db.statiSegnalazione.Find(id);
             db.statiSegnalazione.Remove(statoDaCancellare);
             LogEventiManager.save(LogEventiManager.getEventoForDelete(User.Identity.Name, id, EnumEntitaRiferimento.STATO), db);
             return RedirectToAction("Stato", new { message = String.Format("cancellazione stato {0} avvenuto con successo", statoDaCancellare.descrizione) });
@@ -739,7 +765,7 @@ namespace mediatori.Controllers
         #endregion stato
         #region tipoCampagnaPubblicitaria
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCampagnaPubblicitaria(String errorMessage, String message)
         {
 
@@ -752,7 +778,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCampagnaPubblicitaria(TipoCampagnaPubblicitaria ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -776,14 +802,14 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaCampagnaPubblicitaria(int id)
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
-                TipoCampagnaPubblicitaria  tipoCampagnaPubblicitaria = db.TipoCampagnaPubblicitaria.Find(id);
+                TipoCampagnaPubblicitaria tipoCampagnaPubblicitaria = db.TipoCampagnaPubblicitaria.Find(id);
                 if (tipoCampagnaPubblicitaria == null)
                 {
                     errorMessage = "impossibile eliminare la campagna pubblicitaria " + id + " in quanto non censito";
@@ -800,7 +826,7 @@ namespace mediatori.Controllers
         #endregion tipoCampagnaPubblicitaria
         #region tipoContatto
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCanaleAcquisizione(String errorMessage, String message)
         {
 
@@ -813,7 +839,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCanaleAcquisizione(TipoCanaleAcquisizione ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -837,7 +863,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoCanaleAcquisizione(int id)
         {
             String errorMessage = string.Empty;
@@ -861,7 +887,7 @@ namespace mediatori.Controllers
         #endregion tipoCanaleAcquisizione
         #region tipoLuogoritrovo
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoLuogoRitrovo(String errorMessage, String message)
         {
 
@@ -874,7 +900,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoLuogoRitrovo(TipoLuogoRitrovo ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -898,14 +924,14 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoLuogoRitrovo(int id)
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
-                TipoLuogoRitrovo tipoLuogoRitrovo= db.TipoLuogoRitrovo.Find(id);
+                TipoLuogoRitrovo tipoLuogoRitrovo = db.TipoLuogoRitrovo.Find(id);
                 if (tipoLuogoRitrovo == null)
                 {
                     errorMessage = "impossibile eliminare Luogo ritrovo " + id + " in quanto non censito";
@@ -922,7 +948,7 @@ namespace mediatori.Controllers
         #endregion tipoLuogoritrovo
         #region tipoContatto
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoContatto(String errorMessage, String message)
         {
 
@@ -935,7 +961,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoContatto(TipoContatto ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -959,7 +985,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoContatto(int id)
         {
             String errorMessage = string.Empty;
@@ -983,7 +1009,7 @@ namespace mediatori.Controllers
         #endregion tipoContatto
         #region tipoRiferimento
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoRiferimento(String errorMessage, String message)
         {
 
@@ -996,7 +1022,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoRiferimento(TipoRiferimento ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -1020,7 +1046,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoRiferimento(int id)
         {
             String errorMessage = string.Empty;
@@ -1044,7 +1070,7 @@ namespace mediatori.Controllers
         #endregion tipoRiferimento
         #region tipoCategoriaImpiego
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCategoriaImpiego(String errorMessage, String message)
         {
 
@@ -1057,7 +1083,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCategoriaImpiego(TipoCategoriaImpiego ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -1081,14 +1107,14 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoCategoriaImpiego(int id)
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
-                TipoCategoriaImpiego tipoCategoriaImpiego= db.TipoCategoriaImpiego.Find(id);
+                TipoCategoriaImpiego tipoCategoriaImpiego = db.TipoCategoriaImpiego.Find(id);
                 if (tipoCategoriaImpiego == null)
                 {
                     errorMessage = "impossibile eliminare il tipo categoria impiego" + id + " in quanto non censito";
@@ -1105,7 +1131,7 @@ namespace mediatori.Controllers
         #endregion tipoCategoriaImpiego
         #region tipoProdotto
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoProdotto(String errorMessage, String message)
         {
 
@@ -1113,13 +1139,13 @@ namespace mediatori.Controllers
             ViewBag.message = message == null ? String.Empty : message;
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
-                (from tipoProdotto in db.TipoProdotto select tipoProdotto ).ToList()
+                (from tipoProdotto in db.TipoProdotto select tipoProdotto).ToList()
                 );
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
-        public ActionResult tipoProdotto (TipoProdotto  ta)
+
+        public ActionResult tipoProdotto(TipoProdotto ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
@@ -1142,7 +1168,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoProdotto(int id)
         {
             String errorMessage = string.Empty;
@@ -1166,7 +1192,7 @@ namespace mediatori.Controllers
         #endregion tipotipoProdotto
         #region tipoCategoriaAmministrazione
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCategoriaAmministrazione(String errorMessage, String message)
         {
 
@@ -1179,7 +1205,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoCategoriaAmministrazione(TipoCategoriaAmministrazione ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -1203,7 +1229,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoCategoriaAmministrazione(int id)
         {
             String errorMessage = string.Empty;
@@ -1227,7 +1253,7 @@ namespace mediatori.Controllers
         #endregion tipoCategoriaAmministrazione
         #region tipoAssumibilitaAmministrazione
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoAssumibilitaAmministrazione(String errorMessage, String message)
         {
 
@@ -1240,7 +1266,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoAssumibilitaAmministrazione(TipoAssumibilitaAmministrazione ta)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -1264,7 +1290,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoAssumibilitaAmministrazione(int id)
         {
             String errorMessage = string.Empty;
@@ -1288,7 +1314,7 @@ namespace mediatori.Controllers
         #endregion tipoAssumibilitaAmministrazione
         #region tipoErogazione
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoErogazione(String errorMessage, String message)
         {
 
@@ -1299,7 +1325,7 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoErogazione(TipoErogazione tipoErog)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
@@ -1323,7 +1349,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoErogazione(string sigla)
         {
             String errorMessage = string.Empty;
@@ -1347,7 +1373,7 @@ namespace mediatori.Controllers
         #endregion tipoErogazione
         #region tipoAgenzia
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoAgenzia(String errorMessage, String message)
         {
 
@@ -1358,13 +1384,13 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult tipoAgenzia(TipoAgenzia tipoAgenzia)
         {
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
                 if ((from fp in db.TipoAgenzia
-                     where (fp.descrizione == tipoAgenzia.descrizione) 
+                     where (fp.descrizione == tipoAgenzia.descrizione)
                      select fp).FirstOrDefault() != null)
                 {
                     return RedirectToAction("tipoAgenzia", new
@@ -1382,7 +1408,7 @@ namespace mediatori.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult cancellaTipoAgenzia(int id)
         {
             String errorMessage = string.Empty;
@@ -1406,7 +1432,7 @@ namespace mediatori.Controllers
         #endregion tipoErogazione
         #region Parametro
         [HttpGet]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult Parametro(String errorMessage, String message)
         {
 
@@ -1416,7 +1442,7 @@ namespace mediatori.Controllers
             return View(db.Parametri.ToList());
         }
         [HttpPost]
-        [Authorize(Roles = "Amministratore")]
+
         public ActionResult Parametro(Parametro p)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
@@ -1426,7 +1452,7 @@ namespace mediatori.Controllers
             ViewBag.message = "parametro salvato con successo";
             return View(db.Parametri.ToList());
         }
-        #endregion 
+        #endregion
     }
 }
 

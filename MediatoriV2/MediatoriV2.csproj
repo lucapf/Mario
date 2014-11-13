@@ -254,87 +254,28 @@
     <Compile Include="Helpers\BasicXMLSerialize.cs" />
     <Compile Include="Helpers\MenuBuilder.cs" />
     <Compile Include="Helpers\ValidationData.cs" />
-    <Compile Include="Migrations\201411111143362_InitialCreate.cs" />
-    <Compile Include="Migrations\201411111143362_InitialCreate.Designer.cs">
-      <DependentUpon>201411111143362_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411111151367_InitialPopulate.cs" />
-    <Compile Include="Migrations\201411111151367_InitialPopulate.Designer.cs">
-      <DependentUpon>201411111151367_InitialPopulate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\DropCreate.cs" />
-    <Compile Include="Models\Anagrafiche\AnagraficaRete.cs" />
-    <Compile Include="Models\Anagrafiche\ElementoRete.cs" />
-    <Compile Include="Models\Anagrafiche\TipoAgenzia.cs" />
-    <Compile Include="Models\Anagrafiche\TipoDocumento.cs" />
-    <Compile Include="Models\Anagrafiche\TipoErogazione.cs" />
-    <Compile Include="Models\Anagrafiche\Erogazione.cs" />
-    <Compile Include="Models\Anagrafiche\TipoAssumibilita.cs" />
-    <Compile Include="Models\Anagrafiche\TipoCategoriaAmministrazione.cs" />
-    <Compile Include="Models\Anagrafiche\TipoNaturaGiuridica.cs" />
-    <Compile Include="Models\Anagrafiche\SoggettoGiuridico.cs" />
-    <Compile Include="Models\Anagrafiche\TipoProdotto.cs" />
-    <Compile Include="Models\Anagrafiche\TipoCategoriaImpiego.cs" />
-    <Compile Include="Models\Anagrafiche\TipoRiferimento.cs" />
-    <Compile Include="Models\Anagrafiche\Riferimento.cs" />
-    <Compile Include="Models\Anagrafiche\TipoContatto.cs" />
-    <Compile Include="Models\Anagrafiche\TipoLuogoRitrovo.cs" />
-    <Compile Include="Models\Anagrafiche\TipoCanaleAcquisizione.cs" />
-    <Compile Include="Models\Anagrafiche\EnumSesso.cs" />
-    <Compile Include="Models\Anagrafiche\EnumStatoCivile.cs" />
-    <Compile Include="Models\Anagrafiche\TipoCampagnaPubblicitaria.cs" />
     <Compile Include="Models\AssegnazioniModel.cs" />
     <Compile Include="Models\BlobContainer.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
-    <Compile Include="Models\EnumTipoSoggettoGiuridico.cs" />
-    <Compile Include="Models\EnumStatoBase.cs" />
-    <Compile Include="Models\Anagrafiche\TipoDocumentoIdentita.cs" />
-    <Compile Include="Models\Anagrafiche\DocumentoIdentita.cs" />
-    <Compile Include="Models\Anagrafiche\TipoEnteRilascio.cs" />
-    <Compile Include="Models\Anagrafiche\Impiego.cs" />
-    <Compile Include="Models\Anagrafiche\TipoContrattoImpiego.cs" />
-    <Compile Include="Models\EnumEntitaRiferimento.cs" />
-    <Compile Include="Models\EnumTipoEventoLog.cs" />
-    <Compile Include="Models\etc\Assegnazione.cs" />
-    <Compile Include="Models\etc\Documento.cs" />
-    <Compile Include="Models\etc\EnumEntitaAssociataStato.cs" />
-    <Compile Include="Models\etc\GruppoLavorazione.cs" />
-    <Compile Include="Models\etc\Parametro.cs" />
-    <Compile Include="Models\etc\Stato.cs" />
-    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\DecodeEnum.cs" />
+    <Compile Include="Models\DocumentiIdentitaModel.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Migrations\MigrazioneProvinceComuni.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Anagrafiche\Indirizzo.cs" />
-    <Compile Include="Models\Anagrafiche\TipologiaIndirizzo.cs" />
-    <Compile Include="Models\Anagrafiche\Comune.cs" />
-    <Compile Include="Models\Anagrafiche\Segnalazione.cs" />
-    <Compile Include="Models\Anagrafiche\TipologiaAzienda.cs" />
-    <Compile Include="Models\Anagrafiche\FontePubblicitaria.cs" />
-    <Compile Include="Models\Anagrafiche\TipologiaPrestito.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
-    <Compile Include="Models\Anagrafiche\PersonaFisica.cs" />
+    <Compile Include="Models\IndirizziModel.cs" />
     <Compile Include="Models\JasonMessageModel.cs" />
-    <Compile Include="Models\LogEventi.cs" />
-    <Compile Include="Models\LogEventiController.cs" />
-    <Compile Include="Models\MainDbContext.cs" />
-    <Compile Include="Models\Anagrafiche\Provincia.cs" />
-    <Compile Include="Models\Anagrafiche\Toponimo.cs" />
+    <Compile Include="Models\MenuElement.cs" />
     <Compile Include="Models\MyItem.cs" />
     <Compile Include="Models\MyUserModel.cs" />
-    <Compile Include="Models\Nota.cs" />
     <Compile Include="Controllers\PreventivoController.cs" />
+    <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Models\Pratica\PagedPratica.cs" />
-    <Compile Include="Models\Pratica\Pratica.cs" />
     <Compile Include="Models\Pratica\SearchPratica.cs" />
-    <Compile Include="Models\Preventivo.cs" />
     <Compile Include="Models\Segnalazione\SegnalazioneCreateModel.cs" />
     <Compile Include="Models\Test\Decimal.cs" />
     <Compile Include="Models\Test\TestClass.cs" />
     <Compile Include="Models\Utils.cs" />
-    <Compile Include="MyConstants.cs" />
     <Compile Include="MyExtensions.cs" />
     <Compile Include="MyHelper.cs" />
     <Compile Include="MyMessage.cs" />
@@ -501,7 +442,6 @@
     <Content Include="Images\topfillmenuLight.png" />
     <Content Include="Images\topImage.png" />
     <Content Include="Images\topright.png" />
-    <Content Include="Migrations\Migrations.txt" />
     <Content Include="Scripts\fireAntUtils.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Areas\Admin\Views\Web.config" />
@@ -587,7 +527,7 @@
     <Content Include="Views\Configurazioni\TipoContrattoImpiego.cshtml" />
     <Content Include="Views\Impiego\ImpiegoPartialDetail.cshtml" />
     <Content Include="Views\Configurazioni\TipoEnteRilascio.cshtml" />
-    <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialDetail.cshtml" />
+    <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialDetailV1.cshtml" />
     <Content Include="Views\Impiego\ImpiegoPartialEdit.cshtml" />
     <Content Include="Views\Indirizzo\IndirizzoPartialDetail.cshtml" />
     <Content Include="Views\Cedente\DatiGeneraliPartialDetails.cshtml" />
@@ -639,7 +579,6 @@
     <Content Include="Views\Amministrazione\Details.cshtml" />
     <Content Include="Views\Configurazioni\TipoErogazione.cshtml" />
     <Content Include="Views\Configurazioni\TipoAgenzia.cshtml" />
-    <Content Include="Views\Agenzia\Index.cshtml" />
     <Content Include="Views\Agenzia\Create.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Agenzia.cshtml" />
     <Content Include="Views\Agenzia\Details.cshtml" />
@@ -660,7 +599,7 @@
     <Content Include="Views\Test\Home.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\Number.cshtml" />
-    <Content Include="Views\Agenzia\IndexV2.cshtml" />
+    <Content Include="Views\Agenzia\Index.cshtml" />
     <Content Include="Views\Segnalazioni\Index.cshtml" />
     <Content Include="Views\Segnalazioni\Details.cshtml" />
     <Content Include="Views\Test\Decimal.cshtml" />
@@ -683,14 +622,21 @@
     <Content Include="Views\Segnalazioni\Create.cshtml" />
     <Content Include="Views\Pratiche\Index.cshtml" />
     <Content Include="Views\Pratiche\Details.cshtml" />
-    <Content Include="Views\Segnalazioni\_Note.cshtml" />
+    <Content Include="Views\Nota\_Note.cshtml" />
     <Content Include="Views\Test\Validation01.cshtml" />
+    <Content Include="Views\Segnalazioni\_Contatto.cshtml" />
+    <Content Include="Views\Indirizzo\_Indirizzi.cshtml" />
+    <Content Include="Views\DocumentoIdentita\_DocumentiIdentita.cshtml" />
+    <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialDetail.cshtml" />
+    <Content Include="Views\Configurazioni\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Models\Anagrafiche\" />
+    <Folder Include="Models\etc\" />
     <Folder Include="Models\Preventivo\" />
   </ItemGroup>
   <ItemGroup>
@@ -705,14 +651,10 @@
       <Project>{de537bc0-c7b3-4f38-9de2-5757d6d3999e}</Project>
       <Name>MyUsers</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201411111143362_InitialCreate.resx">
-      <DependentUpon>201411111143362_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411111151367_InitialPopulate.resx">
-      <DependentUpon>201411111151367_InitialPopulate.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{2dc00126-5045-4bd2-9612-e79f2a50cb8b}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

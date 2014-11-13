@@ -24,7 +24,7 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
                                         select ced).FirstOrDefault();
             cedente.impieghi = cedenteOriginale.impieghi;
             cedente.indirizzi = cedenteOriginale.indirizzi;
-            cedente.documentoIdentita = cedenteOriginale.documentoIdentita;
+            cedente.documentiIdentita = cedenteOriginale.documentiIdentita;
             LogEventi le = LogEventiManager.getEventoForUpdate(username, cedente.id, EnumEntitaRiferimento.CEDENTE, cedenteOriginale, cedente);
             cedenteOriginale = (Cedente)CopyObject.simpleCompy(cedenteOriginale, cedente);
               LogEventiManager.save(le, db);

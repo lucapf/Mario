@@ -6,6 +6,10 @@
 
 
 <style>
+    .custom-corners {
+        margin-top:1em;
+    }
+
     .custom-corners .ui-bar {
         -webkit-border-top-left-radius: inherit;
         border-top-left-radius: inherit;
@@ -26,15 +30,15 @@
     <div class="ui-bar ui-bar-a">
 
         <h2>
-            Progressivo @Model.progressivo generato il  @Model.dataInserimento
+            Preventivo #@Model.progressivo generato il  @Model.dataInserimento.Value.ToShortDateString() 
 
             @if (Model.dataConferma == null)
             {
-                <strong style="margin-left:5em;">Conferma</strong>  <input type="checkbox" id="checkboxConfermaPreventivo-@Model.id" data-role="none" onclick="confermaPreventivo(@Model.id)">
+                <a href="javascript:selezionaPreventivo(@Model.id);" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-info ui-btn-icon-left ui-btn-b ui-mini ui-btn-right">Conferma</a>
             }
             else
             {
-                @Html.Raw(" confermato il " + Model.dataConferma);
+                @Html.Raw(" confermato il " + Model.dataConferma.Value.ToShortDateString());
             }
         </h2>
     </div>

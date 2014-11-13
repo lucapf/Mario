@@ -21,7 +21,7 @@ namespace mediatori.Controllers
 
         public ActionResult Index(SegnalazioneSearch segnalazioniSearch, String message)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
 
             ViewBag.message = message;
             return View(new SegnalazioneBusiness().findByFilter(segnalazioniSearch, db));
@@ -79,7 +79,6 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id = 0)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
             if (segnalazione == null)
             {
@@ -91,13 +90,12 @@ namespace mediatori.Controllers
 
 
 
-       
+
 
 
         [HttpGet]
         public ActionResult Create(Models.Segnalazione.SegnalazioneCreateModel model)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
 
             valorizzaDatiViewBag(db);
 
@@ -124,9 +122,13 @@ namespace mediatori.Controllers
         [ActionName("Create")]
         public ActionResult CreatePost(Models.Segnalazione.SegnalazioneCreateModel model)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
 
             Segnalazione segnalazione = model.segnalazione;
+
+            segnalazione.contatto.provinciaNascita = db.Province.Where(p => p.denominazione == segnalazione.contatto.provinciaNascita.denominazione).FirstOrDefault();
+            segnalazione.contatto.comuneNascita = db.Comuni.Where(c => c.denominazione == segnalazione.contatto.comuneNascita.denominazione && c.codiceProvincia == segnalazione.contatto.provinciaNascita.id).FirstOrDefault();
+
+
             if (segnalazione.contatto.impieghi == null)
             {
                 segnalazione.contatto.impieghi = new List<mediatori.Models.Anagrafiche.Impiego>();
@@ -202,53 +204,6 @@ namespace mediatori.Controllers
 
 
 
-        //
-        // POST: /GestioneSegnalazioni/Create
-
-        [HttpPost]
-        public ActionResult CreateOLD(SegnalazioneCreate segnalazioneCreate)
-        {
-
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            SegnalazioneBusiness segnalazioneBusiness = new SegnalazioneBusiness();
-            Segnalazione segnalazione = segnalazioneCreate.segnalazione;
-            segnalazione.contatto.impieghi = segnalazioneCreate.impieghi;
-            segnalazione.stato = db.statiSegnalazione.Find(1);
-            foreach (Nota nota in segnalazioneCreate.note)
-            {
-                if (nota.valore != null)
-                {
-                    if (segnalazione.note == null)
-                    {
-                        segnalazione.note = new List<Nota>();
-                    }
-                    segnalazione.note.Add(nota);
-                }
-            }
-            segnalazione.contatto.riferimenti = segnalazioneCreate.riferimenti;
-
-            segnalazione = segnalazioneBusiness.popolaDatiSegnalazione(segnalazione, HttpContext.User.Identity.Name, db);
-            ModelState.Clear();
-            TryValidateModel(segnalazione);
-            if (ModelState.IsValid)
-            {
-                segnalazioneBusiness.create(segnalazione, HttpContext.User.Identity.Name, db);
-                return RedirectToAction("Index", "Segnalazioni", new { message = "inserimento segnalazione" + segnalazione.contatto.nome + " " + segnalazione.contatto.cognome + " avvenuto con successo" });
-            }
-
-            var message = string.Join(" | ", ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage));
-
-            Debug.WriteLine(message);
-
-            ViewBag.erroMessage = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare la segnalazione , verificare i dati: " + Environment.NewLine + message);
-
-            valorizzaDatiViewBagSegnalazione(segnalazioneCreate, db);
-
-            return View(segnalazioneCreate);
-        }
-
         [HttpGet]
         public ActionResult segnalazionePartialById(int id, EnumTipoAzione tipoAzione)
         {
@@ -323,63 +278,14 @@ namespace mediatori.Controllers
             ViewBag.listaStati = new SelectList(db.statiSegnalazione.Where(s => s.entitaAssociata == EnumEntitaAssociataStato.SEGNALAZIONE).ToList(), "id", "descrizione");
             ViewBag.listaFontePubblicitaria = new SelectList(db.FontiPubblicitarie.ToList(), "id", "descrizione");
             ViewBag.listaSesso = new SelectList(new List<SelectListItem> { new SelectListItem { Text = "M", Value = "M" }, new SelectListItem { Text = "F", Value = "F" } }, null);
+
+
+            ViewBag.listaProvincia = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
+
+            List<SelectListItem> lsli = new List<SelectListItem>();
+            lsli.Add(new SelectListItem { Text = "", Value = "" });
+            ViewBag.listaComuni = lsli;
         }
-
-        public SegnalazioneCreate valorizzaDatiViewBagSegnalazione(SegnalazioneCreate segnalazioneCreate, MainDbContext db)
-        {
-            valorizzaDatiViewBag(db);
-
-            if (segnalazioneCreate.segnalazione == null)
-            {
-
-                segnalazioneCreate.segnalazione = new Segnalazione();
-            }
-
-
-            if (segnalazioneCreate.segnalazione.note == null)
-            {
-                segnalazioneCreate.segnalazione.note = new List<Nota>();
-                segnalazioneCreate.segnalazione.note.Add(new Nota());
-            }
-
-
-            if (segnalazioneCreate.impieghi == null)
-            {
-                segnalazioneCreate.impieghi = new List<Impiego>();
-                segnalazioneCreate.impieghi.Add(new Impiego());
-            }
-            if (segnalazioneCreate.note == null)
-            {
-                segnalazioneCreate.note = new List<Nota>();
-                segnalazioneCreate.note.Add(new Nota());
-            }
-            if (segnalazioneCreate.riferimenti == null)
-            {
-                segnalazioneCreate.riferimenti = new List<Riferimento>();
-                segnalazioneCreate.riferimenti.Add(new Riferimento());
-            }
-            if (segnalazioneCreate.riferimenti == null)
-            {
-                segnalazioneCreate.riferimenti = new List<Riferimento>();
-                segnalazioneCreate.riferimenti.Add(new Riferimento());
-            }
-            if (segnalazioneCreate.segnalazione.contatto == null)
-            {
-                segnalazioneCreate.segnalazione.contatto = new Contatto();
-            }
-            ViewBag.listaTipiContratto = new SelectList(db.TipoContrattoImpiego.ToList(), "id", "descrizione");
-            ViewBag.listaCategoriaImpiego = new SelectList(db.TipoCategoriaImpiego.ToList(), "id", "descrizione");
-            return segnalazioneCreate;
-        }
-    
     }
-    public class segnalazioneListValues
-    {
-        public List<SelectListItem> listaTipologiaPrestito { get; set; }
-        public List<SelectListItem> listaSesso { get; set; }
-        public List<SelectListItem> listaTipologiaAzienda { get; set; }
-        public List<SelectListItem> listaFontePubblicitaria { get; set; }
-    }
-
 }
 

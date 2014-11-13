@@ -1,5 +1,7 @@
 ﻿@model mediatori.Models.Anagrafiche.Amministrazione
 @{
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+    
     mediatori.helper.FireAntEditHelper editHelperAmministrazione = new mediatori.helper.FireAntEditHelper("amm", "/Amministrazione/AmministrazionePartialById", Model.id.ToString());
     mediatori.helper.FireAntDetailEventDetection edAmministrazione = new mediatori.helper.FireAntDetailEventDetection("amm", Model.id);
 }

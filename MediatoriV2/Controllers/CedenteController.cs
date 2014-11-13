@@ -57,8 +57,8 @@ namespace mediatori.Controllers.CQS
             cedente.impieghi = new List<Impiego>();
             cedente.impieghi.Add(new Impiego());
 
-            cedente.documentoIdentita = new List<DocumentoIdentita>();
-            cedente.documentoIdentita.Add(new DocumentoIdentita());
+            cedente.documentiIdentita = new List<DocumentoIdentita>();
+            cedente.documentiIdentita.Add(new DocumentoIdentita());
            
             
             

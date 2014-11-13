@@ -5,14 +5,14 @@ namespace DataModel.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DataModel.MediatoriDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<mediatori.Models.MainDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DataModel.MediatoriDbContext context)
+        protected override void Seed(mediatori.Models.MainDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

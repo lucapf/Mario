@@ -1,0 +1,32 @@
+﻿@model mediatori.Models.DocumentiIdentitaModel
+@{
+    Layout = null;
+}
+<h3>Documenti identita <strong class="h3Link" id="linkNuovoDocumentoIdentia" title="Aggiungi un nuovo documenti di identità">[ + ]</strong></h3>
+<script>$(function () { $("#linkNuovoDocumentoIdentia").click(function () { $("#divNuovoDocumentoIdentita").show(); }) })</script>
+<hr />
+@if (Model.documentiIdentia != null)
+{
+    foreach (mediatori.Models.Anagrafiche.DocumentoIdentita  documento in Model.documentiIdentia)
+    {
+        {
+            Html.RenderPartial("~/Views/DocumentoIdentita/DocumentoIdentiaPartialDetail.cshtml", documento);
+        }
+    }
+}
+
+@using (Html.BeginForm("CreateForCedente", "DocumentoIdentita", FormMethod.Post, new { id = "nuovoDocumentoIdentita" }))
+{
+    <div id="divNuovoDocumentoIdentita" style="display: none">
+        <input type="hidden" name="codiceCedente" value="@Model.cedenteId" />
+
+        @{ Html.RenderPartial("~/Views/DocumentoIdentita/DocumentoIdentitaPartialEdit.cshtml", new mediatori.Models.Anagrafiche.DocumentoIdentita()); }
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoDocumentoIdentita").hide()' />
+        </div>
+    </div>
+}
+
+

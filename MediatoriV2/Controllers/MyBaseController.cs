@@ -10,7 +10,7 @@ namespace mediatori.Controllers
 {
     public class MyBaseController : Controller
     {
-        private mediatori.Models.MainDbContext db = new mediatori.Models.MainDbContext();
+        protected mediatori.Models.MainDbContext db = new mediatori.Models.MainDbContext();
 
         protected override void Dispose(bool disposing)
         {
