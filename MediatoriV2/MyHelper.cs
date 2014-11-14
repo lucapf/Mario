@@ -329,7 +329,7 @@ public static class MyHelper
         {
             m_isRequired(temp, unobtrusiveValidation, name, displayName);
         }
-        temp.Append(String.Format(" id=\"{0}\" name=\"{1}\" value=\"{2}\" data-mini=\"{3}\" />", id, name, value, DATA_MINI));
+        temp.Append(String.Format(" id=\"{0}\" name=\"{1}\" value=\"{2}\" data-inline=\"true\" data-mini=\"{3}\" />", id, name, value, DATA_MINI));
         temp.Append(Environment.NewLine);
         temp.Append(unobtrusiveValidation);
 

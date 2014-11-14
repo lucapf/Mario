@@ -1,0 +1,49 @@
+﻿
+@model List<mediatori.Models.MenuElement>
+@{
+    Layout = null;
+    int conta = 1;
+}
+
+
+<div class="canvas-flex">
+    @foreach (mediatori.Models.MenuElement configurazione in Model)
+    {
+        <div id="box_@conta">
+            <a href="#" onclick="javascript: explode('@Url.Action(configurazione.action, configurazione.controller)', @conta);" name="box_@conta" data-role="none">
+                <div class="box" style="background-color: rgb(@(87 + 10 * conta), @(158 - 0* conta), @(66 + 0 * conta)  );">
+                    <p>@configurazione.display</p>
+                </div>
+            </a>
+        </div>
+
+        conta++;
+    }
+
+</div>
+
+<script>
+    function explode(url, indice) {
+
+        //alert(obj.name);
+
+        // $("#Home").hide("explode", {}, 1000);
+        //$("#"+obj.name).hide("explode", {}, 1000, function(){
+        //alert(obj.name);
+
+        //});
+
+        for (i = indice; i < @Model.Count; i++) {
+            $("#box_"+ i).hide("explode", {}, 1000);
+        }
+
+
+        location.href= url;
+
+
+        //$(".SICUREZZA").show("drop", {}, 1000);
+
+    }
+</script>
+
+

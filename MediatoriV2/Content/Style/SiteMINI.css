@@ -22,9 +22,10 @@ table.MyTable {
     border-collapse: collapse;
 }
 
-/*
-fieldset {
+
+ .border {
     border: 1px solid lightgray;
+    padding:2em;
 }
 
 
@@ -71,50 +72,70 @@ fieldset {
     margin-left: 2px;
     cursor: pointer;
     cursor: hand;
-}*/
+}
 
 
-
-
-
-
-
-
-
-.editor-label {
-    display: inline-block;
+/*  
+     http://css-tricks.com/complete-guide-table-element/
+*/
+.editor-control {
     vertical-align: top;
     margin: 3px;
     border: 0px solid gray;
+    overflow: auto;
+    display: inline-block;
+    width: 330px;
 }
 
-    .editor-label label {
-        width: 130px;
-        float: left;
+    .editor-control .editor-row {
+        display: table-row;
+    }
+
+    .editor-control .editor-label {
+        padding-right: 1em;
         font-weight: bold;
-    }
-
-    .editor-label input {
-        width: 150px;
-    }
-
-    .editor-label div {
-        display: inline-block;
-        width: 160px;
+        border: 0px solid green;
+        display: table-cell;
         vertical-align: middle;
-        margin-left: 5px;
+        min-width: 20px;
+        white-space: normal;
     }
 
-    .editor-label select {
-        width: 100px;
-        overflow: hidden;
+    .editor-control .editor-value {
+        border: 0px solid blue;
+        display: table-cell;
+        width: 100%;
     }
 
-    .editor-label span {
-        color: #990033;
+    .editor-control .editor-validation {
+        border: 0px solid red;
+        margin-top: 0px;
+        font-size:x-small;
+        color:red;
     }
 
 
+
+
+
+.display-control {
+    vertical-align: top;
+    margin: 3px;
+    border: 0px solid gray;
+    overflow: auto;
+    display: inline-block;
+    width: 300px;
+}
+.display-control label {
+    vertical-align: top;
+    width: 150px;
+     font-weight: bold;
+     float:left;
+}
+.display-control div {
+    vertical-align: top;
+   
+}
 
 
 
@@ -130,12 +151,14 @@ fieldset {
 
     .canvas-flex div a, .canvas-flex div a:visited {
         color: black;
-        text-decoration:none;
+        text-decoration: none;
     }
-    .canvas-flex div a:hover{
- text-decoration:underline;
- color:lightgray;
-    }
+
+        .canvas-flex div a:hover {
+            text-decoration: underline;
+            color: lightgray;
+        }
+
     .canvas-flex .box {
         -webkit-border-radius: 20px;
         -moz-border-radius: 20px;
@@ -151,8 +174,8 @@ fieldset {
             display: table-cell;
             vertical-align: middle;
             text-align: center;
-            text-shadow:none;
-          font-weight:normal;
+            text-shadow: none;
+            font-weight: normal;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 

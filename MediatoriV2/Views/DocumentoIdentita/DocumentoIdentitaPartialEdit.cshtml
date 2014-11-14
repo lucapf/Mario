@@ -6,32 +6,60 @@
 
 @Html.HiddenFor(model => model.id)
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.dataRilascio)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.dataScadenza)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.numeroDocumento)
 </div>
-<div class="editor-label">
-    @Html.LabelFor(m => m.enteRilascio)
-    @Html.DropDownListFor(m => m.enteRilascio.id, (IEnumerable<SelectListItem>)ViewBag.listaEnteRilascio, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.enteRilascio.id)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(m => m.provinciaEnte)
-    @Html.DropDownListFor(m => m.provinciaEnte.denominazione, (IEnumerable<SelectListItem>)ViewBag.provinciaRilascio, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.provinciaEnte.denominazione)
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.enteRilascio)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.enteRilascio.id, (IEnumerable<SelectListItem>)ViewBag.listaEnteRilascio, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.enteRilascio.id)
+    </div>
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(m => m.comuneEnte)
-    @Html.DropDownListFor(m => m.comuneEnte.denominazione, (IEnumerable<SelectListItem>)ViewBag.comuneRilascio, "Selezionare una provincia ...", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.comuneEnte.denominazione)
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.provinciaEnte)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.provinciaEnte.denominazione, (IEnumerable<SelectListItem>)ViewBag.provinciaRilascio, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.provinciaEnte.denominazione)
+    </div>
 </div>
 
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.comuneEnte)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.comuneEnte.denominazione, (IEnumerable<SelectListItem>)ViewBag.comuneRilascio, "Selezionare una provincia ...", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.comuneEnte.denominazione)
+    </div>
+</div>
 
 
 <script type="text/javascript">

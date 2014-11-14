@@ -33,72 +33,113 @@
     Html.HiddenFor(model => model.segnalazione.contatto.id);
 
     <h3>Dati anagrafici</h3><hr />
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.nome)
     </div>
 
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.cognome)
     </div>
 
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.dataNascita)
     </div>
 
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.nazioneNascita)
     </div>
 
 
-    
-    <div class="editor-label">
-        @Html.LabelFor(m => m.segnalazione.contatto.provinciaNascita)
-        @Html.DropDownListFor(m => m.segnalazione.contatto.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(m => m.segnalazione.contatto.provinciaNascita.denominazione)
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.contatto.provinciaNascita)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.contatto.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.contatto.provinciaNascita.denominazione)
+        </div>
     </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(m => m.segnalazione.contatto.comuneNascita)
-        @Html.DropDownListFor(m => m.segnalazione.contatto.comuneNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(m => m.segnalazione.contatto.comuneNascita.denominazione)
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.contatto.comuneNascita)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.contatto.comuneNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.contatto.comuneNascita.denominazione)
+        </div>
     </div>
 
 
 
-
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.codiceFiscale)
     </div>
 
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.cittadinanza)
     </div>
+    
 
-    <div class="editor-label">
-        @Html.LabelFor(m => m.segnalazione.contatto.statoCivile)
-        <select name="segnalazione.contatto.statoCivile" id="segnalazione_contatto_statoCivile" data-mini="true">
-            <option value="" selected="selected">---</option>
-            @foreach (var statoCivile in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumStatoCivile)))
-            {
-                <option value="@statoCivile">@statoCivile</option>
-            }
-        </select>
-        @Html.ValidationMessageFor(model => model.segnalazione.contatto.statoCivile)
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.contatto.statoCivile)
+            </div>
+            <div class="editor-value">
+                <select name="segnalazione.contatto.statoCivile" id="segnalazione_contatto_statoCivile" data-mini="true">
+                    <option value="" selected="selected">---</option>
+                    @foreach (var statoCivile in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumStatoCivile)))
+                    {
+                        <option value="@statoCivile">@statoCivile</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.contatto.statoCivile)
+        </div>
     </div>
 
 
-    <div class="editor-label">
-        @Html.LabelFor(m => m.segnalazione.contatto.sesso)
-        <select name="segnalazione.contatto.sesso" id="segnalazione_contatto_sesso" data-mini="true">
-            <option value="" selected="selected">---</option>
-            @foreach (var eSesso in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumSesso)))
-            {
-                <option value="@eSesso">@eSesso</option>
-            }
-        </select>
-        @Html.ValidationMessageFor(model => model.segnalazione.contatto.sesso)
-    </div>
+    
 
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.contatto.sesso)
+            </div>
+            <div class="editor-value">
+                <select name="segnalazione.contatto.sesso" id="segnalazione_contatto_sesso" data-mini="true">
+                    <option value="" selected="selected">---</option>
+                    @foreach (var eSesso in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumSesso)))
+                    {
+                        <option value="@eSesso">@eSesso</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.contatto.sesso)
+        </div>
+    </div>
+    
+   
+
+   
 
 
     <div id="grigliaContattiDuplicati"></div>
@@ -113,48 +154,108 @@
 
     <h3>Importi</h3>
     <hr />
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.importoRichiesto)
     </div>
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.durataRichiesta)
     </div>
-    <div class="editor-label">
+    <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.rataRichiesta)
     </div>
-    <div class="editor-label">
-        @Html.LabelFor(m => m.segnalazione.altroPrestito)
-        @Html.DropDownListFor(m => m.segnalazione.altroPrestito.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoPrestito, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(m => m.segnalazione.altroPrestito.id)
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.altroPrestito)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.altroPrestito.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoPrestito, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.altroPrestito.id)
+        </div>
     </div>
-    <div class="editor-label">
-        @Html.LabelFor(m => m.segnalazione.prodottoRichiesto)
-        @Html.DropDownListFor(m => m.segnalazione.prodottoRichiesto.id, (IEnumerable<SelectListItem>)ViewBag.listaProdotti, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(m => m.segnalazione.prodottoRichiesto.id)
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.prodottoRichiesto)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.prodottoRichiesto.id, (IEnumerable<SelectListItem>)ViewBag.listaProdotti, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.prodottoRichiesto.id)
+        </div>
     </div>
+
+
 
 
     <h3>Dati Campagna</h3>
     <hr />
-    <div class="editor-label">
-        @Html.LabelFor(model => model.segnalazione.fontePubblicitaria)
-        @Html.DropDownListFor(m => m.segnalazione.fontePubblicitaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFontePubblicitaria, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(model => model.segnalazione.fontePubblicitaria)
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.fontePubblicitaria)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.fontePubblicitaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFontePubblicitaria, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.fontePubblicitaria.id)
+        </div>
     </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.segnalazione.canaleAcquisizione)
-        @Html.DropDownListFor(m => m.segnalazione.canaleAcquisizione.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoCanaleAcquisizione, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(model => model.segnalazione.fontePubblicitaria)
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.canaleAcquisizione)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.canaleAcquisizione.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoCanaleAcquisizione, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.canaleAcquisizione.id)
+        </div>
     </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.segnalazione.tipoLuogoRitrovo)
-        @Html.DropDownListFor(m => m.segnalazione.tipoLuogoRitrovo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoLuogoRitrovo, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(model => model.segnalazione.tipoLuogoRitrovo)
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.tipoLuogoRitrovo)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.tipoLuogoRitrovo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoLuogoRitrovo, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.tipoLuogoRitrovo.id)
+        </div>
     </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.segnalazione.tipoContatto)
-        @Html.DropDownListFor(m => m.segnalazione.tipoContatto.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoContatto, "", new { data_mini = "true" })<br />
-        @Html.ValidationMessageFor(model => model.segnalazione.tipoContatto)
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.MyLabelFor(m => m.segnalazione.tipoContatto)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.segnalazione.tipoContatto.id, (IEnumerable<SelectListItem>)ViewBag.tipoContatto, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.segnalazione.tipoContatto.id)
+        </div>
     </div>
 
 

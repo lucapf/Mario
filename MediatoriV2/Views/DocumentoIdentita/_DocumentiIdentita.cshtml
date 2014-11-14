@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-<h3>Documenti identita <strong class="h3Link" id="linkNuovoDocumentoIdentia" title="Aggiungi un nuovo documenti di identità">[ + ]</strong></h3>
+<h3>Documenti identita <strong class="h3Link" id="linkNuovoDocumentoIdentia" title="Aggiungi un nuovo documento di identità">[ + ]</strong></h3>
 <script>$(function () { $("#linkNuovoDocumentoIdentia").click(function () { $("#divNuovoDocumentoIdentita").show(); }) })</script>
 <hr />
 @if (Model.documentiIdentia != null)
@@ -10,7 +10,7 @@
     foreach (mediatori.Models.Anagrafiche.DocumentoIdentita  documento in Model.documentiIdentia)
     {
         {
-            Html.RenderPartial("~/Views/DocumentoIdentita/DocumentoIdentiaPartialDetail.cshtml", documento);
+            Html.RenderPartial("~/Views/DocumentoIdentita/DocumentoIdentitaPartialDetail.cshtml", documento);
         }
     }
 }

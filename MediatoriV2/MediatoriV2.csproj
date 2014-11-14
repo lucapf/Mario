@@ -263,6 +263,7 @@
     <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
+    <Compile Include="Models\ImpieghiModel.cs" />
     <Compile Include="Models\IndirizziModel.cs" />
     <Compile Include="Models\JasonMessageModel.cs" />
     <Compile Include="Models\MenuElement.cs" />
@@ -608,7 +609,6 @@
     <Content Include="Views\Home\Assegnazioni.cshtml" />
     <Content Include="Views\Home\Sicurezza.cshtml" />
     <Content Include="Views\Utenti\Index.cshtml" />
-    <Content Include="Views\Home\Configurazioni.cshtml" />
     <Content Include="Views\Home\AccessDenied.cshtml" />
     <Content Include="Views\Shared\Paging.cshtml" />
     <Content Include="Views\Utenti\Details.cshtml" />
@@ -629,6 +629,9 @@
     <Content Include="Views\DocumentoIdentita\_DocumentiIdentita.cshtml" />
     <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialDetail.cshtml" />
     <Content Include="Views\Configurazioni\Index.cshtml" />
+    <Content Include="Views\Shared\_BoxMenu.cshtml" />
+    <Content Include="Views\Test\CSS01.cshtml" />
+    <Content Include="Views\Impiego\_Impieghi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

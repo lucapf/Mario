@@ -14,47 +14,43 @@
 @Html.Raw(editHelper.getStartForm("/Indirizzo/Edit"))
 
 <div id="@faDetailEventDetection.getIdFullDetail()">
-    <div class="editor-label">
-
+    <div class="display-control">
         @Html.LabelFor(m => m.tipoIndirizzo)
-       <div> @Html.Display("tipoIndirizzo.descrizione")</div>
+        <div> @Html.Display("tipoIndirizzo.descrizione")</div>
     </div>
-    <div class="editor-label">
-
+    <div class="display-control">
         @Html.LabelFor(m => m.presso)
         <div>@Model.presso</div>
     </div>
-    <div class="editor-label">
-
+    <div class="display-control">
         @Html.LabelFor(m => m.toponimo)
         <div>@Html.Display("toponimo.sigla")</div>
     </div>
-    <div class="editor-label">
-
+    <div class="display-control">
         @Html.LabelFor(m => m.recapito)
         <div>@Html.Display("recapito")</div>
     </div>
-    <div class="editor-label">
+    <div class="display-control">
         @Html.LabelFor(m => m.numeroCivico)
         <div>@Html.Display("numeroCivico")</div>
     </div>
-    <div class="editor-label">
+    <div class="display-control">
         @Html.LabelFor(m => m.interno)
         <div>@Html.Display("interno")</div>
     </div>
-    <div class="editor-label">
+    <div class="display-control">
         @Html.LabelFor(m => m.cap)
         <div>@Html.Display("cap")</div>
     </div>
-    <div class="editor-label">
+    <div class="display-control">
         @Html.LabelFor(m => m.provincia)
         <div>@Html.Display("provincia.denominazione")</div>
     </div>
-    <div class="editor-label">
+    <div class="display-control">
         @Html.LabelFor(m => m.corrispondenza)
         <div>@Html.Display("corrispondenza")</div>
     </div>
-    <div class="editor-label">
+    <div class="display-control">
         @Html.LabelFor(m => m.comune)
         <div>@Html.Display("comune.denominazione")</div>
     </div>

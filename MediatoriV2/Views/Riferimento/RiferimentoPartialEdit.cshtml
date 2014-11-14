@@ -5,13 +5,23 @@
 
 @Html.HiddenFor(m => m.id)
 
-<div class="editor-label">
-    @Html.LabelFor(m => m.tipoRiferimento)
-    @Html.DropDownListFor(m => m.tipoRiferimento.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoRiferimento, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.tipoRiferimento.id)
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoRiferimento)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.tipoRiferimento.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoRiferimento, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoRiferimento.id)
+    </div>
 </div>
-<div class="editor-label">
-    @Html.MyInputType( m => m.valore)
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.valore)
 </div>
 
 

@@ -23,13 +23,11 @@
 
 @{Html.RenderAction("Details", "Indirizzo", new { cedenteId = Model.cedente.id });}
 
-
 @{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.cedente.id });}
 
-
+@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.cedente.id });}
 
 @{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, segnalazioneId = Model.id });}
-
 
 
 

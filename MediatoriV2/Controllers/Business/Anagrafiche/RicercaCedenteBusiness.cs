@@ -20,10 +20,10 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
                                                     .Include("Indirizzi.toponimo")
                                                     .Include("Impieghi")
                                                     .Include("Impieghi.tipoImpiego")
-                                                    .Include("DocumentoIdentita")
-                                                    .Include("DocumentoIdentita.enteRilascio")
-                                                    .Include("DocumentoIdentita.provinciaEnte")
-                                                    .Include("DocumentoIdentita.comuneEnte")
+                                                    .Include("DocumentiIdentita")
+                                                    .Include("DocumentiIdentita.enteRilascio")
+                                                    .Include("DocumentiIdentita.provinciaEnte")
+                                                    .Include("DocumentiIdentita.comuneEnte")
                                 where c.id==id select c ).FirstOrDefault<Cedente>();
             return cedente;
         }

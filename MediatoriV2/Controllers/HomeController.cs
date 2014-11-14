@@ -11,25 +11,44 @@ namespace mediatori.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            List<MenuElement> model = new List<MenuElement>(){
+                  new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
+                  new MenuElement(){display="Anagrafiche", ordinamento=1,livello=1,role="Amministratore",action="Anagrafiche", controller="Home"},
+                  new MenuElement(){display="Sicurezza", ordinamento=1,livello=1,role="Amministratore",action="Sicurezza", controller="Home"},
+                  new MenuElement(){display="Configurazioni", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Configurazioni"}
+                };
+            return View(model);
         }
 
 
         public ActionResult Anagrafiche()
         {
-            return View();
+            List<MenuElement> model = new List<MenuElement>(){
+                  new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
+                  new MenuElement(){display="Anagrafiche", ordinamento=1,livello=1,role="Amministratore",action="Anagrafiche", controller="Home"},
+                  new MenuElement(){display="Agenzie", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Agenzia"},
+                  new MenuElement(){display="Cedenti", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Cedente"},
+                  new MenuElement(){display="Società", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="SoggettoGiuridico"},
+                  new MenuElement(){display="Amministrazioni", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Amministrazione"}
+                };
+            return View(model);
         }
 
 
         public ActionResult Sicurezza()
         {
-            return View();
+            List<MenuElement> model = new List<MenuElement>(){
+                  new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
+                  new MenuElement(){display="Sicurezza", ordinamento=1,livello=1,role="Amministratore",action="Sicurezza", controller="Home"},
+                  new MenuElement(){display="Utenti", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Utenti"},
+                  new MenuElement(){display="Nuovo utente", ordinamento=1,livello=1,role="Amministratore",action="Register",controller="Utenti"},
+                  new MenuElement(){display="Modifica password", ordinamento=1,livello=1,role="Amministratore",action="ChangePassword",controller="Account"},
+                  new MenuElement(){display="Logout", ordinamento=1,livello=1,role="Amministratore",action="LogOff",controller="Account"}
+                };
+            return View(model);
         }
 
-        public ActionResult Configurazioni()
-        {
-            return View();
-        }
+
 
         public ActionResult AccessDenied()
         {
@@ -54,7 +73,8 @@ namespace mediatori.Controllers
             model.DaAssegnare = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
                                  where !(
                                         from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
-                                    ).Contains(s.id) && s.stato.gruppoLavorazione.utenti.Contains(";" + User.Identity.Name + ";")   select s).ToList();
+                                    ).Contains(s.id) && s.stato.gruppoLavorazione.utenti.Contains(";" + User.Identity.Name + ";")
+                                 select s).ToList();
 
 
             //  model.Assegnate = db.Assegnazioni.ToList();

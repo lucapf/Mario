@@ -13,21 +13,42 @@ namespace mediatori.Controllers
 {
     public class ImpiegoController : MyBaseController
     {
-        private MainDbContext db = new MainDbContext();
-
+       
         public ActionResult Index()
         {
-
-            valorizzaViewBag(db);
+            valorizzaViewBag();
             return View(new ImpiegoBusiness());
         }
+
+
+        [ChildActionOnly]
+        public ActionResult Details(int contattoId)
+        {
+            Contatto contatto;
+            contatto = db.Contatti.Include("impieghi").Where(p => p.id == contattoId).First();
+            if (contatto == null)
+            {
+                return HttpNotFound();
+            }
+
+            ImpieghiModel model = new ImpieghiModel();
+            model.impieghi = contatto.impieghi.ToList<Impiego>();
+            model.contattoId = contattoId;
+
+            valorizzaViewBag();
+
+            return View("_Impieghi", model);
+        }
+
+
+
         [HttpGet]
         public ActionResult ImpiegoPartialById(int id, EnumTipoAzione tipoAzione = EnumTipoAzione.VISUALIZZAZIONE)
         {
             Impiego impiego = new Impiego { id = id };
             impiego.tipoImpiego = new TipoContrattoImpiego();
             impiego.categoriaImpiego = new TipoCategoriaImpiego();
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+            
             if (impiego.id > 0)
             {
                 impiego = (from i in db.impieghi.Include("tipoImpiego").Include("categoriaImpiego") where i.id == impiego.id select i).First();
@@ -35,7 +56,7 @@ namespace mediatori.Controllers
             }
             if (tipoAzione == EnumTipoAzione.MODIFICA || tipoAzione == EnumTipoAzione.INSERIMENTO)
             {
-                valorizzaViewBag(db);
+                valorizzaViewBag();
                 return View("impiegoPartialEdit", impiego);
             }
             else
@@ -63,7 +84,7 @@ namespace mediatori.Controllers
 #endif
 
 
-            valorizzaViewBag(db);
+            valorizzaViewBag();
 
             ViewData.TemplateInfo.HtmlFieldPrefix = "impiego";
             
@@ -75,14 +96,14 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult impiegoPartial(Impiego impiego, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+            
             switch (tipoAzione)
             {
                 case EnumTipoAzione.MODIFICA:
-                    valorizzaViewBag(db);
+                    valorizzaViewBag();
                     return View("ImpiegoPartialEdit", impiego);
                 case EnumTipoAzione.INSERIMENTO:
-                    valorizzaViewBag(db);
+                    valorizzaViewBag();
                     return View("ImpiegoPartialInsert", impiego);
                 default:
                     return View("ImpiegoPartialDetail", impiego);
@@ -116,7 +137,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult CreateForCedente(Impiego impiego, int codiceCedente)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             impiego = completaDatiImpiegoFromRequest(impiego, db);
             ModelState.Remove("tipoImpiego.descrizione");
             if (ModelState.IsValid)
@@ -128,10 +148,10 @@ namespace mediatori.Controllers
             }
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
+
         [HttpPost]
         public ActionResult CreateForSegnalazione(Impiego impiego, int codiceSegnalazione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             impiego = completaDatiImpiegoFromRequest(impiego, db);
             ModelState.Clear();
             TryValidateModel(impiego);
@@ -145,7 +165,7 @@ namespace mediatori.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
-        private void valorizzaViewBag(MainDbContext db)
+        private void valorizzaViewBag()
         {
             ViewBag.listaTipoImpiego = new SelectList(db.TipoContrattoImpiego, "id", "descrizione");
             ViewBag.listaCategoriaImpiego = new SelectList(db.TipoCategoriaImpiego, "id", "descrizione");

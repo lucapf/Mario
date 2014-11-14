@@ -1,0 +1,32 @@
+﻿@model mediatori.Models.ImpieghiModel
+@{
+    Layout = null;
+}
+<h3>Dati impiego <strong class="h3Link" id="linkNuovoImpiego" title="nuovo impiego">[ + ]</strong></h3>
+<script>$("#linkNuovoImpiego").click(function () { $("#divNuovoImpiego").show(); })        </script>
+<hr />
+@using (Html.BeginCollectionItem("impieghi"))
+{
+    foreach (mediatori.Models.Anagrafiche.Impiego i in Model.impieghi)
+    {
+        Html.RenderPartial("~/Views/Impiego/ImpiegoPartialDetail.cshtml", i);
+    }
+
+}
+
+
+<div id="divNuovoImpiego" style="display: none">
+    @using (Html.BeginForm("CreateForCedente", "Impiego", FormMethod.Post, new { id = "nuovoImpiego" }))
+    {
+        <input type="hidden" id="codiceCedente" name="codiceCedente" value="@Model.contattoId" />
+
+        { Html.RenderPartial("~/Views/Impiego/ImpiegoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Impiego()); }
+
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input type="button" data-mini="true" data-inline="true" value="Salva" onclick='$("#nuovoImpiego").submit()' />
+            <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovoImpiego").hide()' />
+        </div>
+    }
+</div>
+

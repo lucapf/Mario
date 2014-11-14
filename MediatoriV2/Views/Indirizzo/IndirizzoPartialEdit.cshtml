@@ -4,56 +4,87 @@
 }
 
 @Html.HiddenFor(m => m.id)
-
-<div class="editor-label">
-    @Html.LabelFor(m => m.tipoIndirizzo)
-    @Html.DropDownListFor(m => m.tipoIndirizzo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoIndirizzo, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.tipoIndirizzo.id)
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoIndirizzo)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.tipoIndirizzo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoIndirizzo, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoIndirizzo.id)
+    </div>
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.presso)
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(m => m.toponimo)
-    @Html.DropDownListFor(m => m.toponimo.sigla, (IEnumerable<SelectListItem>)ViewBag.listaToponimo, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.toponimo.sigla)
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.toponimo)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.toponimo.sigla, (IEnumerable<SelectListItem>)ViewBag.listaToponimo, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.toponimo.sigla)
+    </div>
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.recapito)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.numeroCivico)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.interno)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.cap)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.LabelFor(m => m.corrispondenza)
     @MyHelper.MyCheckBox("corrispondenza", Model.corrispondenza, "")
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(m => m.provincia)
-    @Html.DropDownListFor(m => m.provincia.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.provincia.denominazione)
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.provincia)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.provincia.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.provincia.denominazione)
+    </div>
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(m => m.comune)
-    @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.comune.denominazione)
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.comune)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.comune.denominazione)
+    </div>
 </div>
-
-
 
 

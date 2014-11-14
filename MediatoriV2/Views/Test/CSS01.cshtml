@@ -1,0 +1,64 @@
+﻿@model mediatori.Models.Test.TestClass
+
+@{
+    ViewBag.Title = "CSS01";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>CSS 01</h2>
+
+<h3>Dati impiego <strong class="h3Link" id="linkNuovoImpiego" title="nuovo impiego">[ + ]</strong></h3>
+
+<form>
+
+    <div class="editor-control">
+        @Html.MyInputType(p => p.importoRichiesto)
+    </div>
+
+
+    <div class="editor-control">
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.LabelFor(m => m.tipoId)
+            </div>
+            <div class="editor-value">
+                @Html.DropDownListFor(m => m.tipoId, (IEnumerable<SelectListItem>)ViewBag.listaTipo, "", new { data_mini = "true" })
+            </div>
+        </div>
+        <div class="editor-validation">
+            @Html.ValidationMessageFor(m => m.tipoId)
+        </div>
+    </div>
+
+
+    <div class="editor-control">
+        @Html.MySelectOptions(m => m.tipoId, (IEnumerable<SelectListItem>)ViewBag.listaTipo, "")
+    </div>
+
+    <div class="editor-control">
+        @Html.MyInputType(p => p.dataDiNascita)
+    </div>
+
+
+
+    <input type="submit" value="Invia" />
+
+</form>
+
+
+<div class="display-control">
+    @Html.LabelFor(model => model.Nome)
+    <div>@Html.DisplayFor(model => model.Nome)</div>
+</div>
+
+
+
+
+<div style="width: 100%;">
+    <div style="float: left; width: 33%;">Row 1 - Cell 1</div>
+    <div style="float: left; width: 34%;">Row 1 - Cell 2</div>
+    <div style="float: left; width: 33%;">Row 1 - Cell 3</div>
+</div>
+<div style="clear: left; width: 100%;">
+    Row 2 - Cell 1
+</div>

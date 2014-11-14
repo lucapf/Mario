@@ -24,5 +24,10 @@ namespace mediatori.Models.Test
         [Display(Name = "Importo")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
         public decimal? importoRichiesto { get; set; }
+
+
+        [Required]
+        [Display(Name = "Tipo con descrizione")]
+        public int tipoId { get; set; }
     }
 }

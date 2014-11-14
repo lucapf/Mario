@@ -1,48 +1,9 @@
-﻿@{
+﻿@model List<mediatori.Models.MenuElement>
+@{
     ViewBag.Title = "Sicurezza";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
 <h2>Sicurezza</h2>
 
-
-<div class="canvas-flex">
-
-
-    <a href="@Url.Action("Index", "Home")" data-role="none">
-        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px; background-color: green;">
-            <h3 style="margin-left: 20%; margin-top: 40%;">Home</h3>
-        </div>
-    </a>
-
-    <a href="@Url.Action("Anagrafiche", "Home")" data-role="none">
-        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px; background-color: green;">
-            <h3 style="margin-left: 20%; margin-top: 40%;">Sicurezza</h3>
-        </div>
-    </a>
-
-    <a href="@Url.Action("Index", "Utenti")" data-role="none">
-        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
-            <h3 style="margin-left: 20%; margin-top: 40%;">Utenti</h3>
-        </div>
-    </a>
-
-    <a href="@Url.Action("Register", "Utenti")" data-role="none">
-        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
-            <h3 style="margin-left: 30%; margin-top: 40%;">Nuovo utente</h3>
-        </div>
-    </a>
-
-    <a href="@Url.Action("ChangePassword", "Account")" data-role="none">
-        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
-            <h3 style="margin-left: 30%; margin-top: 40%;">Modifica password</h3>
-        </div>
-    </a>
-
-    <a href="@Url.Action("LogOff", "Account")" data-role="none">
-        <div class="ui-corner-all ui-bar ui-bar-a" style="padding-top: 10px; width: 150px; height: 150px;">
-            <h3 style="margin-left: 30%; margin-top: 40%;">Logout</h3>
-        </div>
-    </a>
-    
-</div>
+@{Html.RenderPartial("_BoxMenu", Model);}

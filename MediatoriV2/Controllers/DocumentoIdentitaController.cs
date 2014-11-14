@@ -156,8 +156,7 @@ namespace mediatori.Controllers
             di.enteRilascio = db.TipoEnteRilascio.Find(di.enteRilascio.id);
             di.provinciaEnte = (from p in db.Province where p.denominazione == di.provinciaEnte.denominazione select p).First();
             di.comuneEnte = (from c in db.Comuni
-                             where
-                                 c.denominazione == di.comuneEnte.denominazione && c.provincia.id == di.provinciaEnte.id
+                             where c.denominazione == di.comuneEnte.denominazione && c.codiceProvincia == di.provinciaEnte.id
                              select c).First();
             return di;
         }
@@ -186,7 +185,7 @@ namespace mediatori.Controllers
             ViewBag.oggi = System.DateTime.Now.Year;
             ViewBag.fineValidita = System.DateTime.Now.Year + 15;
             ViewBag.listaEnteRilascio = new SelectList(db.TipoEnteRilascio.ToList(), "id", "descrizione");
-       
+
             ViewBag.provinciaRilascio = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
 
             List<SelectListItem> lsli = new List<SelectListItem>();

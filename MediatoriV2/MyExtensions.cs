@@ -11,7 +11,41 @@ using System.Diagnostics;
 public static class MyExtensions
 {
     private static string DATA_MINI = "true";
-    
+
+
+    public static MvcHtmlString MyLabelFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expression)
+    {
+        MvcHtmlString label = htmlHelper.LabelFor(expression);
+
+        var lambda = (LambdaExpression)expression;
+        MemberExpression memberExpression;
+        if (lambda.Body is UnaryExpression)
+        {
+            var unaryExpression = (UnaryExpression)lambda.Body;
+            memberExpression = (MemberExpression)unaryExpression.Operand;
+        }
+        else
+        {
+            memberExpression = (MemberExpression)lambda.Body;
+        }
+        //*** Attributes ***//
+        var requiredAttribute = memberExpression.Member.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), false);
+        if (requiredAttribute != null && requiredAttribute.Length != 0)
+        {
+            System.Text.RegularExpressions.Regex pattern = new System.Text.RegularExpressions.Regex("<label\\b[^>]*>(.*?)</label>");
+
+            //Debug.WriteLine(pattern.Match(label.ToHtmlString()));
+            System.Text.RegularExpressions.Match m = pattern.Match(label.ToHtmlString());
+            if (m.Success)
+            {
+                label = new MvcHtmlString(label.ToHtmlString().Replace(m.Groups[1].Value, m.Groups[1].Value + "&nbsp;*"));
+            }
+        }
+
+
+        return label;
+    }
+
 
     public static MvcHtmlString MyTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
     {
@@ -72,48 +106,23 @@ public static class MyExtensions
 
 
 
+    public static MvcHtmlString MySelectOptions<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel)
+    {
+        MvcHtmlString label = htmlHelper.MyLabelFor(expression);
+        MvcHtmlString dropDownList = htmlHelper.DropDownListFor(expression, selectList, optionLabel, new { data_mini = DATA_MINI });
+        MvcHtmlString validation = htmlHelper.ValidationMessageFor(expression);
+
+        return new MvcHtmlString(" <div class=\"editor-row\"><div class=\"editor-label\">" + label.ToHtmlString() + "</div><div class=\"editor-value\">" + dropDownList.ToHtmlString() + "</div></div>" + "<div class=\"editor-validation\">" + validation.ToHtmlString() + "</div>");
+}
+
+
     public static MvcHtmlString MyInputType<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
     {
-        MvcHtmlString label = htmlHelper.LabelFor(expression);
+        MvcHtmlString label = htmlHelper.MyLabelFor(expression);
         MvcHtmlString textBox = htmlHelper.MyTextBoxFor(expression);
         MvcHtmlString validation = htmlHelper.ValidationMessageFor(expression);
 
-
-        var lambda = (LambdaExpression)expression;
-
-        MemberExpression memberExpression;
-        if (lambda.Body is UnaryExpression)
-        {
-            var unaryExpression = (UnaryExpression)lambda.Body;
-            memberExpression = (MemberExpression)unaryExpression.Operand;
-        }
-        else
-        {
-            memberExpression = (MemberExpression)lambda.Body;
-        }
-        //*** Attributes ***//
-        var requiredAttribute = memberExpression.Member.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), false);
-
-        bool isRequired = false;
-        if (requiredAttribute != null && requiredAttribute.Length != 0)
-        {
-            isRequired = true;
-
-            System.Text.RegularExpressions.Regex pattern = new System.Text.RegularExpressions.Regex("<label\\b[^>]*>(.*?)</label>");
-
-            Debug.WriteLine(pattern.Match(label.ToHtmlString()));
-            System.Text.RegularExpressions.Match m = pattern.Match(label.ToHtmlString());
-            if (m.Success)
-            {
-                label = new MvcHtmlString(label.ToHtmlString().Replace(m.Groups[1].Value, m.Groups[1].Value + " *"));
-            }
-        }
-
-
-
-
-
-        return new MvcHtmlString(label.ToHtmlString() + textBox.ToHtmlString() + "<br />" + validation.ToHtmlString());
+        return new MvcHtmlString(" <div class=\"editor-row\"><div class=\"editor-label\">" + label.ToHtmlString() + "</div><div class=\"editor-value\">" + textBox.ToHtmlString() + "</div></div>" + "<div class=\"editor-validation\">" + validation.ToHtmlString() + "</div>");
     }
 
 
