@@ -46,8 +46,7 @@
 
         $(document).on("pageinit", function () {
             $.mobile.ajaxEnabled = false;
-
-            //$()datepicker({ dateFormat: 'dd-mm-yyyy' })
+                       
             //alert("pageinit");
             clock();
 
@@ -98,7 +97,10 @@
 
             });
 
-            setTimeout(function () { assegnazioni(); }, 2000);
+            @if (MyConstants.CHECK_ASSEGANAZIONI_ENABLED ){
+                @:setTimeout(function () { assegnazioni(); }, 2000);
+            }
+            
         }
 
     </script>
@@ -127,11 +129,11 @@
                         </div>
                     </a>
                 }
-                <div id="headerClock" class="ui-btn-right" style="margin-top: 3em; margin-right: 1em;"></div>
+                <div id="headerClock" class="ui-btn-right" style="margin-top: 3.5em; margin-right: 0.5em;"></div>
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a href="@Url.Action("Manage", "Account")" class="ui-btn ui-icon-user ui-btn-icon-left" title="@User.Identity.Name">@User.Identity.Name</a>
+                    <a href="@Url.Action("Manage", "Account")" style="margin-right: 0.5em;" class="ui-btn ui-icon-user ui-btn-icon-left ui-btn-right ui-mini" title="@User.Identity.Name">@User.Identity.Name</a>
                 }
 
 

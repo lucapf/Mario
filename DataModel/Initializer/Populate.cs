@@ -61,7 +61,7 @@ namespace mediatori.Initializer
             }
 
 
-            context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id, new Stato { id = 1, descrizione = "Segnalazione caricata", statoBase = EnumStatoBase.ATTIVO, entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE });
+            context.StatiSegnalazione.AddOrUpdate<Stato>(t => t.id, new Stato { id = 1, descrizione = "Segnalazione caricata", statoBase = EnumStatoBase.ATTIVO, entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE });
 
             context.Parametri.AddOrUpdate<Parametro>(p => p.id, new Parametro { id = 1, key = "stato.predefinito.segnalazione", value = "1", descrizione = "Stato predefinito al caricamento della segnalazione" });
 
@@ -156,7 +156,7 @@ namespace mediatori.Initializer
                          );
 
 
-            context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
+            context.StatiSegnalazione.AddOrUpdate<Stato>(t => t.id,
                 //AMMINISTRAZIONI
                 new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
                 new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },

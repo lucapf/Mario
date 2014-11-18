@@ -13,15 +13,15 @@
     mediatori.helper.FireAntEditHelper editHelperPreventivo = new mediatori.helper.FireAntEditHelper("prv", "/Preventivo/preventivoPartialById", Model.contatto.id.ToString());
     var edPreventivo = new mediatori.helper.FireAntDetailEventDetection("prv", Model.id);
 
-    //verifico se la segnalazione è ha un preventivo confermato
-    ViewBag.confermata = false;
-    foreach (mediatori.Models.Preventivo p in Model.preventivi)
-    {
-        if (p.dataConferma != null)
-        {
-            ViewBag.confermata = true;
-        }
-    }
+    ////verifico se la segnalazione è ha un preventivo confermato
+    //ViewBag.confermata = false;
+    //foreach (mediatori.Models.Preventivo p in Model.preventivi)
+    //{
+    //    if (p.dataConferma != null)
+    //    {
+    //        ViewBag.confermata = true;
+    //    }
+    //}
 }
 <script>
     statoFocusOn = false;
@@ -160,11 +160,10 @@
 <div id="gestioneOperazioni"></div>
 
 <input type="button" id="btnScrollToPreventivo" value="Preventivi" data-inline="true" data-mini="true" />
-<input type="button" id="btnAggiuntiPreventivo" value="Aggiungi preventivo" data-inline="true" data-mini="true" />
-
 <a href="@Url.Action("Index", "Documentale", new { SegnalazioneId = Model.id })">
     <input type="button" id="btnDocumentale" value="Documentale" data-mini="true" data-inline="true" />
 </a>
+
 
 
 
@@ -174,7 +173,7 @@
 </div>
 
 
-@{Html.RenderPartial("~/Views/Segnalazioni/_Contatto.cshtml", Model);}
+@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model);}
 
 
 
@@ -194,71 +193,21 @@
 @Html.Raw(editHelperSegnalazione.getEndForm())
 
 
+<!-- preventivo -->
+@{Html.RenderAction("DetailsFromSegnalazione", "Preventivo", new { segnalazioneId = Model.id });}
+<!-- /preventivo -->
 
-<h3 id="preventivi">Preventivi  <strong class="h3Link" id="linkNuovoPreventivo" title="nuovo preventivo">[ + ]</strong></h3>
-<script>$("#linkNuovoPreventivo").click(function () { $("#divNuovoPreventivo").show(); })        </script>
-<hr />
-@using (Html.BeginCollectionItem("preventivi"))
-{
-    foreach (mediatori.Models.Preventivo p in Model.preventivi)
-    {
-        Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", p);
-    }
-}
-
-
-<div id="divNuovoPreventivo" style="display: none">
-    @using (Html.BeginForm("createForSegnalazione", "Preventivo", FormMethod.Post, new { id = "nuovoPreventivo" }))
-    {
-        <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="@Model.id" />
-
-        Html.RenderAction("Create", "Preventivo", new { segnalazione = Model });
-
-        <div data-role="controlgrup" data-type="horizontal">
-            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
-            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
-        </div>
-    }
-</div>
-
-
-
-
-
-<br />
 <!-- impiego -->
 @{Html.RenderAction("Details", "Impiego", new { contattoId = Model.contatto.id });}
 <!-- /impiego -->
 
+<!-- riferimento -->
+@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id });}
+<!-- /riferimento -->
 
-<h3 id="riferimenti">Riferimenti  <strong class="h3Link" id="linkNuovoriferimento" title="Aggiungi Riferimento">[ + ]</strong></h3>
-<script>$(function () { $("#linkNuovoriferimento").click(function () { $("#divNuovoRiferimento").show(); }) })</script>
-<hr />
-@if (Model.contatto.riferimenti != null)
-{
-    foreach (mediatori.Models.Anagrafiche.Riferimento riferimenti in Model.contatto.riferimenti)
-    {
-        {
-            Html.RenderAction("riferimentoPartial", "Riferimento", new { riferimento = riferimenti, tipoAzione = "VISUALIZZAZIONE" });
-        }
-    }
-}
-
-
-@using (Html.BeginForm("CreateForSegnalazione", "Riferimento", FormMethod.Post, new { id = "nuovoRiferimento" }))
-{
-    <div id="divNuovoRiferimento" style="display: none">
-        <input type="hidden" name="codiceSegnalazione" value="@Model.id" />
-
-        @{Html.RenderAction("riferimentoPartial", "Riferimento", new { tipoAzione = "MODIFICA" });}
-
-        <div data-role="controlgrup" data-type="horizontal">
-            <input data-mini="true" data-inline="true" type="button" value="Salva" onclick='$("#nuovoRiferimento").submit()' />
-            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoRiferimento").hide()' />
-        </div>
-    </div>
-}
-
+<!-- documenti -->
+@{Html.RenderAction("DetailsFromSegnalazione", "Documentale", new { segnalazioneId = Model.id });}
+<!-- /documenti -->
 
 
 @{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, segnalazioneId = Model.id });}

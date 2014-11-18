@@ -601,7 +601,7 @@ namespace mediatori.Controllers
             ViewBag.message = message == null ? String.Empty : message;
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
-            List<GruppoLavorazioneView> lglw = GruppoLavorazioneUtils.toView((from gruppoLavorazione in db.gruppiLavorazione select gruppoLavorazione).ToList(), users);
+            List<GruppoLavorazioneView> lglw = GruppoLavorazioneUtils.toView((from gruppoLavorazione in db.GruppiLavorazione select gruppoLavorazione).ToList(), users);
             ViewBag.gruppoLavorazioneEmpty = new GruppoLavorazioneView(users);
             return View(lglw);
         }
@@ -619,7 +619,7 @@ namespace mediatori.Controllers
                     ModelState.AddModelError("nome", "il campo nome è obbligatorio");
                     errorMessage = "nome non specificato";
                 }
-                if ((from fp in db.gruppiLavorazione
+                if ((from fp in db.GruppiLavorazione
                      where (fp.nome == ta.nome)
                      select fp).FirstOrDefault() != null)
                 {
@@ -633,7 +633,7 @@ namespace mediatori.Controllers
                         errorMessage = ModelState
                     });
                 }
-                db.gruppiLavorazione.Add(ta);
+                db.GruppiLavorazione.Add(ta);
                 db.SaveChanges();
 
             }
@@ -648,14 +648,14 @@ namespace mediatori.Controllers
             string message = String.Empty;
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
-                GruppoLavorazione gruppoLavorazione = db.gruppiLavorazione.Find(id);
+                GruppoLavorazione gruppoLavorazione = db.GruppiLavorazione.Find(id);
                 if (gruppoLavorazione == null)
                 {
                     errorMessage = "impossibile eliminare il gruppo di lavorazione " + id + " in quanto non censito";
                 }
                 else
                 {
-                    db.gruppiLavorazione.Remove(gruppoLavorazione);
+                    db.GruppiLavorazione.Remove(gruppoLavorazione);
                     db.SaveChanges();
                     message = "Gruppo di lavorazione " + gruppoLavorazione.nome + " eliminato con successo";
                 }
@@ -670,7 +670,7 @@ namespace mediatori.Controllers
             if (id == 0) return RedirectToAction("gruppoLavorazione", new { errorMessage = "necessario fornire il codice gruppo" });
             using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
             {
-                GruppoLavorazione gl = db.gruppiLavorazione.Find(id);
+                GruppoLavorazione gl = db.GruppiLavorazione.Find(id);
                 gl.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
                 db.SaveChanges();
             }
@@ -713,7 +713,7 @@ namespace mediatori.Controllers
             if (stato.gruppoLavorazione == null)
                 return RedirectToAction("Stato",
                     new { errorMessage = "indicare il gruppo di lavorazione" });
-            stato.gruppoLavorazione = (db.gruppiLavorazione.Find(stato.gruppoLavorazione.id));
+            stato.gruppoLavorazione = (db.GruppiLavorazione.Find(stato.gruppoLavorazione.id));
             ModelState.Remove("gruppoLavorazione.nome");
             if (!ModelState.IsValid)
                 return RedirectToAction("Stato",
@@ -730,11 +730,11 @@ namespace mediatori.Controllers
 
         private Stato getStato(MainDbContext db, int id)
         {
-            return (from s in db.statiSegnalazione.Include("gruppoLavorazione") where s.id == id select s).First();
+            return (from s in db.StatiSegnalazione.Include("gruppoLavorazione") where s.id == id select s).First();
         }
         private List<Stato> getStati(MainDbContext db)
         {
-            return (from s in db.statiSegnalazione.Include("gruppoLavorazione") select s).ToList();
+            return (from s in db.StatiSegnalazione.Include("gruppoLavorazione") select s).ToList();
         }
 
         [HttpPost]
@@ -745,11 +745,11 @@ namespace mediatori.Controllers
             if (s.gruppoLavorazione == null)
                 return RedirectToAction("Stato",
                     new { errorMessage = "indicare il gruppo di lavorazione" });
-            s.gruppoLavorazione = (db.gruppiLavorazione.Find(s.gruppoLavorazione.id));
+            s.gruppoLavorazione = (db.GruppiLavorazione.Find(s.gruppoLavorazione.id));
             ModelState.Remove("gruppoLavorazione.nome");
             if (!ModelState.IsValid)
                 return RedirectToAction("Stato", new { errorMessage = "non tutti i dati obbligatori sono stati inseriti, impossibile procedere" });
-            db.statiSegnalazione.Add(s);
+            db.StatiSegnalazione.Add(s);
             LogEventi le = LogEventiManager.getEventoForCreate(User.Identity.Name, s.id, EnumEntitaRiferimento.STATO);
             LogEventiManager.save(le, db);
             db.SaveChanges();
@@ -759,8 +759,8 @@ namespace mediatori.Controllers
         public ActionResult CancellaStato(int id)
         {
             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            Stato statoDaCancellare = db.statiSegnalazione.Find(id);
-            db.statiSegnalazione.Remove(statoDaCancellare);
+            Stato statoDaCancellare = db.StatiSegnalazione.Find(id);
+            db.StatiSegnalazione.Remove(statoDaCancellare);
             LogEventiManager.save(LogEventiManager.getEventoForDelete(User.Identity.Name, id, EnumEntitaRiferimento.STATO), db);
             return RedirectToAction("Stato", new { message = String.Format("cancellazione stato {0} avvenuto con successo", statoDaCancellare.descrizione) });
         }

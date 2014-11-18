@@ -1,74 +1,115 @@
 ﻿@model mediatori.Models.Preventivo
 @{
-    ViewBag.title = "Preventivo";
     Layout = null;
 }
-<div class="editor-label">
-    @Html.LabelFor(m => m.finanziaria)
-    @Html.DropDownListFor(m => m.finanziaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFinanziarie, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.finanziaria.id)
+
+@Html.HiddenFor(m => m.id) 
+
+@Html.HiddenFor(m => m.finanziariaId) 
+@Html.HiddenFor(m => m.assicurazioneImpiegoId) 
+@Html.HiddenFor(m => m.assicurazioneVitaId) 
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.finanziaria)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.finanziaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFinanziarie, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.finanziaria.id)
+    </div>
 </div>
-<div class="editor-label">
+
+
+<div class="editor-control">
     @Html.MyInputType(m => m.nomeProdotto)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.importoRata)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.durata)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.tabellaFinanziaria)
 </div>
-<div class="editor-label">
-    @Html.LabelFor(m => m.assicurazioneVita)
-    @Html.DropDownListFor(m => m.assicurazioneVita.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.assicurazioneVita.id)
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.assicurazioneVita)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.assicurazioneVita.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.assicurazioneVita.id)
+    </div>
 </div>
-<div class="editor-label">
+
+
+
+<div class="editor-control">
     @Html.MyInputType(m => m.importoCoperturaVita)
 </div>
-<div class="editor-label">
-    @Html.LabelFor(m => m.assicurazioneImpiego)
-    @Html.DropDownListFor(m => m.assicurazioneImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(m => m.assicurazioneImpiego.id)
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.assicurazioneImpiego)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.assicurazioneImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCompagnieAssicurative, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.assicurazioneImpiego.id)
+    </div>
 </div>
-<div class="editor-label">
+
+
+<div class="editor-control">
     @Html.MyInputType(m => m.importoCoperturaImpego)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.dataDecorrenza)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.importoProvvigioni)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.montante)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.importoInteressi)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.speseAttivazione)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.speseIncasso)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.oneriFiscali)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.importoImpegniDaEstinguere)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.nettoCliente)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.tan)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.taeg)
 </div>
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(m => m.teg)
 </div>

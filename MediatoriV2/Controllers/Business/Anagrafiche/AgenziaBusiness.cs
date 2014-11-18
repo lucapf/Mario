@@ -48,7 +48,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
 
             if (agenzia.stato != null)
             {
-                agenzia.stato = db.statiSegnalazione.Find(agenzia.stato.id);
+                agenzia.stato = db.StatiSegnalazione.Find(agenzia.stato.id);
             }
             
             agenzia.tipoAgenzia = db.TipoAgenzia.Find(agenzia.tipoAgenzia.id);

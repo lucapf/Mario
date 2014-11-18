@@ -47,6 +47,7 @@
             alternatingRowStyle: "ui-bar-d",
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
+                    wGrid.Column (columnName:"dataInserimento", header :"Data inserimento", canSort:false, format: p =>  p.dataInserimento.ToShortDateString() ),
                     wGrid.Column (columnName:"contatto.nome", header :"Nome", canSort:false),
                     wGrid.Column (columnName:"contatto.cognome", header :"Cognome", canSort:false),
                     wGrid.Column (columnName:"importoRichiesto", header :"Importo", canSort:false, format: p=> String.Format("{0:C}",p.importoRichiesto)),

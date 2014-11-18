@@ -79,7 +79,7 @@ namespace mediatori.Controllers
             ViewBag.listaTipoNaturaGiuridica = new SelectList(db.tipoNaturaGiuridica.OrderBy(p => p.descrizione), "id", "Descrizione");
             ViewBag.listaTipoCategoria = new SelectList(db.TipoCategoriaAmministrazione, "id", "Descrizione");
             ViewBag.listaTipoAssumibilita = new SelectList(db.TipoAssumibilitaAmministrazione, "id", "Descrizione");
-            IQueryable<Stato> listaStati = db.statiSegnalazione.Where(m => m.entitaAssociata == EnumEntitaAssociataStato.AGENZIA);
+            IQueryable<Stato> listaStati = db.StatiSegnalazione.Where(m => m.entitaAssociata == EnumEntitaAssociataStato.AGENZIA);
             ViewBag.listaStati = new SelectList(listaStati, "id", "descrizione");
             ViewBag.listaTipoAgenzia = new SelectList(db.TipoAgenzia, "id", "Descrizione");
 

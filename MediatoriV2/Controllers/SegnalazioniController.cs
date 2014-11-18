@@ -79,7 +79,11 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id = 0)
         {
-            Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
+            //Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
+            Segnalazione segnalazione;
+
+            segnalazione = db.Segnalazioni.Include("contatto").Include("stato").Where(s => s.id == id).First();
+            
             if (segnalazione == null)
             {
                 return HttpNotFound();
@@ -160,7 +164,7 @@ namespace mediatori.Controllers
             if (ModelState.IsValid)
             {
 
-                segnalazione.stato = db.statiSegnalazione.Find(MyConstants.STATO_INIZIALE_SEGNALAZIONE);
+                segnalazione.stato = db.StatiSegnalazione.Find(MyConstants.STATO_INIZIALE_SEGNALAZIONE);
 
                 if (segnalazione.stato == null)
                 {
@@ -215,7 +219,7 @@ namespace mediatori.Controllers
 
         private ActionResult dispatch(Segnalazione segnalazione, EnumTipoAzione tipoAzione, MainDbContext db)
         {
-            if (segnalazione.preventivi == null) { segnalazione.preventivi = new List<Preventivo>(); }
+            if (segnalazione.preventivi == null) { segnalazione.preventivi = new List<PreventivoSmall>(); }
             switch (tipoAzione)
             {
                 case EnumTipoAzione.INSERIMENTO:
@@ -275,7 +279,7 @@ namespace mediatori.Controllers
             ViewBag.listaTipoContatto = new SelectList(db.TipoContatto.ToList(), "id", "descrizione");
             ViewBag.listaTipoCanaleAcquisizione = new SelectList(db.TipoCanaleAcquisizione.ToList(), "id", "descrizione");
             ViewBag.listaTipoAzienda = new SelectList(db.TipoAzienda.ToList(), "id", "descrizione");
-            ViewBag.listaStati = new SelectList(db.statiSegnalazione.Where(s => s.entitaAssociata == EnumEntitaAssociataStato.SEGNALAZIONE).ToList(), "id", "descrizione");
+            ViewBag.listaStati = new SelectList(db.StatiSegnalazione.Where(s => s.entitaAssociata == EnumEntitaAssociataStato.SEGNALAZIONE).ToList(), "id", "descrizione");
             ViewBag.listaFontePubblicitaria = new SelectList(db.FontiPubblicitarie.ToList(), "id", "descrizione");
             ViewBag.listaSesso = new SelectList(new List<SelectListItem> { new SelectListItem { Text = "M", Value = "M" }, new SelectListItem { Text = "F", Value = "F" } }, null);
 

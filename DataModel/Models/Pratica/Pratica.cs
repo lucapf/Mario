@@ -13,5 +13,7 @@ namespace mediatori.Models.Pratica
         [Display(Name = "Cedente")]
         public virtual Models.Anagrafiche.Cedente cedente { get; set; }
 
+        
+        public virtual Models.Preventivo preventivoConfermato { get; set; }
     }
 }

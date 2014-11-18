@@ -68,7 +68,7 @@ namespace mediatori.Controllers.Business
         {   
              MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
              SoggettoGiuridico s = new SoggettoGiuridicoBusiness().findByPK(id, db);
-             if (db.amministazioni.Where(m => m.soggettoGiuridico.id == id).ToList().Count >0)
+             if (db.Amministazioni.Where(m => m.soggettoGiuridico.id == id).ToList().Count >0)
              {
                  ViewBag.tipoSoggetto = "AMMINISTRAZIONE";
              }

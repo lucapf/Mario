@@ -1,0 +1,35 @@
+﻿@model mediatori.Models.RiferimentiModel
+@{
+    Layout = null;
+}
+
+
+<h3 id="riferimenti">Riferimenti  <strong class="h3Link" id="linkNuovoriferimento" title="Aggiungi Riferimento">[ + ]</strong></h3>
+<script>$(function () { $("#linkNuovoriferimento").click(function () { $("#divNuovoRiferimento").show(); }) })</script>
+<hr />
+@if (Model.riferimenti != null)
+{
+    foreach (mediatori.Models.Anagrafiche.Riferimento riferimento in Model.riferimenti)
+    {
+        {
+            Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialDetail.cshtml", riferimento);
+
+        }
+    }
+}
+
+
+@using (Html.BeginForm("CreateForContatto", "Riferimento", FormMethod.Post, new { id = "nuovoRiferimento" }))
+{
+    <div id="divNuovoRiferimento" style="display: none">
+        <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
+
+        @{ Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Riferimento()); }
+
+         
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="button" value="Salva" onclick='$("#nuovoRiferimento").submit()' />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoRiferimento").hide()' />
+        </div>
+    </div>
+}

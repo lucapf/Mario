@@ -108,7 +108,7 @@ namespace mediatori.Controllers.Business
                 return null;
             }
 
-            if (segnalazione.preventivi == null) segnalazione.preventivi = new List<Preventivo>();
+            if (segnalazione.preventivi == null) segnalazione.preventivi = new List<PreventivoSmall>();
 
             return segnalazione;
         }

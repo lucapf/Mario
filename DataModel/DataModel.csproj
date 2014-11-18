@@ -88,9 +88,25 @@
     <Compile Include="Migrations\201411131209574_Update06.Designer.cs">
       <DependentUpon>201411131209574_Update06.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201411131704258_Update07.cs" />
-    <Compile Include="Migrations\201411131704258_Update07.Designer.cs">
-      <DependentUpon>201411131704258_Update07.cs</DependentUpon>
+    <Compile Include="Migrations\201411181014228_Update07.cs" />
+    <Compile Include="Migrations\201411181014228_Update07.Designer.cs">
+      <DependentUpon>201411181014228_Update07.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411181223088_Update071.cs" />
+    <Compile Include="Migrations\201411181223088_Update071.Designer.cs">
+      <DependentUpon>201411181223088_Update071.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411181234008_Update08.cs" />
+    <Compile Include="Migrations\201411181234008_Update08.Designer.cs">
+      <DependentUpon>201411181234008_Update08.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411181257450_Update09.cs" />
+    <Compile Include="Migrations\201411181257450_Update09.Designer.cs">
+      <DependentUpon>201411181257450_Update09.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411181337003_Update10.cs" />
+    <Compile Include="Migrations\201411181337003_Update10.Designer.cs">
+      <DependentUpon>201411181337003_Update10.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
@@ -144,10 +160,11 @@
     <Compile Include="Models\etc\Parametro.cs" />
     <Compile Include="Models\etc\Stato.cs" />
     <Compile Include="Models\Pratica\Pratica.cs" />
+    <Compile Include="Models\PreventivoSmall.cs" />
     <Compile Include="Models\Test\Test01.cs" />
     <Compile Include="MyConstants.cs" />
     <Compile Include="Nota.cs" />
-    <Compile Include="Preventivo.cs" />
+    <Compile Include="Models\Preventivo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +202,20 @@
     <EmbeddedResource Include="Migrations\201411131209574_Update06.resx">
       <DependentUpon>201411131209574_Update06.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411131704258_Update07.resx">
-      <DependentUpon>201411131704258_Update07.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201411181014228_Update07.resx">
+      <DependentUpon>201411181014228_Update07.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411181223088_Update071.resx">
+      <DependentUpon>201411181223088_Update071.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411181234008_Update08.resx">
+      <DependentUpon>201411181234008_Update08.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411181257450_Update09.resx">
+      <DependentUpon>201411181257450_Update09.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411181337003_Update10.resx">
+      <DependentUpon>201411181337003_Update10.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

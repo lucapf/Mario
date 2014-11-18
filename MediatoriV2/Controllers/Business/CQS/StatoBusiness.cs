@@ -10,7 +10,7 @@ namespace mediatori.Controllers.Business.CQS
     public class StatoBusiness
     {
         public List<Stato> findByFilter(StatoSearch statoFilter, MainDbContext db) {
-            IQueryable<Stato> querystato = db.statiSegnalazione;
+            IQueryable<Stato> querystato = db.StatiSegnalazione;
             if (statoFilter == null) { return querystato.ToList(); }
             if (statoFilter.entita != null) {
                 querystato = querystato.Where(s => s.entitaAssociata == statoFilter.entita);

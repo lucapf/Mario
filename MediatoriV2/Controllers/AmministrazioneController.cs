@@ -68,7 +68,7 @@ namespace mediatori.Controllers
             amministrazioneOriginale.partitaIva = amministrazione.partitaIva;
             amministrazioneOriginale.capitaleSociale = amministrazione.capitaleSociale;
             amministrazioneOriginale.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(amministrazione.tipoNaturaGiuridica.id);
-            amministrazioneOriginale.stato = db.statiSegnalazione.Find(amministrazione.stato.id) ;
+            amministrazioneOriginale.stato = db.StatiSegnalazione.Find(amministrazione.stato.id) ;
             amministrazioneOriginale.tipoCategoria= db.TipoCategoriaAmministrazione.Find(amministrazione.tipoCategoria.id);
             amministrazioneOriginale.assumibilita = db.TipoAssumibilitaAmministrazione.Find(amministrazione.assumibilita.id);
            
@@ -116,7 +116,7 @@ namespace mediatori.Controllers
             TryValidateModel(amministazione);
             if (ModelState.IsValid)
             {
-                db.amministazioni.Add(amministazione);
+                db.Amministazioni.Add(amministazione);
                 db.SaveChanges();
             }
             return View("Details", amministazione);
@@ -126,7 +126,7 @@ namespace mediatori.Controllers
             ViewBag.listaTipoNaturaGiuridica = new SelectList(db.tipoNaturaGiuridica.OrderBy(p =>p.descrizione), "id", "Descrizione");
             ViewBag.listaTipoCategoria = new SelectList(db.TipoCategoriaAmministrazione, "id", "Descrizione");
             ViewBag.listaTipoAssumibilita = new SelectList(db.TipoAssumibilitaAmministrazione, "id", "Descrizione");
-            IQueryable<Stato> listaStati = db.statiSegnalazione.Where(m =>
+            IQueryable<Stato> listaStati = db.StatiSegnalazione.Where(m =>
                     m.entitaAssociata == EnumEntitaAssociataStato.AMMINISTRAZIONE);
             ViewBag.listaStati = new SelectList(listaStati, "id", "descrizione");
 

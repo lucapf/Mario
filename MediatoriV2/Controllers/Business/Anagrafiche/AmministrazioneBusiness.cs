@@ -12,7 +12,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
     {
         internal static List<Models.Anagrafiche.Amministrazione> findByFilter(Filters.AmministrazioneFilter amministrazioneFilter, Models.MainDbContext db)
         {
-            IQueryable<Amministrazione> amministrazioni = db.amministazioni.Include("soggettoGiuridico");
+            IQueryable<Amministrazione> amministrazioni = db.Amministazioni.Include("soggettoGiuridico");
             if (amministrazioneFilter.partitaIva!=null && amministrazioneFilter.partitaIva != String.Empty){
                 amministrazioni = amministrazioni.Where(a => a.partitaIva == amministrazioneFilter.partitaIva);
             }
@@ -26,13 +26,13 @@ namespace mediatori.Controllers.Business.Anagrafiche
         internal Amministrazione findByPK(int codiceAmministazione, Models.MainDbContext db)
         {
             AmministrazioneInclude<Amministrazione> amministrazioneInclude = new AmministrazioneInclude<Amministrazione>();
-         return amministrazioneInclude.addIncludeStatement(db.amministazioni, "soggettoGiuridico").Where(a =>a.id==codiceAmministazione).FirstOrDefault();
+         return amministrazioneInclude.addIncludeStatement(db.Amministazioni, "soggettoGiuridico").Where(a =>a.id==codiceAmministazione).FirstOrDefault();
         }
         internal Amministrazione copiaRiferimenti(Amministrazione amministrazioneOriginale, Amministrazione amministrazione, Models.MainDbContext db)
        {
            amministrazioneOriginale.tipoCategoria = db.TipoCategoriaAmministrazione.Find(amministrazione.tipoCategoria.id);
            amministrazioneOriginale.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(amministrazione.tipoNaturaGiuridica.id) ;
-           amministrazioneOriginale.stato = db.statiSegnalazione.Find(amministrazione.stato.id);
+           amministrazioneOriginale.stato = db.StatiSegnalazione.Find(amministrazione.stato.id);
            amministrazioneOriginale.assumibilita = db.TipoAssumibilitaAmministrazione.Find(amministrazione.assumibilita.id) ;
          return amministrazioneOriginale;
        }
@@ -43,7 +43,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
             amministrazione.assumibilita = db.TipoAssumibilitaAmministrazione.Find(amministrazione.assumibilita.id);
             amministrazione.tipoCategoria = db.TipoCategoriaAmministrazione.Find(amministrazione.tipoCategoria.id);
             amministrazione.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(amministrazione.tipoNaturaGiuridica.id);
-            amministrazione.stato = db.statiSegnalazione.Find(amministrazione.stato.id);
+            amministrazione.stato = db.StatiSegnalazione.Find(amministrazione.stato.id);
             amministrazione.soggettoGiuridico = new SoggettoGiuridicoBusiness().completaDati(amministrazione.soggettoGiuridico, username, db);
         }
 
@@ -71,7 +71,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
             }
             else
             {
-                amministrazione.stato = db.statiSegnalazione.Find(amministrazione.stato.id);
+                amministrazione.stato = db.StatiSegnalazione.Find(amministrazione.stato.id);
             }
 
             if (amministrazione.assumibilita == null)

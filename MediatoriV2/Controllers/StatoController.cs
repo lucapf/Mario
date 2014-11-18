@@ -34,7 +34,7 @@ namespace mediatori.Controllers
             {
                 if (entita == EnumEntitaAssociataStato.SEGNALAZIONE)
                 {
-                    statoSegnalazione=db.statiSegnalazione.Find(codiceStato);
+                    statoSegnalazione=db.StatiSegnalazione.Find(codiceStato);
                     db.Database.ExecuteSqlCommand("update Segnalazione set stato_id=" + codiceStato + " where id=" + codiceEntita);
 
                 }

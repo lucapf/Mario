@@ -13,11 +13,11 @@ namespace mediatori.Controllers
 {
     public class PreventivoController : MyBaseController
     {
-        private MainDbContext db = new MainDbContext();
+
 
         public ActionResult Index(int id, EnumTipoAzione tipoAzione)
         {
-            //MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
             Preventivo preventivo = new Preventivo();
             preventivo.finanziaria = new SoggettoGiuridico();
             preventivo.assicurazioneVita = new SoggettoGiuridico();
@@ -25,10 +25,91 @@ namespace mediatori.Controllers
             return dispatch(preventivo, tipoAzione, db);
         }
 
+
+
+
+        [ChildActionOnly]
+        public ActionResult DetailsFromPratica(int praticaId)
+        {
+            mediatori.Models.Pratica.Pratica  pratica;
+            pratica = db.Pratiche.Find(praticaId);
+
+            if (pratica == null)
+            {
+                return HttpNotFound();
+            }
+
+            PreventiviModel model = new PreventiviModel();
+            model.praticaId = praticaId;
+            model.preventivoConfermato = db.Preventivi.Find(pratica.preventivoConfermatoId);
+
+            valorizzaDatiViewBag();
+
+            return View("_Preventivi", model);
+        }
+
+
+        [ChildActionOnly]
+        public ActionResult DetailsFromSegnalazione(int segnalazioneId)
+        {
+            Segnalazione segnalazione;
+            segnalazione = db.Segnalazioni.Include("preventivi").Where(p => p.id == segnalazioneId).First();
+            if (segnalazione == null)
+            {
+                return HttpNotFound();
+            }
+
+            PreventiviModel model = new PreventiviModel();
+            model.preventivi = segnalazione.preventivi.ToList<PreventivoSmall>();
+            model.segnalazioneId = segnalazioneId;
+
+
+            PreventivoSmall preventivo = new PreventivoSmall();
+
+            preventivo.importoRata = segnalazione.rataRichiesta;
+            preventivo.durata = segnalazione.durataRichiesta;
+            preventivo.montante = (decimal)(preventivo.durata * preventivo.durata);
+            
+#if DEBUG
+            //preventivo.importoCoperturaVita = 1000;
+            //preventivo.importoCoperturaImpego = 700;
+            //preventivo.montante = 36000;
+            //preventivo.nettoCliente = 18000;
+            //preventivo.importoProvvigioni = 300;
+            //preventivo.importoInteressi = 100;
+            //preventivo.importoImpegniDaEstinguere = 0;
+            //preventivo.nomeProdotto = "Prodotto XYZ";
+            //preventivo.speseAttivazione = 0;
+            //preventivo.speseIncasso = 2;
+            //preventivo.taeg = 20;
+            //preventivo.tan = 3;
+            //preventivo.teg = 4;
+            //preventivo.tabellaFinanziaria = "TAB";
+            //preventivo.dataDecorrenza = DateTime.Now;
+            //preventivo.oneriFiscali = 20;
+            ////preventivo.assicurazioneImpiegoId = 1;
+            ////preventivo.assicurazioneVitaId = 1;
+            ////preventivo.finanziariaId = 2;
+
+#endif
+
+            model.nuovoPreventivoSmall = preventivo;
+
+            valorizzaDatiViewBag();
+
+            return View("_Preventivi", model);
+        }
+
+
+
+
+
+
+
         [ChildActionOnly]
         public ActionResult Create(Segnalazione segnalazione)
         {
-            Preventivo preventivo = new Preventivo();
+            PreventivoSmall preventivo = new PreventivoSmall();
             //preventivo = preventivo == null ? new Preventivo() : preventivo;
             if (segnalazione != null)
             {
@@ -40,30 +121,30 @@ namespace mediatori.Controllers
 
 
 #if DEBUG
-            preventivo.importoCoperturaVita = 1000;
-            preventivo.importoCoperturaImpego = 700;
+           // preventivo.importoCoperturaVita = 1000;
+            //preventivo.importoCoperturaImpego = 700;
             preventivo.montante = 36000;
             preventivo.nettoCliente = 18000;
-            preventivo.importoProvvigioni = 300;
-            preventivo.importoInteressi = 100;
-            preventivo.importoImpegniDaEstinguere = 0;
-            preventivo.nomeProdotto = "Prodotto XYZ";
-            preventivo.speseAttivazione = 0;
-            preventivo.speseIncasso = 2;
+            //preventivo.importoProvvigioni = 300;
+            //preventivo.importoInteressi = 100;
+            //preventivo.importoImpegniDaEstinguere = 0;
+            //preventivo.nomeProdotto = "Prodotto XYZ";
+            //preventivo.speseAttivazione = 0;
+            //preventivo.speseIncasso = 2;
             preventivo.taeg = 20;
             preventivo.tan = 3;
-            preventivo.teg = 4;
-            preventivo.tabellaFinanziaria = "TAB";
-            preventivo.dataDecorrenza = DateTime.Now;
-            preventivo.oneriFiscali = 20;
-            //preventivo.assicurazioneImpiegoId = 1;
+            //preventivo.teg = 4;
+            //preventivo.tabellaFinanziaria = "TAB";
+            //preventivo.dataDecorrenza = DateTime.Now;
+            //preventivo.oneriFiscali = 20;
+            ////preventivo.assicurazioneImpiegoId = 1;
             //preventivo.assicurazioneVitaId = 1;
             //preventivo.finanziariaId = 2;
 
 #endif
 
-            valorizzaViewBag(db);
-            return View("PreventivoPartialEdit", preventivo);
+            valorizzaDatiViewBag();
+            return View("PreventivoPartialEditSmall", preventivo);
         }
 
 
@@ -71,7 +152,7 @@ namespace mediatori.Controllers
         {
             Models.JsonMessageModel model = new Models.JsonMessageModel();
 
-            Preventivo preventivo = db.preventivi.Include("segnalazione").Include("segnalazione.fontePubblicitaria").Include("segnalazione.altroPrestito").Include("segnalazione.contatto").First(d => d.id == id);
+            Preventivo preventivo = db.Preventivi.Include("segnalazione").Include("segnalazione.fontePubblicitaria").Include("segnalazione.altroPrestito").Include("segnalazione.contatto").First(d => d.id == id);
             if (preventivo == null)
             {
                 model.esito = Models.JsonMessageModel.Esito.Failed;
@@ -116,9 +197,10 @@ namespace mediatori.Controllers
                 model.esito = Models.JsonMessageModel.Esito.Failed;
                 model.messaggio = temp;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 model.esito = Models.JsonMessageModel.Esito.Failed;
-                model.messaggio = ex.Message ;
+                model.messaggio = ex.Message;
             }
 
             return Json(model, JsonRequestBehavior.AllowGet);
@@ -153,9 +235,13 @@ namespace mediatori.Controllers
 
 
         [HttpPost]
-        public ActionResult createForSegnalazione(Preventivo p, int idSegnalazione)
+        public ActionResult createForSegnalazione(PreventivoSmall p, int idSegnalazione)
         {
-            Segnalazione s = new SegnalazioneBusiness().findByPk(idSegnalazione, db);
+            //Segnalazione s = new SegnalazioneBusiness().findByPk(idSegnalazione, db);
+
+
+            Segnalazione s = db.Segnalazioni.Include("preventivi").Where(t => t.id == idSegnalazione).First();
+ 
 
             if (s == null)
             {
@@ -165,19 +251,19 @@ namespace mediatori.Controllers
 
             if (s.preventivi == null)
             {
-                s.preventivi = new List<Preventivo>();
+                s.preventivi = new List<PreventivoSmall>();
             }
 
             // p.id = 0;
             p.progressivo = s.preventivi.Count() + 1;
 
-            int idAssicurazioneVita = p.assicurazioneVita.id;
-            int idAssicurazioneImpiego = p.assicurazioneImpiego.id;
-            int idFinanziari = p.finanziaria.id;
+            //int idAssicurazioneVita = p.assicurazioneVita.id;
+            //int idAssicurazioneImpiego = p.assicurazioneImpiego.id;
+            //int idFinanziari = p.finanziaria.id;
 
-            p.assicurazioneVita = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneVita).FirstOrDefault();
-            p.assicurazioneImpiego = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneImpiego).FirstOrDefault();
-            p.finanziaria = db.SoggettiGiuridici.Where(aa => aa.id == idFinanziari).FirstOrDefault();
+            //p.assicurazioneVita = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneVita).FirstOrDefault();
+            //p.assicurazioneImpiego = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneImpiego).FirstOrDefault();
+            //p.finanziaria = db.SoggettiGiuridici.Where(aa => aa.id == idFinanziari).FirstOrDefault();
 
             p.dataInserimento = DateTime.Now;
             p.operatoreInserimento = User.Identity.Name;
@@ -207,11 +293,80 @@ namespace mediatori.Controllers
                     messaggio = MyHelper.getDbEntityValidationException(ex);
                     TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il preventivo, verificare i dati: " + Environment.NewLine + messaggio);
                 }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il preventivo, verificare i dati: " + Environment.NewLine + ex.Message);
+                }
             }
 
             return RedirectToAction("Details", "Segnalazioni", new { id = idSegnalazione });
         }
-        private void valorizzaViewBag(MainDbContext db)
+
+
+
+
+        [HttpPost]
+        public ActionResult Update(Preventivo p, int praticaId)
+        {
+            //mediatori.Models.Pratica.Pratica  pratica;
+
+            //pratica = db.Pratiche.Find(praticaId);
+
+            //if (pratica == null)
+            //{
+            //    return HttpNotFound(); 
+            //}
+
+            //pratica.preventivi.
+
+                       
+            // p.id = 0;
+           // p.progressivo = s.preventivi.Count() + 1;
+
+            int idAssicurazioneVita = p.assicurazioneVita.id;
+            int idAssicurazioneImpiego = p.assicurazioneImpiego.id;
+            int idFinanziari = p.finanziaria.id;
+
+            p.assicurazioneVita = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneVita).FirstOrDefault();
+            p.assicurazioneImpiego = db.SoggettiGiuridici.Where(aa => aa.id == idAssicurazioneImpiego).FirstOrDefault();
+            p.finanziaria = db.SoggettiGiuridici.Where(aa => aa.id == idFinanziari).FirstOrDefault();
+
+            
+            ModelState.Clear();
+            TryValidateModel(p);
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il preventivo, verificare i dati: " + Environment.NewLine + message);
+            }
+            else
+            {
+                try
+                {
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Preventivo salvato con successo");
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    string messaggio;
+                    messaggio = MyHelper.getDbEntityValidationException(ex);
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il preventivo, verificare i dati: " + Environment.NewLine + messaggio);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il preventivo, verificare i dati: " + Environment.NewLine + ex.Message);
+                }
+            }
+
+            return RedirectToAction("Details", "Pratiche", new { id = praticaId  });
+        }
+
+
+
+        private void valorizzaDatiViewBag()
         {
             SoggettoGiuridicoBusiness sgb = new SoggettoGiuridicoBusiness();
             SoggettoGiuridicoSearch sgs = new SoggettoGiuridicoSearch();
@@ -227,7 +382,7 @@ namespace mediatori.Controllers
             {
                 case EnumTipoAzione.INSERIMENTO:
                 case EnumTipoAzione.MODIFICA:
-                    valorizzaViewBag(db);
+                    valorizzaDatiViewBag();
                     return View("PreventivoPartialEdit", p);
                 case EnumTipoAzione.VISUALIZZAZIONE:
                     return View("PreventivoPartialDetail", p);

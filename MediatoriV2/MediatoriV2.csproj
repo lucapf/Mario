@@ -256,6 +256,7 @@
     <Compile Include="Helpers\ValidationData.cs" />
     <Compile Include="Models\AssegnazioniModel.cs" />
     <Compile Include="Models\BlobContainer.cs" />
+    <Compile Include="Models\DocumentaleModel.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
     <Compile Include="Models\DecodeEnum.cs" />
     <Compile Include="Models\DocumentiIdentitaModel.cs" />
@@ -273,6 +274,8 @@
     <Compile Include="Models\NoteModel.cs" />
     <Compile Include="Models\Pratica\PagedPratica.cs" />
     <Compile Include="Models\Pratica\SearchPratica.cs" />
+    <Compile Include="Models\PreventiviModel.cs" />
+    <Compile Include="Models\RiferimentiModel.cs" />
     <Compile Include="Models\Segnalazione\SegnalazioneCreateModel.cs" />
     <Compile Include="Models\Test\Decimal.cs" />
     <Compile Include="Models\Test\TestClass.cs" />
@@ -624,7 +627,7 @@
     <Content Include="Views\Pratiche\Details.cshtml" />
     <Content Include="Views\Nota\_Note.cshtml" />
     <Content Include="Views\Test\Validation01.cshtml" />
-    <Content Include="Views\Segnalazioni\_Contatto.cshtml" />
+    <Content Include="Views\Contatto\_Contatto.cshtml" />
     <Content Include="Views\Indirizzo\_Indirizzi.cshtml" />
     <Content Include="Views\DocumentoIdentita\_DocumentiIdentita.cshtml" />
     <Content Include="Views\DocumentoIdentita\DocumentoIdentitaPartialDetail.cshtml" />
@@ -632,6 +635,11 @@
     <Content Include="Views\Shared\_BoxMenu.cshtml" />
     <Content Include="Views\Test\CSS01.cshtml" />
     <Content Include="Views\Impiego\_Impieghi.cshtml" />
+    <Content Include="Views\Riferimento\_Riferimenti.cshtml" />
+    <Content Include="Views\Preventivo\_Preventivi.cshtml" />
+    <Content Include="Views\Preventivo\PreventivoPartialEditSmall.cshtml" />
+    <Content Include="Views\Preventivo\PreventivoPartialDetailSmall.cshtml" />
+    <Content Include="Views\Documentale\_Documenti.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

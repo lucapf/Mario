@@ -1,8 +1,8 @@
-﻿@model mediatori.Models.Pratica.SearchPratica 
+﻿@model mediatori.Models.Pratica.SearchPratica
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-    WebGrid wGrid = new WebGrid(Model.Pratiche, rowsPerPage: Model.PageSize , canPage: true);
+    WebGrid wGrid = new WebGrid(Model.Pratiche, rowsPerPage: Model.PageSize, canPage: true);
 }
 
 <h2>Lista pratiche</h2>
@@ -19,7 +19,7 @@
                 <td>Cognome</td>
                 <td>@Html.TextBox("cognome")</td>
             </tr>
-          
+
         </table>
         <input type="submit" value="Ricerca" data-inline="true" data-icon="search" data-mini="true" />
     </fieldset>
@@ -41,6 +41,7 @@
             alternatingRowStyle: "ui-bar-d",
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
+                   wGrid.Column (columnName:"dataInserimento", header :"Data inserimento", canSort:false, format: p =>  p.dataInserimento.ToShortDateString() ),
                     wGrid.Column (columnName:"cedente.nome", header :"Nome", canSort:false),
                     wGrid.Column (columnName:"cedente.cognome", header :"Cognome", canSort:false),
                     wGrid.Column (columnName:"importoRichiesto", header :"Importo", canSort:false, format: p=> String.Format("{0:N2}",p.importoRichiesto)),

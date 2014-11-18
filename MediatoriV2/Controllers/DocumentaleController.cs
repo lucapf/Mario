@@ -28,8 +28,6 @@ namespace mediatori.Controllers
         public ActionResult Index(Models.Documentale.DocumentaleIndex model)
         {
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
             if (model.SegnalazioneId != null)
             {
                 model.documenti = db.Documenti.Where(p => p.SegnalazioneId == (int)model.SegnalazioneId).OrderBy(d => d.nome).ToList();
@@ -50,7 +48,7 @@ namespace mediatori.Controllers
 
         //  public JsonResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int SegnalazioneId)
 
-        public ActionResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int SegnalazioneId)
+        public ActionResult Add(HttpPostedFileBase MyFile, string descrizione, int tipoDocumentoId, int segnalazioneId)
         {
             Debug.WriteLine("Add file: " + Request["MyFile"]);
 
@@ -69,7 +67,7 @@ namespace mediatori.Controllers
             documento.descrizione = descrizione;
             //documento.tipoDocumento = new Models.Anagrafiche.TipoDocumento { id = tipoDocumento };
             documento.tipoDocumento = db.TipoDocumenti.Find(tipoDocumentoId);
-            documento.SegnalazioneId = SegnalazioneId;
+            documento.SegnalazioneId = segnalazioneId;
             documento.id = Guid.NewGuid();
             documento.nome = MyFile.FileName;
 
@@ -92,6 +90,7 @@ namespace mediatori.Controllers
 
                     model.esito = JsonMessageModel.Esito.Succes;
                     model.messaggio = "Operazione conlusa con successo";
+                    model.referenceId = segnalazioneId.ToString() ;
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException ex)
                 {
@@ -120,14 +119,14 @@ namespace mediatori.Controllers
 
 
 
-            //return Json(model, JsonRequestBehavior.AllowGet);
-            return RedirectToAction("Details", "Segnalazioni", new { id = SegnalazioneId });
+            return Json(model, JsonRequestBehavior.AllowGet);
+           // return RedirectToAction("Details", "Segnalazioni", new { id = segnalazioneId });
         }
 
 
 
 
-      //  public JsonResult Delete(string id)
+        //  public JsonResult Delete(string id)
         public ActionResult Delete(string id, int SegnalazioneId)
         {
             Debug.WriteLine("Documento: " + id);
@@ -173,7 +172,7 @@ namespace mediatori.Controllers
             }
 
 
-           // return Json(model, JsonRequestBehavior.AllowGet);
+            // return Json(model, JsonRequestBehavior.AllowGet);
             return RedirectToAction("Details", "Segnalazioni", new { id = SegnalazioneId });
         }
 
@@ -206,6 +205,56 @@ namespace mediatori.Controllers
             blockBlob.DownloadToStream(Response.OutputStream);
             return new EmptyResult();
         }
+
+
+        [ChildActionOnly]
+        public ActionResult DetailsFromSegnalazione(int segnalazioneId)
+        {
+            mediatori.Models.Anagrafiche.Segnalazione segnalazione;
+            segnalazione = db.Segnalazioni.Include("documenti").Where(p => p.id == segnalazioneId).First();
+            if (segnalazione == null)
+            {
+                return HttpNotFound();
+            }
+
+            DocumentaleModel model = new DocumentaleModel();
+            model.documenti = segnalazione.documenti.ToList<Models.etc.Documento>();
+            model.segnalazioneId = segnalazioneId;
+
+            model.tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
+
+            // valorizzaDatiViewBag();
+
+            return View("_Documenti", model);
+        }
+
+
+        [ChildActionOnly]
+        public ActionResult DetailsFromPratica(int praticaId)
+        {
+            mediatori.Models.Anagrafiche.Segnalazione segnalazione;
+            segnalazione = db.Segnalazioni.Include("documenti").Where(p => p.id == praticaId).First();
+            if (segnalazione == null)
+            {
+                return HttpNotFound();
+            }
+
+            DocumentaleModel model = new DocumentaleModel();
+            model.documenti = segnalazione.documenti.ToList<Models.etc.Documento>();
+            model.praticaId = praticaId;
+
+            model.tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
+
+            // valorizzaDatiViewBag();
+
+            return View("_Documenti", model);
+        }
+
+
+        //private void valorizzaDatiViewBag()
+        //{
+        //    ViewBag.tipoDocumento = new SelectList(db.TipoDocumenti, "id", "descrizione");
+        //}
 
     }
 }

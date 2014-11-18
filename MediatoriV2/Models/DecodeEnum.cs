@@ -183,7 +183,7 @@ namespace mediatori.Models.Anagrafiche
                                                     EnumEntitaAssociataStato.GetValues(typeof(EnumEntitaAssociataStato))
                                                 select new { Id = e, Name = e.ToString() }, "Id", "Name", stato.entitaAssociata);
             if (stato.gruppoLavorazione == null) stato.gruppoLavorazione = new GruppoLavorazione();
-            lstgruppoLavorazione = new SelectList(from GruppoLavorazione gl in db.gruppiLavorazione
+            lstgruppoLavorazione = new SelectList(from GruppoLavorazione gl in db.GruppiLavorazione
                                                   select new { Id = gl.id, Name = gl.nome },
                                                   "Id", "Name", stato.gruppoLavorazione.id);
             //    List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();

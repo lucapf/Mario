@@ -11,6 +11,9 @@ public static class MyConstants
         Errore
     }
 
+
+    public const bool CHECK_ASSEGANAZIONI_ENABLED = false;
+
     public const int STATO_INIZIALE_SEGNALAZIONE = 1;
     public static  System.Globalization.CultureInfo CultureInfoEN = new System.Globalization.CultureInfo("en-GB");
 

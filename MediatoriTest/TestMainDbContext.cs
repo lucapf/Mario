@@ -83,7 +83,7 @@ namespace mediatori.Models
         {
             MainDbContext context = new MainDbContext("");
 
-             context.statiSegnalazione.AddOrUpdate<Stato>(t => t.id,
+             context.StatiSegnalazione.AddOrUpdate<Stato>(t => t.id,
                 //AMMINISTRAZIONI
                 new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
                 new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },

@@ -86,12 +86,12 @@ namespace mediatori.Models
         public DbSet<DocumentoIdentita> DocumentiIdentita { get; set; }
         public DbSet<TipoDocumentoIdentita> TipoDocumentiIdentita { get; set; }
         public DbSet<Riferimento> Riferimento { get; set; }
-        public DbSet<GruppoLavorazione> gruppiLavorazione { get; set; }
-        public DbSet<Stato> statiSegnalazione { get; set; }
-        public DbSet<Amministrazione> amministazioni { get; set; }
-        public DbSet<Event> eventi { get; set; }
-        public DbSet<Preventivo> preventivi { get; set; }
-        public DbSet<Pratica.Pratica> pratiche { get; set; }
+        public DbSet<GruppoLavorazione> GruppiLavorazione { get; set; }
+        public DbSet<Stato> StatiSegnalazione { get; set; }
+        public DbSet<Amministrazione> Amministazioni { get; set; }
+        public DbSet<Event> Eventi { get; set; }
+        public DbSet<Preventivo> Preventivi { get; set; }
+        public DbSet<Pratica.Pratica> Pratiche { get; set; }
 
         public DbSet<Documento> Documenti { get; set; }
         public DbSet<TipoDocumento> TipoDocumenti { get; set; }
@@ -109,7 +109,7 @@ namespace mediatori.Models
 
             modelBuilder.Entity<PersonaFisica>().Map<Cedente>(m =>  m.Requires("tipoPersonaFisica").HasValue("Cedente")).Map<Contatto>(m => m.Requires("tipoPersonaFisica").HasValue("Contatto"));
 
-
+            modelBuilder.Entity<PreventivoSmall>().Map<Preventivo>(m =>  m.Requires("Tipo").HasValue("Segnalazione"));
             
 
             //modelBuilder.Entity<Pratica.Pratica>().HasRequired( c => c.cedente).WithRequiredDependent().Map( d => d.MapKey ("contatto_id").ToTable("persona_fisica") );

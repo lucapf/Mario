@@ -22,7 +22,7 @@ namespace mediatori.Models.Anagrafiche
         public decimal? importoRichiesto { get; set; }
 
         [Required]
-        [Display(Name="Durata")]
+        [Display(Name = "Durata")]
         public int? durataRichiesta { get; set; }
 
         [Required]
@@ -45,15 +45,13 @@ namespace mediatori.Models.Anagrafiche
 
         [Display(Name = "Tipo Contatto")]
         public virtual TipoContatto tipoContatto { get; set; }
-        
+
         [Display(Name = "Tipo azienda")]
         public virtual TipologiaAzienda tipoAzienda { get; set; }
 
-        [Required]
         [Display(Name = "Altri prestiti in corso")]
         public virtual TipologiaPrestito altroPrestito { get; set; }
-        
-        [Required]
+
         [Display(Name = "Fonte pubbl.")]
         public virtual FontePubblicitaria fontePubblicitaria { get; set; }
 
@@ -64,11 +62,11 @@ namespace mediatori.Models.Anagrafiche
         public ICollection<Nota> note { get; set; }
 
         [Display(Name = "Preventivo")]
-        public ICollection<Preventivo> preventivi { get; set; }
-        
+        public ICollection<PreventivoSmall> preventivi { get; set; }
+
         [Display(Name = "Stato")]
         public Stato stato { get; set; }
-        
+
         [Display(Name = "Documenti")]
         public ICollection<Documento> documenti { get; set; }
 
@@ -77,16 +75,8 @@ namespace mediatori.Models.Anagrafiche
 
         [Display(Name = "Contatto")]
         public Contatto contatto { get; set; }
-        
+
     }
 
-   
-
-
-
-
-
-
-
-
+    
 }

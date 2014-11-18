@@ -35,7 +35,7 @@ namespace mediatori.Controllers.CQS
 
             if (s.preventivi == null)
             {
-                s.preventivi = new List<Preventivo>();
+                s.preventivi = new List<PreventivoSmall>();
             }
 
             Models.Preventivo preventivo;
@@ -56,7 +56,7 @@ namespace mediatori.Controllers.CQS
             preventivo.finanziaria = db.SoggettiGiuridici.Where(aa => aa.id == idFinanziari).FirstOrDefault();
 
 
-            db.preventivi.Add(preventivo);
+            db.Preventivi.Add(preventivo);
             try
             {
                 db.SaveChanges();

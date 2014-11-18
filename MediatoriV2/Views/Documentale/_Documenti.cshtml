@@ -1,0 +1,211 @@
+﻿@model mediatori.Models.DocumentaleModel
+@{
+    Layout = null;
+
+
+    int MyId = 0;
+    if (Model.segnalazioneId != null)
+    {
+        MyId = (int)Model.segnalazioneId;
+    }
+
+    if (Model.praticaId != null)
+    {
+
+        MyId = (int)Model.praticaId;
+    }
+
+
+
+}
+<h3>Documenti <strong class="h3Link" id="linkNuovoDocumento" title="Nuovo documento">[ + ]</strong></h3>
+<script>$("#linkNuovoDocumento").click(function () { $("#divNuovoDocumento").show(); })        </script>
+<hr />
+@using (Html.BeginCollectionItem("documenti"))
+{
+    foreach (mediatori.Models.etc.Documento doc in Model.documenti)
+    {
+        Html.RenderPartial("~/Views/Documentale/DocumentalePartialDetail.cshtml", doc);
+    }
+}
+
+<script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
+
+<div id="divNuovoDocumento" style="display: none">
+    @using (Html.BeginForm("Add", "Documentale", FormMethod.Post, new { id = "MyFormUpload", enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" name="segnalazioneId" value="@MyId" />
+
+
+        <div class="editor-control">
+            <div class="editor-row">
+                <div class="editor-label">
+                    File:
+                </div>
+                <div class="editor-value">
+                    <input type="file" name="MyFile" id="MyFile" data-inline="true" value="">
+                </div>
+            </div>
+            <div class="editor-validation">
+                <span style="color: red; visibility: hidden;" id="MyResponseMessage">messaggio</span>
+            </div>
+        </div>
+
+
+        <div class="editor-control">
+            <div class="editor-row">
+                <div class="editor-label">
+                    Tipo documento:
+                </div>
+                <div class="editor-value">
+                    <select name="tipoDocumentoId" id="tipoDocumentoId" required="required" data-mini="true">
+                        <option value="" selected="selected">---</option>
+                        @foreach (mediatori.Models.Anagrafiche.TipoDocumento tipo in Model.tipoDocumento)
+                        {
+                            <option value="@tipo.id">@tipo.descrizione</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="editor-validation">
+
+            </div>
+        </div>
+
+        <div class="editor-control">
+            <div class="editor-row">
+                <div class="editor-label">
+                    Descrizione:
+                </div>
+                <div class="editor-value">
+                    <input type="text" name="descrizione" />
+                </div>
+            </div>
+            <div class="editor-validation">
+
+            </div>
+        </div>
+
+        <div id="percent">0%</div>
+        <div data-role="controlgrup" data-type="horizontal">
+            <input type="button" data-mini="true" data-inline="true" value="Upload" onclick="javascript:MyAsyncUpload()" />
+            <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovoDocumento").hide()' />
+        </div>
+    }
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    function MyAsyncUpload() {
+
+        //alert("MyAsyncUpload");
+
+        var options = {
+            beforeSend: function () {
+                //alert("beforeSend");
+                $("#MyResponseMessage").css('visibility', 'hidden');
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+                $('#percent').html(percentComplete + "%");
+            },
+            success: function () {
+                //alert("success");
+            },
+            complete: function (response) {
+                //response text from the server.
+                //alert("complete");
+                var obj = JSON.parse(response.responseText);
+
+                $("#MyFile").val("");
+                $('#percent').html("100%");
+
+                //alert("esito: " + obj.esito + " Messaggio: " + obj.messaggio);
+
+                if (obj.esito == '@mediatori.Models.JsonMessageModel.Esito.Failed') {
+                    //FAILED
+                    $("#MyResponseMessage").html(obj.messaggio);
+                    $("#MyResponseMessage").css('visibility', 'visible');
+                } else {
+                    //SUCCESS
+                    MyAsyncUpdate();
+                }
+
+            }
+        };
+
+        $('#MyFormUpload').ajaxForm(options);
+        $('#MyFormUpload').submit();
+
+    }
+
+
+
+    function MyAsyncDelete(id) {
+        var r = confirm("Confermare la cancellazione del documento?");
+        if (r == false) {
+            return;
+        }
+
+
+
+        var temp;
+        temp = "@Url.Action("Delete", "Documentale")/" + id;
+
+        //alert("aaa: " + temp);
+
+        $.get(temp, function (response) {
+            //alert("success");
+            if (response.esito == 1) {
+                MyAsyncUpdate();
+            }
+            else {
+                //FAILED
+                alert(response.messaggio);
+            }
+        })
+ .done(function () {
+     //alert("second success");
+ })
+ .fail(function (response) {
+     alert("error" + response);
+ })
+ .always(function () {
+     //alert("finished");
+ });
+
+
+        //    function (response) {
+        //    alert("MyAsyncDelete ");
+        //    var obj = JSON.parse(response.responseText);
+        //});
+
+    }
+
+    function MyAsyncUpdate() {
+        //alert("MyAsyncUpdate");
+
+
+        @if (Model.segnalazioneId != null){
+
+            @:document.location.href = '@Url.Action("Details", "Segnalazioni", new {id = Model.segnalazioneId })';
+                         }
+
+
+
+        @if (Model.praticaId != null){
+
+            @:document.location.href = '@Url.Action("Details", "Pratiche", new {id = Model.praticaId })';
+                 }
+
+
+        @*$.get('@Url.Action("Index", "Documentale", new {SegnalazioneId = Model.segnalazioneId })', function (data) {
+            //alert("MyAsyncUpdate " + data);
+            $('#AttachmentList').html(data);
+            $('#AttachmentList').trigger('create');
+        });*@
+    }
+
+</script>

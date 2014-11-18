@@ -7,18 +7,13 @@
 <h1>Dettaglio pratica: @Model.cedente.nome  @Model.cedente.cognome</h1>
 
 
-@{Html.RenderPartial("~/Views/Segnalazioni/_Contatto.cshtml", Model);}
+@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model);}
 
 
-<h3 id="preventivi">Preventivo</h3>
-<hr />
-@foreach (mediatori.Models.Preventivo p in Model.preventivi)
-{
-    if (p.dataConferma != null)
-    {
-        Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", p);
-    }
-}
+<br />
+<!-- preventivo -->
+@{Html.RenderAction("DetailsFromPratica", "Preventivo", new { praticaId = Model.id });}
+<!-- /preventivo -->
 
 
 @{Html.RenderAction("Details", "Indirizzo", new { cedenteId = Model.cedente.id });}
@@ -26,6 +21,14 @@
 @{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.cedente.id });}
 
 @{Html.RenderAction("Details", "Impiego", new { contattoId = Model.cedente.id });}
+
+<!-- riferimento -->
+@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id });}
+<!-- /riferimento -->
+
+<!-- documenti -->
+@{Html.RenderAction("DetailsFromPratica", "Documentale", new { praticaId = Model.id });}
+<!-- /documenti -->
 
 @{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, segnalazioneId = Model.id });}
 

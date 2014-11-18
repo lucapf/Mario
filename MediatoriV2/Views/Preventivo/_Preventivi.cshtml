@@ -1,0 +1,61 @@
+﻿@model mediatori.Models.PreventiviModel
+@{
+    Layout = null;
+}
+
+
+@if (Model.segnalazioneId != null)
+{
+
+    <h3 id="preventivi">Preventivi  <strong class="h3Link" id="linkNuovoPreventivo" title="nuovo preventivo">[ + ]</strong></h3>
+    <script>$("#linkNuovoPreventivo").click(function () { $("#divNuovoPreventivo").show(); })        </script>
+    <hr />
+
+    using (Html.BeginCollectionItem("preventivi"))
+    {
+        foreach (mediatori.Models.PreventivoSmall p in Model.preventivi)
+        {
+            Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetailSmall.cshtml", p);
+        }
+    }
+
+    <div id="divNuovoPreventivo" style="display: none">
+
+        @if (Model.segnalazioneId != null)
+        {
+            using (Html.BeginForm("createForSegnalazione", "Preventivo", FormMethod.Post, new { id = "nuovoPreventivo" }))
+            {
+                <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="@Model.segnalazioneId" />
+
+                Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEditSmall.cshtml", Model.nuovoPreventivoSmall);
+
+                <div data-role="controlgrup" data-type="horizontal">
+                    <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+                    <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
+                </div>
+            }
+        }
+    </div>
+
+}
+
+
+
+
+@if (Model.praticaId != null)
+{
+    <h3 id="preventivi">Preventivo</h3>
+
+    using (Html.BeginForm("Update", "Preventivo", FormMethod.Post, new { id = "FormPreventivo" }))
+    {
+      <input type="hidden" name="praticaId" value="@Model.praticaId" />
+
+        Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEdit.cshtml", Model.preventivoConfermato);
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+        </div>
+    }
+
+}
+

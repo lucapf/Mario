@@ -11,14 +11,14 @@ namespace mediatori.Controllers
 
         public ActionResult Index(Models.Pratica.SearchPratica model)
         {
-            model.Pratiche = db.pratiche.Include("cedente").Include("prodottoRichiesto");
+            model.Pratiche = db.Pratiche.Include("cedente").Include("prodottoRichiesto");
             return View(model);
         }
 
         public ActionResult Details(int id)
         {
             mediatori.Models.Pratica.Pratica model;
-            model = db.pratiche.Include("cedente").Include("preventivi").Include("note").Where(p => p.id == id).FirstOrDefault();
+            model = db.Pratiche.Include("cedente").Include("preventivi").Include("note").Where(p => p.id == id).FirstOrDefault();
 
             if (model == null)
             {
