@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div id="percent">0%</div>
+        <div id="percent"></div>
         <div data-role="controlgrup" data-type="horizontal">
             <input type="button" data-mini="true" data-inline="true" value="Upload" onclick="javascript:MyAsyncUpload()" />
             <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovoDocumento").hide()' />
@@ -106,6 +106,7 @@
         var options = {
             beforeSend: function () {
                 //alert("beforeSend");
+                $('#percent').html("");
                 $("#MyResponseMessage").css('visibility', 'hidden');
             },
             uploadProgress: function (event, position, total, percentComplete) {
@@ -120,25 +121,40 @@
                 var obj = JSON.parse(response.responseText);
 
                 $("#MyFile").val("");
-                $('#percent').html("100%");
+                
 
                 //alert("esito: " + obj.esito + " Messaggio: " + obj.messaggio);
 
-                if (obj.esito == '@mediatori.Models.JsonMessageModel.Esito.Failed') {
+                if (obj.esito == 0) {
                     //FAILED
                     $("#MyResponseMessage").html(obj.messaggio);
                     $("#MyResponseMessage").css('visibility', 'visible');
+                    $('#percent').html("");
                 } else {
                     //SUCCESS
                     MyAsyncUpdate();
+                    $('#percent').html("100%");
                 }
 
             }
         };
 
+        
+        /*
+        $("#MyFormUpload").validate({
+            submitHandler: function (form) {
+                alert("isValid");
+                //$('#MyFormUpload').ajaxForm(options);
+                //$('#MyFormUpload').submit();
+                $(form).ajaxForm(options);
+                $(form).submit();
+            }
+        });*/
+
+        
+        $("#MyFormUpload").validate();
         $('#MyFormUpload').ajaxForm(options);
         $('#MyFormUpload').submit();
-
     }
 
 

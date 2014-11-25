@@ -1,0 +1,314 @@
+﻿/* Box-sizing -*/
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Display block per gli elementi HTML5 su IE */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block;
+}
+
+
+/* Stili di base e tipografia */
+
+html {
+    font-size: 100%;
+}
+
+/*
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana;
+    font-size: 14px;
+    line-height: 20px;
+    color: black;
+    background-color: white;
+}
+
+a {
+    color: #558bc4;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #558bc4;
+        text-decoration: none;
+    }
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Georgia", "Times New Roman", serif;
+}
+
+h1 {
+    font-size: 42px;
+    line-height: 46px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    line-height: 32px;
+    margin-bottom: 12px;
+}
+
+h3 {
+    font-size: 21px;
+    line-height: 25px;
+    margin-bottom: 8px;
+}
+    */
+img {
+    border: none;
+}
+
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+
+/* Griglia */
+#content {
+    min-height: 500px;
+    margin: 0px;
+    padding: 0px;
+    /* flexbox setup */
+    display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox; /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Chrome */
+    display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+
+    #content > #main {
+        margin: 4px;
+        padding: 5px;
+        border: 1px solid #cccc33;
+        border-radius: 7pt;
+        background-color: white;
+        -webkit-box-flex: 5; /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: 5; /* OLD - Firefox 19- */
+        /*  width: 80%;  For old syntax, otherwise collapses. */
+        -webkit-flex: 5; /* Chrome */
+        -ms-flex: 5; /* IE 10 */
+        flex: 5;
+        -webkit-box-ordinal-group: 2; /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-ordinal-group: 2; /* OLD - Firefox 19- */
+        -ms-flex-order: 2; /* TWEENER - IE 10 */
+        -webkit-order: 2; /* NEW - Chrome */
+        order: 2; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    }
+
+    #content > nav.menuLeft {
+        margin: 4px;
+        padding: 0px;
+        border: 1px solid #8888bb;
+        border-radius: 7pt;
+        /*background-color:  saddlebrown; */
+
+
+        background: -webkit-linear-gradient(top, #007fba 0%,#ffffff 93%); /* Chrome */
+        background: -moz-linear-gradient(top, #007fba 0%, #ffffff 93%); 
+
+        -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: 1; /* OLD - Firefox 19- */
+        /*  width: 20%;  For old syntax, otherwise collapses. */
+        -webkit-flex: 1; /* Chrome */
+        -ms-flex: 1; /* IE 10 */
+        flex: 1;
+        -webkit-box-ordinal-group: 1; /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-ordinal-group: 1; /* OLD - Firefox 19- */
+        -ms-flex-order: 1; /* TWEENER - IE 10 */
+        -webkit-order: 1; /* NEW - Chrome */
+        order: 1;
+    }
+
+
+
+header, footer {
+    margin: 4px;
+    padding: 5px;
+    min-height: 100px;
+    border: 1px solid #eebb55;
+    border-radius: 7pt;
+    background: #ffeebb;
+}
+
+
+    header #logo {
+        display: inline-block;
+        /*background-color:aqua;*/
+        float: left;
+    }
+
+
+
+
+
+
+nav ul.menuTop, nav.menuTop li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+    nav ul.menuTop li {
+        list-style: none;
+        float: left;
+        margin-right: 5px;
+    }
+
+        nav ul.menuTop li a {
+            display: block;
+            padding: 5px;
+        }
+
+
+
+
+nav.menuLeft {
+    float: left;
+    margin: 0;
+    padding: 0;
+   
+}
+
+    nav.menuLeft ul {
+        margin: 0;
+        padding: 0;
+        border: 1px solid #cccc33;
+        border-radius: 7pt;
+    }
+
+        nav.menuLeft ul li {
+            list-style: none;
+            margin-right: 0px;
+            border-bottom: 1px solid #319ce9;
+            background-color: white;
+            text-shadow: none;
+            font-weight: lighter;
+        }
+
+            nav.menuLeft ul li:first-child {
+                border-top-left-radius: 7pt;
+                border-top-right-radius: 7pt;
+            }
+
+            nav.menuLeft ul li:last-child {
+                border-bottom-left-radius: 7pt;
+                border-bottom-right-radius: 7pt;
+            }
+
+
+            nav.menuLeft ul li a {
+                display: inline-block;
+                padding: 5px;
+                text-decoration: none;
+            }
+
+                nav.menuLeft ul li a:hover {
+                    text-decoration: underline;
+                }
+
+
+/*
+
+
+@media only screen and (min-width: 480px) {
+    #footer {
+        background: yellow;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+
+    #content {
+        -webkit-flex-flow: column;
+        flex-flow: column;
+    }
+
+        #content > #main, #content > nav.menuLeft, #content > aside {
+        
+            -webkit-order: 1;
+            order: 1;
+        }
+
+
+        #content > nav.menuLeft, #content > aside, header, footer {
+            min-height: 10px;
+            max-height: 50px;
+        }
+
+
+
+
+    nav.menuLeft ul {
+        display: inline-block;
+        margin: 10px;
+        padding: 0;
+        border: 0px solid red;
+    }
+
+        nav.menuLeft ul li {
+            display: inline-block;
+            list-style: none;
+            background-color: #319ce9;
+            margin-right: 10px;
+            border-radius: 0pt;
+        }
+
+         nav.menuLeft ul li:first-child {
+                border-top-left-radius: 0pt;
+                border-top-right-radius: 0pt;
+            }
+
+            nav.menuLeft ul li:last-child {
+                border-bottom-left-radius: 0pt;
+                border-bottom-right-radius: 0pt;
+            }
+
+            nav.menuLeft ul li a {
+                font-size: smaller;
+            }
+            nav.menuLeft ul li a:visited{
+                color: white;
+            }
+}
+
+
+@media only screen and (min-width: 768px) {
+    #footer {
+        background: green;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #footer  {
+        background: blue;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #footer {
+        background: gray;
+    }
+}
+    */

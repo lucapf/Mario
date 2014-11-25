@@ -1,0 +1,26 @@
+﻿@model MyWebApplication.Areas.Admin.Models.ModelHome
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+
+<style>
+    #main {
+        background-image: url('@Url.Content("~/Content/Images/logoCERT_Medium.png")');
+             background-repeat: no-repeat;
+        background-position: center;
+    }
+</style>
+
+
+
+<h3>Benvenuto @User.Identity.Name</h3>
+
+<p>Version: @Model.version</p>
+
+<p>MVC: @Model.versionMVC</p>
+
+
+

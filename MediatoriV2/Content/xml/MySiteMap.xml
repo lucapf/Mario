@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+  Autorizzazioni:
+  0 = * = accesso pagine pubbliche
+  1 = ? = accesso pagine che necessitano di autenticazione
+-->
+
+<root >
+  <siteMap url="~/Home" title="Home" authorization="0"  hide="false">
+    <siteMapNode controller="Home"  action="Index"            title="Index"                  authorization="0" hide="true"/>
+    <!-- <siteMapNode controller="Home"  action="MySearch"         title="Ricerche salvate"      authorization="0" hide="false"/>
+    <siteMapNode controller="Home"  action="MyComments"       title="Commenti"              authorization="0" hide="false"/>
+    <siteMapNode controller="Home"  action="Edit"             title="Edit My HomePage"      authorization="0" hide="false"/>-->
+  </siteMap>
+
+
+  <siteMap DescriptionMenuTop="Vulnerability" title="Vulnerability" authorization="0"  hide="false">
+    <siteMapNode controller="Vulnerability" action="Index"        title="Ricerca"       authorization="1" hide="true"/>
+    <siteMapNode controller="Vulnerability" action="Home"         title="Home"          authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Search"       title="Ricerca"       authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Windows"      title="Windows"       authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Linux"        title="Linux/Unix"    authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Android"      title="Android"       authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Top"          title="Critiche"      authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Daily"        title="Odierne"       authorization="1" hide="false"/>
+    <siteMapNode controller="Vulnerability" action="Weekly"       title="Settimanali"   authorization="1" hide="false"/>
+    <siteMapNode controller="CveAnalysis"   action="Index"        title="CVE Analysis"  authorization="1" hide="false"/>
+  </siteMap>
+
+  <siteMap DescriptionMenuTop="Malicious code" title="Malicious code"           authorization="0" hide="false">
+    <siteMapNode controller="Malicious" action="Index"    title="Ricerca"       authorization="1" hide="true"/>
+    <siteMapNode controller="Malicious" action="Home"     title="Home"          authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Search"   title="Ricerca"       authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Windows"  title="Windows"       authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Linux"    title="Linux/Unix"    authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Android"  title="Android"       authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Top"      title="Critiche"      authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Daily"    title="Odierne"       authorization="1" hide="false"/>
+    <siteMapNode controller="Malicious" action="Weekly"   title="Settimanali"   authorization="1" hide="false"/>
+  </siteMap>
+
+
+  <siteMap DescriptionMenuTop="Software" title="Software"                       authorization="0"  hide="false">
+    <siteMapNode controller="Product" action="Home"           title="Home"       authorization="1" hide="false"/>
+    <siteMapNode controller="Product" action="Index"           title="Ricerca"       authorization="1" hide="false"/>
+
+
+
+    <!--<siteMapNode controller="Asset" action="DataCenter"      title="Data Center"     authorization="1" hide="false"/>-->
+  </siteMap>
+
+
+  <siteMap DescriptionMenuTop="Asset Virtuale" title="Asset Virtuale"                       authorization="0"  hide="false">
+    <siteMapNode controller="Asset" action="Home"           title="Home"       authorization="1" hide="false"/>
+    <siteMapNode controller="Asset" action="Index"           title="Asset"       authorization="1" hide="false"/>
+
+
+
+    <!--<siteMapNode controller="Asset" action="DataCenter"      title="Data Center"     authorization="1" hide="false"/>-->
+  </siteMap>
+
+
+  <siteMap DescriptionMenuTop="Antiphishing" title="Antiphishing"                       authorization="0"  hide="false">
+    <siteMapNode controller="AntiPhishing" action="Home"            title="Home"          authorization="1" hide="false"/>
+    <siteMapNode controller="AntiPhishing" action="Index"           title="Ricerca"       authorization="1" hide="false"/>
+    <siteMapNode controller="AntiPhishing" action="Dashboard"       title="Dashboard"     authorization="1" hide="false"/>
+
+    <!--  <siteMapNode controller="AntiPhishing" action="Active"          title="Attivi"        authorization="1" hide="false"/>
+    <siteMapNode controller="AntiPhishing" action="Send"          title="Segnalazione"   authorization="1" hide="false"/>-->
+
+  </siteMap>
+
+
+  <siteMap DescriptionMenuTop="Account" title="Account"  authorization="0"  hide="false">
+    <siteMapNode controller="Account" action="Manage"           title="Account"       authorization="1" hide="false"/>
+    <siteMapNode controller="Alert"   action="Index"            title="Alert"          authorization="1" hide="false"/>
+  </siteMap>
+
+</root>

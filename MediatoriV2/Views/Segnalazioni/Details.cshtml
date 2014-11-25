@@ -52,13 +52,19 @@
                 }
                 else {
                     //FAILED
-                    alert(response.messaggio);
+                    //alert(response.messaggio);
+
+                    showMyPopUpError(response.messaggio);
+
                 }
                 codicePreventivo = null;
             });
            
         }
     }
+
+   
+
 
     function popupDialogCancel() {
         //alert("popupDialogCancel");
@@ -152,22 +158,11 @@
 }
 
 
-
-
 <input type="hidden" value="@Model.stato.id" id="codiceStatoCorrente" />
 <input type="hidden" value="@Model.stato.descrizione" id="descrizioneStatoCorrente" />
 
 <div id="gestioneOperazioni"></div>
 
-<input type="button" id="btnScrollToPreventivo" value="Preventivi" data-inline="true" data-mini="true" />
-<a href="@Url.Action("Index", "Documentale", new { SegnalazioneId = Model.id })">
-    <input type="button" id="btnDocumentale" value="Documentale" data-mini="true" data-inline="true" />
-</a>
-
-
-
-
-<br />
 <h1>Dettaglio segnalazione: @Model.contatto.nome  @Model.contatto.cognome</h1>
 <div id="gestioneStato">
 </div>

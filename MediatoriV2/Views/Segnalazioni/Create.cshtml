@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
     $(document).on("pageinit", function () {
-        
+
         idProvincia = "segnalazione_contatto_provinciaNascita_denominazione";
         idComune = "segnalazione_contatto_comuneNascita_denominazione";
 
@@ -19,7 +19,7 @@
             popolaComboComuni(idProvincia, idComune);
         });
 
-        
+
     });
 </script>
 
@@ -32,7 +32,8 @@
     Html.ValidationSummary(true);
     Html.HiddenFor(model => model.segnalazione.contatto.id);
 
-    <h3>Dati anagrafici</h3><hr />
+    <h3>Dati anagrafici</h3>
+    <hr />
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.nome)
     </div>
@@ -90,7 +91,7 @@
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.cittadinanza)
     </div>
-    
+
 
     <div class="editor-control">
         <div class="editor-row">
@@ -113,7 +114,7 @@
     </div>
 
 
-    
+
 
 
 
@@ -136,16 +137,17 @@
             @Html.ValidationMessageFor(m => m.segnalazione.contatto.sesso)
         </div>
     </div>
-    
-   
 
-   
+
+
+
 
 
     <div id="grigliaContattiDuplicati"></div>
 
      <!-- impiego -->
     <h3>Dati impiego</h3>
+    <hr />
     if (Model.impiego != null)
     {
         { Html.RenderAction("Create", "Impiego", new { impiego = Model.impiego }); }

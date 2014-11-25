@@ -14,6 +14,11 @@ namespace mediatori.Models.Anagrafiche
         [Display(Name = "Impiego")]
         public int id { get; set; }
 
+        //http://msdn.microsoft.com/en-us/data/jj713564.aspx
+        //[ForeignKey("Contatto")]
+        public int contattoId { get; set; }
+        public virtual Contatto contatto { get; set; }
+
         [Required]
         [Display(Name = "Azienda")]
         public String azienda { get; set; }
@@ -57,8 +62,7 @@ namespace mediatori.Models.Anagrafiche
 
         [DataType(DataType.Date)]
         [Display(Name = "Data adesione fondo")]
-        //[DisplayFormat(NullDisplayText = "", DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[DisplayFormat(NullDisplayText = "", DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(ApplyFormatInEditMode = true, NullDisplayText = "", DataFormatString = MyConstants.DATE_FORMAT)]
         public DateTime? adesioneTFR { get; set; }
 
         [DataType(DataType.Date)]
@@ -68,8 +72,7 @@ namespace mediatori.Models.Anagrafiche
 
         [DataType(DataType.Date)]
         [Display(Name = "Data licenziamento")]
-        //[DisplayFormat(NullDisplayText = "", DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[DisplayFormat(NullDisplayText = "", DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(ApplyFormatInEditMode = true, NullDisplayText = "", DataFormatString = MyConstants.DATE_FORMAT)]
         public DateTime? dataLicenziamento { get; set; }
 
 

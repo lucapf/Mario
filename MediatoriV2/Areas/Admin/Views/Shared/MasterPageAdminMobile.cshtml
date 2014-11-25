@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@System.Configuration.ConfigurationManager.AppSettings["application.name"] [Admin]</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Style/Admin.css")" />
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Style/themes/Admin.min.css")" />
+    <link rel="stylesheet" media="all" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+
+    @if (MyManagerCSharp.RegularExpressionManager.isOldBrowser(Request.UserAgent))
+    {
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    }
+
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+    <script>
+        $(document).on("pageinit", function () {
+            // alert("mobileinit");
+            $.mobile.ajaxEnabled = false;
+        });
+
+    </script>
+
+</head>
+<body>
+    <div data-role="page">
+
+        <div data-role="header" style="background-color: white; min-height: 60px; overflow: hidden;">
+            <span>
+                <a href="@Url.Action("Index", "Admin")" class="ui-btn-left">
+                    <img src="@Url.Content("~/Content/Images/marioh62.png")" height="55">
+                </a>
+            </span>
+
+
+            <div data-role="controlgroup" data-type="horizontal" style="text-align: right;">
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Index", "Admin")" data-role="button">Home</a>
+                    <a href="@Url.Action("Index", "Users")" data-role="button">Utenti</a>
+                    <a href="@Url.Action("Index", "Groups")" data-role="button">Gruppi</a>
+                    <a href="@Url.Action("Index", "Logs")" data-role="button">Logs</a>
+                    <a href="@Url.Action("Index", "Source")" data-role="button">Source</a>
+
+                    <!--
+                        <a href="@Url.Action("Index", "Test")"         data-role="button"     >Test</a>
+                     -->
+                    <a href="@Url.Action("Manage", "Account")" data-role="button">@User.Identity.Name</a>
+                    <a href="@Url.Action("LogOff", "Account")" data-role="button">Log Off</a>
+                }
+            </div>
+        </div>
+        <!-- /header -->
+
+        <div id="content">
+            @{Html.RenderPartial("MenuLeft");}
+            <div id="main" data-role="main" class="ui-content jqm-content jqm-fullwidth">
+                @RenderBody()
+            </div>
+            <!-- /main -->
+        </div>
+
+
+
+    </div>
+</body>
+</html>

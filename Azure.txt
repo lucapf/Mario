@@ -10,6 +10,8 @@ http://mediatori.azurewebsites.net/
 SQL SERVER
 https://yacvsl866j.database.windows.net/?langid=it-it#$database=Mediatori
 
+hzappcv1w.database.windows.net
+
 yacvsl866j.database.windows.net
 usr: mediatori
 psw: M3d14t0r1

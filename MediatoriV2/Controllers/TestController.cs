@@ -36,6 +36,11 @@ namespace mediatori.Controllers
             return View(model);
         }
 
+        public ActionResult Calendar()
+        {
+            return View();
+        }
+
 
         public ActionResult Home()
         {

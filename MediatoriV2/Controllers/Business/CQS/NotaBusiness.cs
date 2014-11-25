@@ -37,7 +37,14 @@ namespace mediatori.Controllers.Business
         internal static Nota createBySegnalazione(string username, int codiceSegnalazione, Nota nota, MainDbContext db)
         {
 
-            Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(codiceSegnalazione, db);
+            //Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(codiceSegnalazione, db);
+            Segnalazione segnalazione;
+            segnalazione = db.Segnalazioni.Include("note").Where(s => s.id == codiceSegnalazione).FirstOrDefault();
+            if (segnalazione == null)
+            {
+                return null;
+            }
+
             if (segnalazione.note == null) segnalazione.note = new List<Nota>();
             segnalazione.note.Add(nota);
             LogEventi le = LogEventiManager.getEventoForCreate(username, nota.id, EnumEntitaRiferimento.NOTA);
@@ -51,7 +58,7 @@ namespace mediatori.Controllers.Business
             if (listaNote == null) return null;
             foreach (Nota n in listaNote)
             {
-               valorizzaInserimento(n, utenteInserimento);
+                valorizzaInserimento(n, utenteInserimento);
             }
             return listaNote;
         }

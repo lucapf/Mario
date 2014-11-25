@@ -13,7 +13,21 @@
     <link rel="stylesheet" media="all" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/SiteMINI.css")" />
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    @if (MyManagerCSharp.RegularExpressionManager.isOldBrowser(Request.UserAgent))
+    {
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    }
+    else
+    {
+        //<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.1.1.min.js")"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    }
+
+
+
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
 
@@ -23,15 +37,14 @@
 
 
 
-
     <script type="text/javascript" src="@Url.Content("~/Scripts/fireAntUtils.js")"></script>
 
-    <!-- DatePicker
-    <script id="mobile-datepicker" src="http://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/s"></script>
-        -->
+    <!-- DatePicker   -->
     <script id="mobile-datepicker" src="@Url.Content("~/Content/js/jquery.mobile.datepicker.js")"></script>
     <script src="http://rawgithub.com/jquery/jquery-ui/1.10.4/ui/jquery.ui.datepicker.js"></script>
     <link rel="stylesheet" href="http://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/jquery.mobile.datepicker.css">
+
+     
 
     <script type="text/javascript">
 
@@ -46,7 +59,7 @@
 
         $(document).on("pageinit", function () {
             $.mobile.ajaxEnabled = false;
-                       
+
             //alert("pageinit");
             clock();
 
@@ -99,8 +112,15 @@
 
             @if (MyConstants.CHECK_ASSEGANAZIONI_ENABLED ){
                 @:setTimeout(function () { assegnazioni(); }, 2000);
-            }
-            
+                                                            }
+
+        }
+
+
+        function showMyPopUpError(messaggio) {
+            // alert("showPopUpError");
+            $("#popupErrorpMessage").html(messaggio);
+            $("#popupError").popup("open");
         }
 
     </script>
@@ -146,7 +166,6 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <ul>
-                        <!--<li><a href="@Url.Action("Index", "Home")" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a></li>-->
                         <li><a href="@Url.Action("Index", "Segnalazioni")">Segnalazioni</a></li>
                         <li><a href="@Url.Action("Index", "Pratiche")">Pratiche</a></li>
                         <li><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
@@ -155,7 +174,7 @@
                     </ul>
                 }
             </div>
-
+           
         </div>
         <!-- /header -->
 
@@ -205,7 +224,15 @@
         </div>
 
 
+
+        <div data-role="popup" id="popupError" class="ui-content" style="max-width:280px" data-dismissible="false">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
+            <p id="popupErrorpMessage"></p>
+        </div>
+
+
     </div>
+
     <!-- /page -->
     <!-- Start of second page: #two -->
     <div data-role="page" id="PageCalendar" data-theme="a" style="width: 80%; height: 80%;">

@@ -177,10 +177,10 @@ namespace mediatori.helper
         String idDivMessage = String.Empty;
         String id = "0";
 
-        public FireAntDetailEventDetection(String prefisso, int id):
+        public FireAntDetailEventDetection(String prefisso, int id) :
             this(prefisso, id + "")
         {
-        
+
 
         }
         public FireAntDetailEventDetection(String prefisso, string id)
@@ -244,6 +244,7 @@ namespace mediatori.helper
         {
             return idBtnModifica.ToString();
         }
+
         public String getHeader(String htmlShortDispaly)
         {
             return getScriptHandler() + buildShortDetailDiv(htmlShortDispaly) + buildMsgDiv();
@@ -284,7 +285,7 @@ namespace mediatori.helper
         public String refreshValidation() { return String.Format("<script>refreshValidation('{0}')</script>", getIdForm()); }
         public String getButtonModifica(String htmlAttributes = "", String javascriptCustomFunction = "")
         {
-            htmlAttributes += "class='buttonModifica' title='modifica'";
+            htmlAttributes += "class='buttonModifica' title='Modifica'";
             return buildBottoneGenerico(buttonModifica, "[ M ]", "FireAntEditHelper_ModificaDati", htmlAttributes, javascriptCustomFunction);
         }
         public String getButtonAnnullaModifica(String value = "[ A ] ", String htmlAttributes = "", String javascriptCustomFunction = "")
@@ -303,17 +304,19 @@ namespace mediatori.helper
             return buildBottoneGenerico(buttonSalvaModifica, value, "FireAntEditHelper_SubmitInnerForm", htmlAttributes, String.Empty);
 
         }
+
         public String getCrudButtons()
         {
             return getButtonModifica() + getButtonSalvaModifica()
                    + getButtonAnnullaModifica() + getButtonAnnullaInserimento()
-                   + getButtonCollapse() +new TagBuilder("br").ToString(TagRenderMode.SelfClosing);
+                   + getButtonCollapse() + new TagBuilder("br").ToString(TagRenderMode.SelfClosing);
         }
+
         public String getSimpleCrudButtons()
         {
-            return getButtonModifica()+ getButtonSalvaModifica()
+            return getButtonModifica() + getButtonSalvaModifica()
                 + getButtonAnnullaModifica() + "<script>$(\"#" + buttonModifica + "\").show();</script>";
-            
+
         }
         public String getStartForm(String urlAction)
         {
@@ -328,6 +331,7 @@ namespace mediatori.helper
         {
             return new TagBuilder("form").ToString(TagRenderMode.EndTag);
         }
+
         public String getButtonAnnullaInserimento(String value = "Annulla", String htmlAttributes = "")
         {
             TagBuilder submitForm = new TagBuilder("input");
@@ -352,8 +356,16 @@ namespace mediatori.helper
                          modelId, url, codiceMessage, codiceDiv, codiceDivFullDetail, codiceDivShortDetail, buttonModifica,
                           buttonAnnullaModifica, buttonSalvaModifica, buttonNascondiDettaglio, formDati, javaScriptCustomFunction);
 
-            var onclickEvent = "<script>$(function(){$(\"#" + idBottone + "\").click(function(){ " +
-                onclickFunction + "( " + onclickArgs + " )})})</script>";
+            //var onclickEvent = "<script>$(function(){$(\"#" + idBottone + "\").click(function(){ " +
+            //    onclickFunction + "( " + onclickArgs + " )})})</script>";
+
+            string onclickEvent = "<script type=\"text/javascript\">   $(document).on(\"pageinit\", function () { ";
+
+            onclickEvent += " $(\"#" + idBottone + "\").click(function(){ " + onclickFunction + "( " + onclickArgs + " )})";
+
+            onclickEvent += "});";
+            onclickEvent += "</script>";
+
             String htmlTag = String.Format("<div id='{0}' {1}>{3}</div>{2}", idBottone, htmlAttributes, onclickEvent, value);
             return htmlTag;
         }

@@ -82,7 +82,7 @@ namespace mediatori.Controllers
             //Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
             Segnalazione segnalazione;
 
-            segnalazione = db.Segnalazioni.Include("contatto").Include("stato").Where(s => s.id == id).First();
+            segnalazione = db.Segnalazioni.Include("contatto").Include("stato").Include("note").Where(s => s.id == id).First();
             
             if (segnalazione == null)
             {

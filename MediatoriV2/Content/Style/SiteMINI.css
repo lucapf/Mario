@@ -47,7 +47,7 @@ table.MyTable {
     float: right;
     letter-spacing: -1.1px;
     margin-left: 2px;
-    display: none;
+   /* display: none;*/
     cursor: pointer;
     cursor: hand;
 }

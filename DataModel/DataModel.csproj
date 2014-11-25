@@ -108,6 +108,14 @@
     <Compile Include="Migrations\201411181337003_Update10.Designer.cs">
       <DependentUpon>201411181337003_Update10.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411191247100_Update11.cs" />
+    <Compile Include="Migrations\201411191247100_Update11.Designer.cs">
+      <DependentUpon>201411191247100_Update11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411191310363_Update12.cs" />
+    <Compile Include="Migrations\201411191310363_Update12.Designer.cs">
+      <DependentUpon>201411191310363_Update12.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
     <Compile Include="Models\Anagrafiche\Cedente.cs" />
@@ -216,6 +224,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411181337003_Update10.resx">
       <DependentUpon>201411181337003_Update10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411191247100_Update11.resx">
+      <DependentUpon>201411191247100_Update11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411191310363_Update12.resx">
+      <DependentUpon>201411191310363_Update12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

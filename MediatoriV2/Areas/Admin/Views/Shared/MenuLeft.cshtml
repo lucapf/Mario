@@ -1,0 +1,63 @@
+﻿
+    @{
+        string controller = ViewContext.RouteData.GetRequiredString("controller");
+        string action = ViewContext.RouteData.GetRequiredString("action");
+
+        String paginaRichiesta = Request.AppRelativeCurrentExecutionFilePath;
+
+        if (paginaRichiesta == "~/")
+        {
+            paginaRichiesta = "~/Home";
+        }
+
+
+        String contesto = Request.ApplicationPath;
+        if (contesto == "/")
+        {
+            contesto = "";
+        }
+
+      
+
+        System.IO.MemoryStream risultatoMemoryStream;
+        risultatoMemoryStream = new MemoryStream();
+
+        System.Xml.Xsl.XslCompiledTransform xslt;
+        xslt = new System.Xml.Xsl.XslCompiledTransform();
+
+        xslt.Load(Server.MapPath("~/Content/xsl/menuLeftJQueryMobile.xsl"));
+
+        System.Xml.Xsl.XsltArgumentList args = new System.Xml.Xsl.XsltArgumentList();
+        args.AddParam("Area", "", "Admin");
+        args.AddParam("urlCorrente", "", paginaRichiesta);
+        args.AddParam("roles", "", "");
+        args.AddParam("contesto", "", contesto);
+        args.AddParam("controller", "", controller);
+        args.AddParam("action", "", action);
+
+        xslt.Transform(Server.MapPath("~/Content/xml/MySiteMapAdmin.xml"), args, risultatoMemoryStream);
+        risultatoMemoryStream.Flush();
+
+
+        string risultato;
+
+        System.Text.Encoding encoding = System.Text.Encoding.UTF8;
+        risultato = encoding.GetString(risultatoMemoryStream.ToArray());
+
+        if (risultato == "<div data-role=\"controlgroup\" data-type=\"vertical\" data-theme=\"c\" />")
+        {
+            risultato = "";
+        } else{
+
+            risultato = "<nav class=\"menuLeft\">" + risultato + "</nav>";
+        }
+            
+         
+
+        HtmlString risultatoHTML = new HtmlString(risultato);   
+    }
+
+    @risultatoHTML
+
+
+

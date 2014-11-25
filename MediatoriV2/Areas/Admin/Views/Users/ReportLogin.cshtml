@@ -1,0 +1,34 @@
+﻿@model  MyWebApplication.Areas.Admin.Models.ReportsModel
+@{
+    ViewBag.Title = "ReportLogin";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Report Login</h2>
+
+@using (Html.BeginForm("ReportLogin", "Users", FormMethod.Post, new { id = "MyForm" }))
+{
+
+
+<div class="ui-field-contain">
+    <label for="Days">Data:</label>
+    @{Html.RenderPartial("_ComboData", Model.Days);}
+</div>
+}
+
+
+<div class="canvas-flex">
+    @{Html.RenderPartial("~/Views/Widget/RGraph.cshtml", Model.Reports);}
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+        $("[name='Days']").change(function () {
+            $("#MyForm").submit();
+        });
+
+    });
+</script>

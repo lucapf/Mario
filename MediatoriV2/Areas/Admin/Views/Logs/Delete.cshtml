@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+<h2>Delete</h2>
+
+@using (Html.BeginForm("Delete", "Logs", FormMethod.Post, new { id = "MyForm" }))
+{
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+        <legend>Confermare la cancellazione dei logs più vecchi di :</legend>
+        <select name="days" id="days">
+            <option value="@((int)MyManagerCSharp.Log.LogManager.Days.Tutti)"             >Tutti</option>
+            <option value="@((int)MyManagerCSharp.Log.LogManager.Days.Oggi)"              >Oggi</option>
+            <option value="@((int)MyManagerCSharp.Log.LogManager.Days.Ieri)"              >Ieri</option>
+            <option value="@((int)MyManagerCSharp.Log.LogManager.Days.UltimaSettimana)"   >Ultima settimana</option>
+            <option value="@((int)MyManagerCSharp.Log.LogManager.Days.UltimoMese)"        >Ultimo mese</option>
+        </select>
+    </fieldset>
+
+    
+    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
+        <a href="@Url.Action("Index", "Logs")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        <input type="submit" data-inline="true" data-mini="true" value="Delete" data-icon="search" />
+    </div>
+    
+}

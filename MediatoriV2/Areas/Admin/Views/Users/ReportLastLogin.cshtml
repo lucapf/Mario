@@ -1,0 +1,70 @@
+﻿@model  MyWebApplication.Areas.Admin.Models.ReportsModel
+@{
+    ViewBag.Title = "ReportLastLogin";
+    Layout = "~/Areas/Admin/Views/Shared/MasterPageAdminMobile.cshtml";
+}
+
+
+@if (Model.Table != null && Model.Table.Rows != null)
+{
+    <h3 style="float: right">N° records: @String.Format("{0:N0}", Model.Table.Rows.Count)</h3>
+}
+
+
+<h2>Last Login</h2>
+
+
+@using (Html.BeginForm("ReportLastLogin", "Users", FormMethod.Post, new { id = "MyForm" }))
+{
+       
+
+    <div class="ui-field-contain">
+        <label for="Days">Data:</label>
+        @{Html.RenderPartial("_ComboData", Model.Days); }
+    </div>
+    
+    
+  
+  
+     
+          if (Model.Table.Rows.Count == 0)
+          {
+    <h3>Non è stato trovato nessun record. Modificare i filtri di ricerca.</h3>
+          }
+          else
+          {
+
+              
+    <table data-role="table" class="ui-responsive table-stroke">
+        <thead>
+            <tr>
+                <th>Login</th>
+                <th>Last login</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (System.Data.DataRow row in Model.Table.Rows)
+            {
+                <tr>
+                    <td><a href="@Url.Action("Details", "Users", new { id = row["user_id"] })">@row["my_login"]</a></td>
+                    <td>@String.Format("{0}", row["date_last_login"])</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+          }
+
+}
+
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+        $("[name='Days']").change(function () {
+            $("#MyForm").submit();
+        });
+
+    });
+
+</script>

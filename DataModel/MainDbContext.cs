@@ -81,7 +81,7 @@ namespace mediatori.Models
         public DbSet<TipoCategoriaImpiego> TipoCategoriaImpiego { get; set; }
         public DbSet<LogEventi> LogsEventi { get; set; }
         public DbSet<TipoContrattoImpiego> TipoContrattoImpiego { get; set; }
-        public DbSet<Impiego> impieghi { get; set; }
+        public DbSet<Impiego> Impieghi { get; set; }
         public DbSet<TipoEnteRilascio> TipoEnteRilascio { get; set; }
         public DbSet<DocumentoIdentita> DocumentiIdentita { get; set; }
         public DbSet<TipoDocumentoIdentita> TipoDocumentiIdentita { get; set; }
@@ -90,7 +90,10 @@ namespace mediatori.Models
         public DbSet<Stato> StatiSegnalazione { get; set; }
         public DbSet<Amministrazione> Amministazioni { get; set; }
         public DbSet<Event> Eventi { get; set; }
+        
         public DbSet<Preventivo> Preventivi { get; set; }
+        public DbSet<PreventivoSmall> PreventiviSmall { get; set; }
+
         public DbSet<Pratica.Pratica> Pratiche { get; set; }
 
         public DbSet<Documento> Documenti { get; set; }
@@ -109,7 +112,11 @@ namespace mediatori.Models
 
             modelBuilder.Entity<PersonaFisica>().Map<Cedente>(m =>  m.Requires("tipoPersonaFisica").HasValue("Cedente")).Map<Contatto>(m => m.Requires("tipoPersonaFisica").HasValue("Contatto"));
 
-            modelBuilder.Entity<PreventivoSmall>().Map<Preventivo>(m =>  m.Requires("Tipo").HasValue("Segnalazione"));
+
+            modelBuilder.Entity<PreventivoSmall>().Map(m => m.Requires("Tipo").HasValue("NonConfermato")).Map<Preventivo>(p => p.Requires("Tipo").HasValue("Confermato"));
+            
+           // modelBuilder.Entity<Preventivo>().Map<PreventivoSmall>(m => m.Requires("Tipo").HasValue("Segnalazione"));
+
             
 
             //modelBuilder.Entity<Pratica.Pratica>().HasRequired( c => c.cedente).WithRequiredDependent().Map( d => d.MapKey ("contatto_id").ToTable("persona_fisica") );

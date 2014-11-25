@@ -152,11 +152,33 @@ namespace mediatori.Controllers
         {
             Models.JsonMessageModel model = new Models.JsonMessageModel();
 
-            Preventivo preventivo = db.Preventivi.Include("segnalazione").Include("segnalazione.fontePubblicitaria").Include("segnalazione.altroPrestito").Include("segnalazione.contatto").First(d => d.id == id);
+          //  Preventivo preventivo = db.Preventivi.Include("segnalazione").Include("segnalazione.fontePubblicitaria").Include("segnalazione.altroPrestito").Include("segnalazione.contatto").First(d => d.id == id);
+           // Preventivo preventivo = db.Preventivi.Include("segnalazione").Include("segnalazione.contatto").First(d => d.id == id);
+            PreventivoSmall preventivo = db.PreventiviSmall.Include("segnalazione").Include("segnalazione.contatto").First(d => d.id == id);
             if (preventivo == null)
             {
                 model.esito = Models.JsonMessageModel.Esito.Failed;
                 model.messaggio = "Preventivo non trovato";
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+
+            //Verifico tutti i dati necessari per passare la Segnalazione in Pratica
+
+           // preventivo.segnalazione.contatto.
+ 
+            List<Impiego> impieghi;
+            impieghi = db.Impieghi.Where(i => i.contattoId == preventivo.segnalazione.contatto.id).ToList<Impiego>();
+            if (impieghi.Count == 0)
+            {
+                model.esito = Models.JsonMessageModel.Esito.Failed;
+                model.messaggio = "Configurare almeno un impiego";
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+
+            if (impieghi.Count == 1 && impieghi[0].dataAssunzione == null)
+            {
+                model.esito = Models.JsonMessageModel.Esito.Failed;
+                model.messaggio = "Configurare almeno un impiego";
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
 
@@ -183,10 +205,11 @@ namespace mediatori.Controllers
 
                 db.Database.ExecuteSqlCommand("UPDATE persona_fisica SET tipoPersonaFisica = 'Cedente'  where id = " + preventivo.segnalazione.contatto.id);
 
+                db.Database.ExecuteSqlCommand("UPDATE preventivo SET Tipo = 'Confermato'  where id = " + preventivo.id);
+
                 model.referenceId = preventivo.segnalazione.id.ToString();
                 model.esito = Models.JsonMessageModel.Esito.Succes;
                 model.messaggio = "Operazione conlusa con successo";
-
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {

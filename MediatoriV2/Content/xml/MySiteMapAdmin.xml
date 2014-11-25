@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 
+  Autorizzazioni:
+  0 = * = accesso pagine pubbliche
+  1 = ? = accesso pagine che necessitano di autenticazione
+-->
+
+<root >
+  <siteMap DescriptionMenuTop="Utenti" title="Logs" authorization="0"  hide="false">
+    <siteMapNode controller="Users" action="Index"              title="Home"            authorization="1" hide="false"/>
+    <siteMapNode controller="Admin" action="MD5"                title="MD5"             authorization="1" hide="false"/>
+    <siteMapNode controller=""      action=""                   title="Reports"         authorization="1" hide="false"/>
+    <siteMapNode controller="Users" action="ReportLogin"        title="Login"           authorization="1" hide="false"/>
+    <siteMapNode controller="Users" action="ReportLastLogin"    title="Last Login"      authorization="1" hide="false"/>
+  </siteMap>
+
+  <siteMap DescriptionMenuTop="Logs" title="Logs" authorization="0"  hide="false">
+    <siteMapNode controller="Logs" action="Index"    title="Home"           authorization="1" hide="false"/>
+    <siteMapNode controller="Logs" action="Delete"   title="Delete"         authorization="1" hide="false"/>
+  </siteMap>
+</root>
