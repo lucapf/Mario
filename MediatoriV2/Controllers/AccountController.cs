@@ -207,6 +207,63 @@ namespace mediatori.Controllers
 
 
 
+
+        public ActionResult Refresh()
+        {
+            Debug.WriteLine("Area: " + Request.RequestContext.RouteData.DataTokens["area"]);
+
+            if (Session["MySessionData"] == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            long userId = -1;
+
+            try
+            {
+                manager.openConnection();
+
+                if (User.Identity is System.Security.Principal.WindowsIdentity)
+                {
+                    userId = manager.getUserIdFromSID(new System.Security.Principal.SecurityIdentifier((User.Identity as System.Security.Principal.WindowsIdentity).User.Value));
+                }
+                else if (User.Identity is MyUsers.MyCustomIdentity)
+                {
+                    userId = (User.Identity as MyUsers.MyCustomIdentity).UserId;
+                }
+                else if (User.Identity is System.Web.Security.FormsIdentity)
+                {
+                    userId = (Session["MySessionData"] as MyManagerCSharp.MySessionData).UserId;
+                }
+
+                MyManagerCSharp.MySessionData sessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
+
+                //if ((User.Identity.IsAuthenticated) && (User.Identity is MyUsers.MyCustomIdentity) && sessionData.UserId == -1)
+                //{
+                //    userId = (User.Identity as MyUsers.MyCustomIdentity).UserId;
+                //}
+
+                sessionData.Roles = manager.getRoles(userId);
+                sessionData.Profili = manager.getProfili(userId);
+                sessionData.Groups = manager.getGroupSmall(userId);
+            }
+            finally
+            {
+                manager.closeConnection();
+            }
+
+
+
+            if (TempData["AREA"] != null && TempData["AREA"].ToString() == "Mobile")
+            {
+                return RedirectToAction("Manage", new { area = "Mobile" });
+            }
+
+            return RedirectToAction("Manage");
+        }
+
+
         //
         // GET: /Account/Register
 
@@ -222,16 +279,16 @@ namespace mediatori.Controllers
             return View();
         }
 
-       // [HttpGet]
-       ////Authorize(Roles = "Amministratore")]
-       // public ActionResult ListUsers(String message)
-       // {
-       //     if (message != null) ViewBag.message = message;
-       //     MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-       //     List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
-       //     ViewBag.utenti = users;
-       //     return View();
-       // }
+        // [HttpGet]
+        ////Authorize(Roles = "Amministratore")]
+        // public ActionResult ListUsers(String message)
+        // {
+        //     if (message != null) ViewBag.message = message;
+        //     MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+        //     List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
+        //     ViewBag.utenti = users;
+        //     return View();
+        // }
         //
         // POST: /Account/Register
 
@@ -276,7 +333,7 @@ namespace mediatori.Controllers
         //
         // GET: /Account/Disassociate
 
-        
+
 
 
 
@@ -305,7 +362,7 @@ namespace mediatori.Controllers
                 log.closeConnection();
             }
 
-       
+
             if (Session["MySessionData"] != null)
             {
                 (Session["MySessionData"] as MyManagerCSharp.MySessionData).LogOff();
@@ -415,7 +472,7 @@ namespace mediatori.Controllers
 
         //Get /Account/GestisciRuoli gestione ruoli utente. punto di partenza la schermata ListUsers
         //     nella schermata corrente viene permesso di aggiungere o rimuovere ruoli per uno specifico utente
-       
+
         //
         // POST: /Account/ExternalLogin
         /*
@@ -581,7 +638,7 @@ namespace mediatori.Controllers
             RemoveLoginSuccess,
         }
 
-       
+
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {

@@ -116,6 +116,18 @@
     <Compile Include="Migrations\201411191310363_Update12.Designer.cs">
       <DependentUpon>201411191310363_Update12.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411271701539_Update13.cs" />
+    <Compile Include="Migrations\201411271701539_Update13.Designer.cs">
+      <DependentUpon>201411271701539_Update13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411281651426_Update14.cs" />
+    <Compile Include="Migrations\201411281651426_Update14.Designer.cs">
+      <DependentUpon>201411281651426_Update14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411281654126_Update15.cs" />
+    <Compile Include="Migrations\201411281654126_Update15.Designer.cs">
+      <DependentUpon>201411281654126_Update15.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
     <Compile Include="Models\Anagrafiche\Cedente.cs" />
@@ -164,7 +176,6 @@
     <Compile Include="Models\etc\Assegnazione.cs" />
     <Compile Include="Models\etc\Documento.cs" />
     <Compile Include="Models\etc\EnumEntitaAssociataStato.cs" />
-    <Compile Include="Models\etc\GruppoLavorazione.cs" />
     <Compile Include="Models\etc\Parametro.cs" />
     <Compile Include="Models\etc\Stato.cs" />
     <Compile Include="Models\Pratica\Pratica.cs" />
@@ -181,7 +192,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyFramework4.0\MyUsers\MyUsers.csproj">
+      <Project>{de537bc0-c7b3-4f38-9de2-5757d6d3999e}</Project>
+      <Name>MyUsers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Migrations\Migrations.txt" />
   </ItemGroup>
@@ -230,6 +246,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411191310363_Update12.resx">
       <DependentUpon>201411191310363_Update12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411271701539_Update13.resx">
+      <DependentUpon>201411271701539_Update13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411281651426_Update14.resx">
+      <DependentUpon>201411281651426_Update14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411281654126_Update15.resx">
+      <DependentUpon>201411281654126_Update15.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

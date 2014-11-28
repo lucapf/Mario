@@ -11,25 +11,26 @@ namespace mediatori.Models.etc
     {
         [Key]
         public int id { get; set; }
+
         [Required]
         public String descrizione { get; set; }
+
         [Required]
         public EnumStatoBase statoBase { get; set; }
+
         [Required]
         public EnumEntitaAssociataStato entitaAssociata { get; set; }
+
+        
+        public int? gruppoId { get; set; }
         // per gli stati base di tipo Attivo può essere indicato un gruppo di lavorazione
-        public GruppoLavorazione gruppoLavorazione { get; set; }
-        public List<Stato> successivi { get; set; }
-        public List<Stato> precedenti { get; set; }
+        [NotMapped]
+        public virtual MyUsers.Models.MyGroup gruppo { get; set; }
 
-
+      //  public virtual List<Stato> successivi { get; set; }
+        //public virtual List<Stato> precedenti { get; set; }
     }
 
-    public class StatoSearch {
-        public EnumEntitaAssociataStato entita{get;set;}
-        public int? codiceStato { get; set; }
-        public int? successiviDi { get; set; }
-        public int? precedentiDi { get; set; }
-    }
-  
+
+
 }

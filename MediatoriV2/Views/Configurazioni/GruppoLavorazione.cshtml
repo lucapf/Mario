@@ -1,91 +1,156 @@
-﻿@model List<mediatori.Models.etc.GruppoLavorazioneView>
-@using mediatori.Models
+﻿@model  mediatori.Models.GruppiLavorazioneModel
 @{
     ViewBag.Title = "Gestione Gruppi di lavorazione";
-    mediatori.Models.etc.GruppoLavorazioneView glEmpty = ViewBag.gruppoLavorazioneEmpty;
-}
-<h2>Gruppi Di Lavorazione</h2>
-<h3>@ViewBag.errorMessage</h3>
-<h3>@ViewBag.message</h3>
-@Html.Partial("commonConfigurazioni")
-<script>
-    $(function () {
-        $("#NuovoGruppoLavorazione").click(function () {
-            $("#NuovoGruppoLavorazioneDiv").effect("slide", { direction: "right" }, 500);
-            $("#NascondiNuovoGruppoLavorazione").show(500);
-            $("#NuovoGruppoLavorazione").hide(500);
-        });
-        $("#NascondiNuovoGruppoLavorazione").click(function () {
-            $("#NuovoGruppoLavorazioneDiv").hide("slide", { direction: "left" }, 500);
-            $("#NascondiNuovoGruppoLavorazione").hide(500);
-            $("#NuovoGruppoLavorazione").show(500);
-        });
-    });
-</script>
 
-<!-- <div id="NuovoGruppoLavorazione" class="action">Nuovo</div> -->
-<input type="button" id="NuovoGruppoLavorazione" value="Nuovo" />
-<div id="NascondiNuovoGruppoLavorazione" class="action" style="display: none">Nascondi</div>
-<div id="NuovoGruppoLavorazioneDiv" style="display: none">
-    <fieldset>
-        <legend>Nuovo Gruppo di Lavorazione</legend>
-        @using (Html.BeginForm("GruppoLavorazione", "Configurazioni", FormMethod.Post))
-        {
-            <div>
-                sigla @Html.TextBox("nome")
-                <table>
-                    @Html.CheckBoxList(glEmpty.liUtenti, "utentiAssociati", true)
-                </table>
-            </div>
-            <input type="submit" value="inserisci" />
-        }
-    </fieldset>
-</div>
+    int conta = 0;
+    string css;
+}
+
+<h2>Gruppi di lavorazione</h2>
+@Html.Partial("commonConfigurazioni")
+
+
+<script type="text/javascript">
+
+    function edit(id) {
+        alert("edit" + id);
+        
+        $("#popupEdit").popup("open");
+
+    }
+
+    function users(id) {
+        alert("users" + id);
+
+        $.getJSON('@Url.Action("AutoCompleteLogin", "Configurazioni")', { value: text }, function (mydata) {
+
+            var str = "";
+            for (var i = 0, len = mydata.length; i < len; i++) {
+                //str += "<li>" + res[i] + "</li>";
+                str += "<input type =\"checkbox\" name=\"myItems\" id=\"myItems[" + i + "]\"  value =\"" + mydata[i].Value + "\">";
+                str += "<label for=\"myItems[" + i + "]\">" + mydata[i].Text + "</label>";
+
+            }
+
+            $("#suggestions").html(str);
+
+            $("[type=checkbox]").checkboxradio();
+            $("[data-role=controlgroup]").controlgroup("refresh");
+        });
+
+
+
+        $("#panelUsers").panel("open");
+
+    }
+    </script>
+
+<a href="#popupNuovo" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo</a>
+
 <fieldset>
     <legend>Lista Gruppi Lavorazione configurati</legend>
-    <table>
-        <tr>
-            <td><strong>Sigla</strong></td>
-            <td></td>
+    <table class="MyTable">
+        <tr class="ui-bar-b">
+            <th>Sigla</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
-        @foreach (mediatori.Models.etc.GruppoLavorazioneView glw in Model)
+        @foreach (mediatori.Models.etc.GruppoLavorazione g in Model.gruppiLavorazione)
         {
-            String idDivGestioneGruppi = "gruppi" + glw.gl.id;
-            String idlinkApriBox = "gruppiShowDetail" + glw.gl.id;
-            String idlinkChiuxiBox = "gruppiHideDetail" + glw.gl.id;
-           
-            <tr>
-                <td>@glw.gl.nome</td>
+            conta++;
+            if (conta % 2 == 0)
+            {
+                css = "ui-bar-d";
+            }
+            else
+            {
+                css = "ui-bar-a";
+            }
+            
+            <tr class="@css">
+                <td>@g.nome</td>
                 <td>
-                    <div id="@idDivGestioneGruppi" style="display:none">
-                        @using (Html.BeginForm("AggiornaGruppiAssegnazione", "Configurazioni", FormMethod.Post))
-                        {
-                            @Html.Hidden("id", glw.gl.id)
-                            <table>
-                                @Html.CheckBoxList(glw.liUtenti, "utentiAssociati", true)
-                            </table>
-                            <input type="submit" value="Salva" />
-                        }
-                    </div>
+                    <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="javascript:edit(@g.id);">Modifica</a>
                 </td>
-                <td><a href="#" id="@idlinkApriBox" onclick="apriBoxAggiornamento('@glw.gl.id')">Mostra Dettagli</a> 
-                    <a href="#" id="@idlinkChiuxiBox" onclick="chiudiBoxAggiornamento('@glw.gl.id')" style="display:none">Nascondi Dettagli</a>|
-                    @Html.ActionLink("Cancella", "CancellaGruppoLavorazione", new { id = glw.gl.id }, null)</td>
+                <td>
+                    <a class="ui-btn-inline ui-btn ui-icon-user ui-btn-icon-notext ui-corner-all" title="Utenti" href="javascript:users(@g.id);">Utenti</a>
+                </td>
+                <td>
+                    <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("CancellaGruppoLavorazione", new { id = g.id })">Delete</a>
+                </td>
             </tr>
-    
         }
     </table>
-    <script>
-        function apriBoxAggiornamento(id) {
-            $("#gruppi" + id).effect("slide", { direction: 'right' }, 500);
-            $("#gruppiShowDetail" + id).hide(500);
-            $("#gruppiHideDetail" + id).show(500);
-        }
-        function chiudiBoxAggiornamento(id) {
-            $("#gruppi" + id).hide("slide", { direction: 'left' }, 500);
-            $("#gruppiShowDetail" + id).show(500);
-            $("#gruppiHideDetail" + id).hide(500);
-        }
-
-    </script>
 </fieldset>
+
+
+
+
+<div data-role="popup" id="popupNuovo" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:500px">
+    <div data-role="header" data-theme="a">
+        <h1>Nuovo gruppo di lavorazione</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <p>Dopo aver creato il gruppo clicca su modifica per aggiungere gli utenti.</p>
+        @using (Html.BeginForm("GruppoLavorazioneAdd", "Configurazioni", FormMethod.Post, null))
+        {
+            <div class="ui-field-contain">
+                <label for="gruppo_nome">Nome</label>
+                <input type="text" name="gruppo.nome" id="gruppo_nome" required />
+            </div>
+
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>
+
+
+
+
+
+<div data-role="popup" id="popupEdit" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:500px">
+    <div data-role="header" data-theme="a">
+        <h1>Modifica gruppo di lavorazione</h1>
+    </div>
+    <div role="main" class="ui-content">
+       
+        @using (Html.BeginForm("GruppoLavorazioneEdit", "Configurazioni", FormMethod.Post, null))
+        {
+            <input type="hidden" id="gruppo_id" name="gruppo.id" />
+
+            <div class="ui-field-contain">
+                <label for="gruppo_nome">Nome</label>
+                <input type="text" name="gruppo.nome" id="gruppo_nome" required />
+            </div>
+            
+
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>
+
+
+<div data-role="panel" id="panelUsers" data-position="right" data-display="overlay" data-overlay-theme="b" data-theme="b" data-dismissible="false" >
+    <div data-role="header" data-theme="a">
+        <h1>Utenti associati al gruppo</h1>
+    </div>
+    <div role="main" class="ui-content">
+
+        @using (Html.BeginForm("GruppoLavorazioneUsers", "Configurazioni", FormMethod.Post, null))
+        {
+            <input type="hidden" id="gruppo_id" name="gruppo.id" />
+
+            <div class="ui-field-contain">
+                <label for="gruppo_nome">Nome</label>
+                <input type="text" name="gruppo.nome" id="gruppo_nome" required />
+            </div>
+
+
+            <a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>

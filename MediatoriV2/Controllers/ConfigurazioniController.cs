@@ -28,7 +28,7 @@ namespace mediatori.Controllers
                     new MenuElement(){display="Tipo Impiego", ordinamento=1,livello=1,role="Amministratore",action="tipoContrattoImpiego",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Ente Rilascio", ordinamento=1,livello=1,role="Amministratore",action="tipoEnteRilascio",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Documento Identita", ordinamento=1,livello=1,role="Amministratore",action="tipoDocumentoIdentita",controller="Configurazioni"},
-                    new MenuElement(){display="Gruppi di lavorazione", ordinamento=1,livello=1,role="Amministratore",action="tipoCampagnaPubblicitaria",controller="Configurazioni"},
+                    new MenuElement(){display="Gruppi di lavorazione", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Groups"},
                     new MenuElement(){display="Tipo Contatto", ordinamento=1,livello=1,role="Amministratore",action="tipoContatto",controller="Configurazioni"},
                     new MenuElement(){display="Canale Acquisizione", ordinamento=1,livello=1,role="Amministratore",action="tipoCanaleAcquisizione",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Luogo Ritrovo", ordinamento=1,livello=1,role="Amministratore",action="tipoLuogoRitrovo",controller="Configurazioni"},
@@ -591,179 +591,249 @@ namespace mediatori.Controllers
             return RedirectToAction("tipoDocumentoIdentita", new { errorMessage = errorMessage, message = message });
         }
         #endregion tipoDocumentoIdentita
+
+
         #region gruppoLavorazione
-        [HttpGet]
 
-        public ActionResult GruppoLavorazione(String errorMessage, String message)
-        {
+        //[HttpGet]
+        //public ActionResult GruppoLavorazione()
+        //{
+        //    mediatori.Models.GruppiLavorazioneModel model = new GruppiLavorazioneModel();
+        //    model.gruppiLavorazione = db.GruppiLavorazione.OrderBy(g => g.nome).ToList();
+        //    return View(model);
+        //}
 
-            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
-            List<GruppoLavorazioneView> lglw = GruppoLavorazioneUtils.toView((from gruppoLavorazione in db.GruppiLavorazione select gruppoLavorazione).ToList(), users);
-            ViewBag.gruppoLavorazioneEmpty = new GruppoLavorazioneView(users);
-            return View(lglw);
-        }
 
-        [HttpPost]
+        //[HttpPost]
+        //public ActionResult GruppoLavorazioneAdd(GruppoLavorazione gruppo)
+        //{
 
-        public ActionResult GruppoLavorazione(GruppoLavorazione ta, List<String> utentiAssociati)
-        {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
-            {
-                String errorMessage = String.Empty;
-                ta.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
-                if (ta.nome == String.Empty)
-                {
-                    ModelState.AddModelError("nome", "il campo nome è obbligatorio");
-                    errorMessage = "nome non specificato";
-                }
-                if ((from fp in db.GruppiLavorazione
-                     where (fp.nome == ta.nome)
-                     select fp).FirstOrDefault() != null)
-                {
-                    ModelState.AddModelError("nome", "gruppo già censito");
-                    errorMessage = "gruppo già censito";
-                }
-                if (!ModelState.IsValid)
-                {
-                    return RedirectToAction("gruppoLavorazione", new
-                    {
-                        errorMessage = ModelState
-                    });
-                }
-                db.GruppiLavorazione.Add(ta);
-                db.SaveChanges();
+        //    if ((from fp in db.GruppiLavorazione where (fp.nome == gruppo.nome) select fp).FirstOrDefault() != null)
+        //    {
+        //        TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Gruppo già censito. Cambiare il nome.");
+        //        return RedirectToAction("GruppoLavorazione");
+        //    }
 
-            }
-            return RedirectToAction("gruppoLavorazione", new { message = "inserimento Gruppo Lavorazione : " + ta.nome + " avvenuto con successo" });
-        }
+        //    db.GruppiLavorazione.Add(gruppo);
+        //    db.SaveChanges();
 
-        [HttpGet]
+        //    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Gruppo " + gruppo.nome  + " inserito con successo");
+        //    return RedirectToAction("GruppoLavorazione");
+        //}
 
-        public ActionResult CancellaGruppoLavorazione(int id)
-        {
-            String errorMessage = string.Empty;
-            string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
-            {
-                GruppoLavorazione gruppoLavorazione = db.GruppiLavorazione.Find(id);
-                if (gruppoLavorazione == null)
-                {
-                    errorMessage = "impossibile eliminare il gruppo di lavorazione " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.GruppiLavorazione.Remove(gruppoLavorazione);
-                    db.SaveChanges();
-                    message = "Gruppo di lavorazione " + gruppoLavorazione.nome + " eliminato con successo";
-                }
-            }
-            return RedirectToAction("gruppoLavorazione", new { errorMessage = errorMessage, message = message });
-        }
 
-        [HttpPost]
 
-        public ActionResult AggiornaGruppiAssegnazione(int id, List<String> utentiAssociati)
-        {
-            if (id == 0) return RedirectToAction("gruppoLavorazione", new { errorMessage = "necessario fornire il codice gruppo" });
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
-            {
-                GruppoLavorazione gl = db.GruppiLavorazione.Find(id);
-                gl.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
-                db.SaveChanges();
-            }
-            return RedirectToAction("gruppoLavorazione", new { message = "Aggiornamento avvenuto con successo" });
+        //public ActionResult GruppoLavorazioneUsers(int gruppoId)
+        //{
+        //    List<MyManagerCSharp.Models.MyItem> risultato = null;
 
-        }
+        //    MyUsers.UserManager manager = new MyUsers.UserManager("utenti");
+        //    manager.openConnection();
+
+        //    try
+        //    {
+        //      //  risultato = manager.getUsers();
+        //    }
+        //    finally
+        //    {
+        //        manager.closeConnection();
+        //    }
+
+
+
+        //    return Json(risultato, JsonRequestBehavior.AllowGet);
+        //}
+
+
+
+
+        //[HttpPost]
+        //public ActionResult GruppoLavorazioneEdit(GruppoLavorazione gruppo, List<String> utentiAssociati)
+        //{
+
+        //        String errorMessage = String.Empty;
+        //        //gruppo.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
+
+        //        gruppo.utenti = String.Join(";", utentiAssociati );
+
+        //        if (gruppo.nome == String.Empty)
+        //        {
+        //            ModelState.AddModelError("nome", "il campo nome è obbligatorio");
+        //            errorMessage = "nome non specificato";
+        //        }
+
+        //        if ((from fp in db.GruppiLavorazione
+        //             where (fp.nome == gruppo.nome)
+        //             select fp).FirstOrDefault() != null)
+        //        {
+        //            ModelState.AddModelError("nome", "gruppo già censito");
+        //            errorMessage = "gruppo già censito";
+        //        }
+
+        //        if (!ModelState.IsValid)
+        //        {
+        //            return RedirectToAction("gruppoLavorazione", new
+        //            {
+        //                errorMessage = ModelState
+        //            });
+        //        }
+
+
+
+        //        //UPDATE
+        //        db.GruppiLavorazione.Attach(gruppo);
+        //        var entry = db.Entry(gruppo);
+        //        entry.Property(e => e.nome).IsModified = true;
+        //        entry.Property(e => e.utenti).IsModified = true;
+        //        db.SaveChanges();
+
+
+        //        TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Gruppo " + gruppo.nome + " modificato con successo");
+        //    return RedirectToAction("gruppoLavorazione");
+        //}
+
+        //[HttpGet]
+
+        //public ActionResult CancellaGruppoLavorazione(int id)
+        //{
+        //    String errorMessage = string.Empty;
+        //    string message = String.Empty;
+        //    using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+        //    {
+        //        GruppoLavorazione gruppoLavorazione = db.GruppiLavorazione.Find(id);
+        //        if (gruppoLavorazione == null)
+        //        {
+        //            errorMessage = "impossibile eliminare il gruppo di lavorazione " + id + " in quanto non censito";
+        //        }
+        //        else
+        //        {
+        //            db.GruppiLavorazione.Remove(gruppoLavorazione);
+        //            db.SaveChanges();
+        //            message = "Gruppo di lavorazione " + gruppoLavorazione.nome + " eliminato con successo";
+        //        }
+        //    }
+        //    return RedirectToAction("gruppoLavorazione", new { errorMessage = errorMessage, message = message });
+        //}
+
+        //[HttpPost]
+
+        //public ActionResult AggiornaGruppiAssegnazione(int id, List<String> utentiAssociati)
+        //{
+        //    if (id == 0) return RedirectToAction("gruppoLavorazione", new { errorMessage = "necessario fornire il codice gruppo" });
+        //    using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+        //    {
+        //        GruppoLavorazione gl = db.GruppiLavorazione.Find(id);
+        //        gl.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
+        //        db.SaveChanges();
+        //    }
+        //    return RedirectToAction("gruppoLavorazione", new { message = "Aggiornamento avvenuto con successo" });
+
+        //}
 
         #endregion gruppoLavorazione
+
+
         #region stato
+
         [HttpGet]
-
-        public ActionResult Stato(String errorMessage, String message)
+        public ActionResult Stato()
         {
+            mediatori.Models.StatoModel model = new StatoModel();
+            model.listaStati = db.StatiSegnalazione.OrderBy(p => p.descrizione).ToList();
+            // model.listaStatiBase = new SelectList(from EnumStatoBase e in EnumStatoBase.GetValues(typeof(EnumStatoBase)) select new { Id = e, Name = e.ToString() }, "Id", "Name", null);
+            // model.listaEntitaAssociate = new SelectList(from EnumEntitaAssociataStato e in EnumEntitaAssociataStato.GetValues(typeof(EnumEntitaAssociataStato)) select new { Id = e, Name = e.ToString() }, "Id", "Name", null);
+            //model.listaGruppiDiLavorazione = new SelectList(from GruppoLavorazione gl in db.GruppiLavorazione select new { Id = gl.id, Name = gl.nome }, "Id", "Name", null);
+            MyUsers.GroupManager managerGroup = new MyUsers.GroupManager("DefaultConnection");
 
-            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            List<StatoView> lstStatoiView = new List<StatoView>();
-            foreach (Stato stato in getStati(db))
+            managerGroup.openConnection();
+            try
             {
-                lstStatoiView.Add(new StatoView(stato, db));
+                model.listaGruppi = managerGroup.getList();
+                foreach (mediatori.Models.etc.Stato stato in model.listaStati)
+                {
+                    if (stato.gruppoId != null)
+                    {
+                        stato.gruppo = managerGroup.getGroup((long)stato.gruppoId);
+                    }
+                }
             }
-            ViewBag.statoViewEmpty = new StatoView(db);
-            return View(lstStatoiView);
-        }
-
-        [HttpGet]
-
-        public ActionResult ModificaStato(int id)
-        {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            Stato statoToEdit = getStato(db, id);
-            return View("StatoPartialEdit", new StatoView(statoToEdit, db));
-        }
-        [HttpPost]
-
-        public ActionResult ModificaStato(Stato stato)
-        {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            if (stato.gruppoLavorazione == null)
-                return RedirectToAction("Stato",
-                    new { errorMessage = "indicare il gruppo di lavorazione" });
-            stato.gruppoLavorazione = (db.GruppiLavorazione.Find(stato.gruppoLavorazione.id));
-            ModelState.Remove("gruppoLavorazione.nome");
-            if (!ModelState.IsValid)
-                return RedirectToAction("Stato",
-                       new { errorMessage = "non tutti i campi obbligatori sono stati inseriti" });
-            Stato statoOriginale = getStato(db, stato.id);
-            LogEventi le = LogEventiManager.getEventoForUpdate(User.Identity.Name, stato.id, EnumEntitaRiferimento.STATO, statoOriginale, stato);
-            statoOriginale = (Stato)CopyObject.simpleCompy(statoOriginale, stato);
-            LogEventiManager.save(le, db);
-            return RedirectToAction("Stato",
-                    new { message = String.Format("Stato {0} inserito con successo", stato.descrizione) });
+            finally
+            {
+                managerGroup.closeConnection();
+            }
+            return View(model);
         }
 
 
 
-        private Stato getStato(MainDbContext db, int id)
-        {
-            return (from s in db.StatiSegnalazione.Include("gruppoLavorazione") where s.id == id select s).First();
-        }
-        private List<Stato> getStati(MainDbContext db)
-        {
-            return (from s in db.StatiSegnalazione.Include("gruppoLavorazione") select s).ToList();
-        }
 
         [HttpPost]
-
-        public ActionResult Stato(Stato s)
+        public ActionResult Stato(Stato stato)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            if (s.gruppoLavorazione == null)
-                return RedirectToAction("Stato",
-                    new { errorMessage = "indicare il gruppo di lavorazione" });
-            s.gruppoLavorazione = (db.GruppiLavorazione.Find(s.gruppoLavorazione.id));
-            ModelState.Remove("gruppoLavorazione.nome");
-            if (!ModelState.IsValid)
-                return RedirectToAction("Stato", new { errorMessage = "non tutti i dati obbligatori sono stati inseriti, impossibile procedere" });
-            db.StatiSegnalazione.Add(s);
-            LogEventi le = LogEventiManager.getEventoForCreate(User.Identity.Name, s.id, EnumEntitaRiferimento.STATO);
-            LogEventiManager.save(le, db);
-            db.SaveChanges();
-            return RedirectToAction("Stato", new { message = String.Format("inserimento stato {0} avvenuto con successo", s.descrizione) });
+            //Usata sia in fase di INSERT che di UPDATE
+            //if (stato.gruppoId == null)
+            //{
+            //    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Indicare il gruppo di lavorazione");
+            //    return RedirectToAction("Stato");
+            //}
 
+            //            stato.gruppo = (db.GruppiLavorazione.Find(stato.gruppoLavorazione.id));
+
+            //          ModelState.Remove("gruppoLavorazione.nome");
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare lo stato, verificare i dati: " + Environment.NewLine + message);
+                return RedirectToAction("Stato");
+            }
+
+
+            if (stato.id == 0)
+            {
+                db.StatiSegnalazione.Add(stato);
+                db.SaveChanges();
+
+                // LogEventi le = LogEventiManager.getEventoForCreate(User.Identity.Name, stato.id, EnumEntitaRiferimento.STATO);
+                //LogEventiManager.save(le, db);
+            }
+            else
+            {
+                //UPDATE
+                db.StatiSegnalazione.Attach(stato);
+                db.Entry(stato).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                //LogEventi le = LogEventiManager.getEventoForUpdate(User.Identity.Name, stato.id, EnumEntitaRiferimento.STATO, null, stato);
+                //LogEventiManager.save(le, db);
+            }
+
+            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Salvataggio completato con successo");
+            return RedirectToAction("Stato");
         }
+
+
+
+        [HttpPost]
         public ActionResult CancellaStato(int id)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
             Stato statoDaCancellare = db.StatiSegnalazione.Find(id);
+
+            if (statoDaCancellare == null)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile cancellare lo stato richiesto, verificare i dati");
+                return RedirectToAction("Stato");
+            }
+
             db.StatiSegnalazione.Remove(statoDaCancellare);
+            db.SaveChanges();
+
             LogEventiManager.save(LogEventiManager.getEventoForDelete(User.Identity.Name, id, EnumEntitaRiferimento.STATO), db);
-            return RedirectToAction("Stato", new { message = String.Format("cancellazione stato {0} avvenuto con successo", statoDaCancellare.descrizione) });
+
+            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Cancellazione stato '{0}' completato con successo", statoDaCancellare.descrizione));
+            return RedirectToAction("Stato");
         }
+
         #endregion stato
         #region tipoCampagnaPubblicitaria
         [HttpGet]

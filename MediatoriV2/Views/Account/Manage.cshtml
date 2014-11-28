@@ -11,7 +11,7 @@
     {
         Layout = "~/Views/Shared/_LayoutMobile.cshtml";
     }
-    
+
 }
 
 
@@ -23,10 +23,8 @@
     <a style="float:right; margin-top:20px;" href="@Url.Action("LogOff", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">LogOff</a>
 }
 
-<a style="float:right; margin-top:20px;"  href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
+<a style="float:right; margin-top:20px;" href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
 <h2>My Account</h2>
-
-
 <div class="ui-grid-a">
     <div class="ui-block-a">
         <div class="ui-bar ui-bar-c">Login:</div>
@@ -35,6 +33,26 @@
 
     <div class="ui-block-b">
         <div class="ui-bar ui-bar-a">@User.Identity.Name</div>
-        <div class="ui-bar ui-bar-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.Replace(";", " - " ))</div>
+        <div class="ui-bar ui-bar-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.Replace(";", " - "))</div>
     </div>
 </div>
+
+
+<h2>Gruppi</h2>
+
+@if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups == null || (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups.Count == 0)
+{
+    <h3>Nessun gruppo di lavorazione configurato</h3>
+}
+else
+{
+    <ol data-role="listview" data-inset="true">
+        @foreach (MyManagerCSharp.Models.MyGroupSmall g in (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups)
+        {
+            <li data-icon="false"><a href="#">@g.nome</a></li>
+        }
+
+    </ol>
+}
+
+

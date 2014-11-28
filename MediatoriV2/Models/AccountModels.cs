@@ -72,6 +72,7 @@ namespace mediatori.Models
         [Display(Name = "Nome utente")]
         public string UserName { get; set; }
 
+       
         [Required]
         [StringLength(100, ErrorMessage = "La lunghezza di {0} deve essere di almeno {2} caratteri.", MinimumLength = 6)]
         [DataType(DataType.Password)]

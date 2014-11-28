@@ -32,8 +32,7 @@ namespace mediatori.Controllers
         public ActionResult Assegna(int id)
         {
             int segnalazioneId = id;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
+            
             Segnalazione segnalazione = db.Segnalazioni.Include("stato").First(d => d.id == segnalazioneId);
             if (segnalazione == null)
             {
@@ -50,8 +49,6 @@ namespace mediatori.Controllers
 
             db.Assegnazioni.Add(assegnazione);
             db.SaveChanges();
-
-
 
             return RedirectToAction("Assegnazioni", "Home");
         }
@@ -79,6 +76,7 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id = 0)
         {
+
             //Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
             Segnalazione segnalazione;
 
@@ -88,8 +86,18 @@ namespace mediatori.Controllers
             {
                 return HttpNotFound();
             }
+            mediatori.Models.SegnalazioneDetailsModel model = new SegnalazioneDetailsModel();
+            model.segnalazione = segnalazione;
 
-            return View(segnalazione);
+
+           // StatoSearch statoSearch = new StatoSearch();
+          
+            //statoSearch.successiviDi = segnalazione.stato.id;
+            //statoSearch.entita = EnumEntitaAssociataStato.SEGNALAZIONE;
+
+            model.listaStatiSuccessivi = new mediatori.Controllers.Business.CQS.StatoBusiness().getStatiSuccessivi(segnalazione.stato, db);
+        
+            return View(model);
         }
 
 

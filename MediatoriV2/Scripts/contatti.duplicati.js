@@ -1,4 +1,5 @@
 ﻿var searchDone = false;
+
 function contattoDetail(idContatto) {
     if (isNaN(idContatto) || idContatto == 0) {
         alert("codice contatto non valido");
@@ -6,10 +7,12 @@ function contattoDetail(idContatto) {
     }
     window.location.href = contextPath + "/GestioneSegnalazioni/Create?codiceContatto=" + idContatto;
 }
+
 function ricercaContatto() {
     var clNome = $("#segnalazione_contatto_nome").val();
     var clCognome = $("#segnalazione_contatto_cognome").val();
     var cf = $("#segnalazione_contatto_codiceFiscale").val();
+
     if (!searchDone && clNome != "" && clCognome != "") {
         $.ajax({
             url: contextPath + "/Contatto/findContattoByNomeCognome",
@@ -23,9 +26,8 @@ function ricercaContatto() {
                 mostraDuplicati(html);
             }
         });
-
-
     }
+
     if (!searchDone && cf != "") {
         $.ajax({
             url: contextPath + "/Contatto/findContattoByCodiceFiscale",
@@ -37,7 +39,6 @@ function ricercaContatto() {
 
             },
             success: function (html) {
-
                 mostraDuplicati(html);
             }
         });
@@ -45,8 +46,8 @@ function ricercaContatto() {
     }
 
 }
-function mostraDuplicati(htmlString) {  
+function mostraDuplicati(htmlString) {
     $("#grigliaContattiDuplicati").html(htmlString);
     $("#grigliaContattiDuplicati").show("slide", { direction: "right" }, 500);
     searchDone = true;
-}   
+}

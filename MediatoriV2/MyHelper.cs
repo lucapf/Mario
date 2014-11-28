@@ -691,6 +691,23 @@ public static class MyHelper
     }
 
 
+    //public static String toTockenizedw(List<String> values)
+    //{
+    //    if (values == null)
+    //    {
+    //        return "";
+    //    }
+
+    //    String retString = ";";
+    //    foreach (String v in values)
+    //    {
+    //        retString += v + ";";
+    //    }
+    //    return retString;
+    //}
+
+
+
     //public static HtmlString CheckboxListForEnum<T>(this HtmlHelper html, string name, T modelItems) where T : struct
     //{
     //    StringBuilder sb = new StringBuilder();

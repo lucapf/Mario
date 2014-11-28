@@ -230,6 +230,7 @@
     <Compile Include="Controllers\Business\EnumTipoAzione.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\SoggettoGiuridicoBusiness.cs" />
     <Compile Include="Controllers\DocumentaleController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\MyAuthorizeAttribute.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="Controllers\PraticheController.cs" />
@@ -292,7 +293,9 @@
     <Compile Include="Models\Pratica\SearchPratica.cs" />
     <Compile Include="Models\PreventiviModel.cs" />
     <Compile Include="Models\RiferimentiModel.cs" />
+    <Compile Include="Models\SegnalazioneDetailsModel.cs" />
     <Compile Include="Models\Segnalazione\SegnalazioneCreateModel.cs" />
+    <Compile Include="Models\StatoModel.cs" />
     <Compile Include="Models\Test\Decimal.cs" />
     <Compile Include="Models\Test\TestClass.cs" />
     <Compile Include="Models\Utils.cs" />
@@ -513,6 +516,7 @@
     <Content Include="Images\topfillmenuLight.png" />
     <Content Include="Images\topImage.png" />
     <Content Include="Images\topright.png" />
+    <Content Include="Scripts\stato.change.js" />
     <Content Include="Scripts\fireAntUtils.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Areas\Admin\Views\Web.config" />
@@ -567,7 +571,7 @@
     <Content Include="Scripts\knockout-3.2.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\Segnalazioni\Create.js" />
+    <Content Include="Scripts\contatti.duplicati.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -741,6 +745,15 @@
     <Content Include="Views\Documentale\_Documenti.cshtml" />
     <Content Include="Views\Impiego\ImpiegoPartialDetail - Copy.cshtml" />
     <Content Include="Views\Test\Calendar.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\DeleteUser.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\SearchUser.cshtml" />
+    <Content Include="Views\Utenti\Delete.cshtml" />
+    <Content Include="Views\Utenti\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

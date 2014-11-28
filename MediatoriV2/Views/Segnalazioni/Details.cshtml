@@ -1,17 +1,15 @@
-﻿@model mediatori.Models.Anagrafiche.Segnalazione
-
+﻿@model mediatori.Models.SegnalazioneDetailsModel
 @{
-    ViewBag.Title = Model.contatto.nome + " " + Model.contatto.cognome;
+    ViewBag.Title = Model.segnalazione.contatto.nome + " " + Model.segnalazione.contatto.cognome;
 
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 
-    
-    
-    mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("segn", "/Segnalazioni/segnalazionePartialById", Model.contatto.id.ToString());
-    var edSegnalazione = new mediatori.helper.FireAntDetailEventDetection("segn", Model.id);
-   
-    mediatori.helper.FireAntEditHelper editHelperPreventivo = new mediatori.helper.FireAntEditHelper("prv", "/Preventivo/preventivoPartialById", Model.contatto.id.ToString());
-    var edPreventivo = new mediatori.helper.FireAntDetailEventDetection("prv", Model.id);
+
+    mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("segn", "/Segnalazioni/segnalazionePartialById", Model.segnalazione.contatto.id.ToString());
+    var edSegnalazione = new mediatori.helper.FireAntDetailEventDetection("segn", Model.segnalazione.id);
+
+    mediatori.helper.FireAntEditHelper editHelperPreventivo = new mediatori.helper.FireAntEditHelper("prv", "/Preventivo/preventivoPartialById", Model.segnalazione.contatto.id.ToString());
+    var edPreventivo = new mediatori.helper.FireAntDetailEventDetection("prv", Model.segnalazione.id);
 
     ////verifico se la segnalazione è ha un preventivo confermato
     //ViewBag.confermata = false;
@@ -23,22 +21,14 @@
     //    }
     //}
 }
-<script>
-    statoFocusOn = false;
-
-    $(function () {
-        h2stato();
-    });
-
+<script type="text/javascript">
     var codicePreventivo = null;
-    
 
     function selezionaPreventivo(id) {
         //alert("confermaPreventivo: " + id);
         codicePreventivo = id;
         $("#popupDialog").popup("open");
     }
-
 
     function popupDialogConfirm() {
         //alert("popupDialogConfirm");
@@ -53,17 +43,12 @@
                 else {
                     //FAILED
                     //alert(response.messaggio);
-
                     showMyPopUpError(response.messaggio);
-
                 }
                 codicePreventivo = null;
             });
-           
         }
     }
-
-   
 
 
     function popupDialogCancel() {
@@ -73,140 +58,56 @@
     }
 
 
-    function valorizzaStatiDisponibili() {
-        if (!statoFocusOn) {
-            return;
-        }
-        var codiceStato = $("#codiceStatoCorrente").val();
-
-        $.getJSON("@Url.Action("targets", "Stato")", { codiceStato: codiceStato, entita: "SEGNALAZIONE" },
-            function (jsonStati) {
-
-                var items = [];
-                items.push("<option/>");
-                $.each(jsonStati, function (i, stato) {
-                    items.push("<option value='" + stato.id + "'>" +
-                          stato.descrizione + "</option>");
-                });
-
-
-                $("#gestioneStato").html("");
-
-                $("<input/>", { id: "btnAnnullaGestioneStato", type: "button", "data-mini": "true", "data-inline": "true", value: "Annulla", onclick: "h2stato()" }).appendTo("#gestioneStato");
-                $("<input/>", { id: "btnSalvaGestioneStato", type: "button", "data-mini": "true", "data-inline": "true", value: "Salva", onclick: "save()" }).appendTo("#gestioneStato");
-                $("<select/>", { id: "selectGestioneStato", "data-mini": "true", "data-inline": "true", html: items.join("") }).appendTo("#gestioneStato");
-                $("<br/>").appendTo("#gestioneStato");
-                $("#btnSalvaGestioneStato").button();
-                $("#btnAnnullaGestioneStato").button();
-
-                $("#selectGestioneStato").selectmenu().addClass("selectModificaStato");
-            })
-    };
-    function save() {
-        var statoSelezionato = $("#selectGestioneStato").val();
-        if (statoSelezionato == "") {
-            displayError("selezionare lo stato di destinazione");
-            return;
-        }
-        $.post("/stato/update",
-           { codiceStato: statoSelezionato, codiceEntita: "@Model.id", entita: "SEGNALAZIONE" })
-          .done(function (jsonResponse) { h2stato(jsonResponse); displayMessage("aggiornamento avvenuto con successo") });
-    }
-
-
-    function h2stato(descrizioneStato) {
-
-        var descrizione = "";
-
-        if (descrizioneStato != null) {
-            descrizione = "stato " + descrizioneStato;
-        }
-        $("#gestioneStato").html("");
-
-        $("<h2/>", {
-            style: "text-align:right;display:block;width:100%",
-            id: "labelStato",
-            html: descrizione
-        }).appendTo("#gestioneStato");
-
-        $("#labelStato").mouseenter(function () {
-            statoFocusOn = true;
-            setTimeout(function () { valorizzaStatiDisponibili() }, 1000)
-        });
-
-        $("#labelStato").mouseleave(statoFocusOn = false);
-        statoFocusOn = false;
-    }
-
-
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#btnScrollToPreventivo").click(function () {
-
-            $('html, body').animate({
-                scrollTop: $("#preventivi").offset().top
-            }, 500);
-        });
-    });
 </script>
 
 
-@section Scripts {
-    @Scripts.Render("~/Scripts/Segnalazioni/Create.js")
-}
-
-
-<input type="hidden" value="@Model.stato.id" id="codiceStatoCorrente" />
-<input type="hidden" value="@Model.stato.descrizione" id="descrizioneStatoCorrente" />
+<input type="hidden" value="@Model.segnalazione.stato.id" id="codiceStatoCorrente" />
+<input type="hidden" value="@Model.segnalazione.stato.descrizione" id="descrizioneStatoCorrente" />
 
 <div id="gestioneOperazioni"></div>
 
-<h1>Dettaglio segnalazione: @Model.contatto.nome  @Model.contatto.cognome</h1>
-<div id="gestioneStato">
+<h1>Dettaglio segnalazione: @Model.segnalazione.contatto.nome  @Model.segnalazione.contatto.cognome</h1>
+
+
+<div data-role="navbar" data-iconpos="right">
+    <ul>
+        <li><a href="#popupChangeStato" class="ui-btn-active ui-btn-icon-right ui-icon-gear" data-rel="popup" data-position-to="window" data-transition="pop">Stato corrente: @Model.segnalazione.stato.descrizione</a></li>
+    </ul>
 </div>
 
+<div id="gestioneStato"></div>
 
-@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model);}
 
-
+@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.segnalazione);}
 
 
 <h3>
     Importi  @Html.Raw(editHelperSegnalazione.getButtonModifica())
     @Html.Raw(editHelperSegnalazione.getButtonSalvaModifica())
     @Html.Raw(editHelperSegnalazione.getButtonAnnullaModifica())
-    <script>$("#segnbtnEdit" + "@Model.id").show();</script>
-
+    <script>$("#segnbtnEdit" + "@Model.segnalazione.id").show();</script>
 </h3>
 <hr />
 @Html.Raw(editHelperSegnalazione.getStartForm("/GestioneSegnalazioni/Edit"))
 <div id="@edSegnalazione.getIdFullDetail()">
-    @Html.Partial("SegnalazionePartialDetail", Model)
+    @Html.Partial("SegnalazionePartialDetail", Model.segnalazione)
 </div>
 @Html.Raw(editHelperSegnalazione.getEndForm())
 
 
 <!-- preventivo -->
-@{Html.RenderAction("DetailsFromSegnalazione", "Preventivo", new { segnalazioneId = Model.id });}
+@{Html.RenderAction("DetailsFromSegnalazione", "Preventivo", new { segnalazioneId = Model.segnalazione.id });}
 <!-- /preventivo -->
-
 <!-- impiego -->
-@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.contatto.id });}
+@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.segnalazione.contatto.id });}
 <!-- /impiego -->
-
 <!-- riferimento -->
-@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id });}
+@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.segnalazione.contatto.id });}
 <!-- /riferimento -->
-
 <!-- documenti -->
-@{Html.RenderAction("DetailsFromSegnalazione", "Documentale", new { segnalazioneId = Model.id });}
+@{Html.RenderAction("DetailsFromSegnalazione", "Documentale", new { segnalazioneId = Model.segnalazione.id });}
 <!-- /documenti -->
-
-
-@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, segnalazioneId = Model.id });}
-
+@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.segnalazione.note, segnalazioneId = Model.segnalazione.id });}
 
 
 
@@ -230,5 +131,38 @@
         <p>Questa operazione è irreversibile. La segnalazione viene promossa a pratica.</p>
         <a href="javascript:popupDialogCancel();" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
         <a href="javascript:popupDialogConfirm();" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini" data-transition="flow">Conferma</a>
+    </div>
+</div>
+
+
+
+
+
+<div data-role="popup" id="popupChangeStato" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="a">
+        <h1>Stato successivo</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <h3 class="ui-title">Selezionare lo stato successivo</h3>
+
+        @using (Html.BeginForm("Update", "Stato", FormMethod.Post, null))
+        {
+            <input type="hidden" name="codiceEntita" value="@Model.segnalazione.id">
+            <input type="hidden" name="entita" value="@mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE.ToString()" />
+            
+            <div class="ui-field-contain">
+                <label for="codiceStato">Stato successivo:</label>
+                <select name="codiceStato" id="codiceStato" data-mini="true" required="required">
+                    <option value="" selected="selected">---</option>
+                    @foreach (mediatori.Models.etc.Stato s in Model.listaStatiSuccessivi)
+                    {
+                        <option value="@s.id" >@s.descrizione</option>
+                    }
+                </select>
+            </div>
+
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
     </div>
 </div>

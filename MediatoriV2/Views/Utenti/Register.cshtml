@@ -4,12 +4,7 @@
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
 <h2>Register</h2>
-
 
 <div style="max-width:700px;">
     @using (Html.BeginForm("Register", "Utenti", FormMethod.Post))
@@ -17,40 +12,40 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
 
-    <fieldset>
-        <legend>Form di registrazione</legend>
+        <fieldset>
+            <legend>Form di registrazione</legend>
 
-        <div class="ui-field-contain">
-            @Html.LabelFor(m => m.UserName)
-            @Html.TextBoxFor(m => m.UserName, new { data_clear_btn = true })
-        </div>
+            <div class="ui-field-contain">
+                <label for="UserName">Nome utente</label>
+                <input type="text" name="UserName" id="UserName" data-clear-btn="true" data-mini="true" required value="@Model.UserName" />
+            </div>
 
-        <div class="ui-field-contain">
-            @Html.LabelFor(m => m.Password)
-            @Html.PasswordFor(m => m.Password, new { data_clear_btn = true })
-        </div>
+            <div class="ui-field-contain">
+                <label for="Password">Nuova password:</label>
+                <input type="password" name="Password" id="Password" data-clear-btn="true" data-mini="true" required value="@Model.Password">
+            </div>
 
-        <div class="ui-field-contain">
-            @Html.LabelFor(m => m.ConfirmPassword)
-            @Html.PasswordFor(m => m.ConfirmPassword, new { data_clear_btn = true })
-        </div>
+            <div class="ui-field-contain">
+                <label for="ConfirmPassword">Conferma la nuova password:</label>
+                <input type="password" name="ConfirmPassword" id="ConfirmPassword" data-clear-btn="true" data-mini="true" required value="@Model.ConfirmPassword">
+            </div>
 
-        <div class="ui-field-contain">
-            <fieldset data-role="controlgroup">
-                <legend>@Html.LabelFor(m => m.roles)</legend>
-                @foreach (MyUsers.Models.MyProfile p in Model.ProfiliDisponibili)
-                {
-                    <input type="checkbox" name="roles" id="@p.profiloId" value="@p.profiloId">
-                    <label for="@p.profiloId">@p.nome</label>
-                }
-            </fieldset>
-        </div>
+            <div class="ui-field-contain">
+                <label for="select-profilo">Profilo:</label>
+                <select name="roles" id="select-profilo" required>
+                    <option value="">---</option>
+                    @foreach (MyUsers.Models.MyProfile p in Model.ProfiliDisponibili)
+                    {
+                        <option value="@p.profiloId">@(p.nome)</option>
+                    }
+                </select>
+            </div>
 
 
-        <div data-role="controlgrup" data-type="horizontal">
-            <a href="@Url.Action("Sicurezza", "Home")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
-            <input type="submit" data-inline="true" value="Registrazione" data-mini="true" />
-        </div>
-    </fieldset>
+            <div data-role="controlgrup" data-type="horizontal">
+                <a href="@Url.Action("Sicurezza", "Home")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+                <input type="submit" data-inline="true" value="Registrazione" data-mini="true" />
+            </div>
+        </fieldset>
     }
 </div>

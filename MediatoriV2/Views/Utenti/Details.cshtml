@@ -9,6 +9,7 @@
 <div class="ui-grid-a">
     <div class="ui-block-a">
         <div class="ui-bar ui-bar-c">Login:</div>
+        <div class="ui-bar ui-bar-c">Profilo:</div>
         <div class="ui-bar ui-bar-c">Attivo:</div>
         <div class="ui-bar ui-bar-c">Data inserimento:</div>
         <div class="ui-bar ui-bar-c">Login success:</div>
@@ -17,6 +18,7 @@
     </div>
     <div class="ui-block-b">
         <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.login)</div>
+        <div class="ui-bar ui-body-a">@(Model.Utente.Profili == null || Model.Utente.Profili.Count == 0 ? "N/A" : Model.Utente.Profili[0].nome)</div>
         <div class="ui-bar ui-body-a">@Model.Utente.isEnabled.ToString()</div>
         <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.dateAdded)</div>
         <div class="ui-bar ui-body-a">@Model.Utente.loginSuccess </div>
@@ -25,34 +27,26 @@
     </div>
 </div>
 
-
-
-
-<h3>Profili</h3>
-
-@using (Html.BeginForm("AddProfilo", "Utenti", FormMethod.Post))
+<br />
+<h2>Gruppi di lavorazione</h2>
+@if (Model.Utente.Gruppi == null || Model.Utente.Gruppi.Count == 0)
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(false)
-
-    <input  type="hidden" name="userId" value="@Model.Utente.userId" />
-
-    int conta = 0;
-    bool selected = false;
-    foreach (MyUsers.Models.MyProfile p in Model.Profili)
-    {
-        selected = Model.Utente.Profili.Find(x => x.profiloId == p.profiloId) != null;
-
-        <input type="checkbox" name="profiliIDs" id="profilo_@(conta)" @(selected ? "checked" : "") value="@(p.profiloId)" />
-        <label for="profilo_@(conta++)">@(p.nome)</label>
-    }
-
-
-
-    <div data-role="controlgrup" data-type="horizontal">
-        <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
-        <input type="submit" value="Salva" data-inline="true" data-mini="true" />
-        <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini">Elimina</a>
-    </div>
-    
+    <h3>Nessun gruppo di lavorazione configurato</h3>
 }
+else
+{
+    <ol data-role="listview" data-inset="true">
+        @foreach (MyUsers.Models.MyGroup g in Model.Utente.Gruppi)
+        {
+            <li ><a   href="@Url.Action("Details", "Groups", new {  id = g.gruppoId}) ">@(g.nome)</a></li>
+        }
+    </ol>
+}
+
+<div data-role="controlgrup" data-type="horizontal">
+    <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+    <a href="@Url.Action("Edit", "Utenti", new { id = Model.Utente.userId })" class="ui-btn ui-icon-edit ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini">Modifica</a>
+    <a href="#" class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline ui-corner-all ui-mini">Elimina</a>
+</div>
+
+

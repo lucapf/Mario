@@ -1,0 +1,111 @@
+﻿@model MyUsers.Models.SearchGroups
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "NOME", canPage: false);
+    wGrid.Bind(Model.Gruppi, rowCount: Model.TotalRows, autoSortAndPage: false);
+
+    bool chk;
+}
+
+<h2>Configurazione gruppi di lavorazione</h2>
+
+<a href="#popupNuovo" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo gruppo</a>
+
+
+
+@using (Html.BeginForm("Index", "Groups", FormMethod.Post, new { id = "MyForm" }))
+{
+
+    if (Model.ListaTipi != null && Model.ListaTipi.Count > 0)
+    {
+
+        <div class="ui-field-contain">
+            <label for="filter_tipo">Tipo:</label>
+            <select name="filter.tipo" id="filter_tipo" data-mini="true" data-inline="true">
+                <option value="" @((String.IsNullOrEmpty(Model.filter.tipo)) ? "selected" : "")>---</option>
+
+                @foreach (MyManagerCSharp.Models.MyItem item in Model.ListaTipi)
+                {
+                    if (Model.filter.tipo != null && Model.filter.tipo == item.Value)
+                    {
+                        chk = true;
+                    }
+                    else
+                    {
+                        chk = false;
+                    }
+                    <option value="@item.Value" @((chk) ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+        </div>
+
+    }
+
+
+    if (Model.TotalRows == 0)
+    {
+        <h3>Non è stato trovato nessun gruppo.</h3>
+    }
+    else
+    {
+
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
+            fillEmptyRows: false,
+            tableStyle: "MyTable ui-responsive",
+            headerStyle: "ui-bar-c",
+            footerStyle: "ui-bar-b",
+            rowStyle: "ui-body-a",
+            alternatingRowStyle: "ui-body-b",
+            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+            columns: new[]{
+                wGrid.Column ("Nome","", canSort  : true),
+                wGrid.Column ("countUsers","Numero utenti", canSort  : false ),
+                wGrid.Column ("", header :"Actions",  format:@<text>
+                    <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" href="@Url.Action("Details", "Groups", new { id = item.gruppoId })">Info</a>
+                    <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Edit" href="@Url.Action("Edit", "Groups", new { id = item.gruppoId })">Edit</a>
+                    <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" href="@Url.Action("Delete", "Groups", new { id = item.gruppoId })">Delete</a>
+                </text>, canSort : false)
+                }
+                   )
+
+            @{Html.RenderPartial("Paging", Model);}
+        </div>
+    }
+
+}
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+        $("#filter_tipo").change(function () {
+            $("#MyForm").submit();
+        });
+
+    });
+
+</script>
+
+
+
+<div data-role="popup" id="popupNuovo" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:500px">
+    <div data-role="header" data-theme="a">
+        <h1>Nuovo gruppo di lavorazione</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <p>Dopo aver creato il gruppo clicca su modifica per aggiungere gli utenti.</p>
+        @using (Html.BeginForm("Create", "Groups", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+            <div class="ui-field-contain">
+                <label for="gruppo_nome">Nome</label>
+                <input type="text" name="gruppo.nome" id="gruppo_nome" required />
+            </div>
+
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>

@@ -5,6 +5,11 @@
 }
 
 
+@section Scripts {
+    @Scripts.Render("~/Scripts/contatti.duplicati.js")
+}
+
+
 
 
 <script type="text/javascript">
@@ -50,8 +55,6 @@
         @Html.MyInputType(p => p.segnalazione.contatto.nazioneNascita)
     </div>
 
-
-
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
@@ -65,8 +68,6 @@
             @Html.ValidationMessageFor(m => m.segnalazione.contatto.provinciaNascita.denominazione)
         </div>
     </div>
-
-
 
     <div class="editor-control">
         <div class="editor-row">
@@ -82,8 +83,6 @@
         </div>
     </div>
 
-
-
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.codiceFiscale)
     </div>
@@ -91,7 +90,6 @@
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.cittadinanza)
     </div>
-
 
     <div class="editor-control">
         <div class="editor-row">
@@ -114,10 +112,6 @@
     </div>
 
 
-
-
-
-
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
@@ -137,10 +131,6 @@
             @Html.ValidationMessageFor(m => m.segnalazione.contatto.sesso)
         </div>
     </div>
-
-
-
-
 
 
     <div id="grigliaContattiDuplicati"></div>
@@ -288,8 +278,5 @@
 }
 
 
-@section Scripts {
-    @Scripts.Render("~/Scripts/Segnalazioni/Create.js")
-}
 
 

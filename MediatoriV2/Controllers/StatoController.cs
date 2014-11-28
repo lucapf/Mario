@@ -13,33 +13,35 @@ namespace mediatori.Controllers
 {
     public class StatoController : MyBaseController
     {
-        //
-        // GET: /Stato/
+
         [HttpGet]
-        public String targets(int codiceStato,EnumEntitaAssociataStato entita)
+        public ActionResult targets(int codiceStato, EnumEntitaAssociataStato entita)
         {
-            StatoSearch statoSearch = new StatoSearch();
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            statoSearch.successiviDi = codiceStato;
-            statoSearch.entita = entita;
-            List<Stato> listaSati = new StatoBusiness().findByFilter(statoSearch,db);
-            string strListaStati = JsonConvert.SerializeObject(listaSati);
-            return strListaStati;
+            //StatoSearch statoSearch = new StatoSearch();
+            // statoSearch.successiviDi = codiceStato;
+            //statoSearch.entita = entita;
+            //List<Stato> listaSati = new StatoBusiness().findByFilter(statoSearch, db);
+
+            List<Stato> listaStati = new StatoBusiness().getStatiSuccessivi(codiceStato, db);
+
+            //string strListaStati = JsonConvert.SerializeObject(listaStati);
+            //return strListaStati;
+            return Json(listaStati);
         }
+
         [HttpPost]
-        public String update(int codiceStato, int codiceEntita, EnumEntitaAssociataStato entita)
+        public ActionResult Update(int codiceStato, int codiceEntita, EnumEntitaAssociataStato entita)
         {
             Stato statoSegnalazione = new Stato();
-            using (var db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if (entita == EnumEntitaAssociataStato.SEGNALAZIONE)
             {
-                if (entita == EnumEntitaAssociataStato.SEGNALAZIONE)
-                {
-                    statoSegnalazione=db.StatiSegnalazione.Find(codiceStato);
-                    db.Database.ExecuteSqlCommand("update Segnalazione set stato_id=" + codiceStato + " where id=" + codiceEntita);
-
-                }
+                statoSegnalazione = db.StatiSegnalazione.Find(codiceStato);
+                db.Database.ExecuteSqlCommand("update Segnalazione set stato_id=" + codiceStato + " where id=" + codiceEntita);
             }
-            return statoSegnalazione.descrizione;
+
+            return RedirectToAction("Details", "Segnalazioni", new { id = codiceEntita });
+
+            //return statoSegnalazione.descrizione;
         }
 
     }

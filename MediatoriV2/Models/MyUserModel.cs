@@ -12,9 +12,9 @@ namespace mediatori.Models
 
         public List<MyManagerCSharp.RGraph.Models.RGraphModel> Reports { get; set; }
 
-       // public List<MyUsers.Models.MyGroup> Gruppi { get; set; }
+        public List<MyUsers.Models.MyGroup> Gruppi { get; set; }
         //public System.Web.Mvc.MultiSelectList  Gruppi { get; set; }
-        //public System.Web.Mvc.SelectList Profilo { get; set; }
+        public System.Web.Mvc.SelectList Profilo { get; set; }
 
         //Eleenco dei profili disponibili
         public List<MyUsers.Models.MyProfile> Profili { get; set; }

@@ -9,67 +9,54 @@ using System.Web.Mvc;
 namespace mediatori.Models.Anagrafiche
 {
 
-    public class GruppoLavorazioneView
-    {
-        public GruppoLavorazione gl { get; set; }
+    //public class GruppoLavorazioneView
+    //{
+    //    public GruppoLavorazione gl { get; set; }
 
-        public GruppoLavorazioneView(List<string> users)
-        {
-            popolaView(users);
-        }
-        public GruppoLavorazioneView() { }
-        public void popolaView(List<string> listAllUsers)
-        {
-            List<String> listUtenti = new List<String>();
-            if (gl == null) gl = new GruppoLavorazione();
-            if (gl.utenti != null) listUtenti = gl.utenti.Split(';').ToList<String>();
+    //    public GruppoLavorazioneView(List<string> users)
+    //    {
+    //        popolaView(users);
+    //    }
+    //    public GruppoLavorazioneView() { }
+    //    public void popolaView(List<string> listAllUsers)
+    //    {
+    //        List<String> listUtenti = new List<String>();
+    //        if (gl == null) gl = new GruppoLavorazione();
+    //        if (gl.utenti != null) listUtenti = gl.utenti.Split(';').ToList<String>();
 
 
-            liUtenti = new List<SelectListItem>();
-            foreach (String utente in listAllUsers)
-            {
-                liUtenti.Add(new SelectListItem { Text = utente, Value = utente, Selected = listUtenti.Contains(utente) });
-            }
-        }
+    //        liUtenti = new List<SelectListItem>();
+    //        foreach (String utente in listAllUsers)
+    //        {
+    //            liUtenti.Add(new SelectListItem { Text = utente, Value = utente, Selected = listUtenti.Contains(utente) });
+    //        }
+    //    }
 
-        public List<SelectListItem> liUtenti { get; set; }
-    }
-    public static class GruppoLavorazioneUtils
-    {
-        public static List<GruppoLavorazioneView> toView(List<GruppoLavorazione> lstGruppoLavorazione, List<String> allUsers)
-        {
-            List<GruppoLavorazioneView> lsGlw = new List<GruppoLavorazioneView>();
-            foreach (GruppoLavorazione gl in lstGruppoLavorazione)
-            {
-                GruppoLavorazioneView glw = toView(allUsers, gl);
-                lsGlw.Add(glw);
-            }
-            return lsGlw;
-        }
+    //    public List<SelectListItem> liUtenti { get; set; }
+    //}
+    //public static class GruppoLavorazioneUtils
+    //{
+    //    public static List<GruppoLavorazioneView> toView(List<GruppoLavorazione> lstGruppoLavorazione, List<String> allUsers)
+    //    {
+    //        List<GruppoLavorazioneView> lsGlw = new List<GruppoLavorazioneView>();
+    //        foreach (GruppoLavorazione gl in lstGruppoLavorazione)
+    //        {
+    //            GruppoLavorazioneView glw = toView(allUsers, gl);
+    //            lsGlw.Add(glw);
+    //        }
+    //        return lsGlw;
+    //    }
 
-        public static GruppoLavorazioneView toView(List<String> allUsers, GruppoLavorazione gl)
-        {
-            GruppoLavorazioneView glw = new GruppoLavorazioneView();
-            glw.gl = gl;
-            glw.popolaView(allUsers);
-            return glw;
-        }
+    //    public static GruppoLavorazioneView toView(List<String> allUsers, GruppoLavorazione gl)
+    //    {
+    //        GruppoLavorazioneView glw = new GruppoLavorazioneView();
+    //        glw.gl = gl;
+    //        glw.popolaView(allUsers);
+    //        return glw;
+    //    }
 
-        public static String toTockenizedView(List<String> listUsers)
-        {
-            if (listUsers == null)
-            {
-                return "";
-            }
-
-            String retString = ";";
-            foreach (String user in listUsers)
-            {
-                retString += user + ";";
-            }
-            return retString;
-        }
-    }
+       
+    
 
 
     //public class DecodeStatoCivile
@@ -159,42 +146,44 @@ namespace mediatori.Models.Anagrafiche
 
 
 
-    public class StatoView
-    {
+    //public class StatoView
+    //{
 
 
-        public StatoView(MainDbContext db)
-        {
-            popolaListeStato(new Stato(), db);
-        }
+    //    public StatoView(MainDbContext db)
+    //    {
+    //        popolaListeStato(new Stato(), db);
+    //    }
 
-        public StatoView(Stato stato1, MainDbContext db)
-        {
-            popolaListeStato(stato1, db);
-        }
+    //    public StatoView(Stato stato1, MainDbContext db)
+    //    {
+    //        popolaListeStato(stato1, db);
+    //    }
 
 
-        public void popolaListeStato(Stato stato, MainDbContext db)
-        {
-            this.stato = stato;
-            lstStatoBase = new SelectList(from EnumStatoBase e in EnumStatoBase.GetValues(typeof(EnumStatoBase))
-                                          select new { Id = e, Name = e.ToString() }, "Id", "Name", stato.statoBase);
-            lstEntitaAssociata = new SelectList(from EnumEntitaAssociataStato e in
-                                                    EnumEntitaAssociataStato.GetValues(typeof(EnumEntitaAssociataStato))
-                                                select new { Id = e, Name = e.ToString() }, "Id", "Name", stato.entitaAssociata);
-            if (stato.gruppoLavorazione == null) stato.gruppoLavorazione = new GruppoLavorazione();
-            lstgruppoLavorazione = new SelectList(from GruppoLavorazione gl in db.GruppiLavorazione
-                                                  select new { Id = gl.id, Name = gl.nome },
-                                                  "Id", "Name", stato.gruppoLavorazione.id);
-            //    List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
-            //    gruppoLavorazioneView = GruppoLavorazioneUtils.toView(users, stato.gruppoLavorazione);
+    //    public void popolaListeStato(Stato stato, MainDbContext db)
+    //    {
+    //        this.stato = stato;
+    //        lstStatoBase = new SelectList(from EnumStatoBase e in EnumStatoBase.GetValues(typeof(EnumStatoBase))
+    //                                      select new { Id = e, Name = e.ToString() }, "Id", "Name", stato.statoBase);
+    //        lstEntitaAssociata = new SelectList(from EnumEntitaAssociataStato e in
+    //                                                EnumEntitaAssociataStato.GetValues(typeof(EnumEntitaAssociataStato))
+    //                                            select new { Id = e, Name = e.ToString() }, "Id", "Name", stato.entitaAssociata);
+    //        if (stato.gruppo == null)
+    //        {
+    //            stato.gruppo = new MyUsers.Models.MyGroup();
+    //        }
 
-        }
-        public Stato stato { get; set; }
-        public SelectList lstStatoBase { get; set; }
-        public SelectList lstEntitaAssociata { get; set; }
-        public SelectList lstgruppoLavorazione { get; set; }
-    }
+    //        //lstgruppoLavorazione = new SelectList(from GruppoLavorazione gl in db.GruppiLavorazione                                             select new { Id = gl.id, Name = gl.nome },                                                 "Id", "Name", stato.gruppoLavorazione.id);
+    //        //    List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
+    //        //    gruppoLavorazioneView = GruppoLavorazioneUtils.toView(users, stato.gruppoLavorazione);
+
+    //    }
+    //    public Stato stato { get; set; }
+    //    public SelectList lstStatoBase { get; set; }
+    //    public SelectList lstEntitaAssociata { get; set; }
+    //    public SelectList lstgruppoLavorazione { get; set; }
+    //}
 
     public class DecodeSesso
     {

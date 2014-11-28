@@ -86,7 +86,7 @@ namespace mediatori.Models
         public DbSet<DocumentoIdentita> DocumentiIdentita { get; set; }
         public DbSet<TipoDocumentoIdentita> TipoDocumentiIdentita { get; set; }
         public DbSet<Riferimento> Riferimento { get; set; }
-        public DbSet<GruppoLavorazione> GruppiLavorazione { get; set; }
+        //public DbSet<GruppoLavorazione> GruppiLavorazione { get; set; }
         public DbSet<Stato> StatiSegnalazione { get; set; }
         public DbSet<Amministrazione> Amministazioni { get; set; }
         public DbSet<Event> Eventi { get; set; }
@@ -114,7 +114,15 @@ namespace mediatori.Models
 
 
             modelBuilder.Entity<PreventivoSmall>().Map(m => m.Requires("Tipo").HasValue("NonConfermato")).Map<Preventivo>(p => p.Requires("Tipo").HasValue("Confermato"));
-            
+
+
+
+
+
+
+         //   modelBuilder.Entity<MyUsers.Models.MyGroup>().Ignore();
+
+
            // modelBuilder.Entity<Preventivo>().Map<PreventivoSmall>(m => m.Requires("Tipo").HasValue("Segnalazione"));
 
             
