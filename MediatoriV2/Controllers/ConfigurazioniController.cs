@@ -11,8 +11,11 @@ using System.Web.Mvc;
 
 namespace mediatori.Controllers
 {
+
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.FRONTOFFICE, MyConstants.Profilo.BACKOFFICE, MyConstants.Profilo.ADMIN })]
     public class ConfigurazioniController : MyBaseController
     {
+
         public ActionResult Index()
         {
 
@@ -56,13 +59,7 @@ namespace mediatori.Controllers
             List<Provincia> listaProvince = db.Province.ToList();
             return View(listaProvince);
         }
-        [HttpGet]
-        public String popolaDropDownlistProvince()
-        {
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            return new PopolaDropDownListAnagrafiche().popolaDropDownListProvince(db);
-        }
         #endregion province
         #region comuni
         [HttpGet]
@@ -88,13 +85,7 @@ namespace mediatori.Controllers
             listComune = comuni.ToList();
             return View(listComune);
         }
-        [HttpGet]
-        public String popolaDropDownlistComuni(String comboComunElementId, String denominazioneProvincia)
-        {
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-            return new PopolaDropDownListAnagrafiche().popolaDropDownListComuniJSON(comboComunElementId, denominazioneProvincia, db);
-        }
 
 
         #endregion comuni

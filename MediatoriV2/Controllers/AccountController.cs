@@ -20,7 +20,7 @@ namespace mediatori.Controllers
 
         public const bool MY_CUSTOM_IDENTITY = true;
 
-        private MyUsers.UserManager manager = new MyUsers.UserManager("DefaultConnection");
+        private MyUsers.UserManager manager = new MyUsers.UserManager("utenti");
 
 
 

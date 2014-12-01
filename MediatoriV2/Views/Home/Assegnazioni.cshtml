@@ -6,43 +6,57 @@
 
 <h2>Assegnazioni</h2>
 
-
-<ol data-role="listview" data-inset="true">
-    <li data-role="list-divider">Da Assegnare</li>
-    @foreach (mediatori.Models.Anagrafiche.Segnalazione segnalazione in Model.DaAssegnare)
-    {
-        <li>
-            <a href="@Url.Action("Details", "Segnalazioni", new { id = segnalazione.id })">
-
-
-                <h2>@segnalazione.contatto.nome @segnalazione.contatto.cognome </h2>
-                <p>@segnalazione.prodottoRichiesto.descrizione</p>
-
-                <p class="ui-li-aside">Importo: <strong>@String.Format("{0:N2}", segnalazione.importoRichiesto)</strong>  -  Data: <strong>@segnalazione.dataInserimento.ToShortDateString()</strong></p>
-            </a>
-
-            <a href="@Url.Action("Assegna", "Segnalazioni", new { id = segnalazione.id })">Assegna</a>
-        </li>
-    }
-</ol>
+@if (Model.DaAssegnare == null || Model.DaAssegnare.Count == 0)
+{
+    <h3>Nessuna attività disponibile</h3>
+}
+else
+{
+    <ol data-role="listview" data-inset="true">
+        <li data-role="list-divider">Da Assegnare</li>
+        @foreach (mediatori.Models.Anagrafiche.Segnalazione segnalazione in Model.DaAssegnare)
+        {
+            <li>
+                <a href="@Url.Action("Details", "Segnalazioni", new { id = segnalazione.id })">
 
 
+                    <h2>@segnalazione.contatto.nome @segnalazione.contatto.cognome </h2>
+                    <p>@segnalazione.prodottoRichiesto.descrizione</p>
 
-<ol data-role="listview" data-inset="true">
-    <li data-role="list-divider">Assegnate</li>
-    @foreach (mediatori.Models.etc.Assegnazione assegnazione in Model.Assegnate)
-    {
-        <li>
-            <a href="@Url.Action("Details", "Segnalazioni", new { id = assegnazione.segnalazioneId })">
+                    <p class="ui-li-aside">Importo: <strong>@String.Format("{0:N2}", segnalazione.importoRichiesto)</strong>  -  Data: <strong>@segnalazione.dataInserimento.ToShortDateString()</strong></p>
+                </a>
 
-                @if (assegnazione.segnalazione.contatto != null)
-                {
-                    <h2>@assegnazione.segnalazione.contatto.nome @assegnazione.segnalazione.contatto.cognome </h2>
-                }
-                <p>@assegnazione.segnalazione.prodottoRichiesto.descrizione</p>
+                <a href="@Url.Action("Assegna", "Segnalazioni", new { id = segnalazione.id })">Assegna</a>
+            </li>
+        }
+    </ol>
 
-                <p class="ui-li-aside">Importo: <strong>@String.Format("{0:N2}", assegnazione.segnalazione.importoRichiesto)</strong>  -  Data: <strong>@assegnazione.segnalazione.dataInserimento.ToShortDateString()</strong></p>
-            </a>
-        </li>
-    }
-</ol>
+}
+
+
+
+@if (Model.Assegnate == null || Model.Assegnate.Count == 0)
+{
+    <h3>Nessuna attività assegnata</h3>
+}
+else
+{
+    <ol data-role="listview" data-inset="true">
+        <li data-role="list-divider">Assegnate</li>
+        @foreach (mediatori.Models.etc.Assegnazione assegnazione in Model.Assegnate)
+        {
+            <li>
+                <a href="@Url.Action("Details", "Segnalazioni", new { id = assegnazione.segnalazioneId })">
+
+                    @if (assegnazione.segnalazione.contatto != null)
+                    {
+                        <h2>@assegnazione.segnalazione.contatto.nome @assegnazione.segnalazione.contatto.cognome </h2>
+                    }
+                    <p>@assegnazione.segnalazione.prodottoRichiesto.descrizione</p>
+
+                    <p class="ui-li-aside">Importo: <strong>@String.Format("{0:N2}", assegnazione.segnalazione.importoRichiesto)</strong>  -  Data: <strong>@assegnazione.segnalazione.dataInserimento.ToShortDateString()</strong></p>
+                </a>
+            </li>
+        }
+    </ol>
+}

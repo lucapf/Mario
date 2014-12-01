@@ -47,21 +47,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Ascend">
-      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\Ascend.dll</HintPath>
-    </Reference>
-    <Reference Include="Ascend.Windows.Forms">
-      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\Ascend.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="DBDiff.Front">
-      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\DBDiff.Front.dll</HintPath>
-    </Reference>
-    <Reference Include="DBDiff.Schema">
-      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\DBDiff.Schema.dll</HintPath>
-    </Reference>
-    <Reference Include="DBDiff.Schema.SQLServer">
-      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\DBDiff.Schema.SQLServer.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
@@ -91,9 +76,6 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage">
       <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="MigrationScriptGenerator">
-      <HintPath>..\packages\MigrationScriptGenerator.1.1.10\lib\net40\MigrationScriptGenerator.exe</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -551,9 +533,10 @@
     <Content Include="Areas\Admin\Views\Users\SID.cshtml" />
     <Content Include="Areas\Admin\Views\Users\TabInfoAccount.cshtml" />
     <Content Include="Areas\Admin\Views\Users\TabInfoAnagrafica.cshtml" />
+    <None Include="Properties\PublishProfiles\Inetpub.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\mediatori - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\mediatori - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mediatori - Azure.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -754,6 +737,7 @@
     <Content Include="Views\Groups\SearchUser.cshtml" />
     <Content Include="Views\Utenti\Delete.cshtml" />
     <Content Include="Views\Utenti\Edit.cshtml" />
+    <Content Include="Views\Shared\_ComboData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -47,9 +47,9 @@ namespace MyWebApplication.Areas.Admin.Controllers
 
             MyManagerCSharp.MySessionData session = (MyManagerCSharp.MySessionData)httpContext.Session["MySessionData"];
 
-            //return session.IsInGroup("Administrators"); 
+            return session.IsInGroup("Administrators"); 
             // return base.AuthorizeCore(httpContext);
-            return session.IsInRole("ADMIN");
+            //return session.IsInRole("ADMIN");
         }
 
     }

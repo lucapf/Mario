@@ -10,6 +10,11 @@ namespace mediatori.Controllers
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class MyAuthorizeAttribute : System.Web.Mvc.AuthorizeAttribute
     {
+        public new string[] Roles
+        {
+            get { return base.Roles.Split(';'); }
+            set { base.Roles = string.Join(";", value); }
+        }
 
         protected override void HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext filterContext)
         {
@@ -51,7 +56,11 @@ namespace mediatori.Controllers
 
 
             MyManagerCSharp.MySessionData session = (MyManagerCSharp.MySessionData)httpContext.Session["MySessionData"];
-                return session.IsInProfile(Roles);
+
+
+           
+
+            return session.IsInProfile(Roles);
 
             //if (httpContext.User.Identity is System.Security.Principal.WindowsIdentity)
             //{

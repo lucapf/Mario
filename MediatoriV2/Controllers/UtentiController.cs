@@ -153,8 +153,9 @@ namespace mediatori.Controllers
             if (ModelState.IsValid)
             {
                 MyUsers.Models.MyUser u = new MyUsers.Models.MyUser();
-                u.login = model.UserName;
-                u.password = model.Password;
+                u.login = model.UserName.Trim() ;
+                u.password = model.Password.Trim();
+                u.isEnabled = true;
 
                 long userId;
                 manager.openConnection();

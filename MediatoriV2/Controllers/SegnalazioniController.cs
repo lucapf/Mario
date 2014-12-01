@@ -19,20 +19,52 @@ namespace mediatori.Controllers
     public class SegnalazioniController : MyBaseController
     {
 
-        public ActionResult Index(SegnalazioneSearch segnalazioniSearch, String message)
+        public ActionResult Index(SegnalazioneSearch segnalazioniSearch)
         {
 
+            //return View(new SegnalazioneBusiness().findByFilter(segnalazioniSearch, db));
 
-            ViewBag.message = message;
-            return View(new SegnalazioneBusiness().findByFilter(segnalazioniSearch, db));
+
+            IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto");
+
+            if (segnalazioniSearch.cognome != null)
+            {
+                listaSegnalazioni = listaSegnalazioni.Where(s => s.contatto.cognome == segnalazioniSearch.cognome);
+
+            }
+            if (segnalazioniSearch.nome != null)
+            {
+                listaSegnalazioni = listaSegnalazioni.Where(s => s.contatto.nome == segnalazioniSearch.nome);
+
+            }
+            if (segnalazioniSearch.dataInserimentoA != null)
+            {
+                listaSegnalazioni = listaSegnalazioni.Where(s => s.dataInserimento <= segnalazioniSearch.dataInserimentoA);
+
+            }
+            if (segnalazioniSearch.dataInserimentoDa != null)
+            {
+                listaSegnalazioni = listaSegnalazioni.Where(s => s.dataInserimento >= segnalazioniSearch.dataInserimentoDa);
+
+            }
+
+            Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
+            if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.IndexOf(MyConstants.Profilo.COLLABORATORE.ToString()) > -1)
+            {
+                listaSegnalazioni = listaSegnalazioni.Where(p => p.utenteInserimento == User.Identity.Name);
+            }
+
+            listaSegnalazioni.OrderByDescending(s => s.id);
+            listaSegnalazioni.Take(50);
+            List<Segnalazione> segnalazioni = listaSegnalazioni.Where(o => !(o is Models.Pratica.Pratica)).ToList();
+
+            return View(segnalazioni);
         }
-
-
 
         public ActionResult Assegna(int id)
         {
             int segnalazioneId = id;
-            
+
             Segnalazione segnalazione = db.Segnalazioni.Include("stato").First(d => d.id == segnalazioneId);
             if (segnalazione == null)
             {
@@ -81,7 +113,7 @@ namespace mediatori.Controllers
             Segnalazione segnalazione;
 
             segnalazione = db.Segnalazioni.Include("contatto").Include("stato").Include("note").Where(s => s.id == id).First();
-            
+
             if (segnalazione == null)
             {
                 return HttpNotFound();
@@ -90,13 +122,13 @@ namespace mediatori.Controllers
             model.segnalazione = segnalazione;
 
 
-           // StatoSearch statoSearch = new StatoSearch();
-          
+            // StatoSearch statoSearch = new StatoSearch();
+
             //statoSearch.successiviDi = segnalazione.stato.id;
             //statoSearch.entita = EnumEntitaAssociataStato.SEGNALAZIONE;
 
             model.listaStatiSuccessivi = new mediatori.Controllers.Business.CQS.StatoBusiness().getStatiSuccessivi(segnalazione.stato, db);
-        
+
             return View(model);
         }
 

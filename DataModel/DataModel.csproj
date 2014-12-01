@@ -60,73 +60,13 @@
     <Compile Include="Migrations\201411121540089_Initial.Designer.cs">
       <DependentUpon>201411121540089_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201411121547535_Populate.cs" />
-    <Compile Include="Migrations\201411121547535_Populate.Designer.cs">
-      <DependentUpon>201411121547535_Populate.cs</DependentUpon>
+    <Compile Include="Migrations\201412010907170_Update01.cs" />
+    <Compile Include="Migrations\201412010907170_Update01.Designer.cs">
+      <DependentUpon>201412010907170_Update01.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201411121714416_Update01.cs" />
-    <Compile Include="Migrations\201411121714416_Update01.Designer.cs">
-      <DependentUpon>201411121714416_Update01.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411121829212_Update02.cs" />
-    <Compile Include="Migrations\201411121829212_Update02.Designer.cs">
-      <DependentUpon>201411121829212_Update02.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411131038114_Update03.cs" />
-    <Compile Include="Migrations\201411131038114_Update03.Designer.cs">
-      <DependentUpon>201411131038114_Update03.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411131051166_Update04.cs" />
-    <Compile Include="Migrations\201411131051166_Update04.Designer.cs">
-      <DependentUpon>201411131051166_Update04.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411131126332_Update05.cs" />
-    <Compile Include="Migrations\201411131126332_Update05.Designer.cs">
-      <DependentUpon>201411131126332_Update05.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411131209574_Update06.cs" />
-    <Compile Include="Migrations\201411131209574_Update06.Designer.cs">
-      <DependentUpon>201411131209574_Update06.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411181014228_Update07.cs" />
-    <Compile Include="Migrations\201411181014228_Update07.Designer.cs">
-      <DependentUpon>201411181014228_Update07.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411181223088_Update071.cs" />
-    <Compile Include="Migrations\201411181223088_Update071.Designer.cs">
-      <DependentUpon>201411181223088_Update071.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411181234008_Update08.cs" />
-    <Compile Include="Migrations\201411181234008_Update08.Designer.cs">
-      <DependentUpon>201411181234008_Update08.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411181257450_Update09.cs" />
-    <Compile Include="Migrations\201411181257450_Update09.Designer.cs">
-      <DependentUpon>201411181257450_Update09.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411181337003_Update10.cs" />
-    <Compile Include="Migrations\201411181337003_Update10.Designer.cs">
-      <DependentUpon>201411181337003_Update10.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411191247100_Update11.cs" />
-    <Compile Include="Migrations\201411191247100_Update11.Designer.cs">
-      <DependentUpon>201411191247100_Update11.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411191310363_Update12.cs" />
-    <Compile Include="Migrations\201411191310363_Update12.Designer.cs">
-      <DependentUpon>201411191310363_Update12.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411271701539_Update13.cs" />
-    <Compile Include="Migrations\201411271701539_Update13.Designer.cs">
-      <DependentUpon>201411271701539_Update13.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411281651426_Update14.cs" />
-    <Compile Include="Migrations\201411281651426_Update14.Designer.cs">
-      <DependentUpon>201411281651426_Update14.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201411281654126_Update15.cs" />
-    <Compile Include="Migrations\201411281654126_Update15.Designer.cs">
-      <DependentUpon>201411281654126_Update15.cs</DependentUpon>
+    <Compile Include="Migrations\201412010935285_Populate.cs" />
+    <Compile Include="Migrations\201412010935285_Populate.Designer.cs">
+      <DependentUpon>201412010935285_Populate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
@@ -205,56 +145,11 @@
     <EmbeddedResource Include="Migrations\201411121540089_Initial.resx">
       <DependentUpon>201411121540089_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411121547535_Populate.resx">
-      <DependentUpon>201411121547535_Populate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201412010907170_Update01.resx">
+      <DependentUpon>201412010907170_Update01.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411121714416_Update01.resx">
-      <DependentUpon>201411121714416_Update01.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411121829212_Update02.resx">
-      <DependentUpon>201411121829212_Update02.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411131038114_Update03.resx">
-      <DependentUpon>201411131038114_Update03.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411131051166_Update04.resx">
-      <DependentUpon>201411131051166_Update04.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411131126332_Update05.resx">
-      <DependentUpon>201411131126332_Update05.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411131209574_Update06.resx">
-      <DependentUpon>201411131209574_Update06.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411181014228_Update07.resx">
-      <DependentUpon>201411181014228_Update07.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411181223088_Update071.resx">
-      <DependentUpon>201411181223088_Update071.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411181234008_Update08.resx">
-      <DependentUpon>201411181234008_Update08.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411181257450_Update09.resx">
-      <DependentUpon>201411181257450_Update09.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411181337003_Update10.resx">
-      <DependentUpon>201411181337003_Update10.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411191247100_Update11.resx">
-      <DependentUpon>201411191247100_Update11.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411191310363_Update12.resx">
-      <DependentUpon>201411191310363_Update12.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411271701539_Update13.resx">
-      <DependentUpon>201411271701539_Update13.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411281651426_Update14.resx">
-      <DependentUpon>201411281651426_Update14.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201411281654126_Update15.resx">
-      <DependentUpon>201411281654126_Update15.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201412010935285_Populate.resx">
+      <DependentUpon>201412010935285_Populate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

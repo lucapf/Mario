@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
+
 
 namespace mediatori.Controllers
 {
@@ -35,6 +37,7 @@ namespace mediatori.Controllers
         }
 
 
+          [MyAuthorize(Roles =  new string [] { MyConstants.Profilo.ADMIN})]
         public ActionResult Sicurezza()
         {
             List<MenuElement> model = new List<MenuElement>(){
@@ -64,7 +67,7 @@ namespace mediatori.Controllers
 
         public ActionResult Assegnazioni(mediatori.Models.AssegnazioniModel model)
         {
-          
+
             // model.DaAssegnare = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto").ToList();
 
             //List<mediatori.Models.etc.GruppoLavorazione> gruppi = db.gruppiLavorazione.Where ( p => p.utenti.Contains (""User.Identity.Name
@@ -74,6 +77,43 @@ namespace mediatori.Controllers
             //                            from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
             //                        ).Contains(s.id) && s.stato.gruppoLavorazione.utenti.Contains(";" + User.Identity.Name + ";")
             //                     select s).ToList();
+
+
+            //Debug.WriteLine("GROUPS : " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups.Select(p => p.gruppoId == 8).First());
+
+            //var test = (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups.Select(p => p.gruppoId == 8).First();
+
+
+            List<long> listGruppiIds = (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups.Select(g => g.gruppoId).ToList();
+            string temp = String.Join(";", listGruppiIds);
+            temp = ";" + temp + ";";
+
+
+  
+
+
+            //model.DaAssegnare = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
+            //                     where !(
+            //                            from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
+            //                        ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";")
+            //                     select s).ToList();
+
+
+            IQueryable<mediatori.Models.Anagrafiche.Segnalazione> querySegnalazioni = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
+                                                                           where !(
+                                                                                  from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
+                                                                              ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";")
+                                                                           select s);
+
+
+            Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
+            if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.IndexOf(MyConstants.Profilo.COLLABORATORE.ToString()) > -1)
+            {
+                querySegnalazioni = querySegnalazioni.Where(p => p.utenteInserimento == User.Identity.Name);
+            }
+
+
+            model.DaAssegnare = querySegnalazioni.ToList(); 
 
 
             //  model.Assegnate = db.Assegnazioni.ToList();
@@ -88,12 +128,42 @@ namespace mediatori.Controllers
             //                   select a).ToList();
 
 
+            IQueryable<mediatori.Models.etc.Assegnazione> queryAssegnazioni;
+            queryAssegnazioni = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
+                     where a.segnalazione.stato.id == a.statoId && temp.Contains(";" + a.stato.gruppoId + ";")
+                     select a);
+
+
+            model.Assegnate = queryAssegnazioni.ToList(); 
+           // model.Assegnate = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
+           //                    where a.segnalazione.stato.id == a.statoId && temp.Contains(";" + a.stato.gruppoId + ";")
+           //                    select a).ToList();
+
 
             if (Request.IsAjaxRequest())
             {
                 List<mediatori.Models.MyItem> risultato = new List<MyItem>();
-              //  risultato.Add(new MyItem(model.DaAssegnare.Count.ToString(), "Da_assegnare"));
-//                risultato.Add(new MyItem(model.Assegnate.Count.ToString(), "Assegnate"));
+
+                if (model.DaAssegnare == null)
+                {
+                    risultato.Add(new MyItem("0", "Da_assegnare"));
+                }
+                else
+                {
+                    risultato.Add(new MyItem(model.DaAssegnare.Count.ToString(), "Da_assegnare"));
+                }
+
+                
+
+                if (model.Assegnate == null)
+                {
+                    risultato.Add(new MyItem("0", "Assegnate"));
+                }
+                else
+                {
+                    risultato.Add(new MyItem(model.Assegnate.Count.ToString(), "Assegnate"));
+                }
+                
 
                 return Json(risultato, JsonRequestBehavior.AllowGet);
 
@@ -114,6 +184,20 @@ namespace mediatori.Controllers
             ViewBag.Message = "Pagina di contatto.";
 
             return View();
+        }
+
+        [HttpGet]
+        public String popolaDropDownlistComuni(String comboComunElementId, String denominazioneProvincia)
+        {
+         
+            return new mediatori.Controllers.Business.Anagrafiche.PopolaDropDownListAnagrafiche().popolaDropDownListComuniJSON(comboComunElementId, denominazioneProvincia, db);
+        }
+
+
+        [HttpGet]
+        public String popolaDropDownlistProvince()
+        {
+            return new mediatori.Controllers.Business.Anagrafiche.PopolaDropDownListAnagrafiche().popolaDropDownListProvince(db);
         }
     }
 }

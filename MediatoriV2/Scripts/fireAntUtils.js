@@ -31,7 +31,7 @@ function popolaComboProvince(idElementoProvincia, idElementoComune) {
 
     //alert("popolaComboProvince");
     $.ajax({
-        url: contextPath + "/Configurazioni/popolaDropDownlistProvince",
+        url: contextPath + "/Home/popolaDropDownlistProvince",
         error: function () { alert("popolamento lista Province fallito"); },
         success: function (html) {
 
@@ -61,7 +61,7 @@ function popolaComboComuni(idElementoProvincia, idElementoComune) {
     if (provinciaSelezionata == "") return true;
 
 
-    $.getJSON(contextPath + "/Configurazioni/popolaDropDownlistComuni",
+    $.getJSON(contextPath + "/Home/popolaDropDownlistComuni",
                   { comboComunElementId: idElementoComune, denominazioneProvincia: provinciaSelezionata },
                   function (data) {
                       // alert("popolaComboComuni: " + data.html);

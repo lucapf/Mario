@@ -14,6 +14,8 @@
 PM> Enable-Migrations -ContextTypeName MainDbContext
 
 
+Add-Migration Update01
+
 If you want to roll all the way back to an empty database then you can use the 
 
 Update-Database –TargetMigration:$InitialDatabase
@@ -22,6 +24,7 @@ Update-Database –TargetMigration:$InitialDatabase
 Update-Database -Verbose -TargetMigration:InitialPopulate 
 
  
+
 
  *** migrate.exe ***
  http://msdn.microsoft.com/it-it/data/jj618307.aspx

@@ -8,19 +8,14 @@ http://mediatori.azurewebsites.net/
 
 
 SQL SERVER
-https://yacvsl866j.database.windows.net/?langid=it-it#$database=Mediatori
+https://khzappcv1w.database.windows.net/?langid=it-it#$database=Mediatori
+khzappcv1w.database.windows.net
 
-hzappcv1w.database.windows.net
-
-yacvsl866j.database.windows.net
-usr: mediatori
+usr: mediatori@khzappcv1w
 psw: M3d14t0r1
 
 
-
-
-
-UTENZE APPLICATIVE
+*** UTENZE APPLICATIVE ***
 Amministratore / password
 Operatore / password
 Collaboratore / password

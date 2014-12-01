@@ -11,6 +11,13 @@ public static class MyConstants
         Errore
     }
 
+    public class Profilo
+    {
+       public const string  ADMIN = "ADMIN";
+        public const string BACKOFFICE = "BACKOFFICE";
+        public const string FRONTOFFICE = "FRONTOFFICE";
+        public const string COLLABORATORE = "COLLABORATORE";
+    }
 
     public const bool CHECK_ASSEGANAZIONI_ENABLED = false;
 
