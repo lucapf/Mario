@@ -137,22 +137,22 @@ public static class MyExtensions
 
 
 
-    public static HtmlString Input(this object instance)
-    {
-        string temp;
-        temp = instance.GetType().Name;
+    //public static HtmlString Input(this object instance)
+    //{
+    //    string temp;
+    //    temp = instance.GetType().Name;
 
 
-        Type t = instance.GetType();
-        PropertyInfo[] properties = t.GetProperties();
-        foreach (PropertyInfo property in properties)
-        {
-            Console.WriteLine(property.ToString());
-        }
+    //    Type t = instance.GetType();
+    //    PropertyInfo[] properties = t.GetProperties();
+    //    foreach (PropertyInfo property in properties)
+    //    {
+    //        Console.WriteLine(property.ToString());
+    //    }
 
 
-        return new HtmlString(temp);
-    }
+    //    return new HtmlString(temp);
+    //}
 
 
 }

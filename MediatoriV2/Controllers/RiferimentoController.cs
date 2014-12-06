@@ -16,7 +16,6 @@ namespace mediatori.Controllers
 
         public ActionResult Index()
         {
-           // MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag();
             return View(new Riferimento());
         }
@@ -68,7 +67,6 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult riferimentoPartial(Riferimento riferimento, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return riferimentoDispatcher(riferimento, tipoAzione, db);
         }
 

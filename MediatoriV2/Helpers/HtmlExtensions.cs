@@ -283,21 +283,25 @@ namespace mediatori.helper
         public String getIdDivMessage() { return codiceMessage; }
         public String getIdForm() { return formDati; }
         public String refreshValidation() { return String.Format("<script>refreshValidation('{0}')</script>", getIdForm()); }
+       
         public String getButtonModifica(String htmlAttributes = "", String javascriptCustomFunction = "")
         {
             htmlAttributes += "class='buttonModifica' title='Modifica'";
             return buildBottoneGenerico(buttonModifica, "[ M ]", "FireAntEditHelper_ModificaDati", htmlAttributes, javascriptCustomFunction);
         }
+
         public String getButtonAnnullaModifica(String value = "[ A ] ", String htmlAttributes = "", String javascriptCustomFunction = "")
         {
             htmlAttributes += "class='buttonAnnullaModifica'";
             return buildBottoneGenerico(buttonAnnullaModifica, value, "FireAntEditHelper_AnnullaModificaDati", htmlAttributes, javascriptCustomFunction);
         }
+
         public String getButtonCollapse(String value = "[ C ] ", String htmlAttributes = "", String javascriptCustomFunction = "")
         {
             htmlAttributes += "class='buttonCollapse' title='forma breve'";
             return buildBottoneGenerico(buttonNascondiDettaglio, value, "FireAntDetailEventDetection_NascondiDettaglio", htmlAttributes, javascriptCustomFunction);
         }
+
         public String getButtonSalvaModifica(String value = "[ S ]", String htmlAttributes = "")
         {
             htmlAttributes += "class='buttonSalvaModifica' title='salva modifiche'";

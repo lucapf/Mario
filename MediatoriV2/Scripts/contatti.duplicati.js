@@ -5,10 +5,13 @@ function contattoDetail(idContatto) {
         alert("codice contatto non valido");
         return;
     }
-    window.location.href = contextPath + "/GestioneSegnalazioni/Create?codiceContatto=" + idContatto;
+    window.location.href = contextPath + "/Segnalazioni/Create?codiceContatto=" + idContatto;
 }
 
 function ricercaContatto() {
+    
+   // alert("ricercaContatto");
+
     var clNome = $("#segnalazione_contatto_nome").val();
     var clCognome = $("#segnalazione_contatto_cognome").val();
     var cf = $("#segnalazione_contatto_codiceFiscale").val();
@@ -46,8 +49,10 @@ function ricercaContatto() {
     }
 
 }
+
 function mostraDuplicati(htmlString) {
     $("#grigliaContattiDuplicati").html(htmlString);
+    $("#grigliaContattiDuplicati").listview("refresh");
     $("#grigliaContattiDuplicati").show("slide", { direction: "right" }, 500);
-    searchDone = true;
+    //searchDone = true;
 }

@@ -68,7 +68,7 @@
                     <td>
                         @if (stato.gruppo != null)
                         {
-                            @stato.gruppo.nome
+                            <a href="@Url.Action("Details", "Groups", new { id = stato.gruppo.gruppoId})">@stato.gruppo.nome</a>
                         }
                         else
                         {
@@ -88,7 +88,7 @@
 }
 
 
-<div data-role="popup" id="popupStato" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:500px">
+<div data-role="popup" id="popupStato" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="min-width:500px">
     <div data-role="header" data-theme="a">
         <h1>Stato</h1>
     </div>

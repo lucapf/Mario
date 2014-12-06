@@ -4,7 +4,7 @@ using mediatori.Models;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 
-namespace mediatori.unitTest
+namespace mediatori.UnitTest
 {
     [TestClass]
     public class TestMigrations

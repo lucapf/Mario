@@ -6,7 +6,7 @@ using mediatori.Controllers.Business.Anagrafiche.Soggetto;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
-namespace mediatori.Controllers.CQS
+namespace mediatori.UnitTest
 {
     [TestClass]
     public class TestCedente

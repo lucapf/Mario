@@ -9,7 +9,7 @@
 @using (Html.BeginForm("Create", "SoggettoGiuridico", FormMethod.Post, new { @id = "createForm" }))
 {
     Html.ValidationSummary();
-    
+
     Html.HiddenFor(model => model.id);
 
     <h3>Dati societa'</h3>
@@ -19,26 +19,25 @@
     <h3>Indirizzi</h3>
     <hr />
     using (Html.BeginCollectionItem("indirizzi"))
-   {
-       foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
-       {
-           Html.RenderAction("indirizzoPartial", "Indirizzo", new { indirizzo = i, tipoAzione = "INSERIMENTO" });
-       }
-
-   }
+    {
+        foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
+        {
+            Html.RenderAction("indirizzoPartial", "Indirizzo", new { indirizzo = i, tipoAzione = "INSERIMENTO" });
+        }
+    }
 
 
 
     <h3>Riferimenti</h3>
     <hr />
-     Html.RenderAction("riferimentoPartial", "Riferimento", new { riferimento = new mediatori.Models.Anagrafiche.Riferimento() , tipoAzione = "INSERIMENTO" });
+    Html.RenderAction("riferimentoPartial", "Riferimento", new { riferimento = new mediatori.Models.Anagrafiche.Riferimento(), tipoAzione = "INSERIMENTO" });
 
     <h3>Note</h3>
     <hr />
     { Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", new mediatori.Models.Nota()); }
-    
 
-    <div data-role="footer" data-position="fixed" data-theme="c">
+
+    <div data-role="footer" data-position="fixed" data-theme="b">
         <div data-role="navbar">
             <ul>
                 <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
@@ -49,6 +48,4 @@
 }
 
 
-@section Scripts {
-    @Scripts.Render("~/Scripts/Segnalazioni/Create.js")
-}
+

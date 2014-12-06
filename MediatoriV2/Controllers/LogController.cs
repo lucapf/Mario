@@ -21,7 +21,6 @@ namespace mediatori.Controllers
 
         public String getEventoInserimento(int idEntita, EnumEntitaRiferimento entitaRiferimento)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             LogEventi logEventi = LogEventiManager.getEventoCreazione(idEntita, entitaRiferimento, db);
             return new JavaScriptSerializer().Serialize(logEventi);
         }

@@ -135,7 +135,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Edit(DocumentoIdentita di, String contestoRedirect, String oggettoRedirect, String idRedirect)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
 
             valorizzaDatiDaRequest(di, db);
             DocumentoIdentita diOriginale = (from d in db.DocumentiIdentita.Include("enteRilascio")

@@ -9,13 +9,13 @@ using System.Diagnostics;
 namespace mediatori.Controllers
 {
 
-      [MyAuthorize(Roles = new string [] {MyConstants.Profilo.FRONTOFFICE , MyConstants.Profilo.BACKOFFICE  , MyConstants.Profilo.ADMIN , MyConstants.Profilo.COLLABORATORE } )]
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.FRONTOFFICE, MyConstants.Profilo.BACKOFFICE, MyConstants.Profilo.ADMIN, MyConstants.Profilo.COLLABORATORE })]
     public class PraticheController : MyBaseController
     {
 
         public ActionResult Index(Models.Pratica.SearchPratica model)
         {
-            IQueryable<mediatori.Models.Pratica.Pratica> query = db.Pratiche.Include("cedente").Include("prodottoRichiesto");
+            IQueryable<mediatori.Models.Pratica.Pratica> query = db.Pratiche.Include("cedente").Include("prodottoRichiesto").Include("stato");
 
             //model.Pratiche = db.Pratiche.Include("cedente").Include("prodottoRichiesto");
 
@@ -33,14 +33,15 @@ namespace mediatori.Controllers
 
         public ActionResult Details(int id)
         {
-            mediatori.Models.Pratica.Pratica model;
-            model = db.Pratiche.Include("cedente").Include("preventivi").Include("note").Where(p => p.id == id).FirstOrDefault();
+            mediatori.Models.PraticaDetailsModel model = new Models.PraticaDetailsModel();
+            model.pratica = db.Pratiche.Include("stato").Include("cedente").Include("preventivi").Include("note").Where(p => p.id == id).FirstOrDefault();
 
-            if (model == null)
+            if (model.pratica == null)
             {
                 return HttpNotFound();
             }
 
+            model.listaStatiSuccessivi = new mediatori.Controllers.Business.CQS.StatoBusiness().getStatiSuccessivi(model.pratica.stato, db);
 
 
             return View(model);

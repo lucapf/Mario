@@ -12,27 +12,18 @@ using mediatori.Controllers.Business;
 
 namespace mediatori.Controllers.CQS
 {
-
-
     //[MyAuthorize(Roles = "ADMIN,BACKOFFICE" )]
-    [MyAuthorize(Roles = new string [] { MyConstants.Profilo.FRONTOFFICE , MyConstants.Profilo.BACKOFFICE , MyConstants.Profilo.ADMIN})]
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.FRONTOFFICE, MyConstants.Profilo.BACKOFFICE, MyConstants.Profilo.ADMIN })]
     public class CedenteController : MyBaseController
     {
-
-
-
         public ActionResult Index()
         {
-
             return View(db.Cedenti.ToList());
         }
 
-        //
-        // GET: /Cedente/Details/5
 
         public ActionResult Details(int id = 0)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Cedente cedente = RicercaCedenteBusiness.find(id, db);
             if (cedente == null)
             {
@@ -49,9 +40,8 @@ namespace mediatori.Controllers.CQS
         public ActionResult Create()
         {
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Cedente cedente = new Cedente();
-            valorizzaListe(db);
+            valorizzaViewBag(db);
 
             cedente.indirizzi = new List<Indirizzo>();
             cedente.indirizzi.Add(new Indirizzo());
@@ -69,7 +59,7 @@ namespace mediatori.Controllers.CQS
 
         }
 
-        private void valorizzaListe(MainDbContext db)
+        private void valorizzaViewBag(MainDbContext db)
         {
             ViewBag.listaTipoIndirizzo = new SelectList(db.TipoIndirizzo.ToList(), "id", "descrizione");
             ViewBag.listaToponimo = new SelectList(db.Toponimi.ToList(), "sigla", "sigla");
@@ -89,7 +79,7 @@ namespace mediatori.Controllers.CQS
         [HttpPost]
         public ActionResult Create(Cedente cedente)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
 
             //elimino i componenti che non devono essere controllati
             ModelState.Remove("provinciaNascita.sigla");
@@ -114,7 +104,7 @@ namespace mediatori.Controllers.CQS
                 ViewBag.message = String.Format("Cedente {0} {1} inserito con successo", cedenteSalvato.nome, cedenteSalvato.cognome);
                 return View("Details", cedenteSalvato);
             }
-            valorizzaListe(db);
+            valorizzaViewBag(db);
             return View(cedente);
         }
 
@@ -123,7 +113,7 @@ namespace mediatori.Controllers.CQS
 
         public ActionResult Edit(int id = 0)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+
             Cedente cedente = RicercaCedenteBusiness.find(id, db);
             if (cedente == null)
             {
@@ -144,7 +134,6 @@ namespace mediatori.Controllers.CQS
             ModelState.Remove("provinciaNascita.sigla");
             if (ModelState.IsValid)
             {
-                MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
                 Cedente cedentesalvato = SalvaModificheCedente.salvaModificheDatiGenerali(User.Identity.Name, cedente, db);
                 return RedirectToAction("Index");
             }
@@ -156,7 +145,6 @@ namespace mediatori.Controllers.CQS
 
         public ActionResult Delete(int id = 0)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Cedente cedente = RicercaCedenteBusiness.find(id, db);
             if (cedente == null)
             {
@@ -171,7 +159,6 @@ namespace mediatori.Controllers.CQS
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Cedente cedente = RicercaCedenteBusiness.find(id, db);
             // db.Database.ExecuteSqlCommand("delete from indirizzo where Cedente_id=" + id);
             // db.Database.ExecuteSqlCommand("delete from documento_identita where Cedente_id=" + id);
@@ -189,7 +176,6 @@ namespace mediatori.Controllers.CQS
         [ChildActionOnly]
         public ActionResult DatiGeneraliPartialEdit(Cedente cedente)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             ViewBag.listaProvincia = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
             ViewBag.listaComuniNascita = new SelectList((from c in db.Comuni where c.provincia.id == cedente.provinciaNascita.id select c).ToList(), "denominazione", "denominazione");
 
@@ -198,12 +184,10 @@ namespace mediatori.Controllers.CQS
 
         public ActionResult DatiGeneraliPartialById(int id, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
-
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Cedente cedente = RicercaCedenteBusiness.findDatiGenerali(id, db);
             if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
-                valorizzaListe(db);
+                valorizzaViewBag(db);
                 // ViewBag.listaProvincia = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
                 ViewBag.listaComuniNascita = new SelectList((from c in db.Comuni where c.provincia.id == cedente.provinciaNascita.id select c).ToList(), "denominazione", "denominazione");
                 return View("DatiGeneraliPartialInsert", cedente);

@@ -84,7 +84,7 @@ table.MyTable {
     border: 0px solid gray;
     overflow: auto;
     display: inline-block;
-    width: 330px;
+    width: 350px;
 }
 
     .editor-control .editor-row {
@@ -105,6 +105,7 @@ table.MyTable {
         border: 0px solid blue;
         display: table-cell;
         width: 100%;
+        padding: 1em;
     }
 
     .editor-control .editor-validation {
@@ -191,3 +192,17 @@ table.MyTable {
     font-size: 20px;
     color: white;
 }
+
+#headerSegnalazioniScadute {
+    display: block;
+    float: right;
+    margin-top: 0.5em;
+    margin-right: 2em;
+    font-size: 20px;
+}
+
+
+.validation-summary-errors{
+    color:red;
+}
+

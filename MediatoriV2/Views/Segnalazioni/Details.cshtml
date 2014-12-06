@@ -69,14 +69,11 @@
 <h1>Dettaglio segnalazione: @Model.segnalazione.contatto.nome  @Model.segnalazione.contatto.cognome</h1>
 
 
-<div data-role="navbar" data-iconpos="right">
+<div data-role="navbar" data-iconpos="right" data-theme="b">
     <ul>
         <li><a href="#popupChangeStato" class="ui-btn-active ui-btn-icon-right ui-icon-gear" data-rel="popup" data-position-to="window" data-transition="pop">Stato corrente: @Model.segnalazione.stato.descrizione</a></li>
     </ul>
 </div>
-
-<div id="gestioneStato"></div>
-
 
 @{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.segnalazione);}
 
@@ -111,7 +108,7 @@
 
 
 
-<div data-role="footer" data-position="fixed" data-theme="c">
+<div data-role="footer" data-position="fixed" data-theme="b">
     <div data-role="navbar">
         <ul>
             <li><a href="@Url.Action("Index", "Segnalazioni")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista delle segnalazioni</a></li>
@@ -122,7 +119,7 @@
 
 
 
-<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="a">
         <h1>Confermare il preventivo?</h1>
     </div>
@@ -136,33 +133,5 @@
 
 
 
+@{Html.RenderPartial("~/Views/Segnalazioni/_PopupChangeStatus.cshtml", Model.listaStatiSuccessivi, new ViewDataDictionary { { "CodiceEntita", Model.segnalazione.id } , { "Entita" , mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE } });}
 
-
-<div data-role="popup" id="popupChangeStato" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
-    <div data-role="header" data-theme="a">
-        <h1>Stato successivo</h1>
-    </div>
-    <div role="main" class="ui-content">
-        <h3 class="ui-title">Selezionare lo stato successivo</h3>
-
-        @using (Html.BeginForm("Update", "Stato", FormMethod.Post, null))
-        {
-            <input type="hidden" name="codiceEntita" value="@Model.segnalazione.id">
-            <input type="hidden" name="entita" value="@mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE.ToString()" />
-            
-            <div class="ui-field-contain">
-                <label for="codiceStato">Stato successivo:</label>
-                <select name="codiceStato" id="codiceStato" data-mini="true" required="required">
-                    <option value="" selected="selected">---</option>
-                    @foreach (mediatori.Models.etc.Stato s in Model.listaStatiSuccessivi)
-                    {
-                        <option value="@s.id" >@s.descrizione</option>
-                    }
-                </select>
-            </div>
-
-            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
-            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
-        }
-    </div>
-</div>

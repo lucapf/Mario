@@ -10,11 +10,27 @@ namespace mediatori.Controllers
 {
     public class MyBaseController : Controller
     {
-        protected mediatori.Models.MainDbContext db = new mediatori.Models.MainDbContext();
+        protected mediatori.Models.MainDbContext db = null;
+        //protected string _connectionString;
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (Session["MySessionData"] != null)
+            {
+                db = new mediatori.Models.MainDbContext((Session["MySessionData"] as SessionData).ConnectionString);
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            if (db != null)
+            {
+                db.Dispose();
+            }
+
+
             base.Dispose(disposing);
         }
 
@@ -49,34 +65,36 @@ namespace mediatori.Controllers
                     {
                         //Cerco di ripopolare la sessone
 
-                        long userId;
+                        //                        long userId;
 
-                        MyUsers.UserManager manager = new MyUsers.UserManager("DefaultConnection");
-                        userId = manager.getUserIdFromLogin(System.Web.HttpContext.Current.User.Identity.Name);
+                        //                        MyUsers.UserManager manager = new MyUsers.UserManager("DefaultConnection");
+                        //                        userId = manager.getUserIdFromLogin(System.Web.HttpContext.Current.User.Identity.Name);
 
-                        if (userId != -1)
-                        {
-                            mediatori.SessionData session = new mediatori.SessionData(userId);
-                            session.Roles = manager.getRoles(userId);
-                            session.Profili = manager.getProfili(userId);
-                            session.Groups = manager.getGroupSmall(userId);
+                        //                        if (userId != -1)
+                        //                        {
+                        //                            mediatori.SessionData session = new mediatori.SessionData(userId);
+                        //                            session.Roles = manager.getRoles(userId);
+                        //                            session.Profili = manager.getProfili(userId);
+                        //                            session.Groups = manager.getGroupSmall(userId);
 
-                            Session["MySessionData"] = session;
+                        //                            Session["MySessionData"] = session;
 
-                            //if (!String.IsNullOrEmpty(Request["ReturnUrl"]))
-                            //{
-                              //  filterContext.Result = Redirect(Request["ReturnUrl"]);
-                                return;
-//                            }
-
-                            
-                        }
-                        else
-                        {
-                            FormsAuthentication.SignOut();
-                        }
+                        //                            //if (!String.IsNullOrEmpty(Request["ReturnUrl"]))
+                        //                            //{
+                        //                              //  filterContext.Result = Redirect(Request["ReturnUrl"]);
+                        //                                return;
+                        ////                            }
 
 
+                        //                        }
+                        //                        else
+                        //                        {
+                        //    FormsAuthentication.SignOut();
+                        //}
+
+
+                        //non è possibile risalire alla sessione ... 
+                        FormsAuthentication.SignOut();
                     }
 
                     filterContext.Result = new RedirectToRouteResult(
@@ -105,15 +123,18 @@ namespace mediatori.Controllers
             {
                 Debug.WriteLine("MyBaseController.OnException: " + filterContext.Exception.Message);
 
-                MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
-                log.openConnection();
-                try
+                if (db != null)
                 {
-                    log.exception("MyBaseController", filterContext.Exception);
-                }
-                finally
-                {
-                    log.closeConnection();
+                    MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager(db.Database.Connection);
+                    log.openConnection();
+                    try
+                    {
+                        log.exception("MyBaseController", filterContext.Exception);
+                    }
+                    finally
+                    {
+                        log.closeConnection();
+                    }
                 }
 
             }

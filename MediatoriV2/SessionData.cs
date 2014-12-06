@@ -8,11 +8,27 @@ namespace mediatori
     public class SessionData : MyManagerCSharp.MySessionData
     {
 
-        public SessionData(long userId)
+        private string _dominio;
+        private string _connectionString;
+
+        public SessionData(long userId, string dominio, string connectionString)
             : base(userId)
         {
-
+            _dominio = dominio;
+            _connectionString = connectionString;
         }
 
+        public string ConnectionString { get { return _connectionString; } }
+
+        public string Dominio { get { return _dominio; } }
+
+
+        public override void LogOff()
+        {
+            base.LogOff();
+
+            _dominio = "";
+            _connectionString = "";
+        }
     }
 }

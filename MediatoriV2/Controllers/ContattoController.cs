@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace mediatori.Controllers
 {
@@ -25,24 +26,22 @@ namespace mediatori.Controllers
         [HttpGet]
         public String findContattoByNomeCognome(String nome, String cognome)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+            Debug.WriteLine("findContattoByNomeCognome");
             ICollection<Contatto> listaContatti = ContattoBusiness.findByFilter(new ContattoFilter() { nome = nome, cognome = cognome }, db);
             return ContattoBusiness.asHtml(listaContatti);
         }
+
         [HttpGet]
         public String findContattoByCodiceFiscale(String codiceFiscale)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             ICollection<Contatto> listaContatti = ContattoBusiness.findByFilter(new ContattoFilter() { codiceFiscale = codiceFiscale }, db);
             return ContattoBusiness.asHtml(listaContatti);
         }
-       
-       
+             
     
 
         public ActionResult contattoPartialById(int id, EnumTipoAzione tipoAzione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return dispatch(db.Contatti.Find(id), tipoAzione);
         }
         [ChildActionOnly]
@@ -53,7 +52,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Edit(Contatto contatto)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             ContattoBusiness contattoBusiness= new ContattoBusiness();
             Contatto contattoOriginale = contattoBusiness.findByPK(contatto.id,db);
             contatto = contattoBusiness.copiaRiferimenti(contattoOriginale, contatto);

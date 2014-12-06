@@ -11,9 +11,8 @@ namespace mediatori.Models
 {
     public class MainDbContext : DbContext
     {
-        public MainDbContext(String url)
-            // : base("DefaultConnection")
-            : base(getConnectionByUrl(url))
+        public MainDbContext(string connectionString)
+            : base(connectionString)
         {
             Database.SetInitializer<MainDbContext>(new CreateDatabaseIfNotExists<MainDbContext>());
             // Console.WriteLine("Costruttore con parametro MainDbContext: " + url);
@@ -35,24 +34,24 @@ namespace mediatori.Models
 
         }
 
-        public static string getConnectionByUrl(string url)
-        {
+        //public static string getConnectionByUrl(string url)
+        //{
 
-            return "DefaultConnection";
-            String defaultConnection = "DefaultConnection";
-            if (url.Equals(String.Empty)) return defaultConnection;
-            if (!(url.Contains("http://") || url.Contains("https://")))
-                throw new Exception(String.Format("la url indicata ({0}) non è valida", url));
-            //definisce la sringa di connessione
-            string dominio = url.Replace("http://", String.Empty).Replace("https://", String.Empty);
-            if (dominio == null) throw new Exception(String.Format("formato URL ({0}) non valido", url));
-            if (dominio.IndexOf('.') <= 0) return defaultConnection;
-            String sottodominio = dominio.Split('.')[0];
-            if (sottodominio.Equals("localhost")) return defaultConnection;
-            //le connessioni debbono avere lo stesso nome del sotto-dominio assegnato al cliente
-            String connetionName = dominio.Split('.')[0];
-            return connetionName;
-        }
+        //    return "DefaultConnection";
+        //    String defaultConnection = "DefaultConnection";
+        //    if (url.Equals(String.Empty)) return defaultConnection;
+        //    if (!(url.Contains("http://") || url.Contains("https://")))
+        //        throw new Exception(String.Format("la url indicata ({0}) non è valida", url));
+        //    //definisce la sringa di connessione
+        //    string dominio = url.Replace("http://", String.Empty).Replace("https://", String.Empty);
+        //    if (dominio == null) throw new Exception(String.Format("formato URL ({0}) non valido", url));
+        //    if (dominio.IndexOf('.') <= 0) return defaultConnection;
+        //    String sottodominio = dominio.Split('.')[0];
+        //    if (sottodominio.Equals("localhost")) return defaultConnection;
+        //    //le connessioni debbono avere lo stesso nome del sotto-dominio assegnato al cliente
+        //    String connetionName = dominio.Split('.')[0];
+        //    return connetionName;
+        //}
 
         // public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Toponimo> Toponimi { get; set; }
@@ -108,11 +107,7 @@ namespace mediatori.Models
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-
-
             modelBuilder.Entity<PersonaFisica>().Map<Cedente>(m =>  m.Requires("tipoPersonaFisica").HasValue("Cedente")).Map<Contatto>(m => m.Requires("tipoPersonaFisica").HasValue("Contatto"));
-
-
             modelBuilder.Entity<PreventivoSmall>().Map(m => m.Requires("Tipo").HasValue("NonConfermato")).Map<Preventivo>(p => p.Requires("Tipo").HasValue("Confermato"));
 
 

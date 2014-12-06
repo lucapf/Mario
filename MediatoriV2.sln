@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatoriTest", "MediatoriTest\MediatoriTest.csproj", "{6FAA7C8B-F2AC-4281-969E-395B2DEED4FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "MediatoriTest\UnitTest.csproj", "{6FAA7C8B-F2AC-4281-969E-395B2DEED4FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{56B1B4C2-48AE-42B6-9F62-5D0E79BC338E}"
 	ProjectSection(SolutionItems) = preProject
@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{678632
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessModel", "BusinessModel\BusinessModel.csproj", "{7E7B1062-586B-482B-B7B4-CFD2514975F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +82,12 @@ Global
 		{2DB97B98-F859-4FE2-A68A-B73B7EBB6538}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2DB97B98-F859-4FE2-A68A-B73B7EBB6538}.Release|x86.ActiveCfg = Release|x86
 		{2DB97B98-F859-4FE2-A68A-B73B7EBB6538}.Release|x86.Build.0 = Release|x86
+		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

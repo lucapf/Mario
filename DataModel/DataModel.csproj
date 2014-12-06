@@ -64,9 +64,13 @@
     <Compile Include="Migrations\201412010907170_Update01.Designer.cs">
       <DependentUpon>201412010907170_Update01.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201412010935285_Populate.cs" />
-    <Compile Include="Migrations\201412010935285_Populate.Designer.cs">
-      <DependentUpon>201412010935285_Populate.cs</DependentUpon>
+    <Compile Include="Migrations\201412021135450_Update02.cs" />
+    <Compile Include="Migrations\201412021135450_Update02.Designer.cs">
+      <DependentUpon>201412021135450_Update02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412021353563_Update03.cs" />
+    <Compile Include="Migrations\201412021353563_Update03.Designer.cs">
+      <DependentUpon>201412021353563_Update03.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
@@ -148,8 +152,11 @@
     <EmbeddedResource Include="Migrations\201412010907170_Update01.resx">
       <DependentUpon>201412010907170_Update01.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201412010935285_Populate.resx">
-      <DependentUpon>201412010935285_Populate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201412021135450_Update02.resx">
+      <DependentUpon>201412021135450_Update02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412021353563_Update03.resx">
+      <DependentUpon>201412021353563_Update03.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

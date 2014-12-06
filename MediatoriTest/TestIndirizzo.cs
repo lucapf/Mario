@@ -5,7 +5,7 @@ using mediatori.Models.Anagrafiche;
 using mediatori.Models;
 using mediatori.Controllers.Business.Anagrafiche.Soggetto;
 
-namespace mediatori.Controllers.CQS
+namespace mediatori.UnitTest
 {
     [TestClass]
     public class TestIndirizzo

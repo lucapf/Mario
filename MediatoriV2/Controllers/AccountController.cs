@@ -17,11 +17,19 @@ namespace mediatori.Controllers
 
     public class AccountController : MyBaseController
     {
-
         public const bool MY_CUSTOM_IDENTITY = true;
 
-        private MyUsers.UserManager manager = new MyUsers.UserManager("utenti");
+        private MyUsers.UserManager manager = null;
 
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (db != null)
+            {
+                manager = new MyUsers.UserManager(db.Database.Connection);
+            }
+        }
 
 
         [AllowAnonymous]
@@ -47,7 +55,49 @@ namespace mediatori.Controllers
                 string messaggioDiErrore;
                 long userId;
 
-                manager.openConnection();
+
+                bool esito;
+                esito = MyManagerCSharp.RegularExpressionManager.isValidEmail(model.UserName);
+                if (esito == false)
+                {
+                    string messaggio;
+                    messaggio = "Inserire un indirizzo email valido.";
+                    //  TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, messaggio);
+                    ModelState.AddModelError("", messaggio);
+                    return View(model);
+                }
+
+                string dominio;
+                dominio = model.UserName.Split('@')[1];
+
+                string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                connectionString = connectionString.Replace("database=Mediatori", String.Format("database={0}", dominio));
+
+
+                if (manager == null)
+                {
+                    manager = new MyUsers.UserManager("DefaultConnection");
+                }
+
+                manager.changeConnectionString(connectionString);
+
+                try
+                {
+                    manager.openConnection();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Exception: " + ex.Message);
+                    string messaggio;
+                    messaggio = "Dominio non riconosciuto. Verificare l'indirizzo email e se l'errore persiste, contattare l'amministratore di sistema.";
+                    //TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, messaggio);
+                    ModelState.AddModelError("", messaggio);
+                    return View(model);
+                }
+
+
+
+                //   manager.openConnection();
 
                 try
                 {
@@ -91,7 +141,7 @@ namespace mediatori.Controllers
 
 
                         /** SESSIONE **/
-                        mediatori.SessionData session = new mediatori.SessionData(userId);
+                        mediatori.SessionData session = new mediatori.SessionData(userId, dominio, connectionString);
                         session.Roles = manager.getRoles(userId);
                         session.Profili = manager.getProfili(userId);
                         session.Groups = manager.getGroupSmall(userId);
@@ -121,17 +171,6 @@ namespace mediatori.Controllers
                         messaggioDiErrore = "Errore durante la procedura di login. Contattare l'amministratore di sistema.";
                         MyManagerCSharp.MailManager.send(ex);
                     }
-
-                    //sessionData.setJavaScriptMessage(messaggioDiErrore)
-                    //If Page.AppRelativeVirtualPath = "~/utenti/notAuthenticated.aspx" Then
-                    //    redirectTo = "~/utenti/notAuthenticated.aspx"
-                    //ElseIf Page.AppRelativeVirtualPath = "~/admin/login.aspx" Then
-                    //    redirectTo = "~/admin/login.aspx"
-                    //Else
-                    //    redirectTo = "~/utenti/login.aspx"
-                    //End If
-
-                    //Response.Redirect(redirectTo)
 
                     ModelState.AddModelError("", messaggioDiErrore);
                     return View(model);
@@ -167,8 +206,6 @@ namespace mediatori.Controllers
 
         }
 
-
-
         public ActionResult Manage()
         {
             mediatori.Models.UserProfile model = new mediatori.Models.UserProfile();
@@ -203,10 +240,6 @@ namespace mediatori.Controllers
 
             return View(model);
         }
-
-
-
-
 
         public ActionResult Refresh()
         {
@@ -268,23 +301,22 @@ namespace mediatori.Controllers
         // GET: /Account/Register
 
         //Authorize(Roles = "Amministratore")]
-        public ActionResult Register()
-        {
-            List<SelectListItem> selItems = new List<SelectListItem>();
-            foreach (String ruolo in Roles.Provider.GetAllRoles())
-            {
-                selItems.Add(new SelectListItem() { Value = ruolo, Text = ruolo });
-            }
-            ViewBag.roles = selItems;
-            return View();
-        }
+        //public ActionResult Register()
+        //{
+        //    List<SelectListItem> selItems = new List<SelectListItem>();
+        //    foreach (String ruolo in Roles.Provider.GetAllRoles())
+        //    {
+        //        selItems.Add(new SelectListItem() { Value = ruolo, Text = ruolo });
+        //    }
+        //    ViewBag.roles = selItems;
+        //    return View();
+        //}
 
         // [HttpGet]
         ////Authorize(Roles = "Amministratore")]
         // public ActionResult ListUsers(String message)
         // {
         //     if (message != null) ViewBag.message = message;
-        //     MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
         //     List<String> users = db.Database.SqlQuery<String>("select UserName from dbo.UserProfile").ToList();
         //     ViewBag.utenti = users;
         //     return View();

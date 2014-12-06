@@ -1,43 +1,54 @@
-﻿@model mediatori.Models.Pratica.Pratica
+﻿@model mediatori.Models.PraticaDetailsModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.pratica.cedente.nome + " " + Model.pratica.cedente.cognome;
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
-<h1>Dettaglio pratica: @Model.cedente.nome  @Model.cedente.cognome</h1>
+<h1>Dettaglio pratica: @Model.pratica.cedente.nome  @Model.pratica.cedente.cognome</h1>
+
+<div data-role="navbar" data-iconpos="right" data-theme="b">
+    <ul>
+        <li><a href="#popupChangeStato" class="ui-btn-active ui-btn-icon-right ui-icon-gear" data-rel="popup" data-position-to="window" data-transition="pop">Stato corrente: @Model.pratica.stato.descrizione</a></li>
+    </ul>
+</div>
 
 
-@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model);}
+@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.pratica);}
 
 
 <br />
 <!-- preventivo -->
-@{Html.RenderAction("DetailsFromPratica", "Preventivo", new { praticaId = Model.id });}
+@{Html.RenderAction("DetailsFromPratica", "Preventivo", new { praticaId = Model.pratica.id });}
 <!-- /preventivo -->
 
 
-@{Html.RenderAction("Details", "Indirizzo", new { cedenteId = Model.cedente.id });}
+@{Html.RenderAction("Details", "Indirizzo", new { cedenteId = Model.pratica.cedente.id });}
 
-@{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.cedente.id });}
+@{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.pratica.cedente.id });}
 
-@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.cedente.id });}
+@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.pratica.cedente.id });}
 
 <!-- riferimento -->
-@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id });}
+@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.pratica.cedente.id });}
 <!-- /riferimento -->
 
 <!-- documenti -->
-@{Html.RenderAction("DetailsFromPratica", "Documentale", new { praticaId = Model.id });}
+@{Html.RenderAction("DetailsFromPratica", "Documentale", new { praticaId = Model.pratica.id });}
 <!-- /documenti -->
 
-@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, segnalazioneId = Model.id });}
+@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.pratica.note, segnalazioneId = Model.pratica.id });}
 
 
 
-<div data-role="footer" data-position="fixed" data-theme="c">
+<div data-role="footer" data-position="fixed" data-theme="b">
     <div data-role="navbar">
         <ul>
             <li><a href="@Url.Action("Index", "Pratiche")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista delle pratiche</a></li>
         </ul>
     </div>
 </div>
+
+
+
+
+@{Html.RenderPartial("~/Views/Segnalazioni/_PopupChangeStatus.cshtml", Model.listaStatiSuccessivi, new ViewDataDictionary { { "CodiceEntita", Model.pratica.id }, { "Entita" , mediatori.Models.etc.EnumEntitaAssociataStato.PRATICA } });}

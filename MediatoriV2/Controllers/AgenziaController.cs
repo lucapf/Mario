@@ -18,24 +18,19 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Index(AgenziaFilter agenziaFilter)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
             return View(AgenziaBusiness.findByFilter(agenziaFilter, db));
         }
 
 
         public ActionResult IndexV2(AgenziaFilter agenziaFilter)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
-            return View(AgenziaBusiness.findByFilter(agenziaFilter, db));
+               return View(AgenziaBusiness.findByFilter(agenziaFilter, db));
         }
 
         [HttpGet]
         public ActionResult Create()
         {
             var agenziaCreate = new AgenziaCreate();
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag(db);
             agenziaCreate = valorizzaDatiAgenzia(agenziaCreate, db);
             return View(agenziaCreate);
@@ -44,8 +39,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Create(AgenziaCreate agCreate)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
             Agenzia agenzia = agCreate.agenzia;
             agenzia.soggettoGiuridico = agCreate.soggettoGiuridico;
             agenzia.soggettoGiuridico.tipoSoggettoGiuridico = "AMMINISTRAZIONE";
@@ -67,7 +60,6 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag(db);
             Agenzia a = AgenziaBusiness.findByPk(id, db);
             return View(a);

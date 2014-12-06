@@ -68,7 +68,6 @@ namespace mediatori.Controllers
         {
             if (comuneSearch == null) return View();
             IList<Comune> listComune = null;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             IQueryable<Comune> comuni = db.Comuni.Include("provincia");
             if (comuneSearch.codiceProvincia > 0)
             {
@@ -97,7 +96,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from toponimi in db.Toponimi select toponimi).ToList()
                 );
@@ -107,44 +105,40 @@ namespace mediatori.Controllers
 
         public ActionResult toponimo(String sigla)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+
+            if (db.Toponimi.Find(sigla) != null)
             {
-                if (db.Toponimi.Find(sigla) != null)
-                {
-                    return RedirectToAction("toponimi", new { errorMessage = "Toponimo " + sigla + " già censito" });
-                }
-                else
-                {
+                return RedirectToAction("toponimi", new { errorMessage = "Toponimo " + sigla + " già censito" });
+            }
+            else
+            {
 
-                    db.Toponimi.Add(new Toponimo { sigla = sigla });
-                    db.SaveChanges();
+                db.Toponimi.Add(new Toponimo { sigla = sigla });
+                db.SaveChanges();
 
-                }
             }
 
             return RedirectToAction("toponimi", new { message = "inserimento toponimo : " + sigla + " avvenuto con successo" });
         }
 
         [HttpGet]
-
         public ActionResult cancellaToponimo(String sigla)
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+
+            Toponimo toponimo = db.Toponimi.Find(sigla);
+            if (toponimo == null)
             {
-                Toponimo toponimo = db.Toponimi.Find(sigla);
-                if (toponimo == null)
-                {
-                    errorMessage = "";
-                }
-                else
-                {
-                    db.Toponimi.Remove(toponimo);
-                    db.SaveChanges();
-                    message = "toponimo " + toponimo.sigla + " eliminato con successo";
-                }
+                errorMessage = "";
             }
+            else
+            {
+                db.Toponimi.Remove(toponimo);
+                db.SaveChanges();
+                message = "toponimo " + toponimo.sigla + " eliminato con successo";
+            }
+
             return RedirectToAction("toponimi", new { errorMessage = errorMessage, message = message });
         }
         #endregion toponimi
@@ -156,7 +150,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from fontePubblicitaria in db.FontiPubblicitarie select fontePubblicitaria).ToList()
                 );
@@ -166,23 +159,21 @@ namespace mediatori.Controllers
 
         public ActionResult fontePubblicitaria(String descrizione)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+
+            if ((from fp in db.FontiPubblicitarie
+                 where fp.descrizione == descrizione
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.FontiPubblicitarie
-                     where fp.descrizione == descrizione
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("fontePubblicitaria", new
                 {
-                    return RedirectToAction("fontePubblicitaria", new
-                    {
-                        errorMessage = "fonte pubblicitaria " + descrizione
-                            + " già censita"
-                    });
-                }
-                else
-                {
-                    db.FontiPubblicitarie.Add(new FontePubblicitaria { descrizione = descrizione });
-                    db.SaveChanges();
-                }
+                    errorMessage = "fonte pubblicitaria " + descrizione
+                        + " già censita"
+                });
+            }
+            else
+            {
+                db.FontiPubblicitarie.Add(new FontePubblicitaria { descrizione = descrizione });
+                db.SaveChanges();
             }
             return RedirectToAction("fontePubblicitaria", new { message = "inserimento Fonte pubblicitaria : " + descrizione + " avvenuta con successo" });
         }
@@ -193,19 +184,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            FontePubblicitaria fontePubblicitaria = db.FontiPubblicitarie.Find(id);
+            if (fontePubblicitaria == null)
             {
-                FontePubblicitaria fontePubblicitaria = db.FontiPubblicitarie.Find(id);
-                if (fontePubblicitaria == null)
-                {
-                    errorMessage = "impossibile eliminare la fonte pubblicitaria " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.FontiPubblicitarie.Remove(fontePubblicitaria);
-                    db.SaveChanges();
-                    message = "fonte pubblicitaria " + fontePubblicitaria.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare la fonte pubblicitaria " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.FontiPubblicitarie.Remove(fontePubblicitaria);
+                db.SaveChanges();
+                message = "fonte pubblicitaria " + fontePubblicitaria.descrizione + " eliminata con successo";
             }
             return RedirectToAction("fontePubblicitaria", new { errorMessage = errorMessage, message = message });
         }
@@ -218,7 +206,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipologiaPrestito in db.TipoPrestito select tipologiaPrestito).ToList()
                 );
@@ -228,23 +215,21 @@ namespace mediatori.Controllers
 
         public ActionResult tipologiaPrestito(String descrizione)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+
+            if ((from fp in db.TipoPrestito
+                 where fp.descrizione == descrizione
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoPrestito
-                     where fp.descrizione == descrizione
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipologiaPrestito", new
                 {
-                    return RedirectToAction("tipologiaPrestito", new
-                    {
-                        errorMessage = "tipologia prestito " + descrizione
-                            + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoPrestito.Add(new TipologiaPrestito { descrizione = descrizione });
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipologia prestito " + descrizione
+                        + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoPrestito.Add(new TipologiaPrestito { descrizione = descrizione });
+                db.SaveChanges();
             }
             return RedirectToAction("tipologiaPrestito", new { message = "inserimento tipologia prestito : " + descrizione + " avvenuta con successo" });
         }
@@ -255,19 +240,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipologiaPrestito tipologiaPrestito = db.TipoPrestito.Find(id);
+            if (tipologiaPrestito == null)
             {
-                TipologiaPrestito tipologiaPrestito = db.TipoPrestito.Find(id);
-                if (tipologiaPrestito == null)
-                {
-                    errorMessage = "impossibile eliminare la tipologia prestito " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.TipoPrestito.Remove(tipologiaPrestito);
-                    db.SaveChanges();
-                    message = "tipologia prestito " + tipologiaPrestito.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare la tipologia prestito " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.TipoPrestito.Remove(tipologiaPrestito);
+                db.SaveChanges();
+                message = "tipologia prestito " + tipologiaPrestito.descrizione + " eliminata con successo";
             }
             return RedirectToAction("tipologiaPrestito", new { errorMessage = errorMessage, message = message });
         }
@@ -280,7 +262,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipologiaAzienda in db.TipoAzienda select tipologiaAzienda).ToList()
                 );
@@ -290,23 +271,20 @@ namespace mediatori.Controllers
 
         public ActionResult tipologiaAzienda(TipologiaAzienda ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoAzienda
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoAzienda
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipologiaAzienda", new
                 {
-                    return RedirectToAction("tipologiaAzienda", new
-                    {
-                        errorMessage = "tipologia Azienda " + ta.descrizione
-                            + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoAzienda.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipologia Azienda " + ta.descrizione
+                        + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoAzienda.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipologiaAzienda", new { message = "inserimento tipologia Azienda : " + ta.descrizione + " avvenuta con successo" });
         }
@@ -317,19 +295,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipologiaAzienda tipologiaAzienda = db.TipoAzienda.Find(id);
+            if (tipologiaAzienda == null)
             {
-                TipologiaAzienda tipologiaAzienda = db.TipoAzienda.Find(id);
-                if (tipologiaAzienda == null)
-                {
-                    errorMessage = "impossibile eliminare la tipologia Azienda " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.TipoAzienda.Remove(tipologiaAzienda);
-                    db.SaveChanges();
-                    message = "tipologia Azienda " + tipologiaAzienda.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare la tipologia Azienda " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.TipoAzienda.Remove(tipologiaAzienda);
+                db.SaveChanges();
+                message = "tipologia Azienda " + tipologiaAzienda.descrizione + " eliminata con successo";
             }
             return RedirectToAction("tipologiaAzienda", new { errorMessage = errorMessage, message = message });
         }
@@ -342,7 +317,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipologiaIndirizzo in db.TipoIndirizzo select tipologiaIndirizzo).ToList()
                 );
@@ -352,23 +326,20 @@ namespace mediatori.Controllers
 
         public ActionResult tipologiaIndirizzo(TipologiaIndirizzo ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoIndirizzo
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoIndirizzo
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipologiaIndirizzo", new
                 {
-                    return RedirectToAction("tipologiaIndirizzo", new
-                    {
-                        errorMessage = "tipologia Indirizzo " + ta.descrizione
-                            + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoIndirizzo.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipologia Indirizzo " + ta.descrizione
+                        + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoIndirizzo.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipologiaIndirizzo", new { message = "inserimento tipologia Indirizzo : " + ta.descrizione + " avvenuta con successo" });
         }
@@ -379,19 +350,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipologiaIndirizzo tipologiaIndirizzo = db.TipoIndirizzo.Find(id);
+            if (tipologiaIndirizzo == null)
             {
-                TipologiaIndirizzo tipologiaIndirizzo = db.TipoIndirizzo.Find(id);
-                if (tipologiaIndirizzo == null)
-                {
-                    errorMessage = "impossibile eliminare la tipologia Indirizzo " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.TipoIndirizzo.Remove(tipologiaIndirizzo);
-                    db.SaveChanges();
-                    message = "tipologia Indirizzo " + tipologiaIndirizzo.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare la tipologia Indirizzo " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.TipoIndirizzo.Remove(tipologiaIndirizzo);
+                db.SaveChanges();
+                message = "tipologia Indirizzo " + tipologiaIndirizzo.descrizione + " eliminata con successo";
             }
             return RedirectToAction("tipologiaIndirizzo", new { errorMessage = errorMessage, message = message });
         }
@@ -404,7 +372,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoContrattoImpiego in db.TipoContrattoImpiego select tipoContrattoImpiego).ToList()
                 );
@@ -414,23 +381,20 @@ namespace mediatori.Controllers
 
         public ActionResult tipoContrattoImpiego(TipoContrattoImpiego ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoContrattoImpiego
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoContrattoImpiego
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoContrattoImpiego", new
                 {
-                    return RedirectToAction("tipoContrattoImpiego", new
-                    {
-                        errorMessage = "Tipo contratto " + ta.descrizione
-                            + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoContrattoImpiego.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Tipo contratto " + ta.descrizione
+                        + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoContrattoImpiego.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoContrattoImpiego", new { message = "inserimento Tipo contratto : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -441,19 +405,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoContrattoImpiego tipoContrattoImpiego = db.TipoContrattoImpiego.Find(id);
+            if (tipoContrattoImpiego == null)
             {
-                TipoContrattoImpiego tipoContrattoImpiego = db.TipoContrattoImpiego.Find(id);
-                if (tipoContrattoImpiego == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo contratto " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.TipoContrattoImpiego.Remove(tipoContrattoImpiego);
-                    db.SaveChanges();
-                    message = "tipo contratto " + tipoContrattoImpiego.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo contratto " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.TipoContrattoImpiego.Remove(tipoContrattoImpiego);
+                db.SaveChanges();
+                message = "tipo contratto " + tipoContrattoImpiego.descrizione + " eliminato con successo";
             }
             return RedirectToAction("tipoContrattoImpiego", new { errorMessage = errorMessage, message = message });
         }
@@ -466,7 +427,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoEnteRilascio in db.TipoEnteRilascio select tipoEnteRilascio).ToList()
                 );
@@ -476,23 +436,20 @@ namespace mediatori.Controllers
 
         public ActionResult tipoEnteRilascio(TipoEnteRilascio ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoEnteRilascio
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoEnteRilascio
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoEnteRilascio", new
                 {
-                    return RedirectToAction("tipoEnteRilascio", new
-                    {
-                        errorMessage = "Tipo ente " + ta.descrizione
-                            + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoEnteRilascio.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Tipo ente " + ta.descrizione
+                        + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoEnteRilascio.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoEnteRilascio", new { message = "inserimento tipo Ente rilascio : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -503,19 +460,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoEnteRilascio tipoEnteRilascio = db.TipoEnteRilascio.Find(id);
+            if (tipoEnteRilascio == null)
             {
-                TipoEnteRilascio tipoEnteRilascio = db.TipoEnteRilascio.Find(id);
-                if (tipoEnteRilascio == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo ente rilascio " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.TipoEnteRilascio.Remove(tipoEnteRilascio);
-                    db.SaveChanges();
-                    message = "tipo ente rilascio " + tipoEnteRilascio.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo ente rilascio " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.TipoEnteRilascio.Remove(tipoEnteRilascio);
+                db.SaveChanges();
+                message = "tipo ente rilascio " + tipoEnteRilascio.descrizione + " eliminato con successo";
             }
             return RedirectToAction("tipoEnteRilascio", new { errorMessage = errorMessage, message = message });
         }
@@ -528,7 +482,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoDocumentoIdentita in db.TipoDocumentiIdentita select tipoDocumentoIdentita).ToList()
                 );
@@ -538,23 +491,20 @@ namespace mediatori.Controllers
 
         public ActionResult tipoDocumentoIdentita(TipoDocumentoIdentita ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoDocumentiIdentita
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoDocumentiIdentita
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoDocumentoIdentita", new
                 {
-                    return RedirectToAction("tipoDocumentoIdentita", new
-                    {
-                        errorMessage = "Tipo Documento identita " + ta.descrizione
-                            + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoDocumentiIdentita.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Tipo Documento identita " + ta.descrizione
+                        + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoDocumentiIdentita.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoDocumentoIdentita", new { message = "inserimento tipo Docmento identita : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -565,19 +515,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoDocumentoIdentita tipoDocumentoIdentita = db.TipoDocumentiIdentita.Find(id);
+            if (tipoDocumentoIdentita == null)
             {
-                TipoDocumentoIdentita tipoDocumentoIdentita = db.TipoDocumentiIdentita.Find(id);
-                if (tipoDocumentoIdentita == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo documento dientita " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoDocumentiIdentita.Remove(tipoDocumentoIdentita);
-                    db.SaveChanges();
-                    message = "tipo documento identita " + tipoDocumentoIdentita.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo documento dientita " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoDocumentiIdentita.Remove(tipoDocumentoIdentita);
+                db.SaveChanges();
+                message = "tipo documento identita " + tipoDocumentoIdentita.descrizione + " eliminato con successo";
             }
             return RedirectToAction("tipoDocumentoIdentita", new { errorMessage = errorMessage, message = message });
         }
@@ -689,8 +636,6 @@ namespace mediatori.Controllers
         //{
         //    String errorMessage = string.Empty;
         //    string message = String.Empty;
-        //    using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
-        //    {
         //        GruppoLavorazione gruppoLavorazione = db.GruppiLavorazione.Find(id);
         //        if (gruppoLavorazione == null)
         //        {
@@ -702,7 +647,6 @@ namespace mediatori.Controllers
         //            db.SaveChanges();
         //            message = "Gruppo di lavorazione " + gruppoLavorazione.nome + " eliminato con successo";
         //        }
-        //    }
         //    return RedirectToAction("gruppoLavorazione", new { errorMessage = errorMessage, message = message });
         //}
 
@@ -711,12 +655,9 @@ namespace mediatori.Controllers
         //public ActionResult AggiornaGruppiAssegnazione(int id, List<String> utentiAssociati)
         //{
         //    if (id == 0) return RedirectToAction("gruppoLavorazione", new { errorMessage = "necessario fornire il codice gruppo" });
-        //    using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
-        //    {
         //        GruppoLavorazione gl = db.GruppiLavorazione.Find(id);
         //        gl.utenti = GruppoLavorazioneUtils.toTockenizedView(utentiAssociati);
         //        db.SaveChanges();
-        //    }
         //    return RedirectToAction("gruppoLavorazione", new { message = "Aggiornamento avvenuto con successo" });
 
         //}
@@ -734,7 +675,7 @@ namespace mediatori.Controllers
             // model.listaStatiBase = new SelectList(from EnumStatoBase e in EnumStatoBase.GetValues(typeof(EnumStatoBase)) select new { Id = e, Name = e.ToString() }, "Id", "Name", null);
             // model.listaEntitaAssociate = new SelectList(from EnumEntitaAssociataStato e in EnumEntitaAssociataStato.GetValues(typeof(EnumEntitaAssociataStato)) select new { Id = e, Name = e.ToString() }, "Id", "Name", null);
             //model.listaGruppiDiLavorazione = new SelectList(from GruppoLavorazione gl in db.GruppiLavorazione select new { Id = gl.id, Name = gl.nome }, "Id", "Name", null);
-            MyUsers.GroupManager managerGroup = new MyUsers.GroupManager("DefaultConnection");
+            MyUsers.GroupManager managerGroup = new MyUsers.GroupManager(db.Database.Connection);
 
             managerGroup.openConnection();
             try
@@ -834,7 +775,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoCampagnaPubblicitaria in db.TipoCampagnaPubblicitaria select tipoCampagnaPubblicitaria).ToList()
                 );
@@ -844,22 +784,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoCampagnaPubblicitaria(TipoCampagnaPubblicitaria ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoCampagnaPubblicitaria
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoCampagnaPubblicitaria
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoCampagnaPubblicitaria", new
                 {
-                    return RedirectToAction("tipoCampagnaPubblicitaria", new
-                    {
-                        errorMessage = "Tipo Documento identita " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoCampagnaPubblicitaria.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Tipo Documento identita " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoCampagnaPubblicitaria.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("TipoCampagnaPubblicitaria", new { message = "inserimento campagna  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -870,19 +807,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoCampagnaPubblicitaria tipoCampagnaPubblicitaria = db.TipoCampagnaPubblicitaria.Find(id);
+            if (tipoCampagnaPubblicitaria == null)
             {
-                TipoCampagnaPubblicitaria tipoCampagnaPubblicitaria = db.TipoCampagnaPubblicitaria.Find(id);
-                if (tipoCampagnaPubblicitaria == null)
-                {
-                    errorMessage = "impossibile eliminare la campagna pubblicitaria " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoCampagnaPubblicitaria.Remove(tipoCampagnaPubblicitaria);
-                    db.SaveChanges();
-                    message = "campagna pubblicitaria " + tipoCampagnaPubblicitaria.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare la campagna pubblicitaria " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoCampagnaPubblicitaria.Remove(tipoCampagnaPubblicitaria);
+                db.SaveChanges();
+                message = "campagna pubblicitaria " + tipoCampagnaPubblicitaria.descrizione + " eliminata con successo";
             }
             return RedirectToAction("TipoCampagnaPubblicitaria", new { errorMessage = errorMessage, message = message });
         }
@@ -895,7 +829,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoCanaleAcquisizione in db.TipoCanaleAcquisizione select tipoCanaleAcquisizione).ToList()
                 );
@@ -905,22 +838,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoCanaleAcquisizione(TipoCanaleAcquisizione ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoCanaleAcquisizione
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoCanaleAcquisizione
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoCanaleAcquisizione", new
                 {
-                    return RedirectToAction("tipoCanaleAcquisizione", new
-                    {
-                        errorMessage = "Canale acquisizione " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoCanaleAcquisizione.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Canale acquisizione " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoCanaleAcquisizione.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoCanaleAcquisizione", new { message = "inserimento campagna  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -931,19 +861,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoCanaleAcquisizione tipoCanaleAcquisizione = db.TipoCanaleAcquisizione.Find(id);
+            if (tipoCanaleAcquisizione == null)
             {
-                TipoCanaleAcquisizione tipoCanaleAcquisizione = db.TipoCanaleAcquisizione.Find(id);
-                if (tipoCanaleAcquisizione == null)
-                {
-                    errorMessage = "impossibile eliminare il canale di acquisizione " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoCanaleAcquisizione.Remove(tipoCanaleAcquisizione);
-                    db.SaveChanges();
-                    message = "canale acquisizione " + tipoCanaleAcquisizione.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il canale di acquisizione " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoCanaleAcquisizione.Remove(tipoCanaleAcquisizione);
+                db.SaveChanges();
+                message = "canale acquisizione " + tipoCanaleAcquisizione.descrizione + " eliminato con successo";
             }
             return RedirectToAction("TipoCanaleAcquisizione", new { errorMessage = errorMessage, message = message });
         }
@@ -956,7 +883,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoLuogoRitrovo in db.TipoLuogoRitrovo select tipoLuogoRitrovo).ToList()
                 );
@@ -966,22 +892,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoLuogoRitrovo(TipoLuogoRitrovo ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoLuogoRitrovo
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoLuogoRitrovo
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoLuogoRitrovo", new
                 {
-                    return RedirectToAction("tipoLuogoRitrovo", new
-                    {
-                        errorMessage = "Luogo ritrovo " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoLuogoRitrovo.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Luogo ritrovo " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoLuogoRitrovo.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoLuogoRitrovo", new { message = "inserimento luogo ritrovo  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -992,19 +915,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoLuogoRitrovo tipoLuogoRitrovo = db.TipoLuogoRitrovo.Find(id);
+            if (tipoLuogoRitrovo == null)
             {
-                TipoLuogoRitrovo tipoLuogoRitrovo = db.TipoLuogoRitrovo.Find(id);
-                if (tipoLuogoRitrovo == null)
-                {
-                    errorMessage = "impossibile eliminare Luogo ritrovo " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoLuogoRitrovo.Remove(tipoLuogoRitrovo);
-                    db.SaveChanges();
-                    message = "Luogo ritrovo " + tipoLuogoRitrovo.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare Luogo ritrovo " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoLuogoRitrovo.Remove(tipoLuogoRitrovo);
+                db.SaveChanges();
+                message = "Luogo ritrovo " + tipoLuogoRitrovo.descrizione + " eliminato con successo";
             }
             return RedirectToAction("TipoLuogoRitrovo", new { errorMessage = errorMessage, message = message });
         }
@@ -1017,7 +937,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoContatto in db.TipoContatto select tipoContatto).ToList()
                 );
@@ -1027,22 +946,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoContatto(TipoContatto ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoContatto
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoContatto
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoContatto", new
                 {
-                    return RedirectToAction("tipoContatto", new
-                    {
-                        errorMessage = "tipo contatto " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoContatto.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipo contatto " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoContatto.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoContatto", new { message = "inserimento tipo contatto  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -1053,19 +969,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoContatto tipoContatto = db.TipoContatto.Find(id);
+            if (tipoContatto == null)
             {
-                TipoContatto tipoContatto = db.TipoContatto.Find(id);
-                if (tipoContatto == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo contatto " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoContatto.Remove(tipoContatto);
-                    db.SaveChanges();
-                    message = "tipo Contatto " + tipoContatto.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo contatto " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoContatto.Remove(tipoContatto);
+                db.SaveChanges();
+                message = "tipo Contatto " + tipoContatto.descrizione + " eliminato con successo";
             }
             return RedirectToAction("TipoContatto", new { errorMessage = errorMessage, message = message });
         }
@@ -1078,7 +991,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoRiferimento in db.TipoRiferimento select tipoRiferimento).ToList()
                 );
@@ -1088,22 +1000,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoRiferimento(TipoRiferimento ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoRiferimento
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoRiferimento
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoRiferimento", new
                 {
-                    return RedirectToAction("tipoRiferimento", new
-                    {
-                        errorMessage = "tipo riferimento " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoRiferimento.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipo riferimento " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoRiferimento.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoRiferimento", new { message = "inserimento tipo riferimento  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -1114,19 +1023,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoRiferimento tipoRiferimento = db.TipoRiferimento.Find(id);
+            if (tipoRiferimento == null)
             {
-                TipoRiferimento tipoRiferimento = db.TipoRiferimento.Find(id);
-                if (tipoRiferimento == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo contatto " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoRiferimento.Remove(tipoRiferimento);
-                    db.SaveChanges();
-                    message = "tipo Contatto " + tipoRiferimento.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo contatto " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoRiferimento.Remove(tipoRiferimento);
+                db.SaveChanges();
+                message = "tipo Contatto " + tipoRiferimento.descrizione + " eliminato con successo";
             }
             return RedirectToAction("TipoRiferimento", new { errorMessage = errorMessage, message = message });
         }
@@ -1139,7 +1045,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from categoriaImpiego in db.TipoCategoriaImpiego select categoriaImpiego).ToList()
                 );
@@ -1149,22 +1054,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoCategoriaImpiego(TipoCategoriaImpiego ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoCategoriaImpiego
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoCategoriaImpiego
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoCategoriaImpiego", new
                 {
-                    return RedirectToAction("tipoCategoriaImpiego", new
-                    {
-                        errorMessage = "tipo categoriaImpiego " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoCategoriaImpiego.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipo categoriaImpiego " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoCategoriaImpiego.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoCategoriaImpiego", new { message = "inserimento Categoria impiego  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -1175,19 +1077,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoCategoriaImpiego tipoCategoriaImpiego = db.TipoCategoriaImpiego.Find(id);
+            if (tipoCategoriaImpiego == null)
             {
-                TipoCategoriaImpiego tipoCategoriaImpiego = db.TipoCategoriaImpiego.Find(id);
-                if (tipoCategoriaImpiego == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo categoria impiego" + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoCategoriaImpiego.Remove(tipoCategoriaImpiego);
-                    db.SaveChanges();
-                    message = "categoria impiego " + tipoCategoriaImpiego.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo categoria impiego" + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoCategoriaImpiego.Remove(tipoCategoriaImpiego);
+                db.SaveChanges();
+                message = "categoria impiego " + tipoCategoriaImpiego.descrizione + " eliminato con successo";
             }
             return RedirectToAction("TipoCategoriaImpiego", new { errorMessage = errorMessage, message = message });
         }
@@ -1200,7 +1099,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoProdotto in db.TipoProdotto select tipoProdotto).ToList()
                 );
@@ -1210,22 +1108,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoProdotto(TipoProdotto ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoProdotto
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoProdotto
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoProdotto", new
                 {
-                    return RedirectToAction("tipoProdotto", new
-                    {
-                        errorMessage = "prodotto " + ta.descrizione + " già censito"
-                    });
-                }
-                else
-                {
-                    db.TipoProdotto.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "prodotto " + ta.descrizione + " già censito"
+                });
+            }
+            else
+            {
+                db.TipoProdotto.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoProdotto", new { message = "inserimento prodotto  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -1236,19 +1131,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoProdotto tipoProdotto = db.TipoProdotto.Find(id);
+            if (tipoProdotto == null)
             {
-                TipoProdotto tipoProdotto = db.TipoProdotto.Find(id);
-                if (tipoProdotto == null)
-                {
-                    errorMessage = "impossibile eliminare il prodotto " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoProdotto.Remove(tipoProdotto);
-                    db.SaveChanges();
-                    message = "Prodotto " + tipoProdotto.descrizione + " eliminato con successo";
-                }
+                errorMessage = "impossibile eliminare il prodotto " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoProdotto.Remove(tipoProdotto);
+                db.SaveChanges();
+                message = "Prodotto " + tipoProdotto.descrizione + " eliminato con successo";
             }
             return RedirectToAction("TipoProdotto", new { errorMessage = errorMessage, message = message });
         }
@@ -1261,7 +1153,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoCategoriaAmministrazione in db.TipoCategoriaAmministrazione select tipoCategoriaAmministrazione).ToList()
                 );
@@ -1271,22 +1162,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoCategoriaAmministrazione(TipoCategoriaAmministrazione ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoCategoriaAmministrazione
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoCategoriaAmministrazione
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoCategoriaAmministrazione", new
                 {
-                    return RedirectToAction("tipoCategoriaAmministrazione", new
-                    {
-                        errorMessage = "Categoria " + ta.descrizione + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoCategoriaAmministrazione.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "Categoria " + ta.descrizione + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoCategoriaAmministrazione.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoCategoriaAmministrazione", new { message = "inserimento categoria  : " + ta.descrizione + " avvenuto con successo" });
         }
@@ -1297,19 +1185,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoCategoriaAmministrazione tipoCategoriaAmministrazione = db.TipoCategoriaAmministrazione.Find(id);
+            if (tipoCategoriaAmministrazione == null)
             {
-                TipoCategoriaAmministrazione tipoCategoriaAmministrazione = db.TipoCategoriaAmministrazione.Find(id);
-                if (tipoCategoriaAmministrazione == null)
-                {
-                    errorMessage = "impossibile eliminare la categoria " + id + " in quanto non censita";
-                }
-                else
-                {
-                    db.TipoCategoriaAmministrazione.Remove(tipoCategoriaAmministrazione);
-                    db.SaveChanges();
-                    message = "Categoria " + tipoCategoriaAmministrazione.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare la categoria " + id + " in quanto non censita";
+            }
+            else
+            {
+                db.TipoCategoriaAmministrazione.Remove(tipoCategoriaAmministrazione);
+                db.SaveChanges();
+                message = "Categoria " + tipoCategoriaAmministrazione.descrizione + " eliminata con successo";
             }
             return RedirectToAction("TipoCategoriaAmministrazione", new { errorMessage = errorMessage, message = message });
         }
@@ -1322,7 +1207,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(
                 (from tipoAssumibilitaAmministrazione in db.TipoAssumibilitaAmministrazione select tipoAssumibilitaAmministrazione).ToList()
                 );
@@ -1332,22 +1216,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoAssumibilitaAmministrazione(TipoAssumibilitaAmministrazione ta)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoAssumibilitaAmministrazione
+                 where (fp.descrizione == ta.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoAssumibilitaAmministrazione
-                     where (fp.descrizione == ta.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoAssumibilitaAmministrazione", new
                 {
-                    return RedirectToAction("tipoAssumibilitaAmministrazione", new
-                    {
-                        errorMessage = "tipo assumibilita " + ta.descrizione + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoAssumibilitaAmministrazione.Add(ta);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipo assumibilita " + ta.descrizione + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoAssumibilitaAmministrazione.Add(ta);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoAssumibilitaAmministrazione", new { message = "inserimento tipo assumibilita: " + ta.descrizione + " avvenuto con successo" });
         }
@@ -1358,19 +1239,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoAssumibilitaAmministrazione tipoAssumibilitaAmministrazione = db.TipoAssumibilitaAmministrazione.Find(id);
+            if (tipoAssumibilitaAmministrazione == null)
             {
-                TipoAssumibilitaAmministrazione tipoAssumibilitaAmministrazione = db.TipoAssumibilitaAmministrazione.Find(id);
-                if (tipoAssumibilitaAmministrazione == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo assumibilita " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoAssumibilitaAmministrazione.Remove(tipoAssumibilitaAmministrazione);
-                    db.SaveChanges();
-                    message = "tipo ammissibilita " + tipoAssumibilitaAmministrazione.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo assumibilita " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoAssumibilitaAmministrazione.Remove(tipoAssumibilitaAmministrazione);
+                db.SaveChanges();
+                message = "tipo ammissibilita " + tipoAssumibilitaAmministrazione.descrizione + " eliminata con successo";
             }
             return RedirectToAction("TipoAssumibilitaAmministrazione", new { errorMessage = errorMessage, message = message });
         }
@@ -1383,7 +1261,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(db.TipoErogazione.ToList());
         }
 
@@ -1391,22 +1268,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoErogazione(TipoErogazione tipoErog)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoErogazione
+                 where ((fp.descrizione == tipoErog.descrizione) || (fp.sigla == tipoErog.sigla))
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoErogazione
-                     where ((fp.descrizione == tipoErog.descrizione) || (fp.sigla == tipoErog.sigla))
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoErogazione", new
                 {
-                    return RedirectToAction("tipoErogazione", new
-                    {
-                        errorMessage = "tipo erogazione " + tipoErog.descrizione + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoErogazione.Add(tipoErog);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipo erogazione " + tipoErog.descrizione + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoErogazione.Add(tipoErog);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoErogazione", new { message = "inserimento tipo erogazione: " + tipoErog.descrizione + " avvenuto con successo" });
         }
@@ -1417,19 +1291,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoErogazione tipoErogazione = db.TipoErogazione.Find(sigla);
+            if (tipoErogazione == null)
             {
-                TipoErogazione tipoErogazione = db.TipoErogazione.Find(sigla);
-                if (tipoErogazione == null)
-                {
-                    errorMessage = "impossibile eliminare il erogazione " + sigla + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoErogazione.Remove(tipoErogazione);
-                    db.SaveChanges();
-                    message = "tipo erogazione " + tipoErogazione.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare il erogazione " + sigla + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoErogazione.Remove(tipoErogazione);
+                db.SaveChanges();
+                message = "tipo erogazione " + tipoErogazione.descrizione + " eliminata con successo";
             }
             return RedirectToAction("TipoErogazione", new { errorMessage = errorMessage, message = message });
         }
@@ -1442,7 +1313,6 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(db.TipoAgenzia.ToList());
         }
 
@@ -1450,22 +1320,19 @@ namespace mediatori.Controllers
 
         public ActionResult tipoAgenzia(TipoAgenzia tipoAgenzia)
         {
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            if ((from fp in db.TipoAgenzia
+                 where (fp.descrizione == tipoAgenzia.descrizione)
+                 select fp).FirstOrDefault() != null)
             {
-                if ((from fp in db.TipoAgenzia
-                     where (fp.descrizione == tipoAgenzia.descrizione)
-                     select fp).FirstOrDefault() != null)
+                return RedirectToAction("tipoAgenzia", new
                 {
-                    return RedirectToAction("tipoAgenzia", new
-                    {
-                        errorMessage = "tipo agenzia " + tipoAgenzia.descrizione + " già censita"
-                    });
-                }
-                else
-                {
-                    db.TipoAgenzia.Add(tipoAgenzia);
-                    db.SaveChanges();
-                }
+                    errorMessage = "tipo agenzia " + tipoAgenzia.descrizione + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoAgenzia.Add(tipoAgenzia);
+                db.SaveChanges();
             }
             return RedirectToAction("tipoAgenzia", new { message = "inserimento tipo agenzia: " + tipoAgenzia.descrizione + " avvenuto con successo" });
         }
@@ -1476,19 +1343,16 @@ namespace mediatori.Controllers
         {
             String errorMessage = string.Empty;
             string message = String.Empty;
-            using (MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri))
+            TipoAgenzia tipoErogazione = db.TipoAgenzia.Find(id);
+            if (tipoErogazione == null)
             {
-                TipoAgenzia tipoErogazione = db.TipoAgenzia.Find(id);
-                if (tipoErogazione == null)
-                {
-                    errorMessage = "impossibile eliminare il tipo agenzia " + id + " in quanto non censito";
-                }
-                else
-                {
-                    db.TipoAgenzia.Remove(tipoErogazione);
-                    db.SaveChanges();
-                    message = "tipo agenzia " + tipoErogazione.descrizione + " eliminata con successo";
-                }
+                errorMessage = "impossibile eliminare il tipo agenzia " + id + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoAgenzia.Remove(tipoErogazione);
+                db.SaveChanges();
+                message = "tipo agenzia " + tipoErogazione.descrizione + " eliminata con successo";
             }
             return RedirectToAction("TipoAgenzia", new { errorMessage = errorMessage, message = message });
         }
@@ -1501,14 +1365,12 @@ namespace mediatori.Controllers
 
             ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
             ViewBag.message = message == null ? String.Empty : message;
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return View(db.Parametri.ToList());
         }
         [HttpPost]
 
         public ActionResult Parametro(Parametro p)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Parametro parDadb = db.Parametri.Find(p.id);
             parDadb.value = p.value;
             db.SaveChanges();

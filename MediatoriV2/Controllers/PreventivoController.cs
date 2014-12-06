@@ -207,6 +207,8 @@ namespace mediatori.Controllers
 
                 db.Database.ExecuteSqlCommand("UPDATE preventivo SET Tipo = 'Confermato'  where id = " + preventivo.id);
 
+                //TODO: Confifurare lo stato base della PRATICA
+
                 model.referenceId = preventivo.segnalazione.id.ToString();
                 model.esito = Models.JsonMessageModel.Esito.Succes;
                 model.messaggio = "Operazione conlusa con successo";
@@ -231,7 +233,6 @@ namespace mediatori.Controllers
 
         //public ActionResult preventivoPartial(Segnalazione segnalazione, EnumTipoAzione tipoAzione)
         //{
-        //    MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
         //    Preventivo preventivo = new Preventivo();
         //    preventivo.importoRata = segnalazione.rataRichiesta;
         //    preventivo.durata = segnalazione.durataRichiesta;
@@ -251,7 +252,6 @@ namespace mediatori.Controllers
                 // preventivo.montante = (decimal)(segnalazione.rataRichiesta * (float)segnalazione.durataRichiesta);
 
             }
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             return dispatch(preventivo, tipoAzione, db);
         }
 

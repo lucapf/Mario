@@ -21,11 +21,7 @@ namespace mediatori.Controllers
 
         public ActionResult Index(SegnalazioneSearch segnalazioniSearch)
         {
-
-            //return View(new SegnalazioneBusiness().findByFilter(segnalazioniSearch, db));
-
-
-            IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto");
+            IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto").Include("stato");
 
             if (segnalazioniSearch.cognome != null)
             {
@@ -91,7 +87,6 @@ namespace mediatori.Controllers
         //[HttpGet]
         //public ActionResult Details(int id = 0)
         //{
-        //    MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
         //    Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
 
         //    List<mediatori.Models.Anagrafiche.TipoDocumento> tipoDocumento;
@@ -133,29 +128,33 @@ namespace mediatori.Controllers
         }
 
 
-
-
-
-
         [HttpGet]
-        public ActionResult Create(Models.Segnalazione.SegnalazioneCreateModel model)
+        public ActionResult Create(int? codiceContatto, Models.Segnalazione.SegnalazioneCreateModel model)
         {
+            Debug.WriteLine("codiceContatto: " + codiceContatto);
 
-            valorizzaDatiViewBag(db);
+            valorizzaDatiViewBag();
+
+            if (codiceContatto != null)
+            {
+                Models.Anagrafiche.Contatto contatto = db.Contatti.Find(codiceContatto);
+                if (contatto != null)
+                {
+                    model.segnalazione.contatto = contatto;
+
+                    if (model.segnalazione.contatto.provinciaNascita != null)
+                    {
+                        ViewBag.listaComuni = new SelectList(db.Comuni.Where(c => c.codiceProvincia == model.segnalazione.contatto.provinciaNascita.id).ToList(), "denominazione", "denominazione");
+                    }
+                }
+            }
 
 
-#if DEBUG
-            model.segnalazione.contatto.nome = "Nome TEST";
-            model.segnalazione.contatto.cognome = "Cognome TEST";
-            model.segnalazione.contatto.dataNascita = new DateTime(1975, 11, 7);
-            model.segnalazione.contatto.codiceFiscale = "TTTVVV75S07H444B";
-            model.segnalazione.contatto.sesso = EnumSesso.MASCHIO;
-
-#endif
-
-            //model.impieghi.Add(new Impiego());
-            //model.riferimenti.Add(new Riferimento());
-
+            //model.segnalazione.contatto.nome = "Nome TEST";
+            //model.segnalazione.contatto.cognome = "Cognome TEST";
+            //model.segnalazione.contatto.dataNascita = new DateTime(1975, 11, 7);
+            //model.segnalazione.contatto.codiceFiscale = "TTTVVV75S07H444B";
+            //model.segnalazione.contatto.sesso = EnumSesso.MASCHIO;
 
             return View(model);
         }
@@ -166,12 +165,9 @@ namespace mediatori.Controllers
         [ActionName("Create")]
         public ActionResult CreatePost(Models.Segnalazione.SegnalazioneCreateModel model)
         {
-
             Segnalazione segnalazione = model.segnalazione;
-
             segnalazione.contatto.provinciaNascita = db.Province.Where(p => p.denominazione == segnalazione.contatto.provinciaNascita.denominazione).FirstOrDefault();
             segnalazione.contatto.comuneNascita = db.Comuni.Where(c => c.denominazione == segnalazione.contatto.comuneNascita.denominazione && c.codiceProvincia == segnalazione.contatto.provinciaNascita.id).FirstOrDefault();
-
 
             if (segnalazione.contatto.impieghi == null)
             {
@@ -179,21 +175,17 @@ namespace mediatori.Controllers
             }
             segnalazione.contatto.impieghi.Add(model.impiego);
 
-
-
             if (segnalazione.contatto.riferimenti == null)
             {
                 segnalazione.contatto.riferimenti = new List<mediatori.Models.Anagrafiche.Riferimento>();
             }
             segnalazione.contatto.riferimenti.Add(model.riferimento);
 
-
             if (segnalazione.note == null)
             {
                 segnalazione.note = new List<mediatori.Models.Nota>();
             }
             segnalazione.note.Add(model.nota);
-
 
 
             SegnalazioneBusiness segnalazioneBusiness = new SegnalazioneBusiness();
@@ -203,7 +195,6 @@ namespace mediatori.Controllers
             TryValidateModel(segnalazione);
             if (ModelState.IsValid)
             {
-
                 segnalazione.stato = db.StatiSegnalazione.Find(MyConstants.STATO_INIZIALE_SEGNALAZIONE);
 
                 if (segnalazione.stato == null)
@@ -216,7 +207,7 @@ namespace mediatori.Controllers
                 try
                 {
                     db.SaveChanges();
-                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Inserimento segnalazione" + model.segnalazione.contatto.nome + " " + model.segnalazione.contatto.cognome + " avvenuto con successo");
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Inserimento segnalazione per " + model.segnalazione.contatto.nome + " " + model.segnalazione.contatto.cognome + " avvenuto con successo");
                     return RedirectToAction("Index", "Segnalazioni");
                 }
                 catch (System.Data.Entity.Validation.DbEntityValidationException ex)
@@ -228,7 +219,7 @@ namespace mediatori.Controllers
             }
 
 
-            valorizzaDatiViewBag(db);
+            valorizzaDatiViewBag();
 
             var message = string.Join(" | ", ModelState.Values
                .SelectMany(v => v.Errors)
@@ -245,13 +236,9 @@ namespace mediatori.Controllers
         }
 
 
-
-
-
         [HttpGet]
         public ActionResult segnalazionePartialById(int id, EnumTipoAzione tipoAzione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
             return dispatch(segnalazione, tipoAzione, db);
 
@@ -264,7 +251,7 @@ namespace mediatori.Controllers
             {
                 case EnumTipoAzione.INSERIMENTO:
                 case EnumTipoAzione.MODIFICA:
-                    valorizzaDatiViewBag(db);
+                    valorizzaDatiViewBag();
                     return View("SegnalazionePartialEdit", segnalazione);
                 default:
                     return View("SegnalazionePartialDetail", segnalazione);
@@ -275,13 +262,12 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Edit(int id = 0)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Segnalazione segnalazione = db.Segnalazioni.Find(id);
             if (segnalazione == null)
             {
                 return HttpNotFound();
             }
-            valorizzaDatiViewBag(db);
+            valorizzaDatiViewBag();
             return View(segnalazione);
         }
 
@@ -291,26 +277,22 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Edit(Segnalazione segnalazione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
-
             if (ModelState.IsValid)
             {
-
                 Segnalazione segnalazioneOriginale = db.Segnalazioni.Find(segnalazione.id);
                 segnalazioneOriginale = (Segnalazione)CopyObject.copy(segnalazioneOriginale, segnalazione);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Segnalazioni", new { message = "Aggiornamento " + segnalazione.contatto.nome + " " + segnalazione.contatto.cognome + " efettuato con successo" });
             }
 
-            valorizzaDatiViewBag(db);
+            valorizzaDatiViewBag();
             return View(segnalazione);
         }
 
 
 
 
-        public void valorizzaDatiViewBag(MainDbContext db)
+        public void valorizzaDatiViewBag()
         {
             ViewBag.listaTipiContratto = new SelectList(db.TipoContrattoImpiego, "id", "descrizione");
             ViewBag.listaProdotti = new SelectList(db.TipoProdotto.ToList(), "id", "descrizione");

@@ -9,6 +9,7 @@ namespace mediatori.Models.etc
     {
         SEGNALAZIONE=1,
         AMMINISTRAZIONE=2,
-        AGENZIA=3
+        AGENZIA=3,
+        PRATICA = 4
     }
 }

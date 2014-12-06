@@ -35,33 +35,43 @@ namespace mediatori.Controllers.Business.Anagrafiche
         {
             if (contatti == null || contatti.Count == 0)
             {
-                return "<div>Nessun contatto candidato trovato</div>";
-
+                //return "<div>Nessun contatto candidato trovato</div>";
+                return "";
             }
-            HtmlTable table = new HtmlTable();
-            table.Attributes.Add("class", "listTable");
-            HtmlTableRow intestazione = new HtmlTableRow();
+            //HtmlTable table = new HtmlTable();
+            //table.Attributes.Add("class", "listTable");
+            //HtmlTableRow intestazione = new HtmlTableRow();
 
-            intestazione.Cells.Add(FireAntHtmlHelper.buildTH("Nome"));
-            intestazione.Cells.Add(FireAntHtmlHelper.buildTH("Cognome"));
-            intestazione.Cells.Add(FireAntHtmlHelper.buildTH("Codice Fiscale"));
-            intestazione.Cells.Add(FireAntHtmlHelper.buildTH("e' Lui!"));
-            table.Rows.Add(intestazione);
+            //intestazione.Cells.Add(FireAntHtmlHelper.buildTH("Nome"));
+            //intestazione.Cells.Add(FireAntHtmlHelper.buildTH("Cognome"));
+            //intestazione.Cells.Add(FireAntHtmlHelper.buildTH("Codice Fiscale"));
+            //intestazione.Cells.Add(FireAntHtmlHelper.buildTH("e' Lui!"));
+            //table.Rows.Add(intestazione);
+            //foreach (Contatto contatto in contatti)
+            //{
+            //    HtmlTableRow rowContatto = new HtmlTableRow();
+            //    rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(contatto.nome));
+            //    rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(contatto.cognome));
+            //    rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(contatto.codiceFiscale));
+            //    TagBuilder tagBuilder = new TagBuilder("input");
+            //    tagBuilder.Attributes.Add("type", "checkbox");
+            //    tagBuilder.Attributes.Add("onclick", "contattoDetail(" + contatto.id + ")");
+            //    rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(tagBuilder));
+            //    table.Rows.Add(rowContatto);
+            //}
+
+            //return FireAntHtmlHelper.renderControl(table);
+
+            System.Text.StringBuilder html = new System.Text.StringBuilder();
+         //   html.Append(String.Format("<ul data-role=\"listview\" data-inset=\"true\">"));
+
             foreach (Contatto contatto in contatti)
             {
-                HtmlTableRow rowContatto = new HtmlTableRow();
-                rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(contatto.nome));
-                rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(contatto.cognome));
-                rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(contatto.codiceFiscale));
-                TagBuilder tagBuilder = new TagBuilder("input");
-                tagBuilder.Attributes.Add("type", "checkbox");
-                tagBuilder.Attributes.Add("onclick", "contattoDetail(" + contatto.id + ")");
-                rowContatto.Cells.Add(FireAntHtmlHelper.buildCell(tagBuilder));
-                table.Rows.Add(rowContatto);
+                html.Append(String.Format("<li><a href=\"javascript:contattoDetail({2});\"><p>E' lui?</p><h2>{0} ({1})</h2></a></li>", contatto.nome + " " + contatto.cognome, contatto.codiceFiscale, contatto.id));
             }
+           //  html.Append("</ul>");
 
-            return FireAntHtmlHelper.renderControl(table);
-
+             return html.ToString();
 
         }
 

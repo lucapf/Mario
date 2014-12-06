@@ -30,18 +30,38 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(int codiceStato, int codiceEntita, EnumEntitaAssociataStato entita)
+        public ActionResult Update(int codiceStato, int codiceEntita, EnumEntitaAssociataStato entita, DateTime? dataPromemoria)
         {
-            Stato statoSegnalazione = new Stato();
-            if (entita == EnumEntitaAssociataStato.SEGNALAZIONE)
+            Stato statoSegnalazione = null;
+
+            statoSegnalazione = db.StatiSegnalazione.Find(codiceStato);
+            if (statoSegnalazione != null)
             {
-                statoSegnalazione = db.StatiSegnalazione.Find(codiceStato);
-                db.Database.ExecuteSqlCommand("update Segnalazione set stato_id=" + codiceStato + " where id=" + codiceEntita);
+                BusinessModel.SegnalazioneManager manager = new BusinessModel.SegnalazioneManager("DefaultConnection");
+                try
+                {
+                    manager.openConnection();
+                    manager.updateStato(codiceStato, codiceEntita, dataPromemoria);
+                }
+                finally
+                {
+                    manager.closeConnection();
+                }
+
             }
 
-            return RedirectToAction("Details", "Segnalazioni", new { id = codiceEntita });
 
-            //return statoSegnalazione.descrizione;
+            if (entita == EnumEntitaAssociataStato.SEGNALAZIONE)
+            {
+                return RedirectToAction("Details", "Segnalazioni", new { id = codiceEntita });
+            }
+
+
+           // if (entita == EnumEntitaAssociataStato.PRATICA)
+            //{
+                return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+            //}
+          
         }
 
     }

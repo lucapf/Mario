@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using mediatori.Models;
 using System.Diagnostics;
 
-namespace mediatori.Controllers.CQS
+namespace mediatori.UnitTest
 {
 
     [TestClass]

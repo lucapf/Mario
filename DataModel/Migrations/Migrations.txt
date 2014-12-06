@@ -33,3 +33,14 @@ Update-Database -Verbose -TargetMigration:InitialPopulate
  Migrate.exe mediatori.dll /startupConfigurationFile="..\Web.config" /targetMigration="InitialPopulate"
 
  
+ public partial class Populate : DbMigration
+    {
+        public override void Up()
+        {
+            mediatori.Initializer.Populate.init(); 
+        }
+        
+        public override void Down()
+        {
+        }
+    }

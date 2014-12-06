@@ -116,7 +116,7 @@
         <div id="@faeInd.getIdDiv()" >
             @{Html.RenderAction("IndirizzoPartial", "Indirizzo", new { indirizzo = indz, tipoAzione = "VISUALIZZAZIONE" });}
         </div>
-        @Html.Raw(faeInd.getButtonModifica("Modifica", "style='display:none'", ""))
+        @Html.Raw(faeInd.getButtonModifica("style='display:none'", ""))
         @Html.Raw(faeInd.getButtonSalvaModifica("Salva", "style='display:none'"));
         @Html.Raw(faeInd.getButtonAnnullaModifica("Annulla", "style='display:none'"));
 
@@ -147,7 +147,7 @@
         <div id="@faeImp.getIdDiv()" >
             @{Html.RenderAction("impiegoPartial", "Impiego", new { impiego = impiego, tipoAzione = "VISUALIZZAZIONE" });}
         </div>
-        @Html.Raw(faeImp.getButtonModifica("Modifica", "style='display:none'", "popolaComboComuniImpieghi"))
+        @Html.Raw(faeImp.getButtonModifica("style='display:none'", "popolaComboComuniImpieghi"))
         @Html.Raw(faeImp.getButtonSalvaModifica("Salva", "style='display:none'"));
         @Html.Raw(faeImp.getButtonAnnullaModifica("Annulla", "style='display:none'"));
 
@@ -175,6 +175,3 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

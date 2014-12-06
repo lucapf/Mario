@@ -45,7 +45,6 @@ namespace mediatori.Controllers
         public ActionResult IndirizzoPartialById(int id, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
             Indirizzo indirizzo = new Indirizzo { id = id };
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaListeIndirizzoDetails(db);
             if (indirizzo.id > 0)
             {
@@ -125,7 +124,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Edit(Indirizzo indirizzo)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             eliminaElementiNonCaricati();
             if (ModelState.IsValid)
             {
@@ -178,7 +176,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult CreateForSoggettoGiuridico(Indirizzo indirizzo, int codiceSoggettoGiuridico)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             indirizzo = IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(indirizzo, db);
             ModelState.Clear();
             TryValidateModel(indirizzo);

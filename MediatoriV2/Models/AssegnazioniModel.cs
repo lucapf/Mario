@@ -7,7 +7,9 @@ namespace mediatori.Models
 {
     public class AssegnazioniModel
     {
-       public List<Models.Anagrafiche.Segnalazione> DaAssegnare { get; set;}
+        public List<Models.Anagrafiche.Segnalazione> DaAssegnare { get; set; }
         public List<Models.etc.Assegnazione> Assegnate { get; set; }
+
+        public int  NumeroScadute { get; set; }
     }
 }

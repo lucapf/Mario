@@ -2,69 +2,72 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-    ViewBag.Title =  Model.nome + " " + Model.cognome;
+    ViewBag.Title = Model.nome + " " + Model.cognome;
 }
 
 <h2>Dettaglio Cedente:  @Html.Display("nome")  @Html.Display("cognome") </h2>
 
 <script>
-        $(document).ready(function () {
-            $("#operatoreInserimento").html("caricamento in corso");
-            $.ajax({
-                url: "/Log/getEventoInserimento",
-                data: { idEntita: "@Model.id" ,
-                        entitaRiferimento:"CEDENTE" },
+    $(document).ready(function () {
+        $("#operatoreInserimento").html("caricamento in corso");
+        $.ajax({
+            url: "/Log/getEventoInserimento",
+            data: {
+                idEntita: "@Model.id",
+                entitaRiferimento: "CEDENTE"
+            },
             cache: false,
             error: function (html) {
-               
+
                 $("#operatoreInserimento").html("");
                 alert("errore nella gestione della richiesta\n" + html)
             },
             success: function (jsonSerialize) {
-               
+
                 var logEventi = jQuery.parseJSON(jsonSerialize);
                 var dataInserimento = new Date(parseInt(logEventi.dataInserimento.substr(6)));
-                $("#operatoreInserimento").html("inserito da: <b>" + logEventi.operatoreInserimento + "</b> il: <b>" + dataInserimento.getDate()+ "/"+dataInserimento.getMonth()+"/"+dataInserimento.getFullYear()+"</b>");
-                
-                    
+                $("#operatoreInserimento").html("inserito da: <b>" + logEventi.operatoreInserimento + "</b> il: <b>" + dataInserimento.getDate() + "/" + dataInserimento.getMonth() + "/" + dataInserimento.getFullYear() + "</b>");
+
+
             }
-             });
         });
-    </script>
-    <div id="operatoreInserimento" style="display:inline-block;float:right;"></div>
+    });
+</script>
+<div id="operatoreInserimento" style="display:inline-block;float:right;"></div>
 
 <fieldset>
-    
+
     <legend>Cedente</legend>
     <div id="datiGeneraliCedente">
-      @Html.Partial("DatiGeneraliPartialDetails",Model)
-      
-    </div>   
-    
-   
-   <!-- GESTIONE DOCUMENTI IDENTITA -->
-     @foreach (mediatori.Models.Anagrafiche.DocumentoIdentita documentoIdentita in Model.documentoIdentita)
-   {
-       
-       Html.RenderAction("DocumentoIdentitaPartialDetail", "DocumentoIdentita", documentoIdentita);
-   }
+        @Html.Partial("DatiGeneraliPartialDetails", Model)
 
+    </div>
+
+
+    <!-- GESTIONE DOCUMENTI IDENTITA
+      foreach (mediatori.Models.Anagrafiche.DocumentoIdentita documentoIdentita in Model.documentoIdentita)
+    {
+
+        Html.RenderAction("DocumentoIdentitaPartialDetail", "DocumentoIdentita", documentoIdentita);
+    }-->
     <!-- indirizzo -->
-     @foreach (mediatori.Models.Anagrafiche.Indirizzo indirizzo in Model.indirizzi)
-   {
-       Html.RenderAction("IndirizzoPartial", "Indirizzo", new {indirizzo = indirizzo, tipoAzione="VISUALIZZAZIONE"});
-   }
+    @foreach (mediatori.Models.Anagrafiche.Indirizzo indirizzo in Model.indirizzi)
+    {
+        Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialDetail.cshtml", indirizzo);
+    }
 
     <!-- impiego -->
-      @foreach (mediatori.Models.Anagrafiche.Impiego impiego in Model.impieghi)
-       {
-           Html.RenderAction("impiegoPartial", "Impiego", new { impiego = impiego, tipoAzione = "VISUALIZZAZIONE" });
-       }
+    @foreach (mediatori.Models.Anagrafiche.Impiego impiego in Model.impieghi)
+    {
+        Html.RenderPartial("~/Views/Impiego/ImpiegoPartialDetail.cshtml", impiego);
+    }
 </fieldset>
-<p>
-    @Html.ActionLink("Torna alla ricerca", "Index")
-</p>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+<div data-role="footer" data-position="fixed" data-theme="b">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista dei cedenti</a></li>
+        </ul>
+    </div>
+</div>

@@ -14,7 +14,6 @@ namespace mediatori.Controllers
 
         public ActionResult Create()
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag(db);
             return View("Manage");
         }

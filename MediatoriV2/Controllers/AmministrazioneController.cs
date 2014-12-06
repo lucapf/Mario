@@ -16,13 +16,8 @@ namespace mediatori.Controllers
 {
     public class AmministrazioneController : MyBaseController
     {
-        //
-        // GET: /Amministrazione/
-
         public ActionResult Index(AmministrazioneFilter amministrazioneFilter)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
             List<Amministrazione> listaAmministrazioni = AmministrazioneBusiness.findByFilter(amministrazioneFilter, db);
             return View(listaAmministrazioni);
         }
@@ -30,7 +25,6 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             AmministrazioneBusiness amministrazioneBusiness = new AmministrazioneBusiness();
             Amministrazione amministrazione = amministrazioneBusiness.findByPK(id, db);
             return View(amministrazione);
@@ -39,7 +33,6 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult AmministrazionePartial(Amministrazione amministrazione, EnumTipoAzione tipoAzione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag(db);
             amministrazione = new AmministrazioneBusiness().completaEVerifica(amministrazione, db);
             return dispatch(amministrazione, tipoAzione);
@@ -49,7 +42,6 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult amministrazionePartialById(int id, EnumTipoAzione tipoAzione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             Amministrazione s = new AmministrazioneBusiness().findByPK(id, db);
             valorizzaViewBag(db);
             return dispatch(s, tipoAzione);
@@ -62,7 +54,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Edit(Amministrazione amministrazione)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             AmministrazioneBusiness amministrazioneBusiness = new AmministrazioneBusiness();
             Amministrazione amministrazioneOriginale = amministrazioneBusiness.findByPK(amministrazione.id, db);
             amministrazioneOriginale.partitaIva = amministrazione.partitaIva;
@@ -90,7 +81,6 @@ namespace mediatori.Controllers
         public ActionResult Create(int codiceAmministazione = 0)
         {
             var amministrazione = new AmministrazioneCreate();
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             valorizzaViewBag(db);
             amministrazione = valorizzaDatiAmministrazione(amministrazione, db);
             if (codiceAmministazione != 0)
@@ -103,8 +93,6 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Create(AmministrazioneCreate ammCreate)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
-
             Amministrazione amministazione = ammCreate.amministrazione;
             amministazione.soggettoGiuridico = ammCreate.soggettoGiuridico;
             amministazione.soggettoGiuridico.tipoSoggettoGiuridico = "AMMINISTRAZIONE";

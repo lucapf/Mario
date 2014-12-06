@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace mediatori.Controllers.CQS
+namespace mediatori.UnitTest
 {
     [TestClass]
     public class PopolamentoDropDownListTest

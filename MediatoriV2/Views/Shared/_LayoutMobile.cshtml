@@ -44,7 +44,7 @@
     <script src="http://rawgithub.com/jquery/jquery-ui/1.10.4/ui/jquery.ui.datepicker.js"></script>
     <link rel="stylesheet" href="http://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/jquery.mobile.datepicker.css">
 
-     
+
 
     <script type="text/javascript">
 
@@ -77,9 +77,8 @@
         };
 
 
-
-
         var isFirstTime = true;
+        var isFirstTimeScadute = true;
 
         function assegnazioni() {
             //alert("assegnazioni");
@@ -91,7 +90,8 @@
 
                 str = "Assegnate: " + myresponse[1].Value;
                 //$("#segnalazioniAssegnate").html(str);
-                str = myresponse[0].Value;
+                str = parseInt(myresponse[0].Value) + parseInt(myresponse[1].Value);
+
                 // alert(str);
 
                 if ($("#headerSegnalazioni").html() != str) {
@@ -104,6 +104,22 @@
                         $("#headerSegnalazioni").effect("shake");
                     }
                 }
+
+
+                str = myresponse[2].Value;
+
+                //alert("SegnalazioniScadute: " + str);
+
+                if ($("#headerSegnalazioniScadute").html() != str) {
+                    $("#headerSegnalazioniScadute").html(str);
+                    if (isFirstTimeScadute) {
+                        isFirstTimeScadute = false;
+                    } else {
+                        $("#headerSegnalazioniScadute").effect("shake");
+                    }
+                }
+
+
                 // alert(str);
                 //$("#segnalazioni").show("slide", 1000)
 
@@ -111,8 +127,8 @@
             });
 
             @if (MyConstants.CHECK_ASSEGANAZIONI_ENABLED ){
-                @:setTimeout(function () { assegnazioni(); }, 2000);
-                                                            }
+                @:setTimeout(function () { assegnazioni(); }, 10000);
+            }
 
         }
 
@@ -130,7 +146,7 @@
 </head>
 
 <body>
-    <div data-role="page" id="Page1" data-theme="b" style="background-color: white;">
+    <div data-role="page" id="Page1" data-theme="a" style="background-color: white;">
         <div data-role="header" data-position="fixed" style="background-color:#5F7605; background-repeat:no-repeat;background-image:url(@Url.Content("~/Images/topImage.png"));">
             @if (User.Identity.IsAuthenticated)
             {
@@ -148,8 +164,14 @@
                             0
                         </div>
                     </a>
+                    
+                    <a href="@Url.Action("Assegnazioni", "Home")" data-role="none" title="Assegnazioni scadute">
+                        <div id="headerSegnalazioniScadute" class="ui-body-c">
+                            0
+                        </div>
+                    </a>
                 }
-                <div id="headerClock" class="ui-btn-right" style="margin-top: 3.5em; margin-right: 0.5em;"></div>
+                <div id="headerClock" class="ui-btn-right ui-body-b"   style="margin-top: 3.5em; margin-right: 0.5em;"></div>
 
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -174,11 +196,11 @@
                     </ul>
                 }
             </div>
-           
+
         </div>
         <!-- /header -->
 
-        <div role="main" class="ui-content ui-body-b">
+        <div role="main" class="ui-content ui-body-a">
             @{
 
                 if (TempData["Message"] != null)
@@ -225,7 +247,7 @@
 
 
 
-        <div data-role="popup" id="popupError" class="ui-content" style="max-width:280px" data-dismissible="false">
+        <div data-role="popup" id="popupError" class="ui-content"  data-theme="c"   style=" max-width:280px" data-dismissible="false">
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
             <p id="popupErrorpMessage"></p>
         </div>

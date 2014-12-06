@@ -37,7 +37,7 @@ namespace mediatori.Controllers
         }
 
 
-          [MyAuthorize(Roles =  new string [] { MyConstants.Profilo.ADMIN})]
+        [MyAuthorize(Roles = new string[] { MyConstants.Profilo.ADMIN })]
         public ActionResult Sicurezza()
         {
             List<MenuElement> model = new List<MenuElement>(){
@@ -67,7 +67,7 @@ namespace mediatori.Controllers
 
         public ActionResult Assegnazioni(mediatori.Models.AssegnazioniModel model)
         {
-
+            Debug.WriteLine("Assegnazioni");
             // model.DaAssegnare = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto").ToList();
 
             //List<mediatori.Models.etc.GruppoLavorazione> gruppi = db.gruppiLavorazione.Where ( p => p.utenti.Contains (""User.Identity.Name
@@ -89,7 +89,7 @@ namespace mediatori.Controllers
             temp = ";" + temp + ";";
 
 
-  
+
 
 
             //model.DaAssegnare = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
@@ -100,20 +100,20 @@ namespace mediatori.Controllers
 
 
             IQueryable<mediatori.Models.Anagrafiche.Segnalazione> querySegnalazioni = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
-                                                                           where !(
-                                                                                  from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
-                                                                              ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";")
-                                                                           select s);
+                                                                                       where !(
+                                                                                              from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
+                                                                                          ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";")
+                                                                                       select s);
 
 
-            Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
+          //  Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
             if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.IndexOf(MyConstants.Profilo.COLLABORATORE.ToString()) > -1)
             {
                 querySegnalazioni = querySegnalazioni.Where(p => p.utenteInserimento == User.Identity.Name);
             }
 
 
-            model.DaAssegnare = querySegnalazioni.ToList(); 
+            model.DaAssegnare = querySegnalazioni.ToList();
 
 
             //  model.Assegnate = db.Assegnazioni.ToList();
@@ -130,15 +130,22 @@ namespace mediatori.Controllers
 
             IQueryable<mediatori.Models.etc.Assegnazione> queryAssegnazioni;
             queryAssegnazioni = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
-                     where a.segnalazione.stato.id == a.statoId && temp.Contains(";" + a.stato.gruppoId + ";")
-                     select a);
+                                 where a.segnalazione.stato.id == a.statoId && temp.Contains(";" + a.stato.gruppoId + ";")
+                                 select a);
 
 
-            model.Assegnate = queryAssegnazioni.ToList(); 
-           // model.Assegnate = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
-           //                    where a.segnalazione.stato.id == a.statoId && temp.Contains(";" + a.stato.gruppoId + ";")
-           //                    select a).ToList();
+            model.Assegnate = queryAssegnazioni.ToList();
+            // model.Assegnate = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
+            //                    where a.segnalazione.stato.id == a.statoId && temp.Contains(";" + a.stato.gruppoId + ";")
+            //                    select a).ToList();
 
+
+            model.NumeroScadute = model.Assegnate.Where(p => (p.segnalazione.dataPromemoria != null && p.segnalazione.dataPromemoria < DateTime.Now)).Count();
+
+            model.NumeroScadute = model.NumeroScadute + model.DaAssegnare.Where(p => (p.dataPromemoria != null && p.dataPromemoria < DateTime.Now)).Count();
+
+            //model.NumeroScadute = model.DaAssegnare.Where(p => (p.dataPromemoria == null)).Count();
+            //model.NumeroScadute = model.DaAssegnare.Where(p => (p.dataPromemoria != null)).Count();
 
             if (Request.IsAjaxRequest())
             {
@@ -153,7 +160,7 @@ namespace mediatori.Controllers
                     risultato.Add(new MyItem(model.DaAssegnare.Count.ToString(), "Da_assegnare"));
                 }
 
-                
+
 
                 if (model.Assegnate == null)
                 {
@@ -163,7 +170,9 @@ namespace mediatori.Controllers
                 {
                     risultato.Add(new MyItem(model.Assegnate.Count.ToString(), "Assegnate"));
                 }
-                
+
+
+                risultato.Add(new MyItem(model.NumeroScadute.ToString(), "Scadute"));
 
                 return Json(risultato, JsonRequestBehavior.AllowGet);
 
@@ -186,18 +195,20 @@ namespace mediatori.Controllers
             return View();
         }
 
-        [HttpGet]
-        public String popolaDropDownlistComuni(String comboComunElementId, String denominazioneProvincia)
-        {
-         
-            return new mediatori.Controllers.Business.Anagrafiche.PopolaDropDownListAnagrafiche().popolaDropDownListComuniJSON(comboComunElementId, denominazioneProvincia, db);
-        }
+      
 
 
         [HttpGet]
         public String popolaDropDownlistProvince()
         {
             return new mediatori.Controllers.Business.Anagrafiche.PopolaDropDownListAnagrafiche().popolaDropDownListProvince(db);
+        }
+
+        [HttpGet]
+        public String popolaDropDownlistComuni(String comboComunElementId, String denominazioneProvincia)
+        {
+
+            return new mediatori.Controllers.Business.Anagrafiche.PopolaDropDownListAnagrafiche().popolaDropDownListComuniJSON(comboComunElementId, denominazioneProvincia, db);
         }
     }
 }

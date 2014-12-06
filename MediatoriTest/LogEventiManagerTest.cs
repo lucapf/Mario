@@ -5,7 +5,7 @@ using mediatori.Models.Anagrafiche;
 using mediatori.Models;
 using System.Collections.Generic;
 
-namespace mediatori.Controllers.CQS
+namespace mediatori.UnitTest
 {
 
     [TestClass]

@@ -1,0 +1,959 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E7B1062-586B-482B-B7B4-CFD2514975F9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BusinessModel</RootNamespace>
+    <AssemblyName>BusinessModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SegnalazioneManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\PccWS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SimulazioneFinanziaria\SimulazioneManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyFramework4.0\MyManagerCSharp\MyManagerCSharp.csproj">
+      <Project>{1cfb1797-36c1-4887-b980-747fcc81d6a1}</Project>
+      <Name>MyManagerCSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaCampagna.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaDetailVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaFilialeSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaFilialeVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaInsertVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaLivVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaPopupSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaPopupVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaViewVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagAgenziaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagFilialeSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagFilialeVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreAgFindByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreAgFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreAgVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreFindAllResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreFindBySoggettoPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreInsInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreInsVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreSmallInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagIstitutoFinanziatoreVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagPortafoglioSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagPortafoglioVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagProdottoSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagProdottoVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagStrutturaSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagTabfinSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.anagTabfinVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.associaDocumentiToFascicoloEsistenteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.associazioneDocumentoFascicoloVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.calcolaCostiAssicurativiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.calcolaCostiPraticaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.calcolaProvvigioniReteAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.categoriaProdottoVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.categoriaProvvigionaleSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.categoriaProvvigionaleVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.catprovDurataPercSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.catprovTabfinSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.convAntiusuraAssociatiSearchVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.coordinateErogazioneSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.createImportiPraticaforDeliberaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.datiDeliberaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deleteAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deleteCategoriaProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deleteFilialeFilialeBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deleteFilialeReferenteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deletePoliticaTassiIstFinPlafondResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deleteSimfinEstinzioneResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.deleteSimulazioneFinanziariaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.detachReferenteFilialeBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.documentiSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.eseguiControlloAntiusuraImportiPraticaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.eseguiControlloAntiusuraResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.esitoControlloAntiusura.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeFilialeBancaResVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeFilialeBancaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeReferenteResVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeReferenteVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeUtentiDetailVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeUtentiSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.filialeUtentiVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenziaByRicercaAvanzataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenziaByRicercaBaseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenziaFilialeByOperatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenziaPopupByGestioneSubAgentiAndNominativoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenziaPopupByNominativoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenziaPopupSmallByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenzieByFiltroStrutturaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenzieByOperatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenzieEFilialiByOperatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenzieLivelloInferioreByStatoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenzieLivelloInferioreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAgenzieSmallByOperatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAgenziaPopupbyGestioneSubAgentiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAgenziaPopupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagAgenziaByAgenteFatturazioneResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagAgenziaPopupByAgenteFatturazioneResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagFilialeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagPortafoglioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAnagraficaStrutturaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllAutorizzazioneResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllCategoriaProvvigionaleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllCategoriaProvvigionaleSmallResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllGruppoProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllProdottoDurataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllStatoAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAllStatoAgenziaSmallResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaByAnagPortafoglioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaDetailVOByPersonaGiuridicaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaDetailVOByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaSmallByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaSmallVOByPersonaGiuridicaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagAgenziaViewVOByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagFilialeByAnagAgenziaPgPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagFilialeByAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagFilialeByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagFilialePredefinitaByAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagFilialeSmallVOByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagPortafoglioByAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagPortafoglioByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagPortafoglioSmallByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagProdottoByCategoriaProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagProdottoByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagProdottoByGruppoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagProdottoByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagProdottoByTipoProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagProdottoPopupChooserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagraficaStrutturaByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAnagTabfinByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAssicurazioneImpiegoByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findAssicurazioneVitaByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findBaseCalcoloCatprovTabfinByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCategoriaProdottoAllHideResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCategoriaProdottoAllResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCategoriaProdottoByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCategoriaProdottoByPkResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCategoriaProvvigionaleByAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCategoriaProvvigionaleByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCatprovDurataPercByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCatprovTabfinByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findCoordinataErogazionePredefinitaByFilialeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findDatiDeliberaByPraticaIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findDatiDeliberaDescrizioniByPKsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findDocumentiAggiuntiviPerWorkflowResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findDocumentiPerWorkflowByPraticaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findDocumentiPerWorkflowResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findFilialeBancaByFilialeAgenziaAndCoordinataErogazioneIstitutoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findFilialeFilialeBancaByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findFilialeReferenteByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findFilialeUtentiByAnagFilialeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findFilialeUtentiDetailByAnagFilialeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findFilialiByAgenziaAndOperatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findGrigliaTariffarioByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findGrigliaTariffarioByTariffarioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findGruppoProdottoByAnagProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findGruppoProdottoByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findGruppoProdottoByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findGruppoProdottoSmallByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findIdAgenziaBySoggettoPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findIdIstitutoFinanziatoreByBancaCodiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findIstitutoByIstCodiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findIstruttoreDiRiferimentoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticaTassiIstFinByPlafondResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticaTassiIstFinDetailInIdsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticaTassiIstFinPlafondByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticaTassiIstFinPlafondByPoliticaTassiIstFinResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticaTassiPopupChooserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticheTassiIstFinAttiveAssociateByBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticheTassiIstFinAttiveByBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticheTassiIstFinAttiveNonAssociateByBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPoliticheTassiIstFinByBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPortafoglioAgenteByAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPortafoglioAgenteByAnagPortafoglioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPortafoglioAgenteByPkResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findPossibiliAgenzieSuperioriPopupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findProdottoDettagliAttualeByAnagProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findProdottoDettagliByAnagProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findProdottoDurataByProdottoDettagliResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findQuestionarioDomandeByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findQuestionarioDomandeByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findReferentiByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findSimfinEstinzioneAllResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findSimfinEstinzioneByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findSimulazioneFinanziariaAllResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findSimulazioneFinanziariaByCodiceAppuntamentoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findSimulazioneFinanziariaByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findSimulazioneFinanziariaViewByCodiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findStatoAgenziaByAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findStrutturaCampagnaAgenteByCampagnaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findStrutturaCampagnaAgenteByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTabFinDurataByAnagTabfinAndDurataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTabFinDurataByFiltroResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariAssicurativiByAssicurazioneResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariAssicurativiByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariAssicurativiDetailInIdsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariAssicurativiGrigliaByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariAssicurativiPopupChooserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariAssicurativiSmallByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTariffariIstFinByBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTipoCampagnaByAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.findTipoCampagnabyUtenteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.gestioneProvvigioneAgenteCorrelatoByPraticaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.getAllPossiblePortafoglioCombinationForResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.getBestFinanziamentoFromResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.getConvenzioneAntiusuraResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.getNominativoAgenziaByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.getTaegTegMassimoPerConvenzioneAntiusuraResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.getVersioneProgettoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.grigliaTariffarioSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.grigliaTariffarioVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.gruppoProdottoSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.gruppoProdottoVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.importiPraticaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertOrUpdateDocumentoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertOrUpdateIstitutoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertPoliticaTassiIstFinPlafondResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertSimulazioneFinanziariaWizardResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertUpdateFilialeFilialeBancaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.insertUpdateFilialeReferenteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.istitutoPccSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.pccPopupChooser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.personaGiuridicaSVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstFinDetail.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinFindByIstitutoFinanziatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstFinPlafondVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinSmallFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinSmallFindByPortafoglioAgenteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.politicaTassiIstfinVOInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.portafoglioAgenteVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.praticaAssicurazioneVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.praticaDeliberaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.prodottoDettagliVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.prodottoDurataSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.prodottoDurataVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.provvigioniAgenziaSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.questionarioDomandeSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.removeAnagFilialeUtentiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagAgenziaDetailResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagFilialeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagIstitutoFinanziatoreResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagPortafoglioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateAnagTabfinResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateCategoriaProdottoCategoriaProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateCategoriaProvvigionaleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateFilialeUtentiAgenzieResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateFilialeUtentiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateGrigliaTariffarioResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateGruppoProdottoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdatePoliticaTassiIstfinResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdatePortafoglioAgenteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateProdottoDettagliResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateProdottoDurataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateQuestionarioDomandeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateSimfinEstinzioneResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateSimulazioneFinanziariaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateTabfinDurataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateTabFinResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateTariffariAssicurativiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.saveOrUpdateTariffariIstFinResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.setPercentualeProvvigioniAgenziaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.simfinEstinzioneSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.simfinEstinzioneVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.simulazioneFinanziariaSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.simulazioneFinanziariaView.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.simulazioneFinanziariaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.soggettoPopup.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.statoAgenziaSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.statoAgenziaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.strutCampAgVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinDurataFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinDurataFindByTabFinResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinDurataInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabfinDurataSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabfinDurataVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinFindAllResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinSmallInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tabFinVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariAssicurativiASSVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariAssicurativiDetail.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariAssicurativiGrigliaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariAssicurativiSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariAssicurativiVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinFindByPoliticaTassiAndDurataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinFindByPoliticaTassiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinInsertOrUpdateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinSmallFindByPKResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinSmallVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tariffariIstFinVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tegTAEG.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.tipoCampagnaVO.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.updateCommissioniPercentualeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.updateCommissioniResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.updateCoordinataErogazionePredefinitaByFilialeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\BusinessModel.PccWS.updateCostiPraticaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PccWS\PccImplService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\PccWS\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PccWS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PccWS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PccWS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

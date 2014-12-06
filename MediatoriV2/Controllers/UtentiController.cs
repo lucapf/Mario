@@ -13,7 +13,17 @@ namespace mediatori.Controllers
 {
     public class UtentiController : MyBaseController
     {
-        private MyUsers.UserManager manager = new MyUsers.UserManager("DefaultConnection");
+        private MyUsers.UserManager manager = null;
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (db != null)
+            {
+                manager = new MyUsers.UserManager(db.Database.Connection);
+            }
+        }
 
         public ActionResult Index(MyUsers.Models.SearchUsers model)
         {
@@ -153,14 +163,52 @@ namespace mediatori.Controllers
             if (ModelState.IsValid)
             {
                 MyUsers.Models.MyUser u = new MyUsers.Models.MyUser();
-                u.login = model.UserName.Trim() ;
+                u.login = model.UserName.Trim();
                 u.password = model.Password.Trim();
                 u.isEnabled = true;
 
+                bool esito;
+                esito = MyManagerCSharp.RegularExpressionManager.isValidEmail(u.login);
+                if (esito == false)
+                {
+                    string messaggio;
+                    messaggio = "Inserire un indirizzo email valido.";
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, messaggio);
+                    // ModelState.AddModelError("", messaggio);
+                    model.ProfiliDisponibili = manager.getProfili();
+                    return View(model);
+                }
+
+                string dominio;
+                dominio = u.login.Split('@')[1];
+
+
+                if ((Session["MySessionData"] as SessionData).Dominio != dominio)
+                {
+                    string messaggio;
+                    messaggio = "L'email dell'utente deve appartenere al dominio: @" + (Session["MySessionData"] as SessionData).Dominio  ;
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, messaggio);
+                    // ModelState.AddModelError("", messaggio);
+                    model.ProfiliDisponibili = manager.getProfili();
+                    return View(model);
+
+                }
+
+            
                 long userId;
-                manager.openConnection();
                 try
                 {
+                    manager.openConnection(); 
+
+                    userId = manager.getUserIdFromLogin(u.login);
+                    if (userId != -1)
+                    {
+                        TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Spiacenti, risulta già presente un utente registrato con questo indizzo email.");
+                        model.ProfiliDisponibili = manager.getProfili();
+                        return View(model);
+                    }
+
+
                     userId = manager.insert(u);
 
                     if (userId != -1)
@@ -181,6 +229,7 @@ namespace mediatori.Controllers
                     manager.closeConnection();
                 }
 
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Registrazione utente " + u.login  + " conclusa con successo");
                 return RedirectToAction("Index");
             }
 

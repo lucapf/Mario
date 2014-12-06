@@ -36,7 +36,6 @@ namespace mediatori.Controllers.Business
 
         public ActionResult Index(SoggettoGiuridicoSearch soggettoGiuridicoSearch)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             List<SoggettoGiuridico> listaSoggetti = new SoggettoGiuridicoBusiness().findByFilter(soggettoGiuridicoSearch, db);
             ValorizzaViewBag();
             return View(listaSoggetti);
@@ -66,7 +65,6 @@ namespace mediatori.Controllers.Business
        
         public ActionResult soggettoGiuridicoPartialById(int id, EnumTipoAzione tipoAzione)
         {   
-             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
              SoggettoGiuridico s = new SoggettoGiuridicoBusiness().findByPK(id, db);
              if (db.Amministazioni.Where(m => m.soggettoGiuridico.id == id).ToList().Count >0)
              {
@@ -88,15 +86,10 @@ namespace mediatori.Controllers.Business
         [HttpPost]
         public ActionResult Create(SoggettoGiuridico soggettoGiuridico)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             SoggettoGiuridicoBusiness sogettoGiuridicoBusiness = new SoggettoGiuridicoBusiness();
             ModelState.Clear();
             soggettoGiuridico = sogettoGiuridicoBusiness.completaDati(soggettoGiuridico, User.Identity.Name, db);
             TryValidateModel(soggettoGiuridico);
-            
-
-
-
 
             if (ModelState.IsValid)
             {
@@ -140,7 +133,6 @@ namespace mediatori.Controllers.Business
         [HttpGet]
         public ActionResult Details(int id)
         {
-             MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             SoggettoGiuridicoBusiness sogettoGiuridicoBusiness = new SoggettoGiuridicoBusiness();
             SoggettoGiuridico soggettoGiuridico = sogettoGiuridicoBusiness.findByPK(id, db);
             return View(soggettoGiuridico);
@@ -148,7 +140,6 @@ namespace mediatori.Controllers.Business
         [HttpPost]
         public ActionResult Edit(SoggettoGiuridico soggettoGiuridico)
         {
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             SoggettoGiuridicoBusiness sogettoGiuridicoBusiness = new SoggettoGiuridicoBusiness();
             SoggettoGiuridico soggettoOriginale = sogettoGiuridicoBusiness.findByPK(soggettoGiuridico.id, db);
             soggettoOriginale.codiceFiscale = soggettoGiuridico.codiceFiscale;

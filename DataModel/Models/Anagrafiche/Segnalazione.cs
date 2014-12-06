@@ -76,6 +76,11 @@ namespace mediatori.Models.Anagrafiche
         [Display(Name = "Contatto")]
         public Contatto contatto { get; set; }
 
+        [DataType(DataType.Date)]
+        [Display(Name = "Data promemoria")]
+        [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
+        public DateTime? dataPromemoria { get; set; }
+
     }
 
     

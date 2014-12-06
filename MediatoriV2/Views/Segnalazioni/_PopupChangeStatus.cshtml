@@ -1,0 +1,48 @@
+﻿@model List<mediatori.Models.etc.Stato>
+
+<script type="text/javascript">
+    //NOn funziona!
+    //$(document).on("pageinit", function () {
+    //    $("#dataPromemoria").date("option", "minDate", new Date(2014, 12, 3));
+    //});
+</script>
+
+<div data-role="popup" id="popupChangeStato" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="a">
+        <h1>Stato successivo</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <h3 class="ui-title">Selezionare lo stato successivo</h3>
+
+        @using (Html.BeginForm("Update", "Stato", FormMethod.Post, null))
+        {
+            <input type="hidden" name="codiceEntita" value="@ViewData["CodiceEntita"]">
+            <input type="hidden" name="entita" value="@ViewData["Entita"]" />
+
+            <div class="ui-field-contain">
+                <label for="codiceStato">Stato successivo:</label>
+                <select name="codiceStato" id="codiceStato" data-mini="true" required="required">
+                    <option value="" selected="selected">---</option>
+                    @foreach (mediatori.Models.etc.Stato s in Model)
+                    {
+                        <option value="@s.id">@s.descrizione</option>
+                    }
+                </select>
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="codiceStato">Data promemoria:</label>
+                <input type="date" data-role="date" value="@DateTime.Now.ToShortDateString()" name="dataPromemoria" required data-clear-btn="true" id="dataPromemoria">
+            </div>
+
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>
+
+
+
+
+
+

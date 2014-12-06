@@ -60,7 +60,6 @@ namespace mediatori.Controllers
                 return Json(model);
             }
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
 
             mediatori.Models.etc.Documento documento = new Models.etc.Documento();
             documento.dataInserimento = DateTime.Now;
@@ -132,7 +131,6 @@ namespace mediatori.Controllers
             Debug.WriteLine("Documento: " + id);
             Models.JsonMessageModel model = new Models.JsonMessageModel();
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
             try
             {
                 mediatori.Models.etc.Documento documento;
@@ -181,7 +179,7 @@ namespace mediatori.Controllers
         {
             Debug.WriteLine("Documento: " + id);
 
-            MainDbContext db = new MainDbContext(HttpContext.Request.Url.AbsoluteUri);
+           
             mediatori.Models.etc.Documento documento;
 
             Guid guid = Guid.Parse(id);
