@@ -15,6 +15,91 @@ namespace mediatori.Controllers
             return View();
         }
 
+        public ActionResult SSL(mediatori.Models.Test.SslModel model)
+        {
+            if (String.IsNullOrEmpty(model.url))
+            {
+                model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("SSL")]
+        public ActionResult SSLPost(mediatori.Models.Test.SslModel model)
+        {
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = null;
+            try
+            {
+                string temp;
+                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(model.url);
+
+                temp = manager.getVersion();
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Connessione stabilita con successso: " + temp);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(ex);
+            }
+            finally
+            {
+                if (manager != null)
+                {
+                    manager.close();
+                }
+            }
+         
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public ActionResult Email(MyManagerCSharp.MyObject.MyEmail model)
+        {
+            model.From = System.Configuration.ConfigurationManager.AppSettings["mail.From"];
+            model.Subject = "Subject - TEST -";
+            model.Body = "Body - TEST -";
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Email")]
+        public ActionResult EmailPost(MyManagerCSharp.MyObject.MyEmail model)
+        {
+            Debug.WriteLine("From: " + model.From);
+
+
+            MyManagerCSharp.MailManager mail = new MyManagerCSharp.MailManager();
+
+            mail._Subject = model.Subject;
+            mail._Body = model.Body;
+
+            mail._To(model.To);
+            mail._Cc(model.Cc);
+            mail._Bcc(model.Bcc);
+
+            string esito;
+            esito = mail.send();
+
+            if (String.IsNullOrEmpty(esito))
+            {
+                esito = "OK";
+            }
+
+            ViewBag.Esito = esito;
+
+            return View(model);
+        }
+
+
+
+
+
 
         public ActionResult CSS01()
         {

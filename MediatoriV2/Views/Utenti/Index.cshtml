@@ -63,7 +63,7 @@
             columns: new[]{
                 wGrid.Column ("Login","login", canSort:true),
                 wGrid.Column ("", header: "Profilo" , format: p =>(p.Profili == null || p.Profili.Count== 0?"N/A":p.Profili[0].nome), canSort:true),
-                 wGrid.Column ("", header: "Gruppi #" , format: p =>(p.Gruppi == null ?"0":p.Gruppi.Count), canSort:true),
+                wGrid.Column ("", header: "Gruppi #" , format: p =>(p.Gruppi == null ?"0":p.Gruppi.Count), canSort:true),
                 wGrid.Column ("Nome","", canSort  : true),
                 wGrid.Column ("Cognome","", canSort  : true),
                 wGrid.Column ("Email",  format: @<a href="mailto:@item.Email">@item.Email</a>),

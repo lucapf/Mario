@@ -9,7 +9,6 @@ INSERT INTO PROFILO ( profilo_id, nome, date_added) VALUES ( 'FRONTOFFICE', 'Fro
 GO
 INSERT INTO PROFILO ( profilo_id, nome, date_added) VALUES ( 'COLLABORATORE', 'Collaboratore', GetDate());
 GO
-
 INSERT INTO GRUPPO (  nome, date_added) VALUES ( 'Administrators', GetDate());
 
 
@@ -31,3 +30,6 @@ INSERT INTO UtenteProfilo ( user_id, profilo_id,  date_added) VALUES(4 , 'FRONTO
 
 INSERT INTO UTENTE ( my_login, my_password, is_enabled) VALUES('amministratore' , '5F4DCC3B5AA765D61D8327DEB882CF99', 1);
 INSERT INTO UtenteProfilo ( user_id, profilo_id,  date_added) VALUES(5 , 'ADMIN',  GetDate());
+
+
+

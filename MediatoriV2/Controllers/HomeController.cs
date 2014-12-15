@@ -44,6 +44,7 @@ namespace mediatori.Controllers
                   new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
                   new MenuElement(){display="Sicurezza", ordinamento=1,livello=1,role="Amministratore",action="Sicurezza", controller="Home"},
                   new MenuElement(){display="Utenti", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Utenti"},
+                  new MenuElement(){display="Gruppi", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Groups"},
                   new MenuElement(){display="Nuovo utente", ordinamento=1,livello=1,role="Amministratore",action="Register",controller="Utenti"},
                   new MenuElement(){display="Modifica password", ordinamento=1,livello=1,role="Amministratore",action="ChangePassword",controller="Account"},
                   new MenuElement(){display="Logout", ordinamento=1,livello=1,role="Amministratore",action="LogOff",controller="Account"}
@@ -106,7 +107,7 @@ namespace mediatori.Controllers
                                                                                        select s);
 
 
-          //  Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
+            //  Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
             if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.IndexOf(MyConstants.Profilo.COLLABORATORE.ToString()) > -1)
             {
                 querySegnalazioni = querySegnalazioni.Where(p => p.utenteInserimento == User.Identity.Name);
@@ -195,7 +196,7 @@ namespace mediatori.Controllers
             return View();
         }
 
-      
+
 
 
         [HttpGet]
@@ -207,7 +208,6 @@ namespace mediatori.Controllers
         [HttpGet]
         public String popolaDropDownlistComuni(String comboComunElementId, String denominazioneProvincia)
         {
-
             return new mediatori.Controllers.Business.Anagrafiche.PopolaDropDownListAnagrafiche().popolaDropDownListComuniJSON(comboComunElementId, denominazioneProvincia, db);
         }
     }

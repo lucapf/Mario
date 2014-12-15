@@ -72,7 +72,8 @@ namespace mediatori.Controllers
 
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
                 connectionString = connectionString.Replace("database=Mediatori", String.Format("database={0}", dominio));
-
+                //"Data Source=tcp:khzappcv1w.database.windows.net,1433;Initial Catalog=mediatori;User ID=mediatori@khzappcv1w;Password=M3d14t0r1"
+                connectionString = connectionString.Replace("Initial Catalog=mediatori", String.Format("Initial Catalog={0}", dominio));
 
                 if (manager == null)
                 {
@@ -374,7 +375,7 @@ namespace mediatori.Controllers
         {
             FormsAuthentication.SignOut();
 
-            MyManagerCSharp.Log.LogUserManager log = new MyManagerCSharp.Log.LogUserManager("DefaultConnection");
+            MyManagerCSharp.Log.LogUserManager log = new MyManagerCSharp.Log.LogUserManager(db.Database.Connection);
             log.openConnection();
             try
             {

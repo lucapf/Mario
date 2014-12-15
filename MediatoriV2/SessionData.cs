@@ -28,7 +28,7 @@ namespace mediatori
             base.LogOff();
 
             _dominio = "";
-            _connectionString = "";
+           // _connectionString = "";
         }
     }
 }

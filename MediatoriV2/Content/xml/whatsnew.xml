@@ -6,15 +6,32 @@
  -->
 
 
+  <release number="1.0.0.3" data="15/12/2014">
+    <item data="15/12/2014"     owner="Rutigliano"  type="changes" >
+      il link alla gestione dei gruppi di lavorazione è stata spostata nella sezione Sicurezza
+    </item>
+    <item data="15/12/2014"     owner="Rutigliano"  type="changes" >
+      ripristinati i bottoni con la notifica delle segnalazioni attive e quelle scadute
+      (fare dei test sulle segnalazioni scadute)
+    </item>
+    <item data="15/12/2014"     owner="Rutigliano"  type="changes" >
+      configurati gli stati successivi per una segnalazione
+    </item>
+  </release>
 
 
-  
-  <release number="1.0.0.2" data="">
+  <release number="1.0.0.2" data="10/12/2014">
+    <item data="10/12/2014"     owner="Rutigliano"  type="changes" >
+      test di connessione con WebService per la simulazione finanziaria
+    </item>
+    <item data="10/12/2014"     owner="Rutigliano"  type="changes" >
+      gestione multi istanza del DB tramite la login dell'utente
+    </item>
     <item data="01/12/2014"     owner="Rutigliano"  type="changes" >
       EnumEntitaAssociataStato aggiunta la PRATICA
     </item>
   </release>
-    
+
   <release number="1.0.0.1" data="01/12/2014">
     <item data="01/12/2014"     owner="Rutigliano"  type="changes" >
       passaggio su Azure

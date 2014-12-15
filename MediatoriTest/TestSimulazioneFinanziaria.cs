@@ -44,7 +44,7 @@ namespace mediatori.UnitTest
             }
 
 
-            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(urlSimulazioneFinanziariaSSL, certificato);
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(urlSimulazioneFinanziariaSSL);
             string temp;
             temp = manager.getVersion();
 

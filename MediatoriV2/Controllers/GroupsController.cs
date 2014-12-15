@@ -11,13 +11,21 @@ namespace mediatori.Controllers
     [MyAuthorize(Roles = new string [] { MyConstants.Profilo.ADMIN})]
     public class GroupsController : MyBaseController
     {
+        private MyUsers.GroupManager manager = null;
 
-        private GroupManager manager = new GroupManager("utenti");
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (db != null)
+            {
+                manager = new MyUsers.GroupManager(db.Database.Connection);
+            }
+        }
+                     
 
         public ActionResult Index(MyUsers.Models.SearchGroups model)
         {
-
-
             manager.openConnection();
             try
             {
@@ -39,21 +47,8 @@ namespace mediatori.Controllers
             }
 
 
-
             return View(model);
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
         public ActionResult Create()
         {
@@ -186,8 +181,6 @@ namespace mediatori.Controllers
                 manager.closeConnection();
             }
 
-
-
             return View(model);
         }
 
@@ -224,7 +217,6 @@ namespace mediatori.Controllers
             }
 
             model.Utenti = manager.getUsers(model.Gruppo.gruppoId);
-
 
             return View(model);
         }
@@ -347,17 +339,12 @@ namespace mediatori.Controllers
             {
                 manager.closeConnection();
             }
-
-
-
-
         }
 
 
         public ActionResult SearchAD()
         {
             Debug.WriteLine("Search in Active Directory");
-
 
             MyUsers.LdapManager managerAD = new MyUsers.LdapManager(System.Configuration.ConfigurationManager.AppSettings["ldap.server"], System.Configuration.ConfigurationManager.AppSettings["ldap.login"], System.Configuration.ConfigurationManager.AppSettings["ldap.password"], System.Configuration.ConfigurationManager.AppSettings["ldap.container"]);
             managerAD.getGroups();
@@ -368,12 +355,11 @@ namespace mediatori.Controllers
 
 
 
-
-
         public ActionResult SearchUser()
         {
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -394,7 +380,6 @@ namespace mediatori.Controllers
             {
                 manager.closeConnection();
             }
-
 
             // return RedirectToAction("Details", new { id = gruppoId });
             return new RedirectResult(Url.Action("Edit", new { id = gruppoId }) + "#tabs-2");
@@ -429,14 +414,11 @@ namespace mediatori.Controllers
 
                 risultato.Add(user);
                 model.Utenti = risultato;
-
-
             }
             finally
             {
                 manager.closeConnection();
             }
-
 
             return View(model);
         }

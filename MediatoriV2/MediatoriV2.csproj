@@ -280,6 +280,7 @@
     <Compile Include="Models\Segnalazione\SegnalazioneCreateModel.cs" />
     <Compile Include="Models\StatoModel.cs" />
     <Compile Include="Models\Test\Decimal.cs" />
+    <Compile Include="Models\Test\SslModel.cs" />
     <Compile Include="Models\Test\TestClass.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="MyExtensions.cs" />
@@ -737,6 +738,8 @@
     <Content Include="Views\Utenti\Edit.cshtml" />
     <Content Include="Views\Shared\_ComboData.cshtml" />
     <Content Include="Views\Segnalazioni\_PopupChangeStatus.cshtml" />
+    <Content Include="Views\Test\SSL.cshtml" />
+    <Content Include="Views\Test\Email.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

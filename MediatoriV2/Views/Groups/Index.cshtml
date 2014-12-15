@@ -8,10 +8,8 @@
     bool chk;
 }
 
-<h2>Configurazione gruppi di lavorazione</h2>
-
+<h2>Configurazione gruppi</h2>
 <a href="#popupNuovo" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo gruppo</a>
-
 
 
 @using (Html.BeginForm("Index", "Groups", FormMethod.Post, new { id = "MyForm" }))
@@ -54,10 +52,10 @@
             @wGrid.GetHtml(
             fillEmptyRows: false,
             tableStyle: "MyTable ui-responsive",
-            headerStyle: "ui-bar-c",
+            headerStyle: "ui-bar-b",
             footerStyle: "ui-bar-b",
-            rowStyle: "ui-body-a",
-            alternatingRowStyle: "ui-body-b",
+            rowStyle: "ui-bar-a",
+            alternatingRowStyle: "ui-bar-d",
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
                 wGrid.Column ("Nome","", canSort  : true),

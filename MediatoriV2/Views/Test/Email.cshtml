@@ -1,0 +1,74 @@
+﻿@model MyManagerCSharp.MyObject.MyEmail
+
+@{
+    ViewBag.Title = "Mail";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Email</h2>
+
+
+@Html.ValidationSummary(true, "Attenzione")
+
+
+@using (Html.BeginForm("Email", "Test", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+
+
+    if (!String.IsNullOrEmpty(ViewBag.Esito))
+    {
+    <h2>@ViewBag.Esito</h2>
+    }
+    else
+    {
+         
+    @:Mail is eabled: @System.Configuration.ConfigurationManager.AppSettings["mail.isEnabled"].ToString()
+    <br />
+    @:Server: @System.Configuration.ConfigurationManager.AppSettings["mail.server"].ToString()
+
+    <br />
+ 
+ 
+    
+    <div class="ui-field-contain">
+        <label for="from">From:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="from" name="from" value="@Model.From" />
+    </div>
+    
+    <div class="ui-field-contain">
+        <label for="to">To:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="to" name="to" value="@Model.To" />
+    </div>
+    
+    <div class="ui-field-contain">
+        <label for="cc">Cc:</label>
+        <input type="text" data-mini="true" data-clear-btn="true" id="cc" name="cc" value="@Model.Cc" />
+    </div>
+    
+    <div class="ui-field-contain">
+        <label for="bcc">Bcc:</label>
+        <input type="text" data-mini="true" data-clear-btn="true" id="bcc" name="bcc" value="@Model.Bcc" />
+    </div>
+    
+    <div class="ui-field-contain">
+        <label for="subject">Subject:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="subject" name="subject" value="@Model.Subject" />
+    </div>
+    
+    <div class="ui-field-contain">
+        <label for="body">Body:</label>
+        <textarea id="body" name="body" required="required">@Model.Body</textarea>
+    </div>
+    
+    
+    
+    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
+        <input type="submit" data-inline="true" value="Send">
+    </div>
+    
+    
+    }
+}

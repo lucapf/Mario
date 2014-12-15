@@ -31,7 +31,6 @@ namespace mediatori.Controllers
                     new MenuElement(){display="Tipo Impiego", ordinamento=1,livello=1,role="Amministratore",action="tipoContrattoImpiego",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Ente Rilascio", ordinamento=1,livello=1,role="Amministratore",action="tipoEnteRilascio",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Documento Identita", ordinamento=1,livello=1,role="Amministratore",action="tipoDocumentoIdentita",controller="Configurazioni"},
-                    new MenuElement(){display="Gruppi di lavorazione", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Groups"},
                     new MenuElement(){display="Tipo Contatto", ordinamento=1,livello=1,role="Amministratore",action="tipoContatto",controller="Configurazioni"},
                     new MenuElement(){display="Canale Acquisizione", ordinamento=1,livello=1,role="Amministratore",action="tipoCanaleAcquisizione",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Luogo Ritrovo", ordinamento=1,livello=1,role="Amministratore",action="tipoLuogoRitrovo",controller="Configurazioni"},

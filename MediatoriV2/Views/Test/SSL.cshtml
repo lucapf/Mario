@@ -1,0 +1,26 @@
+﻿@model mediatori.Models.Test.SslModel
+
+@{
+    ViewBag.Title = "SSL";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>SSL</h2>
+
+@Html.ValidationSummary(true, "Attenzione")
+
+
+@using (Html.BeginForm("SSL", "Test", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="ui-field-contain">
+        <label for="url">Web Service URL:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="url" name="url" value="@Model.url" />
+    </div>
+
+    <div data-role="controlgrup" data-type="horizontal" >
+        <input type="submit" data-inline="true" value="Get Version" data-mini="true">
+    </div>
+}

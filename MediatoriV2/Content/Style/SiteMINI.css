@@ -187,8 +187,8 @@ table.MyTable {
 #headerSegnalazioni {
     display: block;
     float: right;
-    margin-top: 0.5em;
-    margin-right: 6em;
+    /*margin-top: 0.5em;
+    margin-right: 6em;*/
     font-size: 20px;
     color: white;
 }
@@ -196,8 +196,8 @@ table.MyTable {
 #headerSegnalazioniScadute {
     display: block;
     float: right;
-    margin-top: 0.5em;
-    margin-right: 2em;
+    /*margin-top: 0.5em;
+    margin-right: 2em;*/
     font-size: 20px;
 }
 

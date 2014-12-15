@@ -9,7 +9,8 @@ public class MyMessage
 {
     public enum MyMessageType {
         Success,
-        Failed
+        Failed,
+        Exception
     }
 
     public string testo { get; set; }
@@ -20,4 +21,13 @@ public class MyMessage
         this.tipo = tipo;
     }
 
+    public MyMessage(Exception ex)
+    {
+        this.testo = ex.Message;
+        if (ex.InnerException != null)
+        {
+            this.testo += Environment.NewLine + "InnerException: " + ex.InnerException.Message; 
+        }
+        this.tipo =  MyMessageType.Exception;
+    }
 }

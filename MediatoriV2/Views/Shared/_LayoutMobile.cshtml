@@ -92,16 +92,21 @@
                 //$("#segnalazioniAssegnate").html(str);
                 str = parseInt(myresponse[0].Value) + parseInt(myresponse[1].Value);
 
-                // alert(str);
+                //alert(str);
+               // alert($("#MySegnalazioni").text());
 
-                if ($("#headerSegnalazioni").html() != str) {
+                //$("#MySegnalazioni").text("dddd");
 
-                    $("#headerSegnalazioni").html(str);
+                
+
+                if ($("#MySegnalazioni").text() != str) {
+
+                    $("#MySegnalazioni").text(str);
 
                     if (isFirstTime) {
                         isFirstTime = false;
                     } else {
-                        $("#headerSegnalazioni").effect("shake");
+                        $("#MySegnalazioni").effect("shake");
                     }
                 }
 
@@ -110,12 +115,12 @@
 
                 //alert("SegnalazioniScadute: " + str);
 
-                if ($("#headerSegnalazioniScadute").html() != str) {
-                    $("#headerSegnalazioniScadute").html(str);
+                if ($("#SegnalazioniScadute").text() != str) {
+                    $("#SegnalazioniScadute").text(str);
                     if (isFirstTimeScadute) {
                         isFirstTimeScadute = false;
                     } else {
-                        $("#headerSegnalazioniScadute").effect("shake");
+                        $("#SegnalazioniScadute").effect("shake");
                     }
                 }
 
@@ -128,7 +133,7 @@
 
             @if (MyConstants.CHECK_ASSEGANAZIONI_ENABLED ){
                 @:setTimeout(function () { assegnazioni(); }, 10000);
-            }
+                                                }
 
         }
 
@@ -152,36 +157,25 @@
             {
                 <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
             }
-            <div style="height: 40px">
 
+            <div style="height: 40px">
                 <a href="@Url.Action("Index", "Home")" data-role="none" class="ui-btn-left" style="margin-left:20px;">
                     <img src="@Url.Content("~/Images/marioh62.png")">
                 </a>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a href="@Url.Action("Assegnazioni", "Home")" data-role="none" title="Assegnazioni">
-                        <div id="headerSegnalazioni">
-                            0
-                        </div>
-                    </a>
-                    
-                    <a href="@Url.Action("Assegnazioni", "Home")" data-role="none" title="Assegnazioni scadute">
-                        <div id="headerSegnalazioniScadute" class="ui-body-c">
-                            0
-                        </div>
-                    </a>
-                }
-                <div id="headerClock" class="ui-btn-right ui-body-b"   style="margin-top: 3.5em; margin-right: 0.5em;"></div>
+
+
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a href="@Url.Action("Manage", "Account")" style="margin-right: 0.5em;" class="ui-btn ui-icon-user ui-btn-icon-left ui-btn-right ui-mini" title="@User.Identity.Name">@User.Identity.Name</a>
+                    <div style="display:inline;  margin-top: 3px; padding:0; width:20px">
+                        <a href="@Url.Action("Manage", "Account")" class="ui-btn ui-icon-user  ui-btn-icon-left" style="display:block; float:right; margin-right: 0.5em;" title="@User.Identity.Name">@User.Identity.Name</a>
+                        <a id="MySegnalazioni" href="@Url.Action("Assegnazioni", "Home")" class="ui-btn ui-corner-all" style="display:block; float:right; margin-right:2em;" title="Assegnazioni">0</a>
+                        <a id="SegnalazioniScadute" href="@Url.Action("Assegnazioni", "Home")" class="ui-btn ui-corner-all" style="display:block; float:right; margin-right:2em; color:red" title="Assegnazioni scadute">0</a>
+                    </div>
                 }
 
+                <div id="headerClock" class="ui-btn-right ui-body-b" style="margin-top: 3.5em; margin-right: 0.5em;"></div>
 
-                <!--
-                    <a href="#PageCalendar" class="ui-btn-right ui-icon-calendar ui-btn-icon-left" style="margin-top: 1em; margin-left: 1em;" data-rel="dialog" title="Calendario" data-transition="flip"></a>
-                    -->
             </div>
 
             <div data-role="navbar" style="margin-top: 25px;">
@@ -223,6 +217,7 @@
                                 <h2 style="color:green ; font-size:medium;">@html</h2>
                                 break;
                             case MyMessage.MyMessageType.Failed:
+                            case MyMessage.MyMessageType.Exception:
                             <h2 style="color:red; font-size:medium;">@html</h2>
                                 break;
                         }
@@ -247,7 +242,7 @@
 
 
 
-        <div data-role="popup" id="popupError" class="ui-content"  data-theme="c"   style=" max-width:280px" data-dismissible="false">
+        <div data-role="popup" id="popupError" class="ui-content" data-theme="c" style=" max-width:280px" data-dismissible="false">
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">Close</a>
             <p id="popupErrorpMessage"></p>
         </div>
