@@ -1,0 +1,19 @@
+﻿@model mediatori.Models.Anagrafiche.Impiego
+@{
+    Layout = null;
+
+    string btnAnnulla = "ImpiegobtnAnnulla" + Model.id.ToString(); 
+}
+
+@using (Html.BeginForm("UpdateForContatto", "Impiego", FormMethod.Post))
+{
+    <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
+
+    { Html.RenderPartial("~/Views/Impiego/ImpiegoPartialEdit.cshtml", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}
+

@@ -4,12 +4,11 @@
     Layout = null;
 }
 
-
-@Html.HiddenFor(m => m.id)
-
+<input type="hidden" name="id" value="@Model.id" />
+<input type="hidden" name="contattoId" value="@Model.contattoId" />
 
 <div class="editor-control">
-    @Html.MyInputType(m  => m.dataAssunzione)
+    @Html.MyInputType(m => m.dataAssunzione)
 </div>
 
 <div class="editor-control">
@@ -36,7 +35,6 @@
     @Html.MyInputType(m => m.aziendaSedeLavoro)
 </div>
 
-
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
@@ -51,7 +49,6 @@
     </div>
 </div>
 
-
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
@@ -65,10 +62,6 @@
         @Html.ValidationMessageFor(m => m.categoriaImpiego.id)
     </div>
 </div>
-
-
-
-
 
 <div class="editor-control">
     @Html.MyInputType(m => m.adesioneTFR)
@@ -85,7 +78,4 @@
 <div class="editor-control">
     @Html.MyInputType(m => m.mensilita)
 </div>
-
-
-
 

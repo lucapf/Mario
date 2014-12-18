@@ -19,7 +19,8 @@ namespace mediatori.Controllers
         {
             if (String.IsNullOrEmpty(model.url))
             {
-                model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
+               // model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
+                model.url = System.Configuration.ConfigurationManager.AppSettings["pcc.url"];
             }
 
             return View(model);

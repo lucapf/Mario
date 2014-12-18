@@ -3,51 +3,42 @@
     ViewBag.title = "Impiego";
     Layout = null;
 
-
-    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Impiego", Model.id);
-    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Impiego", Url.Action("ImpiegoPartialById", "Impiego"), Model.id.ToString());
 }
 
-<div>Impiego #@Model.id  @Html.Raw(editHelper.getButtonModifica())</div>
-
-<div id="@faDetailEventDetection.getIdFullDetail()">
-
-    <div class="display-control">
-        @MyHelper.MyDisplay(() => Model.dataAssunzione)
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.dataLicenziamento)
-        <div>@Html.Display("dataLicenziamento") </div>
-    </div>
-    <div class="display-control">
-        @MyHelper.MyDisplay(() => Model.stipendioNettoMensile)
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.tipoImpiego)
-        <div>@Html.Display("tipoImpiego.descrizione")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.categoriaImpiego)
-        <div>@Html.Display("categoriaImpiego.descrizione")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.adesioneTFR)
-        <div>@Html.Display("adesioneTFR")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.anticipiTFR)
-        <div>@Html.Display("anticipiTFR")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.mansione)
-        <div>@Html.Display("mansione")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.mensilita)
-        <div>@Html.Display("mensilita")</div>
-    </div>
-
+<div class="display-control">
+    @MyHelper.MyDisplay(() => Model.azienda)
 </div>
-
-
-
+<div class="display-control">
+    @MyHelper.MyDisplay(() => Model.dataAssunzione)
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.dataLicenziamento)
+    <div>@Html.Display("dataLicenziamento") </div>
+</div>
+<div class="display-control">
+    @MyHelper.MyDisplay(() => Model.stipendioNettoMensile)
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.tipoImpiego)
+    <div>@Html.Display("tipoImpiego.descrizione")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.categoriaImpiego)
+    <div>@Html.Display("categoriaImpiego.descrizione")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.adesioneTFR)
+    <div>@Html.Display("adesioneTFR")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.anticipiTFR)
+    <div>@Html.Display("anticipiTFR")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.mansione)
+    <div>@Html.Display("mansione")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.mensilita)
+    <div>@Html.Display("mensilita")</div>
+</div>

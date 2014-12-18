@@ -20,20 +20,20 @@
 
 @if (User.Identity is MyUsers.MyCustomIdentity || User.Identity is System.Web.Security.FormsIdentity)
 {
-    <a style="float:right; margin-top:20px;" href="@Url.Action("LogOff", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">LogOff</a>
+    <a style="float:right; margin-top:20px;" href="@Url.Action("LogOff", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Logoff</a>
 }
 
 <a style="float:right; margin-top:20px;" href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
 <h2>My Account</h2>
 <div class="ui-grid-a">
     <div class="ui-block-a">
-        <div class="ui-bar ui-bar-c">Login:</div>
-        <div class="ui-bar ui-bar-c">Profilo:</div>
+        <div class="ui-bar ui-bar-a">Login:</div>
+        <div class="ui-bar ui-bar-a">Profilo:</div>
     </div>
 
     <div class="ui-block-b">
-        <div class="ui-bar ui-bar-a">@User.Identity.Name</div>
-        <div class="ui-bar ui-bar-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.Replace(";", " - "))</div>
+        <div class="ui-bar ui-body-a">@User.Identity.Name</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.Replace(";", " - "))</div>
     </div>
 </div>
 

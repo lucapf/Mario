@@ -4,87 +4,87 @@
     ViewBag.Title = "Nuovo Cedente";
 }
 
-  <script>
-      function validateForm() {
-          if ($("#dataNascita").val() == "01/01/0001 00:00:00") {
-              $("[data-valmsg-for='dataNascita'").html("Il campo data di nascita e' obbligatorio!")
-              return false;
-          }
-          return true;
-      }
+<script>
+    function validateForm() {
+        if ($("#dataNascita").val() == "01/01/0001 00:00:00") {
+            $("[data-valmsg-for='dataNascita'").html("Il campo data di nascita e' obbligatorio!")
+            return false;
+        }
+        return true;
+    }
 
-      function aggiungiDocumentoIdentita() {
-          $("#GestioneDocumentoIdentitaMessage").html("Caricamento in corso...")
-          $.ajax({
-              url: "/DocumentoIdentita/DocumentoIdentitaPartialById",
-              data: { id: 0, tipoAzione: 'INSERIMENTO' },
-              cache: false,
-              error: function (html) {
-                  $("#GestioneDocumentoIdentitaMessage").html("");
-                  alert("errore nella gestione della richiesta\n" + html)
-              },
-              success: function (html) {
-                  $("#GestioneDocumentoIdentitaMessage").html("");
-                  $("#GestioneDocumentoIdentita").append(html);
-                  $("#stepDocumentoIdentita").hide(100);
-                  $("#stepIndirizzo").show(100);
+    function aggiungiDocumentoIdentita() {
+        $("#GestioneDocumentoIdentitaMessage").html("Caricamento in corso...")
+        $.ajax({
+            url: "/DocumentoIdentita/DocumentoIdentitaPartialById",
+            data: { id: 0, tipoAzione: 'INSERIMENTO' },
+            cache: false,
+            error: function (html) {
+                $("#GestioneDocumentoIdentitaMessage").html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function (html) {
+                $("#GestioneDocumentoIdentitaMessage").html("");
+                $("#GestioneDocumentoIdentita").append(html);
+                $("#stepDocumentoIdentita").hide(100);
+                $("#stepIndirizzo").show(100);
 
-                  getGUID(html);
-                  popolaComboProvince("DocumentoIdentita_" + guidUltimoElementoInserito + "__provinciaEnte_denominazione",
-                                      "DocumentoIdentita_" + guidUltimoElementoInserito + "__comuneEnte_denominazione")
+                getGUID(html);
+                popolaComboProvince("DocumentoIdentita_" + guidUltimoElementoInserito + "__provinciaEnte_denominazione",
+                                    "DocumentoIdentita_" + guidUltimoElementoInserito + "__comuneEnte_denominazione")
 
 
-                  refreshValidation("createForm");
+                refreshValidation("createForm");
 
-              }
-          });
-      }
+            }
+        });
+    }
 
-      function aggiungiIndirizzo() {
-          $("#GestioneIndirizziMessage").html("elaborazione in corso...")
-          $.ajax({
-              url: "/Indirizzo/IndirizzoPartialById",
-              data: { id: 0 },
-              cache: false,
-              error: function (html) {
-                  $("#GestioneIndirizziMessage").html("");
-                  alert("errore nella gestione della richiesta\n" + html)
-              },
-              success: function (html) {
-                  $("#GestioneIndirizziMessage").html("");
-                  $("#Gestioneindirizzi").append(html);
-                  refreshValidation("createForm");
-                  var guid = getGUID(html);
-                  popolaComboProvince(
-                      'Indirizzi_' + guidUltimoElementoInserito + '__provincia_denominazione',
-                      'Indirizzi_' + guidUltimoElementoInserito + '__comune_denominazione')
-                  $("#stepIndirizzo").hide(100);
-                  $("#stepImpiego").show(100);
-              }
-          });
-      }
-      function aggiungiImpiego() {
-          $("#GestioneImpiegoMessage").html("elaborazione in corso...")
-          $.ajax({
-              url: "/Impiego/ImpiegoPartialById",
-              data: { id: 0, tipoAzione: "MODIFICA" },
-              cache: false,
-              error: function (html) {
-                  $("#GestioneImpiegoMessage").html("");
-                  alert("errore nella gestione della richiesta\n" + html)
-              },
-              success: function (html) {
-                  $("#GestioneImpiegoMessage").html("");
-                  $("#GestioneImpiego").append(html);
-                  refreshValidation("createForm");
-                  $("#stepImpiego").hide(100);
-                  $("#create").show(100);
-              }
-          });
-      }
-                
- 
-        </script>
+    function aggiungiIndirizzo() {
+        $("#GestioneIndirizziMessage").html("elaborazione in corso...")
+        $.ajax({
+            url: "/Indirizzo/IndirizzoPartialById",
+            data: { id: 0 },
+            cache: false,
+            error: function (html) {
+                $("#GestioneIndirizziMessage").html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function (html) {
+                $("#GestioneIndirizziMessage").html("");
+                $("#Gestioneindirizzi").append(html);
+                refreshValidation("createForm");
+                var guid = getGUID(html);
+                popolaComboProvince(
+                    'Indirizzi_' + guidUltimoElementoInserito + '__provincia_denominazione',
+                    'Indirizzi_' + guidUltimoElementoInserito + '__comune_denominazione')
+                $("#stepIndirizzo").hide(100);
+                $("#stepImpiego").show(100);
+            }
+        });
+    }
+    function aggiungiImpiego() {
+        $("#GestioneImpiegoMessage").html("elaborazione in corso...")
+        $.ajax({
+            url: "/Impiego/ImpiegoPartialById",
+            data: { id: 0, tipoAzione: "MODIFICA" },
+            cache: false,
+            error: function (html) {
+                $("#GestioneImpiegoMessage").html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function (html) {
+                $("#GestioneImpiegoMessage").html("");
+                $("#GestioneImpiego").append(html);
+                refreshValidation("createForm");
+                $("#stepImpiego").hide(100);
+                $("#create").show(100);
+            }
+        });
+    }
+
+
+</script>
 
 
 
@@ -96,67 +96,73 @@
 
     <fieldset>
         <legend>Nuovo Cedente</legend>
-     @{ 
-       Html.RenderPartial("DatiGeneraliPartialEdit", Model);
-       if (Model.documentoIdentita != null)
-       {
-           foreach (mediatori.Models.Anagrafiche.DocumentoIdentita documentoIdentita in Model.documentoIdentita)
-           {
-               Html.RenderAction("DocumentoIdentitaPartialInsert", "DocumentoIdentita", documentoIdentita);
-           }
-       }
-}
- <div id="GestioneDocumentoIdentita" style="display:none">
-       <h3 id="GestioneDocumentoIdentitaMessage"></h3>
-  </div>
-  <input type="button" id="stepDocumentoIdentita" value="Documento Identita"  />
-  
-  
-  
+        @{
+    Html.RenderPartial("DatiGeneraliPartialEdit", Model);
+    if (Model.documentiIdentita != null)
+    {
+        foreach (mediatori.Models.Anagrafiche.DocumentoIdentita documentoIdentita in Model.documentiIdentita)
+        {
+            Html.RenderAction("DocumentoIdentitaPartialInsert", "DocumentoIdentita", documentoIdentita);
+        }
+    }
+        }
+        <div id="GestioneDocumentoIdentita" style="display:none">
+            <h3 id="GestioneDocumentoIdentitaMessage"></h3>
+        </div>
+        <input type="button" id="stepDocumentoIdentita" value="Documento Identita" />
 
-<!-- fine gestione indirizzi -->
-        <p>
-            <input type="submit"id="create" value="Create" />
-        </p>
-         
+
+
+
+        <!-- fine gestione indirizzi -->
+     
+
+
+
+        <div data-role="footer" data-position="fixed" data-theme="b">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
+                    <li><input type="submit" value="Salva" id="Nuovo" data-inline="true" data-mini="true" /></li>
+                </ul>
+            </div>
+        </div>
+
     </fieldset>
 }
 <script>
-     $(function () {
- 
-    $("#stepDocumentoIdentita").click(function () {
+    $(function () {
+
+        $("#stepDocumentoIdentita").click(function () {
+            if ($("Form").validate().form() && validateForm()) {
+                $("#GestioneDocumentoIdentita").show(100);
+                aggiungiDocumentoIdentita();
+            }
+        });
+
+        $("#stepIndirizzo").click(function () {
+            if ($("Form").validate().form() && validateForm()) {
+                aggiungiIndirizzo();
+                return false;
+            }
+            return true;
+        });
+
+    });
+
+
+
+
+    $("#stepImpiego").click(function () {
         if ($("Form").validate().form() && validateForm()) {
-            $("#GestioneDocumentoIdentita").show(100);
-            aggiungiDocumentoIdentita();
+            $("#GestioneImpiego").show(100);
+            aggiungiImpiego();
+
+
         }
     });
 
-    $("#stepIndirizzo").click(function () {
-        if ($("Form").validate().form() && validateForm()) {
-            aggiungiIndirizzo();
-            return false;
-        }
-        return true;
-    });
-
-     });
-
-
-
-
-     $("#stepImpiego").click(function () {
-         if ($("Form").validate().form() && validateForm()) {
-             $("#GestioneImpiego").show(100);
-             aggiungiImpiego();
-
-
-         }
-     });
-
-     $("#provinciaNascita_denominazione").change(function () {
-         popolaComboComuni("provinciaNascita_denominazione", "comuneNascita_denominazione");
-     })
+    $("#provinciaNascita_denominazione").change(function () {
+        popolaComboComuni("provinciaNascita_denominazione", "comuneNascita_denominazione");
+    })
 </script>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

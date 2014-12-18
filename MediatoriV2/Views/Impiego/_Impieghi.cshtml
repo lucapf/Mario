@@ -3,56 +3,30 @@
     Layout = null;
 }
 
-
 <script type="text/javascript">
-
-
-   // $(document).on("pageinit", function () {
-     //   $("#linkNuovoImpiego").click(function () { $("#divNuovoImpiego").show(); })
-    //});
-
+    $(document).on("pageinit", function () {
+        $("#linkNuovoImpiego").click(function () { $("#divNuovoImpiego").show(); })
+    });
 </script>
 
-<h3>Dati impiego<strong class="h3Link" id="linkNuovoImpiego" title="nuovo impiego">[ + ]</strong></h3>
-
+<h3>Dati impiego <strong class="h3Link" id="linkNuovoImpiego" title="Nuovo impiego">[ + ]</strong></h3>
 <hr />
 
-    @foreach (mediatori.Models.Anagrafiche.Impiego i in Model.impieghi)
+@foreach (mediatori.Models.Anagrafiche.Impiego i in Model.impieghi)
+{
+    Html.RenderPartial("~/Views/Impiego/ImpiegoDetail.cshtml", i);
+}
+
+<div id="divNuovoImpiego" style="display:none">
+    @using (Html.BeginForm("CreateForContatto", "Impiego", FormMethod.Post, new { id = "nuovoImpiego" }))
     {
-        if (i.dataAssunzione == null)
-        {
-            using (Html.BeginForm("UpdateForContatto", "Impiego", FormMethod.Post, new { id = "updateImpiego" }))
-            {
-                <input type="hidden"  name="codiceContatto" value="@Model.contattoId" />
-
-                { Html.RenderPartial("~/Views/Impiego/ImpiegoPartialEdit.cshtml", i); }
-
-
-                <div data-role="controlgrup" data-type="horizontal">
-                    <input type="submit" data-mini="true" data-inline="true" value="Salva" />
-                </div>
-            }
-        }
-        else
-        {
-            Html.RenderPartial("~/Views/Impiego/ImpiegoPartialDetail.cshtml", i);
-        }
-    }
-
-
-
-<div id="divNuovoImpiego" style="display: none">
-    @using (Html.BeginForm("CreateForCedente", "Impiego", FormMethod.Post, new { id = "nuovoImpiego" }))
-    {
-        <input type="hidden" id="codiceCedente" name="codiceCedente" value="@Model.contattoId" />
-
-        { Html.RenderPartial("~/Views/Impiego/ImpiegoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Impiego()); }
-
+        <input type="hidden" id="codiceContatto" name="codiceContatto" value="@Model.contattoId" />
+        
+        { Html.RenderPartial("~/Views/Impiego/ImpiegoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Impiego() { contattoId = (int)Model.contattoId }); }
 
         <div data-role="controlgrup" data-type="horizontal">
-            <input type="button" data-mini="true" data-inline="true" value="Salva" onclick='$("#nuovoImpiego").submit()' />
-            <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovoImpiego").hide()' />
+            <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+            <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovoImpiego").hide();' />
         </div>
     }
 </div>
-

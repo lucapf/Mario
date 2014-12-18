@@ -34,56 +34,56 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false)
 
-<input type="hidden" name="Utente.userId" value="@Model.Utente.userId" />
+    <input type="hidden" name="Utente.userId" value="@Model.Utente.userId" />
 
 
-<div class="ui-field-contain">
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="Utente.email" data-clear-btn="true" value="@Model.Utente.email" />
-</div>
+    <div class="ui-field-contain">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="Utente.email" data-clear-btn="true" value="@Model.Utente.email" />
+    </div>
 
 
-<div class="ui-field-contain">
-    <label for="select-profilo">Profilo:</label>
-    <select name="ProfiloId" id="select-profilo">
-        <option value="">---</option>
-        @foreach (SelectListItem i in Model.Profilo)
-        {
-        <option value="@(i.Value)" @( i.Selected ? "selected" : "" ) >@(i.Text)</option>
-        }
-    </select>
-</div>
+    <div class="ui-field-contain">
+        <label for="select-profilo">Profilo:</label>
+        <select name="ProfiloId" id="select-profilo">
+            <option value="">---</option>
+            @foreach (SelectListItem i in Model.Profilo)
+            {
+                <option value="@(i.Value)" @( i.Selected ? "selected" : "")>@(i.Text)</option>
+            }
+        </select>
+    </div>
 
 
 
-<div class="ui-field-contain">
-    <fieldset data-role="controlgroup">
-        <legend>Gruppi di lavorazine</legend>
+    <div class="ui-field-contain">
+        <fieldset data-role="controlgroup">
+            <legend>Gruppi di lavorazine</legend>
 
-        @{
-        int conta = 0;
-        bool selected;
-        }
-        @foreach (MyUsers.Models.MyGroup g in Model.Gruppi)
-        {
+            @{
+            int conta = 0;
+            bool selected;
+            }
+            @foreach (MyUsers.Models.MyGroup g in Model.Gruppi)
+            {
 
-        selected = Model.Utente.Gruppi.Find(x => x.gruppoId == g.gruppoId) != null;
+                selected = Model.Utente.Gruppi.Find(x => x.gruppoId == g.gruppoId) != null;
 
-        <input type="checkbox" name="gruppiIDs" id="Gruppi[@(conta)].gruppoId" @( selected ? "checked" : "" ) value="@(g.gruppoId)" />
-        <label for="Gruppi[@(conta++)].gruppoId">@(g.nome) @((!String.IsNullOrEmpty(g.tipo)) ? " [" + g.tipo + "]" : "")</label>
-        }
+                <input type="checkbox" name="gruppiIDs" id="Gruppi[@(conta)].gruppoId" @( selected ? "checked" : "") value="@(g.gruppoId)" />
+                <label for="Gruppi[@(conta++)].gruppoId">@(g.nome) @((!String.IsNullOrEmpty(g.tipo)) ? " [" + g.tipo + "]" : "")</label>
+            }
 
-    </fieldset>
-</div>
+        </fieldset>
+    </div>
 
 
-<div data-role="controlgrup" data-type="horizontal">
-    <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista</a>
-    <a href="@Url.Action("Details", "Utenti", new { id = Model.Utente.userId })" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
-    <input type="submit" value="Salva" data-inline="true" data-mini="true" />
-</div>
+    <div data-role="controlgrup" data-type="horizontal">
+        <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista</a>
+        <a href="@Url.Action("Details", "Utenti", new { id = Model.Utente.userId })" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        <input type="submit" value="Salva" data-inline="true" data-mini="true" />
+    </div>
 
-        }
+}
 
 
 

@@ -217,6 +217,7 @@
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="Controllers\PraticheController.cs" />
     <Compile Include="Controllers\ReteController.cs" />
+    <Compile Include="Controllers\SimulazioneController.cs" />
     <Compile Include="Controllers\SoggettoGiuridicoController.cs" />
     <Compile Include="Controllers\Business\Tipologia\TipoContattoBusiness.cs" />
     <Compile Include="Controllers\Business\Tipologia\TipoLuogoRitrovoBusiness.cs" />
@@ -643,12 +644,10 @@
     <Content Include="Views\Nota\NotaPartialEdit.cshtml" />
     <Content Include="Views\Nota\NotaPartialInsert.cshtml" />
     <Content Include="Views\Riferimento\RiferimentoPartialInsert.cshtml" />
-    <Content Include="Views\Impiego\ImpiegoPartialInsert.cshtml" />
     <Content Include="Views\Segnalazioni\SegnalazionePartialEdit.cshtml" />
     <Content Include="Views\Segnalazioni\SegnalazionePartialDetail.cshtml" />
     <Content Include="Views\Riferimento\RiferimentoInnerDetail.cshtml" />
     <Content Include="Views\Nota\NotaPartialDetail.cshtml" />
-    <Content Include="Views\Impiego\ImpiegoInnerDetail.cshtml" />
     <Content Include="Views\Riferimento\RiferimentoPartialDetail.cshtml" />
     <Content Include="Views\Contatto\ContattoPartialDetail.cshtml" />
     <Content Include="Views\SoggettoGiuridico\Index.cshtml" />
@@ -725,7 +724,6 @@
     <Content Include="Views\Preventivo\PreventivoPartialEditSmall.cshtml" />
     <Content Include="Views\Preventivo\PreventivoPartialDetailSmall.cshtml" />
     <Content Include="Views\Documentale\_Documenti.cshtml" />
-    <Content Include="Views\Impiego\ImpiegoPartialDetail - Copy.cshtml" />
     <Content Include="Views\Test\Calendar.cshtml" />
     <Content Include="Views\Groups\Index.cshtml" />
     <Content Include="Views\Groups\Delete.cshtml" />
@@ -740,6 +738,10 @@
     <Content Include="Views\Segnalazioni\_PopupChangeStatus.cshtml" />
     <Content Include="Views\Test\SSL.cshtml" />
     <Content Include="Views\Test\Email.cshtml" />
+    <Content Include="Views\Home\Whatsnew.cshtml" />
+    <Content Include="Views\Impiego\ImpiegoEdit.cshtml" />
+    <Content Include="Views\Impiego\ImpiegoDetail.cshtml" />
+    <Content Include="Views\Simulazione\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -23,6 +23,18 @@ namespace mediatori.Controllers
         }
 
 
+        public ActionResult Whatsnew()
+        {
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+
+
+            ViewData["VersioneCorrente"] = fvi.FileVersion;
+            return View();
+        }
+
+
         public ActionResult Anagrafiche()
         {
             List<MenuElement> model = new List<MenuElement>(){

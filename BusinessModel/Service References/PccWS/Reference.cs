@@ -37502,6 +37502,10 @@ namespace BusinessModel.PccWS {
         
         private bool istCodiceFieldSpecified;
         
+        private decimal prodCoeffArrTanField;
+        
+        private bool prodCoeffArrTanFieldSpecified;
+        
         private System.DateTime prodContrCrifDataModifField;
         
         private bool prodContrCrifDataModifFieldSpecified;
@@ -37513,6 +37517,10 @@ namespace BusinessModel.PccWS {
         private long prodFinIdField;
         
         private bool prodFinIdFieldSpecified;
+        
+        private bool prodFlagCommTanField;
+        
+        private bool prodFlagCommTanFieldSpecified;
         
         private bool prodFlagContribCrifField;
         
@@ -37638,6 +37646,30 @@ namespace BusinessModel.PccWS {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public decimal prodCoeffArrTan {
+            get {
+                return this.prodCoeffArrTanField;
+            }
+            set {
+                this.prodCoeffArrTanField = value;
+                this.RaisePropertyChanged("prodCoeffArrTan");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool prodCoeffArrTanSpecified {
+            get {
+                return this.prodCoeffArrTanFieldSpecified;
+            }
+            set {
+                this.prodCoeffArrTanFieldSpecified = value;
+                this.RaisePropertyChanged("prodCoeffArrTanSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public System.DateTime prodContrCrifDataModif {
             get {
                 return this.prodContrCrifDataModifField;
@@ -37661,7 +37693,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public string prodContrCrifUtenteModif {
             get {
                 return this.prodContrCrifUtenteModifField;
@@ -37673,7 +37705,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
         public string prodDescrizione {
             get {
                 return this.prodDescrizioneField;
@@ -37685,7 +37717,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
         public long prodFinId {
             get {
                 return this.prodFinIdField;
@@ -37709,7 +37741,31 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
+        public bool prodFlagCommTan {
+            get {
+                return this.prodFlagCommTanField;
+            }
+            set {
+                this.prodFlagCommTanField = value;
+                this.RaisePropertyChanged("prodFlagCommTan");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool prodFlagCommTanSpecified {
+            get {
+                return this.prodFlagCommTanFieldSpecified;
+            }
+            set {
+                this.prodFlagCommTanFieldSpecified = value;
+                this.RaisePropertyChanged("prodFlagCommTanSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
         public bool prodFlagContribCrif {
             get {
                 return this.prodFlagContribCrifField;
@@ -37733,7 +37789,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
         public decimal prodSogliaCommissioniFinanziarie {
             get {
                 return this.prodSogliaCommissioniFinanziarieField;
@@ -37757,7 +37813,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
         public int sogliaMessaInQuota {
             get {
                 return this.sogliaMessaInQuotaField;
@@ -37781,7 +37837,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
         public decimal tanPrefinanziamentoSopra60 {
             get {
                 return this.tanPrefinanziamentoSopra60Field;
@@ -37805,7 +37861,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
         public decimal tanPrefinanziamentoSotto60 {
             get {
                 return this.tanPrefinanziamentoSotto60Field;
@@ -37829,7 +37885,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=15)]
         public string tpprCodice {
             get {
                 return this.tpprCodiceField;
@@ -37841,7 +37897,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=14)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=16)]
         public long tpprOnline {
             get {
                 return this.tpprOnlineField;
@@ -39679,9 +39735,17 @@ namespace BusinessModel.PccWS {
         
         private bool codiceFieldSpecified;
         
+        private bool escludiSimulazioneMultiplaField;
+        
+        private bool escludiSimulazioneMultiplaFieldSpecified;
+        
         private long istCodiceField;
         
         private bool istCodiceFieldSpecified;
+        
+        private bool prefErogazioneField;
+        
+        private bool prefErogazioneFieldSpecified;
         
         private decimal rivalsaField;
         
@@ -39743,6 +39807,30 @@ namespace BusinessModel.PccWS {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        public bool escludiSimulazioneMultipla {
+            get {
+                return this.escludiSimulazioneMultiplaField;
+            }
+            set {
+                this.escludiSimulazioneMultiplaField = value;
+                this.RaisePropertyChanged("escludiSimulazioneMultipla");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool escludiSimulazioneMultiplaSpecified {
+            get {
+                return this.escludiSimulazioneMultiplaFieldSpecified;
+            }
+            set {
+                this.escludiSimulazioneMultiplaFieldSpecified = value;
+                this.RaisePropertyChanged("escludiSimulazioneMultiplaSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public long istCodice {
             get {
                 return this.istCodiceField;
@@ -39766,7 +39854,31 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        public bool prefErogazione {
+            get {
+                return this.prefErogazioneField;
+            }
+            set {
+                this.prefErogazioneField = value;
+                this.RaisePropertyChanged("prefErogazione");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool prefErogazioneSpecified {
+            get {
+                return this.prefErogazioneFieldSpecified;
+            }
+            set {
+                this.prefErogazioneFieldSpecified = value;
+                this.RaisePropertyChanged("prefErogazioneSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public decimal rivalsa {
             get {
                 return this.rivalsaField;
@@ -39790,7 +39902,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public decimal rivalsaPerc {
             get {
                 return this.rivalsaPercField;
@@ -39814,7 +39926,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
         public string tipoIstituto {
             get {
                 return this.tipoIstitutoField;
@@ -55710,6 +55822,10 @@ namespace BusinessModel.PccWS {
         
         private string prodottoAssicurativoField;
         
+        private bool simulazioneMultiplaField;
+        
+        private bool simulazioneMultiplaFieldSpecified;
+        
         private decimal taegField;
         
         private bool taegFieldSpecified;
@@ -56138,6 +56254,30 @@ namespace BusinessModel.PccWS {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=23)]
+        public bool simulazioneMultipla {
+            get {
+                return this.simulazioneMultiplaField;
+            }
+            set {
+                this.simulazioneMultiplaField = value;
+                this.RaisePropertyChanged("simulazioneMultipla");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool simulazioneMultiplaSpecified {
+            get {
+                return this.simulazioneMultiplaFieldSpecified;
+            }
+            set {
+                this.simulazioneMultiplaFieldSpecified = value;
+                this.RaisePropertyChanged("simulazioneMultiplaSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=24)]
         public decimal taeg {
             get {
                 return this.taegField;
@@ -56161,7 +56301,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
         public decimal teg {
             get {
                 return this.tegField;
@@ -56185,7 +56325,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
         public string tipoAmministrazione {
             get {
                 return this.tipoAmministrazioneField;
@@ -56197,7 +56337,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
         public decimal totaleEstinzioni {
             get {
                 return this.totaleEstinzioniField;
@@ -56221,7 +56361,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=28)]
         public bool usoInterno {
             get {
                 return this.usoInternoField;
@@ -56324,6 +56464,10 @@ namespace BusinessModel.PccWS {
         
         private bool importoCalcoloTegFieldSpecified;
         
+        private decimal importoCommissioniField;
+        
+        private bool importoCommissioniFieldSpecified;
+        
         private decimal importoCommissioniIncluseNelTanField;
         
         private bool importoCommissioniIncluseNelTanFieldSpecified;
@@ -56403,6 +56547,10 @@ namespace BusinessModel.PccWS {
         private praticaCqCostiVO praticaVOField;
         
         private string prodottoAssicurativoField;
+        
+        private bool provvigioniNelTanField;
+        
+        private bool provvigioniNelTanFieldSpecified;
         
         private decimal provvigioniRunningField;
         
@@ -56808,6 +56956,30 @@ namespace BusinessModel.PccWS {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=19)]
+        public decimal importoCommissioni {
+            get {
+                return this.importoCommissioniField;
+            }
+            set {
+                this.importoCommissioniField = value;
+                this.RaisePropertyChanged("importoCommissioni");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool importoCommissioniSpecified {
+            get {
+                return this.importoCommissioniFieldSpecified;
+            }
+            set {
+                this.importoCommissioniFieldSpecified = value;
+                this.RaisePropertyChanged("importoCommissioniSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
         public decimal importoCommissioniIncluseNelTan {
             get {
                 return this.importoCommissioniIncluseNelTanField;
@@ -56831,7 +57003,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=20)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=21)]
         public decimal importoNettoErogato {
             get {
                 return this.importoNettoErogatoField;
@@ -56855,7 +57027,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=21)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=22)]
         public decimal importoProvvigioneAgenziaCaricante {
             get {
                 return this.importoProvvigioneAgenziaCaricanteField;
@@ -56879,7 +57051,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=22)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=23)]
         public decimal importoProvvigioneAgenziaCaricanteInit {
             get {
                 return this.importoProvvigioneAgenziaCaricanteInitField;
@@ -56903,7 +57075,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=23)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=24)]
         public decimal importoProvvigioneReteAgenzia {
             get {
                 return this.importoProvvigioneReteAgenziaField;
@@ -56927,7 +57099,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=24)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
         public decimal importoProvvigioneReteAgenziaInit {
             get {
                 return this.importoProvvigioneReteAgenziaInitField;
@@ -56951,7 +57123,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=25)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
         public decimal importoRivalsa {
             get {
                 return this.importoRivalsaField;
@@ -56975,7 +57147,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=26)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
         public limitiAntiusuraVO limitiAntiusura {
             get {
                 return this.limitiAntiusuraField;
@@ -56987,7 +57159,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=27)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=28)]
         public decimal montante {
             get {
                 return this.montanteField;
@@ -57011,7 +57183,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=28)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=29)]
         public string nomeTariffarioImpiego {
             get {
                 return this.nomeTariffarioImpiegoField;
@@ -57023,7 +57195,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=29)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=30)]
         public string nomeTariffarioVita {
             get {
                 return this.nomeTariffarioVitaField;
@@ -57035,7 +57207,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=30)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=31)]
         public decimal percentualeAgenziaCaricante {
             get {
                 return this.percentualeAgenziaCaricanteField;
@@ -57059,7 +57231,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=31)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=32)]
         public decimal percentualeAgenziaCaricanteApplicataTabFinTotale {
             get {
                 return this.percentualeAgenziaCaricanteApplicataTabFinTotaleField;
@@ -57083,7 +57255,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=32)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=33)]
         public decimal percentualeAgenziaCaricanteApplicataTabFinTotaleInit {
             get {
                 return this.percentualeAgenziaCaricanteApplicataTabFinTotaleInitField;
@@ -57107,7 +57279,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=33)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=34)]
         public decimal percentualeAgenzieIntermediazione {
             get {
                 return this.percentualeAgenzieIntermediazioneField;
@@ -57131,7 +57303,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=34)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=35)]
         public decimal percentualeAgenzieIntermediazioneApplicataTabFinTotale {
             get {
                 return this.percentualeAgenzieIntermediazioneApplicataTabFinTotaleField;
@@ -57155,7 +57327,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=35)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=36)]
         public decimal percentualeAgenzieIntermediazioneApplicataTabFinTotaleInit {
             get {
                 return this.percentualeAgenzieIntermediazioneApplicataTabFinTotaleInitField;
@@ -57179,7 +57351,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=36)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=37)]
         public decimal percentualeCommIntermediazione {
             get {
                 return this.percentualeCommIntermediazioneField;
@@ -57203,7 +57375,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=37)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=38)]
         public decimal percentualeTabfin {
             get {
                 return this.percentualeTabfinField;
@@ -57227,7 +57399,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=38)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=39)]
         public decimal percentualeTabfinTotale {
             get {
                 return this.percentualeTabfinTotaleField;
@@ -57251,7 +57423,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=39)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=40)]
         public politicaTassiIstfinSmallVO politicaTassi {
             get {
                 return this.politicaTassiField;
@@ -57263,7 +57435,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=40)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=41)]
         public praticaCqCostiVO praticaVO {
             get {
                 return this.praticaVOField;
@@ -57275,7 +57447,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=41)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=42)]
         public string prodottoAssicurativo {
             get {
                 return this.prodottoAssicurativoField;
@@ -57287,7 +57459,31 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=42)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=43)]
+        public bool provvigioniNelTan {
+            get {
+                return this.provvigioniNelTanField;
+            }
+            set {
+                this.provvigioniNelTanField = value;
+                this.RaisePropertyChanged("provvigioniNelTan");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool provvigioniNelTanSpecified {
+            get {
+                return this.provvigioniNelTanFieldSpecified;
+            }
+            set {
+                this.provvigioniNelTanFieldSpecified = value;
+                this.RaisePropertyChanged("provvigioniNelTanSpecified");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=44)]
         public decimal provvigioniRunning {
             get {
                 return this.provvigioniRunningField;
@@ -57311,7 +57507,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=43)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=45)]
         public decimal puntiTassoCompetenzaRunning {
             get {
                 return this.puntiTassoCompetenzaRunningField;
@@ -57335,7 +57531,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=44)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=46)]
         public bool scontaDiffCommissioniIntermediazione {
             get {
                 return this.scontaDiffCommissioniIntermediazioneField;
@@ -57359,7 +57555,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=45)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=47)]
         public searchCriteriaVO searchCriteria {
             get {
                 return this.searchCriteriaField;
@@ -57371,7 +57567,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=46)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=48)]
         public decimal tanCliente {
             get {
                 return this.tanClienteField;
@@ -57395,7 +57591,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=47)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=49)]
         public decimal tanIstituto {
             get {
                 return this.tanIstitutoField;
@@ -57419,7 +57615,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=48)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=50)]
         public decimal tegContratto {
             get {
                 return this.tegContrattoField;
@@ -57443,7 +57639,7 @@ namespace BusinessModel.PccWS {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=49)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=51)]
         public decimal tegConvenzione {
             get {
                 return this.tegConvenzioneField;

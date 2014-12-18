@@ -5,6 +5,21 @@
   type => changes
  -->
 
+  <release number="1.0.0.4" data="17/12/2014">
+    <item data="17/12/2014"     owner="Rutigliano"  type="changes" >
+      aggiunto il pulsante di logoff nel menu in alto a sx
+    </item>
+    <item data="17/12/2014"     owner="Rutigliano"  type="bug" >
+      corretta la connessione al db durante il passaggio di stato di una segnalazione
+    </item>
+    <item data="17/12/2014"     owner="Rutigliano"  type="changes" >
+      eliminato il pulsante di registrazione per una demo
+    </item>
+    <item data="17/12/2014"     owner="Rutigliano"  type="changes" >
+      migliorata la modifica degli impieghi
+    </item>
+  </release>
+
 
   <release number="1.0.0.3" data="15/12/2014">
     <item data="15/12/2014"     owner="Rutigliano"  type="changes" >

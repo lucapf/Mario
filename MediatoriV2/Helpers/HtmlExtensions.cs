@@ -286,13 +286,13 @@ namespace mediatori.helper
        
         public String getButtonModifica(String htmlAttributes = "", String javascriptCustomFunction = "")
         {
-            htmlAttributes += "class='buttonModifica' title='Modifica'";
+            htmlAttributes += "class='buttonModifica ui-btn-right' title='Modifica'";
             return buildBottoneGenerico(buttonModifica, "[ M ]", "FireAntEditHelper_ModificaDati", htmlAttributes, javascriptCustomFunction);
         }
 
         public String getButtonAnnullaModifica(String value = "[ A ] ", String htmlAttributes = "", String javascriptCustomFunction = "")
         {
-            htmlAttributes += "class='buttonAnnullaModifica'";
+            htmlAttributes += "class='buttonAnnullaModifica ui-btn-right'  title='Annulla'";
             return buildBottoneGenerico(buttonAnnullaModifica, value, "FireAntEditHelper_AnnullaModificaDati", htmlAttributes, javascriptCustomFunction);
         }
 

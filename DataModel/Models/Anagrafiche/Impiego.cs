@@ -62,17 +62,17 @@ namespace mediatori.Models.Anagrafiche
 
         [DataType(DataType.Date)]
         [Display(Name = "Data adesione fondo")]
-        [DisplayFormat(ApplyFormatInEditMode = true, NullDisplayText = "", DataFormatString = MyConstants.DATE_FORMAT)]
+        [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? adesioneTFR { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Data assunzione")]
-        [DisplayFormat(ApplyFormatInEditMode = true, NullDisplayText = "", DataFormatString = MyConstants.DATE_FORMAT)]
+        [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? dataAssunzione { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Data licenziamento")]
-        [DisplayFormat(ApplyFormatInEditMode = true, NullDisplayText = "", DataFormatString = MyConstants.DATE_FORMAT)]
+        [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? dataLicenziamento { get; set; }
 
 

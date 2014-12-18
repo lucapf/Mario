@@ -1175,10 +1175,12 @@
           <xs:element minOccurs="0" name="flagDiretto" type="xs:boolean" />
           <xs:element minOccurs="0" name="giorniMoraSollecito" type="xs:int" />
           <xs:element minOccurs="0" name="istCodice" type="xs:long" />
+          <xs:element minOccurs="0" name="prodCoeffArrTan" type="xs:decimal" />
           <xs:element minOccurs="0" name="prodContrCrifDataModif" type="xs:dateTime" />
           <xs:element minOccurs="0" name="prodContrCrifUtenteModif" type="xs:string" />
           <xs:element minOccurs="0" name="prodDescrizione" type="xs:string" />
           <xs:element minOccurs="0" name="prodFinId" type="xs:long" />
+          <xs:element minOccurs="0" name="prodFlagCommTan" type="xs:boolean" />
           <xs:element minOccurs="0" name="prodFlagContribCrif" type="xs:boolean" />
           <xs:element minOccurs="0" name="prodSogliaCommissioniFinanziarie" type="xs:decimal" />
           <xs:element minOccurs="0" name="sogliaMessaInQuota" type="xs:int" />
@@ -1477,7 +1479,9 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="banCodice" type="xs:long" />
           <xs:element minOccurs="0" name="codice" type="xs:long" />
+          <xs:element minOccurs="0" name="escludiSimulazioneMultipla" type="xs:boolean" />
           <xs:element minOccurs="0" name="istCodice" type="xs:long" />
+          <xs:element minOccurs="0" name="prefErogazione" type="xs:boolean" />
           <xs:element minOccurs="0" name="rivalsa" type="xs:decimal" />
           <xs:element minOccurs="0" name="rivalsaPerc" type="xs:decimal" />
           <xs:element minOccurs="0" name="tipoIstituto" type="xs:string" />
@@ -2930,6 +2934,7 @@
           <xs:element minOccurs="0" name="politicaTassiIstFinVO" type="tns:politicaTassiIstfinSmallVO" />
           <xs:element minOccurs="0" maxOccurs="unbounded" name="prodottiVO" nillable="true" type="tns:anagProdottoSmallVO" />
           <xs:element minOccurs="0" name="prodottoAssicurativo" type="xs:string" />
+          <xs:element minOccurs="0" name="simulazioneMultipla" type="xs:boolean" />
           <xs:element minOccurs="0" name="taeg" type="xs:decimal" />
           <xs:element minOccurs="0" name="teg" type="xs:decimal" />
           <xs:element minOccurs="0" name="tipoAmministrazione" type="xs:string" />
@@ -2963,6 +2968,7 @@
           <xs:element minOccurs="0" name="idPortafoglioAgente" type="xs:long" />
           <xs:element minOccurs="0" name="importoCalcoloTaeg" type="xs:decimal" />
           <xs:element minOccurs="0" name="importoCalcoloTeg" type="xs:decimal" />
+          <xs:element minOccurs="0" name="importoCommissioni" type="xs:decimal" />
           <xs:element minOccurs="0" name="importoCommissioniIncluseNelTan" type="xs:decimal" />
           <xs:element minOccurs="0" name="importoNettoErogato" type="xs:decimal" />
           <xs:element minOccurs="0" name="importoProvvigioneAgenziaCaricante" type="xs:decimal" />
@@ -2986,6 +2992,7 @@
           <xs:element minOccurs="0" name="politicaTassi" type="tns:politicaTassiIstfinSmallVO" />
           <xs:element minOccurs="0" name="praticaVO" type="tns:praticaCqCostiVO" />
           <xs:element minOccurs="0" name="prodottoAssicurativo" type="xs:string" />
+          <xs:element minOccurs="0" name="provvigioniNelTan" type="xs:boolean" />
           <xs:element minOccurs="0" name="provvigioniRunning" type="xs:decimal" />
           <xs:element minOccurs="0" name="puntiTassoCompetenzaRunning" type="xs:decimal" />
           <xs:element minOccurs="0" name="scontaDiffCommissioniIntermediazione" type="xs:boolean" />

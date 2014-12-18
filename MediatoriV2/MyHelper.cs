@@ -507,7 +507,7 @@ public static class MyHelper
         temp.Append(String.Format("<label for=\"{0}\">{1}</label>", "", label));
         temp.Append(Environment.NewLine);
 
-        temp.Append(String.Format("<div>{0}</div>", "", value));
+        temp.Append(String.Format("<div>{1}</div>", "", value));
 
         return new HtmlString(temp.ToString());
     }

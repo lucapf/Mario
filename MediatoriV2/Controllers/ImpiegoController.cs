@@ -45,24 +45,30 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult ImpiegoPartialById(int id, EnumTipoAzione tipoAzione = EnumTipoAzione.VISUALIZZAZIONE)
         {
-            Impiego impiego = new Impiego { id = id };
-            impiego.tipoImpiego = new TipoContrattoImpiego();
-            impiego.categoriaImpiego = new TipoCategoriaImpiego();
+            Impiego impiego;
+            impiego = (from i in db.Impieghi.Include("tipoImpiego").Include("categoriaImpiego") where i.id == id select i).First();
 
-            if (impiego.id > 0)
+            if (impiego == null)
             {
-                impiego = (from i in db.Impieghi.Include("tipoImpiego").Include("categoriaImpiego") where i.id == impiego.id select i).First();
-
+                return HttpNotFound();
             }
-            if (tipoAzione == EnumTipoAzione.MODIFICA || tipoAzione == EnumTipoAzione.INSERIMENTO)
+
+            if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
                 valorizzaViewBag();
-                return View("impiegoPartialEdit", impiego);
+                return View("ImpiegoEdit", impiego);
             }
-            else
+
+            if (tipoAzione == EnumTipoAzione.VISUALIZZAZIONE)
             {
-                return View("impiegoInnerDetail", impiego);
+                return View("ImpiegoPartialDetail", impiego);
             }
+
+
+            //  valorizzaViewBag();
+            //return View("impiegoPartialEdit", impiego);
+            throw new ApplicationException("Azione di inserimento che non si deve presentare");
+
         }
 
 
@@ -113,7 +119,7 @@ namespace mediatori.Controllers
         public ActionResult Edit(Impiego impiego)
         {
 
-            completaDatiImpiegoFromRequest(impiego);
+            ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
             Impiego impiegoOriginale = (from i in db.Impieghi.Include("tipoImpiego") where i.id == impiego.id select i).First();
 
             LogEventi le = LogEventiManager.getEventoForUpdate(User.Identity.Name, impiego.id, EnumEntitaRiferimento.IMPIEGO, impiegoOriginale, impiego);
@@ -125,21 +131,22 @@ namespace mediatori.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
-        private Impiego completaDatiImpiegoFromRequest(Impiego impiego)
-        {
-            // impiego.dataLicenziamento = impiego.dataLicenziamento.Year == 01 ? new DateTime(2050, 12, 31) : impiego.dataLicenziamento;
+        //private Impiego completaDatiImpiegoFromRequest(Impiego impiego)
+        //{
+        //    // impiego.dataLicenziamento = impiego.dataLicenziamento.Year == 01 ? new DateTime(2050, 12, 31) : impiego.dataLicenziamento;
 
-            impiego.tipoImpiego = db.TipoContrattoImpiego.Find(impiego.tipoImpiego.id);
-            impiego.categoriaImpiego = db.TipoCategoriaImpiego.Find(impiego.categoriaImpiego.id);
-            return impiego;
-        }
+        //    impiego.tipoImpiego = db.TipoContrattoImpiego.Find(impiego.tipoImpiego.id);
+        //    impiego.categoriaImpiego = db.TipoCategoriaImpiego.Find(impiego.categoriaImpiego.id);
+        //    return impiego;
+        //}
 
 
 
         [HttpPost]
         public ActionResult UpdateForContatto(Impiego impiego, int codiceContatto)
         {
-            impiego = completaDatiImpiegoFromRequest(impiego);
+            // impiego = completaDatiImpiegoFromRequest(impiego);
+            ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
             impiego.contattoId = codiceContatto;
             //ModelState.Remove("tipoImpiego.descrizione");
             //ModelState.Remove("categoriaImpiego.descrizione");
@@ -169,7 +176,7 @@ namespace mediatori.Controllers
 
                 try
                 {
-                   // contatto.impieghi.Add(impiego);
+                    // contatto.impieghi.Add(impiego);
                     // LogEventiManager.save(LogEventiManager.getEventoForCreate(User.Identity.Name, impiego.id, EnumEntitaRiferimento.IMPIEGO), db);
                     db.Impieghi.Attach(impiego);
                     db.Entry(impiego).State = System.Data.Entity.EntityState.Modified;
@@ -195,17 +202,53 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateForCedente(Impiego impiego, int codiceCedente)
+        public ActionResult CreateForContatto(Impiego impiego, int codiceContatto)
         {
-            impiego = completaDatiImpiegoFromRequest(impiego);
-            //ModelState.Remove("tipoImpiego.descrizione");
-            //ModelState.Remove("categoriaImpiego.descrizione");
-            if (ModelState.IsValid)
+
+            ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
+
+            ModelState.Clear();
+            TryValidateModel(impiego);
+
+
+            if (!ModelState.IsValid)
             {
-                Cedente cedente = RicercaCedenteBusiness.find(codiceCedente, db);
-                cedente.impieghi.Add(impiego);
+                var message = string.Join(" | ", ModelState.Values
+                  .SelectMany(v => v.Errors)
+                  .Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'impiego, verificare i dati: " + Environment.NewLine + message);
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+            }
+
+
+            //Cedente cedente = RicercaCedenteBusiness.find(codiceCedente, db);
+            //cedente.impieghi.Add(impiego);
+
+            Contatto contatto = db.Contatti.Include("impieghi").Where(p => p.id == codiceContatto).First();
+            if (contatto == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            try
+            {
+                contatto.impieghi.Add(impiego);
+
                 LogEventiManager.save(LogEventiManager.getEventoForCreate(User.Identity.Name, impiego.id, EnumEntitaRiferimento.IMPIEGO), db);
                 db.SaveChanges();
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Impiego salvato con successo");
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string messaggio;
+                messaggio = MyHelper.getDbEntityValidationException(ex);
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'impiego, verificare i dati: " + Environment.NewLine + messaggio);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'impiego, verificare i dati: " + Environment.NewLine + ex.Message);
             }
             // return View("Details","Segnalazioni", );
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
@@ -214,7 +257,8 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult CreateForSegnalazione(Impiego impiego, int codiceSegnalazione)
         {
-            impiego = completaDatiImpiegoFromRequest(impiego);
+            //  impiego = completaDatiImpiegoFromRequest(impiego);
+            ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
             ModelState.Clear();
             TryValidateModel(impiego);
             if (ModelState.IsValid)

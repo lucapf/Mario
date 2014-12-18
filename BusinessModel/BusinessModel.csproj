@@ -49,6 +49,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="SimulazioneFinanziaria\SimulazioneManager.cs" />
+    <Compile Include="SimulazioneFinanziaria\SimulazioneModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MyFramework4.0\MyManagerCSharp\MyManagerCSharp.csproj">

@@ -1,0 +1,23 @@
+﻿@model mediatori.Models.Anagrafiche.Impiego
+@{
+    ViewBag.Title = "ImpiegoDetail";
+    Layout = null;
+
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Impiego", Model.id);
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Impiego", Url.Action("ImpiegoPartialById", "Impiego"), Model.id.ToString());
+}
+
+<div class="ui-corner-all custom-corners">
+    <div class="ui-bar ui-bar-a">
+        <h2>@Html.Raw(editHelper.getButtonModifica()) @Html.Raw(editHelper.getButtonAnnullaModifica())  Impiego #@Model.id  </h2>
+    </div>
+
+    <div class="ui-body ui-body-a">
+        <div id="@faDetailEventDetection.getIdFullDetail()">
+
+
+            @{Html.RenderPartial("~/Views/Impiego/ImpiegoPartialDetail.cshtml", Model);}
+
+        </div>
+    </div>
+</div>

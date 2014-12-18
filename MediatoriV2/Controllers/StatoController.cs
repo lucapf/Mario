@@ -14,6 +14,18 @@ namespace mediatori.Controllers
     public class StatoController : MyBaseController
     {
 
+        private BusinessModel.SegnalazioneManager manager = null;
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (db != null)
+            {
+                manager = new BusinessModel.SegnalazioneManager(db.Database.Connection);
+            }
+        }
+
         [HttpGet]
         public ActionResult targets(int codiceStato, EnumEntitaAssociataStato entita)
         {
@@ -37,7 +49,7 @@ namespace mediatori.Controllers
             statoSegnalazione = db.StatiSegnalazione.Find(codiceStato);
             if (statoSegnalazione != null)
             {
-                BusinessModel.SegnalazioneManager manager = new BusinessModel.SegnalazioneManager("DefaultConnection");
+               
                 try
                 {
                     manager.openConnection();
