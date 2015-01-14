@@ -21,6 +21,10 @@ namespace BusinessModel.SimulazioneFinanziaria
         public DateTime? dataAssunzione { get; set; }
         public string nazionalita { get; set; }
 
+
+        public int? segnalazioneId { get; set; }
+        public int indice { get; set; }
+
         public SimulazioneModel()
         {
             agenzie = new List<MyManagerCSharp.Models.MyItem>();

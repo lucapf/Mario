@@ -1,75 +1,59 @@
-﻿@model IEnumerable<mediatori.Models.Anagrafiche.Amministrazione>
+﻿@model BusinessModel.Anagrafiche.SearchAmministrazione
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
+    wGrid.Bind(Model.Amministrazioni, rowCount: Model.TotalRows, autoSortAndPage: false);
 }
 
-<h2>Lista Amministrazioni</h2>
-<div id="message">@ViewBag.message</div>
-<div id="azioni">
-    @Html.ActionLink("Nuova Ammistrazione", "Create", "Amministrazione")
-    @using (Html.BeginForm("Index", "Amministrazione", FormMethod.Get, null))
-    {
-        <div class="form-ricerca">
-            <label>Ragione Sociale</label>
-            @Html.TextBox("ragioneSociale")
-        </div>
+<h2>Lista amministrazioni</h2>
+
+<a href="@Url.Action("Create", "Amministrazione")" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Crea una nuova amministrazione</a>
+
+
+@using (Html.BeginForm("Index", "Amministrazione", FormMethod.Get, null))
+{
+    <div class="ui-field-contain">
+        <label>Ragione sociale</label>
+        @Html.TextBox("ragioneSociale")
+    </div>
+
+    <div class="ui-field-contain">
+        <label>Partita iva</label>
+        @Html.TextBox("partitaIva")
+    </div>
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-inline="true" value="Ricerca" data-icon="search" data-mini="true" />
+    </div>
         
-        <div class="form-ricerca">
-            <label>Codice Fiscale</label>
-            @Html.TextBox("partitaIva")
-        </div>
-        <div class="form-ricerca-submit">
-            <input type="submit" value="Ricerca amministrazione" /></div>
-            
-       
-         
-@* <table>
-           <tr>
-                <td>Ragione sociale</td> <td>@Html.TextBox("ragioneSociale")</td>
-                <td>Partita IVA</td> <td>@Html.TextBox("partitaIva")</td>
-               <td>Tipologia</td> <td>@Html.DropDownList("tipoSoggetto",(SelectList) ViewBag.listaTipiSoggettiGiuridici)</td>
-           </tr>
-        </table>*@
-       
-    }
 
-
-</div>
-
-<table class="listTable">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.soggettoGiuridico.ragioneSociale)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.partitaIva)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tipoNaturaGiuridica.descrizione)
-        </th>
-
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
+    if (Model.TotalRows == 0)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(m => item.soggettoGiuridico.ragioneSociale)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.partitaIva)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.tipoNaturaGiuridica)
-            </td>
-
-            <td>
-
-                @Html.ActionLink("Details", "Details", new { id = item.id })
-
-            </td>
-        </tr>
+        <h3>Non è stata trovata nessuna amministrazione. Modificare i filtri di ricerca.</h3>
+    }
+    else
+    {
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
+            fillEmptyRows: false,
+            tableStyle: "MyTable ui-responsive",
+            headerStyle: "ui-bar-b",
+            footerStyle: "ui-bar-b",
+            rowStyle: "ui-bar-a",
+            alternatingRowStyle: "ui-bar-d",
+            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+            columns: new[]{
+                 wGrid.Column (columnName:"soggettoGiuridico.ragioneSociale", header :"Ragione sociale"),
+                    wGrid.Column (columnName:"PartitaIva", header :"Partita iva"),
+                    wGrid.Column (columnName:"tipoNaturaGiuridica.descrizione", header :"Natura giuridica"),
+                    wGrid.Column ("", header :"Dettaglio",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Agenzia", new { id = item.id })">Info>Info</a>
+                        </text>, canSort : false)
+            })
+        </div>
     }
 
-</table>
+}

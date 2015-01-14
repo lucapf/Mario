@@ -66,6 +66,7 @@ namespace mediatori.Models.Anagrafiche
         public DateTime? adesioneTFR { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         [Display(Name = "Data assunzione")]
         [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? dataAssunzione { get; set; }

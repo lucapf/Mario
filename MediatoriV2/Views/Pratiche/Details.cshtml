@@ -22,7 +22,7 @@
 <!-- /preventivo -->
 
 
-@{Html.RenderAction("Details", "Indirizzo", new { cedenteId = Model.pratica.cedente.id });}
+@{Html.RenderAction("Cedente", "Indirizzo", new { cedenteId = Model.pratica.cedente.id });}
 
 @{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.pratica.cedente.id });}
 

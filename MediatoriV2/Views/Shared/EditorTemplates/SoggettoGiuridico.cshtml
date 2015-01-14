@@ -1,12 +1,9 @@
 ﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridico
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.ragioneSociale)
-    @Html.EditorFor(model => model.ragioneSociale)<br />
-    @Html.ValidationMessageFor(model => model.ragioneSociale)
+<div class="editor-control">
+    @Html.MyInputType(p => p.ragioneSociale)
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.codiceFiscale)
-    @Html.EditorFor(model => model.codiceFiscale)<br />
-    @Html.ValidationMessageFor(model => model.codiceFiscale)
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.codiceFiscale)
 </div>

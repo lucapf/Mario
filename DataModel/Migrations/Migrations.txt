@@ -32,6 +32,7 @@ Update-Database -Verbose -TargetMigration:InitialPopulate
 
  Migrate.exe mediatori.dll /startupConfigurationFile="..\Web.config" /targetMigration="InitialPopulate"
 
+ C:\Develop.NET\Mario\packages\EntityFramework.6.1.1\tools\Migrate.exe DataModel.dll /startupConfigurationFile="..\app.config"
  
  public partial class Populate : DbMigration
     {

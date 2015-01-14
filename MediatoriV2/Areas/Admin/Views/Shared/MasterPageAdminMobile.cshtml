@@ -31,7 +31,6 @@
             // alert("mobileinit");
             $.mobile.ajaxEnabled = false;
         });
-
     </script>
 
 </head>
@@ -44,6 +43,15 @@
                     <img src="@Url.Content("~/Content/Images/marioh62.png")" height="55">
                 </a>
             </span>
+
+
+            @if (Request.IsAuthenticated)
+            {
+                <select name="db" id="db">
+                    <option value="" @(Session["MyDBSelected"] == null || String.IsNullOrEmpty(Session["MyDBSelected"].ToString()) ? "selected" : "")>---</option>
+                    <option value="Techub.it" @(Session["MyDBSelected"] != null && Session["MyDBSelected"] == "Techub.it" ? "selected" : "")>Techub.it</option>
+                </select>
+            }
 
 
             <div data-role="controlgroup" data-type="horizontal" style="text-align: right;">
@@ -72,8 +80,6 @@
             </div>
             <!-- /main -->
         </div>
-
-
 
     </div>
 </body>

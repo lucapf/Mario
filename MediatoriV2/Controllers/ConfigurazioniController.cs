@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace mediatori.Controllers
 {
 
-    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.FRONTOFFICE, MyConstants.Profilo.BACKOFFICE, MyConstants.Profilo.ADMIN })]
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.DIPENDENTE, MyConstants.Profilo.AMMINISTRATORE })]
     public class ConfigurazioniController : MyBaseController
     {
 

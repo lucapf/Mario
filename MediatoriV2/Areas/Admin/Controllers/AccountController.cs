@@ -69,11 +69,17 @@ namespace MyWebApplication.Areas.Admin.Controllers
         {
             TempData["AREA"] = "Admin";
 
-            //MyWebApplication.Controllers.AccountController controller = new MyWebApplication.Controllers.AccountController();
-            //controller.ControllerContext = ControllerContext;
-            //controller.TempData = TempData;
-            //return controller.Login(model, returnUrl);
-            return View(model);
+            mediatori.Controllers.AccountController controller = new mediatori.Controllers.AccountController();
+            controller.ControllerContext = ControllerContext;
+            controller.TempData = TempData;
+
+            mediatori.Models.LogOnModel model2 = new mediatori.Models.LogOnModel();
+            model2.Password = model.Password;
+            model2.UserName = model.UserName;
+            model2.RememberMe = model.RememberMe;
+
+            return controller.Login(model2, returnUrl);
+           // return View(model);
         }
 
 

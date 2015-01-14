@@ -5,28 +5,61 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using mediatori.Models;
+using System.Diagnostics;
 
 namespace mediatori.UnitTest
 {
      [TestClass]
     public class TestSegnalazione
     {
+         private BusinessModel.SegnalazioneManager manager;
+
+
          [TestMethod]
-         public void DeleteSenalazione()
+         public void DeleteSegnalazione()
          {
-             int segnalazioneId = 2;
 
+             manager = new BusinessModel.SegnalazioneManager("DefaultConnection");
 
-             MainDbContext db = new MainDbContext("");
+             int segnalazioneId = 1;
+             try
+             {
+                 manager.openConnection();
+                 manager.delete(segnalazioneId);
+             }
+             catch (Exception ex)
+             {
+                 Debug.Write("Exception: " + ex.Message);
+             }
+             finally
+             {
+                 manager.closeConnection();
+             }
+             
 
-             Models.Anagrafiche.Segnalazione segnalazione;
-
-             segnalazione = db.Segnalazioni.Where( p => p.id == segnalazioneId ).FirstOrDefault();
-
-           
-
-             //if 
+             
 
          }
+
+
+         [TestMethod]
+         public void DeleteAllSegnalazioni()
+         {
+             manager = new BusinessModel.SegnalazioneManager("DefaultConnection");
+             try
+             {
+                 manager.openConnection();
+                 manager.deleteAllSegnalazioni();
+             }
+             catch (Exception ex)
+             {
+                 Debug.Write("Exception: " + ex.Message);
+             }
+             finally
+             {
+                 manager.closeConnection();
+             }
+         }
+
     }
 }

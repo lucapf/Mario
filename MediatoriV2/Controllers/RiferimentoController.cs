@@ -14,11 +14,11 @@ namespace mediatori.Controllers
     {
        
 
-        public ActionResult Index()
-        {
-            valorizzaViewBag();
-            return View(new Riferimento());
-        }
+        //public ActionResult Index()
+        //{
+        //    valorizzaViewBag();
+        //    return View(new Riferimento());
+        //}
 
 
         [ChildActionOnly]
@@ -39,6 +39,38 @@ namespace mediatori.Controllers
 
             return View("_Riferimenti", model);
         }
+
+
+        
+        [ChildActionOnly]
+        public ActionResult SoggettoGiuridico(int soggettoGiuridicoId)
+        {
+            RiferimentiModel model = new RiferimentiModel();
+
+            if (soggettoGiuridicoId != -1)
+            {
+                SoggettoGiuridico soggettoGiuridico;
+                soggettoGiuridico = db.SoggettiGiuridici.Include("riferimenti").Include("riferimenti.tipoRiferimento").Where(p => p.id == soggettoGiuridicoId).First();
+                if (soggettoGiuridico == null)
+                {
+                    return HttpNotFound();
+                }
+
+                model.riferimenti = soggettoGiuridico.riferimenti.ToList<Riferimento>();
+                model.soggettoGiuridicoId = soggettoGiuridicoId;
+            }
+            else
+            {
+                //CREATE
+                model.soggettoGiuridicoId = -1;
+                model.riferimenti = new List<Riferimento>();
+            }
+
+            valorizzaViewBag();
+
+            return View("_Riferimenti", model);
+        }
+
 
 
 

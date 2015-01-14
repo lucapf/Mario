@@ -9,6 +9,7 @@ namespace mediatori.Models
     {
         public ICollection<Nota> note { get; set; }
 
-        public int segnalazioneId { get; set; }
+        public int? segnalazioneId { get; set; }
+        public int? soggettoGiuridicoId { get; set; }
     }
 }

@@ -7,13 +7,16 @@ using System.Diagnostics;
 
 namespace BusinessModel.SimulazioneFinanziaria
 {
-    public class SimulazioneManager
+    public class SimulazioneManager : MyManagerCSharp.ManagerDB
     {
+
         private PccWS.PccWSClient _PccServiceReference;
 
-
-        public SimulazioneManager(string urlWebService)
+        public SimulazioneManager(System.Data.Common.DbConnection connection, string urlWebService)
+            : base(connection)
         {
+
+
             if (urlWebService.StartsWith("http://"))
             {
 
@@ -139,7 +142,6 @@ namespace BusinessModel.SimulazioneFinanziaria
 
         }
 
-
         public void close()
         {
             if (_PccServiceReference != null)
@@ -148,7 +150,6 @@ namespace BusinessModel.SimulazioneFinanziaria
                 _PccServiceReference = null;
             }
         }
-
 
         private PccWS.storicoBean getStoricoBean(string operatoreId)
         {
@@ -186,8 +187,6 @@ namespace BusinessModel.SimulazioneFinanziaria
 
             return temp;
         }
-
-
 
         public List<MyManagerCSharp.Models.MyItem> getAgenzie()
         {
@@ -232,22 +231,20 @@ namespace BusinessModel.SimulazioneFinanziaria
             return risultato;
         }
 
-
-
-        public void getAllPossiblePortafoglioCombinationFor(SimulazioneModel model)
+        public BusinessModel.PccWS.importiPraticaVO[] getAllPossiblePortafoglioCombinationFor(SimulazioneModel model)
         {
             PccWS.storicoBean bean = getStoricoBean("techubadmin");
 
             BusinessModel.PccWS.anagAgenziaSmallVO agenzia = _PccServiceReference.findAnagAgenziaSmallByPK((long)model.agenziaId, bean);
             if (agenzia == null)
             {
-                return;
+                return null;
             }
 
             BusinessModel.PccWS.gruppoProdottoSmallVO prodotto = _PccServiceReference.findGruppoProdottoSmallByPK(model.prodottoId, bean);
             if (prodotto == null)
             {
-                return;
+                return null;
             }
 
             BusinessModel.PccWS.filtroSimulazioneFinanziaria filtro = new PccWS.filtroSimulazioneFinanziaria();
@@ -287,16 +284,105 @@ namespace BusinessModel.SimulazioneFinanziaria
 
             lista = _PccServiceReference.getAllPossiblePortafoglioCombinationFor(filtro, bean);
 
-            if (lista != null)
+            if (lista == null)
             {
-                foreach (BusinessModel.PccWS.importiPraticaVO importo in lista)
-                {
-                    Debug.WriteLine("Importo: " + importo.importoNettoErogato);
-                }
+                return null;
             }
 
-        }
+            return lista.OrderByDescending(p => p.importoNettoErogato).ToArray();
 
+            //if (lista != null)
+            //{
+            //    foreach (BusinessModel.PccWS.importiPraticaVO importo in lista)
+            //    {
+            //        Debug.WriteLine(String.Format("Prodotto: {1} - Importo: {0}", importo.importoNettoErogato, importo.praticaVO.prtTpprDescrizione));
+            //    }
+            //}
+
+        }
+        
+        public long insert(BusinessModel.PccWS.importiPraticaVO prodotto, long segnalazioneId)
+        {
+            long newId = -1;
+            string strSQLParametri = "";
+
+            int progressivo;
+            _strSQL = "select count(*) from preventivo where segnalazioneId =" + segnalazioneId;
+            progressivo = int.Parse(_executeScalar(_strSQL));
+
+            
+            _strSQL = "INSERT INTO PREVENTIVO ( dataInserimento , bySimulatore, tipo , segnalazioneId , progressivo ";
+            strSQLParametri = " VALUES ( GetDate(), 1 , 'NonConfermato', " + segnalazioneId + ", " + (progressivo + 1);
+
+            System.Data.Common.DbCommand command;
+            command = _connection.CreateCommand();
+
+            if (!String.IsNullOrEmpty(prodotto.praticaVO.prtTpprDescrizione))
+            {
+                _strSQL += ",nomeProdotto ";
+                strSQLParametri += ", @NOME_PRODOTTO ";
+                _addParameter(command, "@NOME_PRODOTTO", prodotto.praticaVO.prtTpprDescrizione);
+            }
+
+            _strSQL += ",importoRata ";
+            strSQLParametri += ", @IMPORTO_RATA ";
+            _addParameter(command, "@IMPORTO_RATA", prodotto.praticaVO.prtImportoRata);
+
+            _strSQL += ",durata ";
+            strSQLParametri += ", @DURATA ";
+            _addParameter(command, "@DURATA", prodotto.praticaVO.prtNumeroRate);
+
+            _strSQL += ",importoCoperturaVita ";
+            strSQLParametri += ", @ASSICURAZIONE_VITA ";
+            _addParameter(command, "@ASSICURAZIONE_VITA", prodotto.costoAssicurativo.costoVita);
+
+            _strSQL += ",importoCoperturaImpiego ";
+            strSQLParametri += ", @ASSICURAZIONE_IMPIEGO ";
+            _addParameter(command, "@ASSICURAZIONE_IMPIEGO", prodotto.costoAssicurativo.costoImpiego);
+
+            _strSQL += ",importoProvvigioni ";
+            strSQLParametri += ", @IMPORTO_PROVVIGIONI ";
+            _addParameter(command, "@IMPORTO_PROVVIGIONI", prodotto.importoProvvigioneAgenziaCaricante);
+
+            _strSQL += ",montante ";
+            strSQLParametri += ", @MONTANTE ";
+            _addParameter(command, "@MONTANTE", prodotto.montante);
+
+            _strSQL += ",nettoCliente ";
+            strSQLParametri += ", @NETTO_CLIENTE ";
+            _addParameter(command, "@NETTO_CLIENTE", prodotto.importoNettoErogato);
+
+            _strSQL += ",tan ";
+            strSQLParametri += ", @TAN ";
+            _addParameter(command, "@TAN", prodotto.praticaVO.prtTan / 100);
+
+            _strSQL += ",taeg ";
+            strSQLParametri += ", @TAEG ";
+            _addParameter(command, "@TAEG", prodotto.praticaVO.prtTaeg / 100);
+
+            _strSQL += ",teg ";
+            strSQLParametri += ", @TEG ";
+            _addParameter(command, "@TEG", prodotto.praticaVO.prtTeg / 100);
+
+
+
+
+
+            command.CommandText = _strSQL + " ) " + strSQLParametri + " )";
+
+            //If test_mode = True) {
+            //    Me._transactionBegin()
+            //    _executeNoQuery(command)
+            //    Me._transactionRollback()
+            //    Return -1
+            //}
+
+            _executeNoQuery(command);
+
+            newId = _getIdentity();
+
+            return newId;
+        }
 
     }
 }

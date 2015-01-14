@@ -43,7 +43,7 @@ namespace mediatori.Models
         [Required]
         [Display(Name = "Imp. copert. impiego")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
-        public decimal? importoCoperturaImpego { get; set; }
+        public decimal? importoCoperturaImpiego { get; set; }
         
         [Required]
         [Display(Name = "Data Decorrenza")]

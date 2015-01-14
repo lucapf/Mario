@@ -11,11 +11,16 @@ public static class MyConstants
         Errore
     }
 
+
+    public enum MySessionData
+    {
+        ProdottiSimulazioneFinanziaria
+    }
+
     public class Profilo
     {
-        public const string ADMIN = "ADMIN";
-        public const string BACKOFFICE = "BACKOFFICE";
-        public const string FRONTOFFICE = "FRONTOFFICE";
+        public const string AMMINISTRATORE = "AMMINISTRATORE";
+        public const string DIPENDENTE = "DIPENDENTE";
         public const string COLLABORATORE = "COLLABORATORE";
     }
 

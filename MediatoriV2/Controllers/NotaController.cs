@@ -10,13 +10,11 @@ namespace mediatori.Controllers
 {
     public class NotaController : MyBaseController
     {
-        //
-        // GET: /nota/
-
         public ActionResult Index()
         {
             return View();
         }
+
         public ActionResult notaPartial(Nota nota, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
 
@@ -31,7 +29,27 @@ namespace mediatori.Controllers
             }
         }
 
-      
+        [ChildActionOnly]
+        public ActionResult Create(Nota nota)
+        {
+
+#if DEBUG
+            //impiego.azienda = "Azienda";
+            //impiego.aziendaSedeLavoro = "Sede lavoro";
+            ////impiego.dataAssunzione = new DateTime(2000, 8, 1);
+            //impiego.mansione = "Impiegato";
+            //impiego.mensilita = 14;
+            //impiego.stipendioLordoAnnuo = 20000;
+            //impiego.stipendioLordoMensile = 1200;
+            //impiego.stipendioNettoMensile = 900;
+#endif
+
+            ViewData.TemplateInfo.HtmlFieldPrefix = "nota";
+
+            return View("NotaPartialEdit", nota);
+        }
+
+
         [HttpPost]
         public ActionResult CreateForSegnalazione(Nota nota, int codiceSegnalazione)
         {

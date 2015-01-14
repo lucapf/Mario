@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    bool selected;
 }
 
 <h2>Register</h2>
@@ -35,7 +37,13 @@
                     <option value="">---</option>
                     @foreach (MyUsers.Models.MyProfile p in Model.ProfiliDisponibili)
                     {
-                        <option value="@p.profiloId">@(p.nome)</option>
+                        selected = false;
+                        if (Model.roles != null &&  p.profiloId == Model.roles[0])
+                        {
+                            selected = true;
+                        }
+                        
+                        <option value="@p.profiloId" @(selected?"selected = selected":"") >@(p.nome)</option>
                     }
                 </select>
             </div>

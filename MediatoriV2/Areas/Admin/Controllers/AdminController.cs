@@ -9,7 +9,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
 {
     public class AdminController : MyBaseController
     {
-        [MyAuthorize(Roles = "ADMIN")]
+        [MyAuthorize(Roles = "ADMINISTRATORS")]
         public ActionResult Index()
         {
 

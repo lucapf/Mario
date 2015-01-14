@@ -160,6 +160,21 @@ namespace mediatori.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Models.RegisterModel model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'utente, verificare i dati: " + Environment.NewLine + message);
+                
+                model.ProfiliDisponibili = manager.getProfili();
+                // model.Password = "";
+                model.ConfirmPassword = "";
+
+                return View(model);
+            }
+
+
+
             if (ModelState.IsValid)
             {
                 MyUsers.Models.MyUser u = new MyUsers.Models.MyUser();

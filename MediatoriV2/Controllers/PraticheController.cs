@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace mediatori.Controllers
 {
 
-    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.FRONTOFFICE, MyConstants.Profilo.BACKOFFICE, MyConstants.Profilo.ADMIN, MyConstants.Profilo.COLLABORATORE })]
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.DIPENDENTE, MyConstants.Profilo.AMMINISTRATORE, MyConstants.Profilo.COLLABORATORE })]
     public class PraticheController : MyBaseController
     {
 

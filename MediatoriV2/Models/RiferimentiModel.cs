@@ -10,5 +10,6 @@ namespace mediatori.Models
         public List<Anagrafiche.Riferimento> riferimenti { get; set; }
 
         public int? contattoId { get; set; }
+        public int? soggettoGiuridicoId { get; set; }
     }
 }

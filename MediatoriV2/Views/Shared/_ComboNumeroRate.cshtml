@@ -1,0 +1,27 @@
+﻿@model Nullable<int>
+
+@{
+    int? numeroRate;
+    if (Model == null)
+    {
+        numeroRate = null;
+    }
+    else
+    {
+        numeroRate = Model.Value;
+    }
+}
+
+<select name="numeroRate" id="numeroRate" data-mini="true" data-inline="true">
+    <option value=""   @((numeroRate == null || numeroRate == -1) ? "selected" : "")>---</option>
+    <option value="12" @((numeroRate == 12) ? "selected" : "")>12</option>
+    <option value="24" @((numeroRate == 24) ? "selected" : "")>24</option>
+    <option value="36" @((numeroRate == 36) ? "selected" : "")>36</option>
+    <option value="48" @((numeroRate == 48) ? "selected" : "")>48</option>
+    <option value="60" @((numeroRate == 60) ? "selected" : "")>60</option>
+    <option value="72" @((numeroRate == 72) ? "selected" : "")>72</option>
+    <option value="84" @((numeroRate == 84) ? "selected" : "")>84</option>
+    <option value="96" @((numeroRate == 96) ? "selected" : "")>96</option>
+    <option value="108" @((numeroRate == 108) ? "selected" : "")>108</option>
+    <option value="120" @((numeroRate == 120) ? "selected" : "")>120</option>
+</select>

@@ -1,61 +1,80 @@
 ﻿@model mediatori.Models.Anagrafiche.Agenzia
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.partitaIva)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.rea)
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.tipoNaturaGiuridica)
-    @Html.DropDownListFor(model => model.tipoNaturaGiuridica.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoNaturaGiuridica, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(model => model.tipoNaturaGiuridica.id)
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoNaturaGiuridica)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.tipoNaturaGiuridica.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoNaturaGiuridica, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoNaturaGiuridica.id)
+    </div>
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.stato)
 
-    @if (ViewBag.listaStati != null && ((IEnumerable<SelectListItem>)ViewBag.listaStati).Count() > 0)
-    {
-        Html.DropDownListFor(model => model.stato.id, (IEnumerable<SelectListItem>)ViewBag.listaStati, "", new { data_mini = "true" });
-        <br />
-        Html.ValidationMessageFor(model => model.stato.id);
-    }
-    else
-    {
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            Stato
+        </div>
+        <div class="editor-value">
+            
+        </div>
+    </div>
+    <div class="editor-validation">
 
-        <div>Non esistono stati associati ad un'entità di tipo AGENZIA</div>
-    }
+    </div>
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.dataInizioMandato)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.dataFineMandato)
 </div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.tipoAgenzia)
-    @Html.DropDownListFor(model => model.tipoAgenzia.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoAgenzia, "", new { data_mini = "true" })<br />
-    @Html.ValidationMessageFor(model => model.tipoAgenzia.id)
+
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoAgenzia)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.tipoAgenzia.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoAgenzia, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoAgenzia.id)
+    </div>
 </div>
 
-<div class="editor-label">
+
+<div class="editor-control">
     @Html.MyInputType(p => p.codiceRui)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.codiceOam)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.dataOam)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.documentoPagamento)
 </div>

@@ -11,8 +11,7 @@ namespace mediatori.Models.Anagrafiche
     public class Contatto: PersonaFisica
     {
         #region Contatto
-
-        
+       
         [Display(Name = "Impieghi")]
         public virtual ICollection<Impiego> impieghi { get; set; }
 

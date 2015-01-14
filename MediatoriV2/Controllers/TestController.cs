@@ -35,7 +35,7 @@ namespace mediatori.Controllers
             try
             {
                 string temp;
-                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(model.url);
+                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null, model.url);
 
                 temp = manager.getVersion();
 

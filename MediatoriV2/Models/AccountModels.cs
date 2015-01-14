@@ -81,7 +81,7 @@ namespace mediatori.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Conferma password")]
-        [Compare("Password", ErrorMessage = "La password e la password di conferma non corrispondono.")]
+        [Compare("Password", ErrorMessage = "La Password e la Password di conferma non corrispondono.")]
         public string ConfirmPassword { get; set; }
 
 

@@ -1194,6 +1194,7 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="codice" type="xs:long" />
           <xs:element minOccurs="0" name="descrizione" type="xs:string" />
+          <xs:element minOccurs="0" name="flagBloccoProvvigioni" type="xs:boolean" />
           <xs:element minOccurs="0" name="istCodice" type="xs:long" />
           <xs:element minOccurs="0" name="scontaDiff" type="xs:boolean" />
         </xs:sequence>
@@ -2961,6 +2962,7 @@
           <xs:element minOccurs="0" name="commissioniIntermediazione" type="xs:decimal" />
           <xs:element minOccurs="0" name="costoAssicurativo" type="tns:costoAssicurativoVO" />
           <xs:element minOccurs="0" name="costoFinanziamento" type="tns:costoFinanziamentoVO" />
+          <xs:element minOccurs="0" name="flagBloccoProvvigioni" type="xs:boolean" />
           <xs:element minOccurs="0" name="flagRinnovo" type="xs:boolean" />
           <xs:element minOccurs="0" name="idAssAssicurazioneImpiego" type="xs:long" />
           <xs:element minOccurs="0" name="idAssAssicurazioneVita" type="xs:long" />
@@ -4248,8 +4250,6 @@
       <xs:complexType name="oggettiPraticaVO">
         <xs:sequence>
           <xs:element minOccurs="0" name="agente" type="tns:anagAgenziaSmallVO" />
-          <xs:element minOccurs="0" name="assicurazioneImpiego" type="tns:tariffariAssicurativiSmallVO" />
-          <xs:element minOccurs="0" name="assicurazioneVita" type="tns:tariffariAssicurativiSmallVO" />
           <xs:element minOccurs="0" name="cedente" type="tns:personaFisicaVO" />
           <xs:element minOccurs="0" name="codiceAmministrazione" type="xs:integer" />
           <xs:element minOccurs="0" name="codiceCanaleVendita" type="xs:string" />
@@ -4270,6 +4270,8 @@
           <xs:element minOccurs="0" name="tabellaFinanziaria" type="tns:anagTabfinSmallVO" />
           <xs:element minOccurs="0" name="tabfinDurata" type="tns:tabfinDurataSmallVO" />
           <xs:element minOccurs="0" name="taeg" type="xs:decimal" />
+          <xs:element minOccurs="0" name="tarAssImpiego" type="tns:tariffariAssicurativiSmallVO" />
+          <xs:element minOccurs="0" name="tarAssVita" type="tns:tariffariAssicurativiSmallVO" />
           <xs:element minOccurs="0" name="teg" type="xs:decimal" />
         </xs:sequence>
       </xs:complexType>

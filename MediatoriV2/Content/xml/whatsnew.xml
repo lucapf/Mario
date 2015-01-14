@@ -5,6 +5,21 @@
   type => changes
  -->
 
+  <release number="1.0.0.5" data="14/01/2015" migration="Update04">
+    <item data="08/01/2015"     owner="Rutigliano"  type="changes" >
+      Eliminata la configurazione degli stati per le entità Agenzie e Amministrazioni.
+    </item>
+    <item data="08/01/2015"     owner="Rutigliano"  type="changes" >
+      Eliminato il profilo BackOffice e FrontOffice. Sostituiti con in profilo Dipendente
+    </item>
+    <item data="14/01/2015"     owner="Rutigliano"  type="changes" >
+      integrata la simulazione finanziaria (fissa su atlantide-collaudo e con l'utente cablato)
+    </item>
+    <item data="14/01/2015"     owner="Rutigliano"  type="changes" >
+      migliorato l'elenco delle amministrazioni e delle agenzie
+    </item>
+  </release>
+
   <release number="1.0.0.4" data="17/12/2014">
     <item data="17/12/2014"     owner="Rutigliano"  type="changes" >
       aggiunto il pulsante di logoff nel menu in alto a sx
@@ -19,7 +34,6 @@
       migliorata la modifica degli impieghi
     </item>
   </release>
-
 
   <release number="1.0.0.3" data="15/12/2014">
     <item data="15/12/2014"     owner="Rutigliano"  type="changes" >

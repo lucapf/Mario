@@ -254,6 +254,8 @@
     <Compile Include="Helpers\BasicXMLSerialize.cs" />
     <Compile Include="Helpers\MenuBuilder.cs" />
     <Compile Include="Helpers\ValidationData.cs" />
+    <Compile Include="Models\Anagrafiche\AgenziaCreateModel.cs" />
+    <Compile Include="Models\Anagrafiche\AmministrazioneCreateModel.cs" />
     <Compile Include="Models\AssegnazioniModel.cs" />
     <Compile Include="Models\BlobContainer.cs" />
     <Compile Include="Models\DocumentaleModel.cs" />
@@ -742,10 +744,12 @@
     <Content Include="Views\Impiego\ImpiegoEdit.cshtml" />
     <Content Include="Views\Impiego\ImpiegoDetail.cshtml" />
     <Content Include="Views\Simulazione\Index.cshtml" />
+    <Content Include="Views\Simulazione\Select.cshtml" />
+    <Content Include="Views\Simulazione\Details.cshtml" />
+    <Content Include="Views\Shared\_ComboNumeroRate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Anagrafiche\" />
     <Folder Include="Models\etc\" />
     <Folder Include="Models\Preventivo\" />
   </ItemGroup>

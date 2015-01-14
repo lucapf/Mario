@@ -53,8 +53,10 @@
 <h2>Simulazione finanziaria</h2>
 
 
-@using (Html.BeginForm("Index", "Simulazione", FormMethod.Post, new { id = "MyForm" }))
+@using (Html.BeginForm("Select", "Simulazione", FormMethod.Post, new { id = "MyForm" }))
 {
+    <input type="hidden" name="segnalazioneId" value="@Model.segnalazioneId" />
+
     <div class="ui-field-contain">
         <label for="agenziaId">Agenzia</label>
         <select name="agenziaId" id="agenziaId" data-mini="true" required>
@@ -68,7 +70,7 @@
 
     <div class="ui-field-contain">
         <label for="prodottoId">Prodotti</label>
-        <select name="prodottoId" id="prodottoId" data-mini="true">
+        <select name="prodottoId" id="prodottoId" data-mini="true" required>
             <option value="">---</option>
             @foreach (MyManagerCSharp.Models.MyItem prodotto in Model.agenzie)
             {
@@ -79,19 +81,23 @@
 
     <fieldset class="MyFieldset">
         <legend class="MyLegend">Cedente</legend>
+
         <div class="ui-field-contain">
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
                 <legend>Sesso:</legend>
-                <input name="sesso" id="sessoM" value="M" type="radio" @(Model.sesso == "M" ? "checked=checked" : "")>
+                <input name="sesso" id="sessoM" value="M" type="radio" @(Model.sesso != null && Model.sesso == "M" ? "checked=checked" : "")>
                 <label for="sessoM">M</label>
-                <input name="sesso" id="sessoF" value="F" type="radio" @(Model.sesso == "F" ? "checked=checked" : "")>
+                <input name="sesso" id="sessoF" value="F" type="radio" @(Model.sesso != null && Model.sesso == "F" ? "checked=checked" : "")>
                 <label for="sessoF">F</label>
             </fieldset>
         </div>
+
+
         <div class="ui-field-contain">
             <label for="dataDiNascita">Nato il</label>
-            <input type="text" name="dataDiNascita" id="dataDiNascita" data-role="date" required data-mini="true" value="@Model.dataDiNascita.Value.ToShortDateString()" />
+            <input type="text" name="dataDiNascita" id="dataDiNascita" data-role="date" required data-mini="true" value="@(Model.dataDiNascita == null?"":Model.dataDiNascita.Value.ToShortDateString())" />
         </div>
+
         <div class="ui-field-contain">
             <label for="nazionalita">Nazionalità</label>
             <select name="nazionalita" id="nazionalita" data-mini="true" required>
@@ -105,21 +111,36 @@
 
     <div class="ui-field-contain">
         <label for="numeroRate">Numero rate</label>
-        <input type="number" name="numeroRate" id="numeroRate" min="0" required data-mini="true" value="@Model.numeroRate" />
+
+       
+    @if (Model.numeroRate == null)
+    {
+        Html.RenderPartial("_ComboNumeroRate", -1);
+    }
+    else
+    {
+        Html.RenderPartial("_ComboNumeroRate", Model.numeroRate);
+    }
+
+        
     </div>
 
     <div class="ui-field-contain">
         <label for="importoRata">Importo rata</label>
-        <input type="number" name="importoRata" id="importoRata" min="0" required data-mini="true" value="@Model.importoRata" />
+        <input type="number" name="importoRata" id="importoRata" min="0" required data-mini="true" value="@(Model.importoRata == null ? "" : Model.importoRata.Value.ToString(MyConstants.CultureInfoEN))" />
     </div>
 
     <div class="ui-field-contain">
         <label for="dataAssunzione">Data assunzione</label>
-        <input type="text" name="dataAssunzione" id="dataAssunzione" data-role="date" required data-mini="true" value="@Model.dataAssunzione.Value.ToShortDateString()" />
+        <input type="text" name="dataAssunzione" id="dataAssunzione" data-role="date" required data-mini="true" value="@(Model.dataAssunzione == null?"":Model.dataAssunzione.Value.ToShortDateString())" />
     </div>
 
     <div data-role="controlgrup" data-type="horizontal">
-        <a href="#" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        @if (Model.segnalazioneId != null)
+        {
+            <a href="@Url.Action("Details", "Segnalazioni", new { id = Model.segnalazioneId })" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        }
         <input type="submit" value="Invia" data-inline="true" data-mini="true" />
     </div>
 }
+

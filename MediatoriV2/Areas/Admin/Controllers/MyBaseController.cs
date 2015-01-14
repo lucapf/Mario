@@ -10,6 +10,22 @@ namespace MyWebApplication.Areas.Admin.Controllers
 {
     public class MyBaseController : System.Web.Mvc.Controller
     {
+        protected string DbSelected;
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+
+            if (Session["MyDBSelected"] != null)
+            {
+                DbSelected = Session["MyDBSelected"].ToString();
+            }
+            else
+            {
+                DbSelected = "";
+            }
+        }
+
         protected override void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)
         {
 
@@ -43,43 +59,51 @@ namespace MyWebApplication.Areas.Admin.Controllers
             //filterContext.HttpContext.User = principal;
             //}
 
-
-            if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated == false)
+            if (filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
+              || filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
             {
-                //filterContext.Result = new RedirectToRouteResult(
-                //    new System.Web.Routing.RouteValueDictionary 
-                //    { 
-                //            { "language", filterContext.RouteData.Values[ "language" ] }, 
-                //            { "controller", "Account" }, 
-                //            { "action", "Login" }, 
-                //            { "ReturnUrl", filterContext.HttpContext.Request.RawUrl } 
-                //    });
-
-                filterContext.Result = new RedirectToRouteResult(
-                   new System.Web.Routing.RouteValueDictionary(
-                       new
-                       {
-                           area = "Admin",
-                           controller = "Account",
-                           action = "Login",
-                           ReturnUrl = filterContext.HttpContext.Request.RawUrl
-                       }));
+                base.OnAuthorization(filterContext);
             }
+            else
+            {
 
-            //base.OnAuthorization(filterContext);
 
-            //if (filterContext.Result == null || filterContext.Result is HttpUnauthorizedResult)
-            //{
-            //    filterContext.Result = new RedirectToRouteResult(
-            //        new System.Web.Routing.RouteValueDictionary 
-            //        { 
-            //                { "language", filterContext.RouteData.Values[ "language" ] }, 
-            //                { "controller", "Account" }, 
-            //                { "action", "Login" }, 
-            //                { "ReturnUrl", filterContext.HttpContext.Request.RawUrl } 
-            //        });
-            //}
+                if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated == false)
+                {
+                    //filterContext.Result = new RedirectToRouteResult(
+                    //    new System.Web.Routing.RouteValueDictionary 
+                    //    { 
+                    //            { "language", filterContext.RouteData.Values[ "language" ] }, 
+                    //            { "controller", "Account" }, 
+                    //            { "action", "Login" }, 
+                    //            { "ReturnUrl", filterContext.HttpContext.Request.RawUrl } 
+                    //    });
 
+                    filterContext.Result = new RedirectToRouteResult(
+                       new System.Web.Routing.RouteValueDictionary(
+                           new
+                           {
+                               area = "Admin",
+                               controller = "Account",
+                               action = "Login",
+                               ReturnUrl = filterContext.HttpContext.Request.RawUrl
+                           }));
+                }
+
+                //base.OnAuthorization(filterContext);
+
+                //if (filterContext.Result == null || filterContext.Result is HttpUnauthorizedResult)
+                //{
+                //    filterContext.Result = new RedirectToRouteResult(
+                //        new System.Web.Routing.RouteValueDictionary 
+                //        { 
+                //                { "language", filterContext.RouteData.Values[ "language" ] }, 
+                //                { "controller", "Account" }, 
+                //                { "action", "Login" }, 
+                //                { "ReturnUrl", filterContext.HttpContext.Request.RawUrl } 
+                //        });
+                //}
+            }
         }
 
         protected override void OnException(ExceptionContext filterContext)
@@ -90,16 +114,16 @@ namespace MyWebApplication.Areas.Admin.Controllers
             {
                 Debug.WriteLine("Admin.MyBaseController.OnException: " + filterContext.Exception.Message);
 
-                MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
-                log.openConnection();
-                try
-                {
-                    log.exception("Admin.MyBaseController", filterContext.Exception);
-                }
-                finally
-                {
-                    log.closeConnection();
-                }
+                //MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager("DefaultConnection");
+                //log.openConnection();
+                //try
+                //{
+                //    log.exception("Admin.MyBaseController", filterContext.Exception);
+                //}
+                //finally
+                //{
+                //    log.closeConnection();
+                //}
 
             }
 

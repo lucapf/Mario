@@ -1,0 +1,95 @@
+﻿@model  BusinessModel.SimulazioneFinanziaria.SimulazioneModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    BusinessModel.PccWS.importiPraticaVO prodotto;
+    prodotto = (Session[MyConstants.MySessionData.ProdottiSimulazioneFinanziaria.ToString()] as BusinessModel.PccWS.importiPraticaVO[])[Model.indice];
+
+    decimal costoFinanziamento;
+    costoFinanziamento = prodotto.praticaVO.prtImportoInteressi + prodotto.praticaVO.prtImportoCommissioni + prodotto.praticaVO.prtImportoRivalsa;
+
+    decimal caricante_per = Math.Round(100 * (prodotto.importoProvvigioneAgenziaCaricante / prodotto.montante), 2);
+}
+
+<h2>Prodotto: @prodotto.praticaVO.prtTpprDescrizione</h2>
+
+<div class="display-control">
+    <label>Montante</label>
+    <div>@(String.Format("{0:C2}", prodotto.montante))</div>
+</div>
+
+<div class="display-control">
+    <label>Spese istruttoria</label>
+    <div>@(String.Format("{0:C2}", prodotto.praticaVO.prtSpeseIstruttoria))</div>
+</div>
+
+
+<div class="display-control">
+    <label>Commissioni</label>
+    <div>@(String.Format("{0:C2}", prodotto.importoCommissioni))</div>
+</div>
+
+<div class="display-control">
+    <label>Commissioni agenzia caricante</label>
+    <div>@(String.Format("{0:C2}", prodotto.importoProvvigioneAgenziaCaricante))  (@caricante_per %)  </div>
+</div>
+
+
+<div class="display-control">
+    <label>Costo finanziamento</label>
+    <div>@(String.Format("{0:C2}", costoFinanziamento))</div>
+</div>
+
+
+<div class="display-control">
+    <label>TAN</label>
+    <div>@(String.Format("{0:P2}", prodotto.praticaVO.prtTan / 100))</div>
+</div>
+
+<div class="display-control">
+    <label>TEG</label>
+    <div>@(String.Format("{0:P2}", prodotto.praticaVO.prtTeg / 100))</div>
+</div>
+
+<div class="display-control">
+    <label>TAEG</label>
+    <div>@(String.Format("{0:P2}", prodotto.praticaVO.prtTaeg / 100))</div>
+</div>
+
+<div class="display-control">
+    <label>Costo assicurativo???</label>
+    <div>@(String.Format("{0:C2}", prodotto.costoAssicurativo.costoVita + prodotto.costoAssicurativo.costoImpiego))</div>
+</div>
+
+
+<div class="display-control">
+    <label>Numero rate</label>
+    <div>@(String.Format("{0:N0}", prodotto.praticaVO.prtNumeroRate))</div>
+</div>
+
+<div class="display-control">
+    <label>Importo rata</label>
+    <div>@(String.Format("{0:C2}", prodotto.praticaVO.prtImportoRata))</div>
+</div>
+
+
+<div class="display-control">
+    <label>Netto erogato</label>
+    <div>@(String.Format("{0:C2}", prodotto.importoNettoErogato))</div>
+</div>
+
+
+@using (Html.BeginForm("Confirm", "Simulazione", FormMethod.Post, new { id = "MyForm" }))
+{
+    <div data-role="controlgrup" data-type="horizontal">
+        <a href="@Url.Action("Select")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        <input type="hidden" name="indice" value="@Model.indice" />
+        @if (Model.segnalazioneId != null)
+        {
+            <input type="hidden" name="segnalazioneId" value="@Model.segnalazioneId" />
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+
+}

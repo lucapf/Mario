@@ -14,6 +14,7 @@ namespace mediatori.Models
         [Key]
         public int id { get; set; }
 
+        public int segnalazioneId { get; set; }
         public virtual mediatori.Models.Anagrafiche.Segnalazione segnalazione { get; set; }
 
         [Required]
@@ -63,6 +64,8 @@ namespace mediatori.Models
 
         [Display(Name = "Operatore inserimento")]
         public String operatoreInserimento;
+
+        public bool bySimulatore { get; set; }
 
         //[Display(Name = "Accettato")]
         //public bool? accettato{get;set;}

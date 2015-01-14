@@ -158,9 +158,9 @@ namespace mediatori.Initializer
 
             context.StatiSegnalazione.AddOrUpdate<Stato>(t => t.id,
                 //AMMINISTRAZIONI
-                new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
-                new Stato { id = 3, descrizione = "DISATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.CHIUSO },
+                //new Stato { id = 1, descrizione = "CENSITA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                //new Stato { id = 2, descrizione = "ATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.ATTIVO },
+                //new Stato { id = 3, descrizione = "DISATTIVA", entitaAssociata = EnumEntitaAssociataStato.AMMINISTRAZIONE, statoBase = EnumStatoBase.CHIUSO },
                 //SEGNALAZIONI
                 new Stato { id = 20, descrizione = "Assegnazione ad operatori di telemarketing", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },
                 new Stato { id = 21, descrizione = "Richiesta preventivo", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.ATTIVO },

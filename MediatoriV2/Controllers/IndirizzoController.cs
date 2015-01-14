@@ -13,16 +13,8 @@ namespace mediatori.Controllers
 {
     public class IndirizzoController : MyBaseController
     {
-        //
-        // GET: /Indirizzo/
-
-        /*public ActionResult Index()
-        {
-            return View();
-        }
-         */
         [ChildActionOnly]
-        public ActionResult Details(int cedenteId)
+        public ActionResult Cedente(int cedenteId)
         {
             Cedente cedente;
             cedente = db.Cedenti.Include("indirizzi").Where(p => p.id == cedenteId).First();
@@ -35,7 +27,36 @@ namespace mediatori.Controllers
             model.indirizzi = cedente.indirizzi.ToList<Indirizzo>();
             model.contattoId = cedenteId;
 
-            valorizzaDatiViewBag();
+            valorizzaViewBag();
+
+            return View("_Indirizzi", model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult SoggettoGiuridico(int soggettoGiuridicoId)
+        {
+            IndirizziModel model = new IndirizziModel();
+
+            if (soggettoGiuridicoId != -1)
+            {
+                SoggettoGiuridico soggettoGiuridico;
+                soggettoGiuridico = db.SoggettiGiuridici.Include("indirizzi").Where(p => p.id == soggettoGiuridicoId).First();
+                if (soggettoGiuridico == null)
+                {
+                    return HttpNotFound();
+                }
+
+                model.indirizzi = soggettoGiuridico.indirizzi.ToList<Indirizzo>();
+                model.soggettoGiuridicoId = soggettoGiuridicoId;
+            }
+            else
+            {
+                //CREATE
+                model.soggettoGiuridicoId = -1;
+                model.indirizzi = new List<Indirizzo>();
+            }
+
+            valorizzaViewBag();
 
             return View("_Indirizzi", model);
         }
@@ -86,7 +107,7 @@ namespace mediatori.Controllers
             }
         }
 
-        private void valorizzaDatiViewBag()
+        private void valorizzaViewBag()
         {
             ViewBag.listaProvincia = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
             List<SelectListItem> lsli = new List<SelectListItem>();
@@ -132,6 +153,26 @@ namespace mediatori.Controllers
 
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
+
+
+
+        [ChildActionOnly]
+        public ActionResult Create(Indirizzo indirizzo)
+        {
+            
+#if DEBUG
+            indirizzo.cap = "00100";
+            indirizzo.numeroCivico = "20";
+            indirizzo.recapito = "Giuseppe Verdi";
+#endif
+
+            valorizzaViewBag();
+
+            ViewData.TemplateInfo.HtmlFieldPrefix = "indirizzo";
+            return View("IndirizzoPartialEdit", indirizzo);
+        }
+
+
 
 
         [HttpPost]

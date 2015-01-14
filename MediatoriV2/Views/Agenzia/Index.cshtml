@@ -1,55 +1,60 @@
-﻿@model IList<mediatori.Models.Anagrafiche.Agenzia>
+﻿@model BusinessModel.Anagrafiche.SearchAgenzia
 @{
-    ViewBag.Title = "IndexV2";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 
-    WebGrid wGrid = new WebGrid(Model, rowsPerPage: 10, canPage: true);
-   
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
+    wGrid.Bind(Model.Agenzie, rowCount: Model.TotalRows, autoSortAndPage: false);
 }
 
 <h2>Lista agenzie</h2>
 
 <a href="@Url.Action("Create", "Agenzia")" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Crea una nuova agenzia</a>
-<div id="message">@ViewBag.message</div>
+
 
 @using (Html.BeginForm("Index", "Agenzia", FormMethod.Get, null))
 {
 
     <div class="ui-field-contain">
-        <label>Ragione Sociale</label>
+        <label>Ragione sociale</label>
         @Html.TextBox("ragioneSociale")
     </div>
 
     <div class="ui-field-contain">
-        <label>Codice Fiscale</label>
+        <label>Partita iva</label>
         @Html.TextBox("partitaIva")
     </div>
-    
+
     <div data-role="controlgrup" data-type="horizontal">
         <input type="submit" data-inline="true" value="Ricerca" data-icon="search" data-mini="true" />
     </div>
-    
-    
-    if (Model.Count == 0)
+
+
+    if (Model.TotalRows == 0)
     {
-    <h3>Non è stata trovata nessuna agenzia. Modificare i filtri di ricerca.</h3>
+        <h3>Non è stata trovata nessuna agenzia. Modificare i filtri di ricerca.</h3>
     }
     else
     {
-    <div style="margin-top: 20px;">
-        @wGrid.GetHtml(
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
             fillEmptyRows: false,
             tableStyle: "MyTable ui-responsive",
-            headerStyle: "ui-bar-c",
+            headerStyle: "ui-bar-b",
             footerStyle: "ui-bar-b",
             rowStyle: "ui-bar-a",
-            alternatingRowStyle: "ui-bar-b",
+            alternatingRowStyle: "ui-bar-d",
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
-                    wGrid.Column (columnName:"SoggettoGiuridico.ragioneSociale", header :"Ragione Sociale")
+                 wGrid.Column (columnName:"soggettoGiuridico.ragioneSociale", header :"Ragione sociale"),
+                    wGrid.Column (columnName:"PartitaIva", header :"Partita iva"),
+                    wGrid.Column (columnName:"tipoNaturaGiuridica.descrizione", header :"Natura giuridica"),
+                    wGrid.Column ("", header :"Dettaglio",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Agenzia", new { id = item.id })">Info>Info</a>
+                        </text>, canSort : false)
             })
-
-    </div>
+        </div>
     }
-   
+
 }

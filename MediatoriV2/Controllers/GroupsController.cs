@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace mediatori.Controllers
 {
-    [MyAuthorize(Roles = new string [] { MyConstants.Profilo.ADMIN})]
+    [MyAuthorize(Roles = new string [] { MyConstants.Profilo.AMMINISTRATORE})]
     public class GroupsController : MyBaseController
     {
         private MyUsers.GroupManager manager = null;

@@ -123,7 +123,7 @@ namespace mediatori.Controllers
             {
                 Debug.WriteLine("MyBaseController.OnException: " + filterContext.Exception.Message);
 
-                if (db != null)
+                if (db != null && !String.IsNullOrEmpty(db.Database.Connection.ConnectionString))
                 {
                     MyManagerCSharp.Log.LogManager log = new MyManagerCSharp.Log.LogManager(db.Database.Connection);
                     log.openConnection();

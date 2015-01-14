@@ -12,20 +12,20 @@ namespace mediatori.Controllers.Business.Anagrafiche
 {
     public class AgenziaBusiness
     {
-        public static List<Agenzia> findByFilter(AgenziaFilter agenziaFilter, MainDbContext db)
+        public static List<Agenzia> findByFilter(Agenzia filtro, MainDbContext db)
         {
             DbQuery<Agenzia> dbSetAgenzie = db.Agenzia.Include("soggettoGiuridico");
-            if (agenziaFilter == null)
+            if (filtro == null)
             {
                 return dbSetAgenzie.ToList();
             }
-            if (agenziaFilter.partitaIva != String.Empty)
+            if (filtro.partitaIva != String.Empty)
             {
-                dbSetAgenzie.Where(a => a.partitaIva == agenziaFilter.partitaIva);
+                dbSetAgenzie.Where(a => a.partitaIva == filtro.partitaIva);
             }
-            if (agenziaFilter.ragioneSociale != String.Empty)
+            if (filtro.soggettoGiuridico.ragioneSociale != String.Empty)
             {
-                dbSetAgenzie.Where(a => a.soggettoGiuridico.ragioneSociale == agenziaFilter.ragioneSociale);
+                dbSetAgenzie.Where(a => a.soggettoGiuridico.ragioneSociale == filtro.soggettoGiuridico.ragioneSociale);
             }
             return dbSetAgenzie.ToList();
         }
@@ -34,7 +34,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
         {
             agenzia = new Agenzia();
             agenzia.soggettoGiuridico = new SoggettoGiuridico();
-            agenzia.stato = new Stato();
+            //agenzia.stato = new Stato();
             agenzia.tipoAgenzia = new TipoAgenzia();
             agenzia.tipoNaturaGiuridica = new TipoNaturaGiuridica();
             return agenzia;
@@ -46,10 +46,10 @@ namespace mediatori.Controllers.Business.Anagrafiche
           
             agenzia.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(agenzia.tipoNaturaGiuridica.id);
 
-            if (agenzia.stato != null)
-            {
-                agenzia.stato = db.StatiSegnalazione.Find(agenzia.stato.id);
-            }
+            //if (agenzia.stato != null)
+            //{
+            //    agenzia.stato = db.StatiSegnalazione.Find(agenzia.stato.id);
+            //}
             
             agenzia.tipoAgenzia = db.TipoAgenzia.Find(agenzia.tipoAgenzia.id);
             agenzia.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(agenzia.tipoNaturaGiuridica.id);

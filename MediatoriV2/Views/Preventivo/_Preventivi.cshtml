@@ -13,28 +13,56 @@
 
     using (Html.BeginCollectionItem("preventivi"))
     {
-        foreach (mediatori.Models.PreventivoSmall p in Model.preventivi)
+        if (Model.preventiviSmall != null)
         {
-            Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetailSmall.cshtml", p);
+            foreach (mediatori.Models.PreventivoSmall p in Model.preventiviSmall)
+            {
+                Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetailSmall.cshtml", p);
+            }
         }
+
+        if (Model.preventivi != null)
+        {
+            foreach (mediatori.Models.Preventivo p in Model.preventivi)
+            {
+                Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", p);
+            }
+        }
+
     }
 
     <div id="divNuovoPreventivo" style="display: none">
 
         @if (Model.segnalazioneId != null)
         {
-            using (Html.BeginForm("createForSegnalazione", "Preventivo", FormMethod.Post, new { id = "nuovoPreventivo" }))
+            if (Model.simulazioneEnabled)
             {
-                <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="@Model.segnalazioneId" />
+                using (Html.BeginForm("createForSegnalazione", "Simulazione", FormMethod.Post, new { id = "nuovoPreventivo" }))
+                {
+                    <input type="hidden" name="codiceSegnalazione" value="@Model.segnalazioneId" />
 
-                Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEditSmall.cshtml", Model.nuovoPreventivoSmall);
+                    <div data-role="controlgrup" data-type="horizontal">
+                        <input data-mini="true" data-inline="true" type="submit" value="Esegui simulazione" />
+                        <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
+                    </div>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("createForSegnalazione", "Preventivo", FormMethod.Post, new { id = "nuovoPreventivo" }))
+                {
+                    <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="@Model.segnalazioneId" />
 
-                <div data-role="controlgrup" data-type="horizontal">
-                    <input data-mini="true" data-inline="true" type="submit" value="Salva" />
-                    <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
-                </div>
+                    Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEditSmall.cshtml", Model.nuovoPreventivoSmall);
+
+                    <div data-role="controlgrup" data-type="horizontal">
+                        <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+                        <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
+                    </div>
+                }
             }
         }
+
     </div>
 
 }
@@ -48,7 +76,7 @@
 
     using (Html.BeginForm("Update", "Preventivo", FormMethod.Post, new { id = "FormPreventivo" }))
     {
-      <input type="hidden" name="praticaId" value="@Model.praticaId" />
+        <input type="hidden" name="praticaId" value="@Model.praticaId" />
 
         Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEdit.cshtml", Model.preventivoConfermato);
 

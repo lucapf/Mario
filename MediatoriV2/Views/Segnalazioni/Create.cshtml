@@ -72,6 +72,9 @@
     <ul data-role="listview" data-inset="true" id="grigliaContattiDuplicati"></ul>
 
     <hr />
+    
+    <input type="hidden" name="segnalazione.contatto.id" value="@Model.segnalazione.contatto.id" />
+    
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.contatto.nome)
     </div>
@@ -182,9 +185,34 @@
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.importoRichiesto)
     </div>
+
     <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.durataRichiesta)
+        <div class="editor-row">
+            <div class="editor-label">
+                <label>Numero rate*</label>
+            </div>
+            <div class="editor-value">
+                <select name="segnalazione.durataRichiesta" id="segnalazione_durataRichiesta" data-mini="true" data-inline="true" data-val-required="Il campo Numero rate è obbligatorio." data-val="true">
+                    <option value="" @((Model.segnalazione.durataRichiesta == null) ? "selected" : "")>---</option>
+                    <option value="12" @((Model.segnalazione.durataRichiesta == 12) ? "selected" : "")>12</option>
+                    <option value="24" @((Model.segnalazione.durataRichiesta == 24) ? "selected" : "")>24</option>
+                    <option value="36" @((Model.segnalazione.durataRichiesta == 36) ? "selected" : "")>36</option>
+                    <option value="48" @((Model.segnalazione.durataRichiesta == 48) ? "selected" : "")>48</option>
+                    <option value="60" @((Model.segnalazione.durataRichiesta == 60) ? "selected" : "")>60</option>
+                    <option value="72" @((Model.segnalazione.durataRichiesta == 72) ? "selected" : "")>72</option>
+                    <option value="84" @((Model.segnalazione.durataRichiesta == 84) ? "selected" : "")>84</option>
+                    <option value="96" @((Model.segnalazione.durataRichiesta == 96) ? "selected" : "")>96</option>
+                    <option value="108" @((Model.segnalazione.durataRichiesta == 108) ? "selected" : "")>108</option>
+                    <option value="120" @((Model.segnalazione.durataRichiesta == 120) ? "selected" : "")>120</option>
+                </select>
+            </div>
+        </div>
+        <div class="editor-validation">
+            <span class="field-validation-valid" data-valmsg-for="segnalazione.durataRichiesta" data-valmsg-replace="true"></span>
+        </div>
     </div>
+
+
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.rataRichiesta)
     </div>

@@ -12,8 +12,7 @@ using mediatori.Controllers.Business;
 
 namespace mediatori.Controllers.CQS
 {
-    //[MyAuthorize(Roles = "ADMIN,BACKOFFICE" )]
-    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.FRONTOFFICE, MyConstants.Profilo.BACKOFFICE, MyConstants.Profilo.ADMIN })]
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.DIPENDENTE, MyConstants.Profilo.AMMINISTRATORE })]
     public class CedenteController : MyBaseController
     {
         public ActionResult Index()
