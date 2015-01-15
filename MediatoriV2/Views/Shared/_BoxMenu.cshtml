@@ -1,30 +1,25 @@
-﻿
-@model List<mediatori.Models.MenuElement>
+﻿@model List<mediatori.Models.MenuElement>
 @{
     Layout = null;
     int conta = 1;
-}
 
+    //style="background-color: rgb(@(87 + 10 * conta), @(158 - 0* conta), @(66 + 0 * conta)  );
+}
 
 <div class="canvas-flex">
     @foreach (mediatori.Models.MenuElement configurazione in Model)
     {
-        <div id="box_@conta">
-            <a href="#" onclick="javascript: explode('@Url.Action(configurazione.action, configurazione.controller)', @conta);" name="box_@conta" data-role="none">
-                <div class="box" style="background-color: rgb(@(87 + 10 * conta), @(158 - 0* conta), @(66 + 0 * conta)  );">
-                    <p>@configurazione.display</p>
-                </div>
-            </a>
-        </div>
 
+        <button id="box_@conta" class="ui-btn ui-btn-d ui-corner-all ui-shadow" style="width:150px; height:150px;" onclick="javascript:explode( @conta, '@Url.Action(configurazione.action, configurazione.controller)')">@configurazione.display</button>
         conta++;
     }
-
 </div>
 
-<script>
-    function explode(url, indice) {
 
+
+<script>
+    function explode(indice, url) {
+        // alert("explode" + indice);
         //alert(obj.name);
 
         // $("#Home").hide("explode", {}, 1000);
@@ -33,12 +28,12 @@
 
         //});
 
-        for (i = indice; i < @Model.Count; i++) {
-            $("#box_"+ i).hide("explode", {}, 1000);
-        }
+        //for (i = indice; i < @Model.Count; i++) {
+        //  $("#box_"+ i).hide("explode", {}, 1000);
+        // }
 
-
-        location.href= url;
+        $("#box_" + indice).hide("explode", {}, 1000);
+        location.href = url;
 
 
         //$(".SICUREZZA").show("drop", {}, 1000);

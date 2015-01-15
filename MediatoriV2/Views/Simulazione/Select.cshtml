@@ -3,7 +3,7 @@
     ViewBag.Title = "Select";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 
-    decimal alNettoDelleprovvigioni;
+    //decimal alNettoDelleprovvigioni;
     int conta = -1;
     string css;
 }
@@ -20,7 +20,6 @@
             <th>Tariffario ass. impiego</th>
             <th>TAEG</th>
             <th>Netto erogato</th>
-            <th>Netto massimo erogabile</th>
             <th>Seleziona</th>
         </tr>
     </thead>
@@ -37,18 +36,18 @@
                 css = "ui-bar-a";
             }
 
-            switch (importo.baseCalcoloProvvigioni)
-            {
-                case "TF": //Tabella finanziaria
-                    alNettoDelleprovvigioni = importo.importoNettoErogato + importo.importoProvvigioneReteAgenzia + importo.importoProvvigioneAgenziaCaricante;
-                    break;
-                case "MONT": //Montante
-                    alNettoDelleprovvigioni = importo.importoNettoErogato + importo.importoProvvigioneAgenziaCaricante;
-                    break;
-                default:
-                    alNettoDelleprovvigioni = -1;
-                    break;
-            }
+            //switch (importo.baseCalcoloProvvigioni)
+            //{
+            //    case "TF": //Tabella finanziaria
+            //        alNettoDelleprovvigioni = importo.importoNettoErogato + importo.importoProvvigioneReteAgenzia + importo.importoProvvigioneAgenziaCaricante;
+            //        break;
+            //    case "MONT": //Montante
+            //        alNettoDelleprovvigioni = importo.importoNettoErogato + importo.importoProvvigioneAgenziaCaricante;
+            //        break;
+            //    default:
+            //        alNettoDelleprovvigioni = -1;
+            //        break;
+            //}
 
             <tr class="@css">
                 <td>@(importo.praticaVO == null ? "N/A" : importo.praticaVO.prtTpprDescrizione)</td>
@@ -57,7 +56,6 @@
                 <td>@(importo.searchCriteria == null ? "N/A" : importo.searchCriteria.filtro.assicurazioneImpiegoVO.descrizione)</td>
                 <td>@(importo.praticaVO == null ? "N/A" : String.Format("{0:P2}", importo.praticaVO.prtTaeg / 100))
                 <td>@(String.Format("{0:N2}", importo.importoNettoErogato))</td>
-                <td>@(String.Format("{0:N2}", alNettoDelleprovvigioni))</td>
                 <td><a href="@Url.Action("Details", "Simulazione", new { id = conta , segnalazioneId = Model.segnalazioneId})" class="ui-btn ui-icon-action ui-btn-icon-notext ui-corner-all">No text</a> </td>
             </tr>
         }

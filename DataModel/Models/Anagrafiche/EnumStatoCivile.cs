@@ -8,8 +8,6 @@ namespace mediatori.Models.Anagrafiche
     public enum EnumStatoCivile
     {
         CELIBE, SPOSATO, DIVORZIATO, VEDOVO
-
     }
-   
-   
-   }
+
+}

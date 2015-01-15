@@ -41,7 +41,7 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [Display(Name = "Sesso")]
-        public EnumSesso sesso { get; set; }
+        public EnumSesso? sesso { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -51,7 +51,7 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [Display(Name = "Stato Civile")]
-        public EnumStatoCivile statoCivile { get; set; }
+        public EnumStatoCivile? statoCivile { get; set; }
 
         [Required]
         [Display(Name = "Codice Fiscale")]

@@ -20,28 +20,27 @@ namespace mediatori.Controllers
         {
 
             List<MenuElement> model = new List<MenuElement>(){
-                  new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
-                    new MenuElement(){display="Configurazioni", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Configurazioni"},
-                    new MenuElement(){display="Province", ordinamento=1,livello=1,role="Amministratore",action="Province", controller="Configurazioni"},
-                    new MenuElement(){display="Toponimi", ordinamento=1,livello=1,role="Amministratore",action="Toponimi",controller="Configurazioni"},
-                    new MenuElement(){display="Fonti Pubblicitarie", ordinamento=1,livello=1,role="Amministratore",action="fontePubblicitaria",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Prestito", ordinamento=1,livello=1,role="Amministratore",action="tipologiaPrestito",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Azienda", ordinamento=1,livello=1,role="Amministratore",action="tipologiaAzienda",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Indirizzo", ordinamento=1,livello=1,role="Amministratore",action="tipologiaIndirizzo",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Impiego", ordinamento=1,livello=1,role="Amministratore",action="tipoContrattoImpiego",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Ente Rilascio", ordinamento=1,livello=1,role="Amministratore",action="tipoEnteRilascio",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Documento Identita", ordinamento=1,livello=1,role="Amministratore",action="tipoDocumentoIdentita",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Contatto", ordinamento=1,livello=1,role="Amministratore",action="tipoContatto",controller="Configurazioni"},
+                    //new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
+                    //new MenuElement(){display="Configurazioni", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Configurazioni"},
                     new MenuElement(){display="Canale Acquisizione", ordinamento=1,livello=1,role="Amministratore",action="tipoCanaleAcquisizione",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Luogo Ritrovo", ordinamento=1,livello=1,role="Amministratore",action="tipoLuogoRitrovo",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Riferimento", ordinamento=1,livello=1,role="Amministratore",action="tipoRiferimento",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Prodotto", ordinamento=1,livello=1,role="Amministratore",action="tipoProdotto",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Categoria", ordinamento=1,livello=1,role="Amministratore",action="tipoCategoriaAmministrazione",controller="Configurazioni"},
+                    new MenuElement(){display="Fonti Pubblicitarie", ordinamento=1,livello=1,role="Amministratore",action="fontePubblicitaria",controller="Configurazioni"},
+                    new MenuElement(){display="Province", ordinamento=1,livello=1,role="Amministratore",action="Province", controller="Configurazioni"},
+                    new MenuElement(){display="Stato", ordinamento=1,livello=1,role="Amministratore",action="stato",controller="Configurazioni"},
+                    new MenuElement(){display="Toponimi", ordinamento=1,livello=1,role="Amministratore",action="Toponimi",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Assumibilità", ordinamento=1,livello=1,role="Amministratore",action="tipoAssumibilitaAmministrazione",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Agenzia", ordinamento=1,livello=1,role="Amministratore",action="tipoAgenzia",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Azienda", ordinamento=1,livello=1,role="Amministratore",action="tipologiaAzienda",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Categoria", ordinamento=1,livello=1,role="Amministratore",action="tipoCategoriaAmministrazione",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Contatto", ordinamento=1,livello=1,role="Amministratore",action="tipoContatto",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Documento Identita", ordinamento=1,livello=1,role="Amministratore",action="tipoDocumentoIdentita",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Ente Rilascio", ordinamento=1,livello=1,role="Amministratore",action="tipoEnteRilascio",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Erogazione", ordinamento=1,livello=1,role="Amministratore",action="tipoErogazione",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Assumibilita", ordinamento=1,livello=1,role="Amministratore",action="tipoAssumibilitaAmministrazione",controller="Configurazioni"},
-                    new MenuElement(){display="Stato", ordinamento=1,livello=1,role="Amministratore",action="stato",controller="Configurazioni"}
-                    
+                    new MenuElement(){display="Tipo Impiego", ordinamento=1,livello=1,role="Amministratore",action="tipoContrattoImpiego",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Indirizzo", ordinamento=1,livello=1,role="Amministratore",action="tipologiaIndirizzo",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Luogo Ritrovo", ordinamento=1,livello=1,role="Amministratore",action="tipoLuogoRitrovo",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Prestito", ordinamento=1,livello=1,role="Amministratore",action="tipologiaPrestito",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Prodotto", ordinamento=1,livello=1,role="Amministratore",action="tipoProdotto",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Riferimento", ordinamento=1,livello=1,role="Amministratore",action="tipoRiferimento",controller="Configurazioni"}
                 };
 
             //new MenuElement(){display="Nuova Rete ", ordinamento=1,livello=1,role="Amministratore",url="Rete/Create"}

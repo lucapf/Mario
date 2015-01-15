@@ -6,9 +6,6 @@
     BusinessModel.PccWS.importiPraticaVO prodotto;
     prodotto = (Session[MyConstants.MySessionData.ProdottiSimulazioneFinanziaria.ToString()] as BusinessModel.PccWS.importiPraticaVO[])[Model.indice];
 
-    decimal costoFinanziamento;
-    costoFinanziamento = prodotto.praticaVO.prtImportoInteressi + prodotto.praticaVO.prtImportoCommissioni + prodotto.praticaVO.prtImportoRivalsa;
-
     decimal caricante_per = Math.Round(100 * (prodotto.importoProvvigioneAgenziaCaricante / prodotto.montante), 2);
 }
 
@@ -20,10 +17,9 @@
 </div>
 
 <div class="display-control">
-    <label>Spese istruttoria</label>
+    <label>Spese istruttoria (spese attivazione)</label>
     <div>@(String.Format("{0:C2}", prodotto.praticaVO.prtSpeseIstruttoria))</div>
 </div>
-
 
 <div class="display-control">
     <label>Commissioni</label>
@@ -31,16 +27,34 @@
 </div>
 
 <div class="display-control">
-    <label>Commissioni agenzia caricante</label>
-    <div>@(String.Format("{0:C2}", prodotto.importoProvvigioneAgenziaCaricante))  (@caricante_per %)  </div>
+    <label>Commissioni finanziarie</label>
+    <div>@(String.Format("{0:C2}", prodotto.commissioniFinanziarie))</div>
 </div>
 
+<div class="display-control">
+    <label>Commissioni intermediazione</label>
+    <div>@(String.Format("{0:C2}", prodotto.commissioniIntermediazione))</div>
+</div>
+
+<div class="display-control">
+    <label>Commissioni agenzia caricante</label>
+    <div>@(String.Format("{0:C2}", prodotto.importoProvvigioneAgenziaCaricante))  (@caricante_per %)</div>
+</div>
+
+<div class="display-control">
+    <label>Interessi</label>
+    <div>@(String.Format("{0:C2}", prodotto.praticaVO.prtImportoInteressi))</div>
+</div>
 
 <div class="display-control">
     <label>Costo finanziamento</label>
-    <div>@(String.Format("{0:C2}", costoFinanziamento))</div>
+    <div>@(String.Format("{0:C2}", prodotto.costoFinanziamento.totaleCostoFinanziamento))</div>
 </div>
 
+<div class="display-control">
+    <label>Oneri fiscali (Rivalsa)</label>
+    <div>@(String.Format("{0:C2}", prodotto.praticaVO.prtImportoRivalsa))</div>
+</div>
 
 <div class="display-control">
     <label>TAN</label>
@@ -58,11 +72,14 @@
 </div>
 
 <div class="display-control">
-    <label>Costo assicurativo???</label>
-    <div>@(String.Format("{0:C2}", prodotto.costoAssicurativo.costoVita + prodotto.costoAssicurativo.costoImpiego))</div>
+    <label>Costo vita</label>
+    <div>@(String.Format("{0:C2}", prodotto.costoAssicurativo.costoVita))</div>
 </div>
 
-
+<div class="display-control">
+    <label>Costo impiego</label>
+    <div>@(String.Format("{0:C2}", prodotto.costoAssicurativo.costoImpiego))</div>
+</div>
 <div class="display-control">
     <label>Numero rate</label>
     <div>@(String.Format("{0:N0}", prodotto.praticaVO.prtNumeroRate))</div>
@@ -73,7 +90,6 @@
     <div>@(String.Format("{0:C2}", prodotto.praticaVO.prtImportoRata))</div>
 </div>
 
-
 <div class="display-control">
     <label>Netto erogato</label>
     <div>@(String.Format("{0:C2}", prodotto.importoNettoErogato))</div>
@@ -83,13 +99,17 @@
 @using (Html.BeginForm("Confirm", "Simulazione", FormMethod.Post, new { id = "MyForm" }))
 {
     <div data-role="controlgrup" data-type="horizontal">
-        <a href="@Url.Action("Select")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+
         <input type="hidden" name="indice" value="@Model.indice" />
         @if (Model.segnalazioneId != null)
         {
+            <a href="@Url.Action("Select")?segnalazioneId=@Model.segnalazioneId" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
             <input type="hidden" name="segnalazioneId" value="@Model.segnalazioneId" />
             <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
         }
+        else
+        {
+            <a href="@Url.Action("Select")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>
+        }
     </div>
-
 }

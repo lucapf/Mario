@@ -54,6 +54,8 @@ namespace mediatori.Controllers
             model.praticaId = praticaId;
             model.preventivoConfermato = db.Preventivi.Find(pratica.preventivoConfermatoId);
 
+            model.simulazioneEnabled = !String.IsNullOrEmpty((Session["MySessionData"] as SessionData).UrlSimulazioneFinanziaria);
+
             valorizzaDatiViewBag();
 
             return View("_Preventivi", model);

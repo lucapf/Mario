@@ -4,11 +4,50 @@
 }
 
 
+
+
+
 @if (Model.segnalazioneId != null)
 {
 
-    <h3 id="preventivi">Preventivi  <strong class="h3Link" id="linkNuovoPreventivo" title="nuovo preventivo">[ + ]</strong></h3>
-    <script>$("#linkNuovoPreventivo").click(function () { $("#divNuovoPreventivo").show(); })        </script>
+    if (Model.simulazioneEnabled)
+    {
+        <script type="text/javascript">
+            $(document).on("pageinit", function () {
+                $("#linkNuovoPreventivo").click(function () {
+                    $("#FormSimulazione").submit();
+                });
+            });
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            $(document).on("pageinit", function () {
+                $("#linkNuovoPreventivo").click(function () {
+                    $("#divNuovoPreventivo").show();
+                });
+            });
+        </script>
+
+    }
+
+
+    if (Model.simulazioneEnabled)
+    {
+        <h3 id="preventivi">Preventivi  <strong class="h3Link" id="linkNuovoPreventivo" title="Simulazione finanziaria">[ SIMULAZIONE ]</strong></h3>
+
+        using (Html.BeginForm("createForSegnalazione", "Simulazione", FormMethod.Post, new { id = "FormSimulazione" }))
+        {
+            <input type="hidden" name="codiceSegnalazione" value="@Model.segnalazioneId" />
+        }
+    }
+    else
+    {
+        <h3 id="preventivi">Preventivi  <strong class="h3Link" id="linkNuovoPreventivo" title="Nuovo preventivo">[ + ]</strong></h3>
+    }
+
+
     <hr />
 
     using (Html.BeginCollectionItem("preventivi"))
@@ -32,39 +71,21 @@
     }
 
     <div id="divNuovoPreventivo" style="display: none">
-
         @if (Model.segnalazioneId != null)
         {
-            if (Model.simulazioneEnabled)
+            using (Html.BeginForm("createForSegnalazione", "Preventivo", FormMethod.Post, new { id = "nuovoPreventivo" }))
             {
-                using (Html.BeginForm("createForSegnalazione", "Simulazione", FormMethod.Post, new { id = "nuovoPreventivo" }))
-                {
-                    <input type="hidden" name="codiceSegnalazione" value="@Model.segnalazioneId" />
+                <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="@Model.segnalazioneId" />
 
-                    <div data-role="controlgrup" data-type="horizontal">
-                        <input data-mini="true" data-inline="true" type="submit" value="Esegui simulazione" />
-                        <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
-                    </div>
-                }
-            }
-            else
-            {
-                using (Html.BeginForm("createForSegnalazione", "Preventivo", FormMethod.Post, new { id = "nuovoPreventivo" }))
-                {
-                    <input type="hidden" id="codiceSegnalazionePreventivo" name="idSegnalazione" value="@Model.segnalazioneId" />
+                Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEditSmall.cshtml", Model.nuovoPreventivoSmall);
 
-                    Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEditSmall.cshtml", Model.nuovoPreventivoSmall);
-
-                    <div data-role="controlgrup" data-type="horizontal">
-                        <input data-mini="true" data-inline="true" type="submit" value="Salva" />
-                        <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
-                    </div>
-                }
+                <div data-role="controlgrup" data-type="horizontal">
+                    <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+                    <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoPreventivo").hide();' />
+                </div>
             }
         }
-
     </div>
-
 }
 
 
@@ -72,18 +93,22 @@
 
 @if (Model.preventivoConfermato != null)
 {
-    <h3 id="preventivi">Preventivo</h3>
-
-    using (Html.BeginForm("Update", "Preventivo", FormMethod.Post, new { id = "FormPreventivo" }))
-    {
-        <input type="hidden" name="praticaId" value="@Model.praticaId" />
-
-        Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEdit.cshtml", Model.preventivoConfermato);
-
-        <div data-role="controlgrup" data-type="horizontal">
-            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
-        </div>
+    <h3>Preventivo confermato</h3>
+    if (Model.simulazioneEnabled)
+    {// preventivo NON modificabile
+        Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", Model.preventivoConfermato);
     }
+    else
+    {
+        using (Html.BeginForm("Update", "Preventivo", FormMethod.Post, new { id = "FormPreventivo" }))
+        {
+            <input type="hidden" name="praticaId" value="@Model.praticaId" />
 
+            Html.RenderPartial("~/Views/Preventivo/PreventivoPartialEdit.cshtml", Model.preventivoConfermato);
+
+            <div data-role="controlgrup" data-type="horizontal">
+                <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            </div>
+        }
+    }
 }
-

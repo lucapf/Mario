@@ -107,6 +107,23 @@ namespace BusinessModel
             preventivo.teg = decimal.Parse(row["teg"].ToString());
             preventivo.tan = decimal.Parse(row["tan"].ToString());
 
+            //Rel 1.0.0.6
+            if (!(row["costoFinanziamento"] is DBNull))
+            {
+                preventivo.costoFinanziamento = decimal.Parse(row["costoFinanziamento"].ToString());
+            }
+            if (!(row["commissioniFinanziarie"] is DBNull))
+            {
+                preventivo.commissioniFinanziarie = decimal.Parse(row["commissioniFinanziarie"].ToString());
+            }
+            if (!(row["commissioniIntermediazione"] is DBNull))
+            {
+                preventivo.commissioniIntermediazione = decimal.Parse(row["commissioniIntermediazione"].ToString());
+            }
+            if (!(row["importoCommissioni"] is DBNull))
+            {
+                preventivo.importoCommissioni = decimal.Parse(row["importoCommissioni"].ToString());
+            }
 
             return preventivo;
         }

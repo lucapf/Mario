@@ -344,6 +344,19 @@ namespace BusinessModel.SimulazioneFinanziaria
             strSQLParametri += ", @IMPORTO_PROVVIGIONI ";
             _addParameter(command, "@IMPORTO_PROVVIGIONI", prodotto.importoProvvigioneAgenziaCaricante);
 
+            _strSQL += ",importoInteressi ";
+            strSQLParametri += ", @IMPORTO_INTERESSI ";
+            _addParameter(command, "@IMPORTO_INTERESSI", prodotto.praticaVO.prtImportoInteressi);
+
+            _strSQL += ",speseAttivazione ";
+            strSQLParametri += ", @SPESE_ATTIVAZIONE ";
+            _addParameter(command, "@SPESE_ATTIVAZIONE", prodotto.praticaVO.prtSpeseIstruttoria);
+
+            _strSQL += ",oneriFiscali  ";
+            strSQLParametri += ", @ONERI_FISCALI ";
+            _addParameter(command, "@ONERI_FISCALI", prodotto.praticaVO.prtImportoRivalsa);
+
+
             _strSQL += ",montante ";
             strSQLParametri += ", @MONTANTE ";
             _addParameter(command, "@MONTANTE", prodotto.montante);
@@ -364,8 +377,22 @@ namespace BusinessModel.SimulazioneFinanziaria
             strSQLParametri += ", @TEG ";
             _addParameter(command, "@TEG", prodotto.praticaVO.prtTeg / 100);
 
+            //Rel 1.0.0.6
+            _strSQL += ",costoFinanziamento  ";
+            strSQLParametri += ", @COSTO_FINANZIAMENTO ";
+            _addParameter(command, "@COSTO_FINANZIAMENTO", prodotto.costoFinanziamento.totaleCostoFinanziamento);
 
+            _strSQL += ",commissioniFinanziarie ";
+            strSQLParametri += ", @COMMISSIONI_FINANZIARIE ";
+            _addParameter(command, "@COMMISSIONI_FINANZIARIE", prodotto.commissioniFinanziarie);
 
+            _strSQL += ",commissioniIntermediazione ";
+            strSQLParametri += ", @COMMISSIONI_INTERMEDIAZIONE ";
+            _addParameter(command, "@COMMISSIONI_INTERMEDIAZIONE", prodotto.commissioniIntermediazione);
+
+            _strSQL += ",importoCommissioni ";
+            strSQLParametri += ", @IMPORTO_COMMISSIONI ";
+            _addParameter(command, "@IMPORTO_COMMISSIONI", prodotto.importoCommissioni);
 
 
             command.CommandText = _strSQL + " ) " + strSQLParametri + " )";

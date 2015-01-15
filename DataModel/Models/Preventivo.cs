@@ -55,8 +55,7 @@ namespace mediatori.Models
         [Display(Name = "Imp. provvigioni")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
         public decimal? importoProvvigioni { get; set; }
-
-        
+                
         [Required]
         [Display(Name = "Interessi")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
@@ -87,6 +86,25 @@ namespace mediatori.Models
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:P2}")]
         public decimal? teg { get; set; }
 
-        
+        //Rel 1.0.0.6
+        [Required]
+        [Display(Name = "Costo finanziamento")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        public decimal? costoFinanziamento { get; set; }
+
+        [Required]
+        [Display(Name = "Commissioni finanziarie")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        public decimal? commissioniFinanziarie { get; set; }
+
+        [Required]
+        [Display(Name = "Commissioni intermediazione")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        public decimal? commissioniIntermediazione { get; set; }
+
+        [Required]
+        [Display(Name = "Commissioni")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
+        public decimal? importoCommissioni { get; set; }
     }
 }

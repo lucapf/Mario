@@ -1,5 +1,35 @@
 ﻿@model mediatori.Models.Anagrafiche.Agenzia
 
+
+<style type="text/css">
+     /* Custom indentations are needed because the length of custom labels differs from
+    the length of the standard labels */
+     .custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
+         text-indent: -5.9em;
+     }
+
+     .custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
+         text-indent: 0.5em;
+     }
+     /* Custom widths are needed because the length of custom labels differs from
+    the length of the standard labels */
+     .custom-size-flipswitch.ui-flipswitch {
+         width: 8.875em;
+     }
+
+         .custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
+             padding-left: 7em;
+             width: 1.875em;
+         }
+
+
+     .ui-field-contain > label + .custom-size-flipswitch.ui-flipswitch {
+         width: 1.875em;
+     }
+</style>
+
+
+
 <div class="editor-control">
     @Html.MyInputType(p => p.partitaIva)
 </div>
@@ -26,10 +56,10 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            Stato
+            <label for="agenzia_stato">Stato:</label>
         </div>
         <div class="editor-value">
-            
+            <input data-role="flipswitch" name="agenzia.disabled" id="agenzia_stato" data-on-text="Attiva" value="1" data-off-text="Non attiva" data-wrapper-class="custom-label-flipswitch custom-size-flipswitch" type="checkbox">
         </div>
     </div>
     <div class="editor-validation">
@@ -51,7 +81,7 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.tipoAgenzia)
+            @Html.MyLabelFor(m => m.tipoAgenzia, true)
         </div>
         <div class="editor-value">
             @Html.DropDownListFor(model => model.tipoAgenzia.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoAgenzia, "", new { data_mini = "true" })<br />

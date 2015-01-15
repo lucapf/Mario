@@ -15,6 +15,21 @@ namespace mediatori.Controllers
             return View();
         }
 
+
+        public ActionResult FlipSwitch(Models.Test.TestClass model)
+        {
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("FlipSwitch")]
+        public ActionResult FlipSwitchPost(Models.Test.TestClass model)
+        {
+            Debug.WriteLine("IsEnabled: " + model.isEnabled);
+
+            return View(model);
+        }
+
         public ActionResult SSL(mediatori.Models.Test.SslModel model)
         {
             if (String.IsNullOrEmpty(model.url))

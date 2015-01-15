@@ -151,7 +151,7 @@ table.MyTable {
 }
 
 
-    .canvas-flex div a, .canvas-flex div a:visited {
+ /*   .canvas-flex div a, .canvas-flex div a:visited {
         color: black;
         text-decoration: none;
     }
@@ -171,7 +171,7 @@ table.MyTable {
         background-color: lightgray;
         display: table;
     }
-
+    
         .canvas-flex .box p {
             display: table-cell;
             vertical-align: middle;
@@ -181,7 +181,7 @@ table.MyTable {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-
+*/
 
 
 
@@ -237,7 +237,7 @@ fieldset.MyFieldset {
     border: 1px solid lightgray;
 }
 
-fieldset.MyFieldset legend.MyLegend{
-     color: #637A05;
-    font-weight: bold;
-}
+    fieldset.MyFieldset legend.MyLegend {
+        color: #637A05;
+        font-weight: bold;
+    }

@@ -15,6 +15,10 @@ public static class MyExtensions
 
     public static MvcHtmlString MyLabelFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expression)
     {
+        return MyLabelFor(htmlHelper, expression, false);
+    }
+    public static MvcHtmlString MyLabelFor<TModel, TValue>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TValue>> expression, bool required)
+    {
         MvcHtmlString label = htmlHelper.LabelFor(expression);
 
         var lambda = (LambdaExpression)expression;
@@ -30,7 +34,7 @@ public static class MyExtensions
         }
         //*** Attributes ***//
         var requiredAttribute = memberExpression.Member.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.RequiredAttribute), false);
-        if (requiredAttribute != null && requiredAttribute.Length != 0)
+        if ((requiredAttribute != null && requiredAttribute.Length != 0) || required)
         {
             System.Text.RegularExpressions.Regex pattern = new System.Text.RegularExpressions.Regex("<label\\b[^>]*>(.*?)</label>");
 

@@ -12,6 +12,10 @@ public static class MyConstants
     }
 
 
+
+    public const string ROW_STYLE = "ui-body-a";
+    public const string ALTERNATING_ROW_STYLE = "ui-body-d";
+
     public enum MySessionData
     {
         ProdottiSimulazioneFinanziaria

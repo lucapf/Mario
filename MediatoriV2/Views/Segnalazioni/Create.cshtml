@@ -256,7 +256,7 @@
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.fontePubblicitaria)
+                @Html.MyLabelFor(m => m.segnalazione.fontePubblicitaria, true)
             </div>
             <div class="editor-value">
                 @Html.DropDownListFor(m => m.segnalazione.fontePubblicitaria.id, (IEnumerable<SelectListItem>)ViewBag.listaFontePubblicitaria, "", new { data_mini = "true" })
@@ -270,7 +270,7 @@
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.canaleAcquisizione)
+                @Html.MyLabelFor(m => m.segnalazione.canaleAcquisizione, true)
             </div>
             <div class="editor-value">
                 @Html.DropDownListFor(m => m.segnalazione.canaleAcquisizione.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoCanaleAcquisizione, "", new { data_mini = "true" })
@@ -285,7 +285,7 @@
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.tipoLuogoRitrovo)
+                @Html.MyLabelFor(m => m.segnalazione.tipoLuogoRitrovo, true)
             </div>
             <div class="editor-value">
                 @Html.DropDownListFor(m => m.segnalazione.tipoLuogoRitrovo.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoLuogoRitrovo, "", new { data_mini = "true" })
@@ -300,7 +300,7 @@
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.tipoContatto)
+                @Html.MyLabelFor(m => m.segnalazione.tipoContatto, true)
             </div>
             <div class="editor-value">
                 @Html.DropDownListFor(m => m.segnalazione.tipoContatto.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoContatto, "", new { data_mini = "true" })

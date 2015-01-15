@@ -747,6 +747,7 @@
     <Content Include="Views\Simulazione\Select.cshtml" />
     <Content Include="Views\Simulazione\Details.cshtml" />
     <Content Include="Views\Shared\_ComboNumeroRate.cshtml" />
+    <Content Include="Views\Test\FlipSwitch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

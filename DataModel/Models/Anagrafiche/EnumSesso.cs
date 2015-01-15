@@ -9,5 +9,4 @@ namespace mediatori.Models.Anagrafiche
     {
         MASCHIO,FEMMINA
     }
-  
 }

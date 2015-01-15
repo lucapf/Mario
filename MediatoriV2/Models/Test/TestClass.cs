@@ -29,5 +29,9 @@ namespace mediatori.Models.Test
         [Required]
         [Display(Name = "Tipo con descrizione")]
         public int tipoId { get; set; }
+
+
+
+        public bool isEnabled { get; set; }
     }
 }

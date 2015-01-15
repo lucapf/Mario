@@ -89,6 +89,8 @@ namespace mediatori.Controllers
             BusinessModel.PccWS.importiPraticaVO[] temp;
             temp  = manager.getAllPossiblePortafoglioCombinationFor(model);
 
+           
+
             Debug.WriteLine("COUNT : " + temp.Length);
 
             Session[MyConstants.MySessionData.ProdottiSimulazioneFinanziaria.ToString()] = temp;

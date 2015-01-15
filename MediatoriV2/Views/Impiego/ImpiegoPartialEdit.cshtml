@@ -38,7 +38,7 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.tipoImpiego)
+            @Html.MyLabelFor(m => m.tipoImpiego,true)
         </div>
         <div class="editor-value">
             @Html.DropDownListFor(m => m.tipoImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoImpiego, "", new { data_mini = "true" })
@@ -52,7 +52,7 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.categoriaImpiego)
+            @Html.MyLabelFor(m => m.categoriaImpiego, true)
         </div>
         <div class="editor-value">
             @Html.DropDownListFor(m => m.categoriaImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCategoriaImpiego, "", new { data_mini = "true" })

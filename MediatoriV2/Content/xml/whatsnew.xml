@@ -5,6 +5,16 @@
   type => changes
  -->
 
+  <release number="1.0.0.6" data="15/01/2015" migration="Update05">
+    <item data="15/01/2015"     owner="Rutigliano"  type="changes" >
+      Aggiunti i seguent campi nella tabella preventivo (integrazione con la simulazione finanziaria):
+      - costoFinanziamento
+      - commissioniFinanziarie
+      - commissioniIntermediazione
+      - importoCommissioni
+    </item>
+  </release>
+
   <release number="1.0.0.5" data="14/01/2015" migration="Update04">
     <item data="08/01/2015"     owner="Rutigliano"  type="changes" >
       Eliminata la configurazione degli stati per le entità Agenzie e Amministrazioni.

@@ -76,6 +76,10 @@
     <Compile Include="Migrations\201501141839274_Update04.Designer.cs">
       <DependentUpon>201501141839274_Update04.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201501151441191_Update05.cs" />
+    <Compile Include="Migrations\201501151441191_Update05.Designer.cs">
+      <DependentUpon>201501151441191_Update05.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
     <Compile Include="Models\Anagrafiche\Agenzia.cs" />
@@ -167,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501141839274_Update04.resx">
       <DependentUpon>201501141839274_Update04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501151441191_Update05.resx">
+      <DependentUpon>201501151441191_Update05.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
