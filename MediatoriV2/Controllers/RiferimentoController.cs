@@ -90,10 +90,29 @@ namespace mediatori.Controllers
 
 
         [HttpGet]
-        public ActionResult riferimentoPartialById(int id, EnumTipoAzione tipoAzione)
+        public ActionResult RiferimentoPartialById(int id, EnumTipoAzione tipoAzione)
         {
-            Riferimento r = RiferimentoBusiness.findByPk(id, db);
-            return riferimentoDispatcher(r, tipoAzione, db);
+            Riferimento riferimento = RiferimentoBusiness.findByPk(id, db);
+
+            if (riferimento == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            if (tipoAzione == EnumTipoAzione.MODIFICA)
+            {
+                valorizzaViewBag(riferimento);
+                //  ViewData.TemplateInfo.HtmlFieldPrefix = "indirizzo";
+                return View("RiferimentoEdit", riferimento);
+            }
+
+            if (tipoAzione == EnumTipoAzione.VISUALIZZAZIONE)
+            {
+                return View("RiferimentoPartialDetail", riferimento);
+            }
+
+            throw new ApplicationException("Azione di inserimento che non si deve presentare");     
         }
 
         [ChildActionOnly]
@@ -116,9 +135,22 @@ namespace mediatori.Controllers
                     return View("RiferimentoPartialDetail", riferimento);
             }
         }
+
         private void valorizzaViewBag()
         {
-            ViewBag.listaTipoRiferimento = new SelectList(db.TipoRiferimento, "id", "descrizione");
+            valorizzaViewBag(null);
+        }
+
+        private void valorizzaViewBag(Riferimento riferimento)
+        {
+            if (riferimento == null)
+            {
+                ViewBag.listaTipoRiferimento = new SelectList(db.TipoRiferimento, "id", "descrizione");
+            }
+            else
+            {
+                ViewBag.listaTipoRiferimento = new SelectList(db.TipoRiferimento, "id", "descrizione", riferimento.tipoRiferimento.id);
+            }
         }
 
 
@@ -191,5 +223,62 @@ namespace mediatori.Controllers
 
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
+
+        [HttpPost]
+        public ActionResult UpdateForSoggettoGiuridico(Riferimento riferimento, int codiceSggettoGiuridico)
+        {
+            RiferimentoBusiness.valorizzaDatiRiferimento(riferimento, db);
+            riferimento.soggettoGiuridicoId = codiceSggettoGiuridico;
+
+            ModelState.Clear();
+            TryValidateModel(riferimento);
+
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                  .SelectMany(v => v.Errors)
+                  .Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il riferimento, verificare i dati: " + Environment.NewLine + message);
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+            }
+
+            SoggettoGiuridico soggettoGiuridico = null;
+           soggettoGiuridico = db.SoggettiGiuridici.Find(codiceSggettoGiuridico);
+
+            if (soggettoGiuridico == null)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Soggetto giuridico non trovato");
+
+            }
+            else
+            {
+
+                try
+                {
+                    riferimento.soggettoGiuridico = soggettoGiuridico;
+
+                    RiferimentoBusiness.save(User.Identity.Name, riferimento, db);
+
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Riferimento salvato con successo");
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    string messaggio;
+                    messaggio = MyHelper.getDbEntityValidationException(ex);
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il riferimento, verificare i dati: " + Environment.NewLine + messaggio);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + ex.Message);
+                }
+
+
+            }
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+
+        }
+
     }
 }

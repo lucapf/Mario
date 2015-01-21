@@ -95,7 +95,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
          .Include("soggettoGiuridico.indirizzi.toponimo")
          .Include("soggettoGiuridico.indirizzi.provincia")
          .Include("soggettoGiuridico.indirizzi.comune")
-         .Include("tipoNaturaGiuridica").Include("tipoCategoria").Include("assumibilita").Include("stato");
+         .Include("tipoNaturaGiuridica").Include("tipoCategoria").Include("assumibilita");
         }
     }
 }

@@ -1,0 +1,19 @@
+﻿
+@model mediatori.Models.Anagrafiche.Segnalazione
+@{
+    Layout = null;
+
+    string btnAnnulla = "SgnbtnAnnulla" + Model.id.ToString();
+}
+
+@using (Html.BeginForm("Edit", "Segnalazioni", FormMethod.Post))
+{
+    <input type="hidden" name="contattoId" value="@Model.contattoId" />
+
+    { Html.RenderPartial("~/Views/Segnalazioni/SegnalazionePartialEdit.cshtml", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}

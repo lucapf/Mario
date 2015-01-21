@@ -3,35 +3,79 @@
     Layout = null;   
 }
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.partitaIva)
-    @Html.EditorFor(model => model.partitaIva)<br />
-    @Html.ValidationMessageFor(model => model.partitaIva)
-    @Html.HiddenFor(model=>model.id)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.capitaleSociale)
-    @Html.EditorFor(model => model.capitaleSociale)<br />
-    @Html.ValidationMessageFor(model => model.capitaleSociale)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.tipoNaturaGiuridica)
-    @Html.DropDownListFor(model => model.tipoNaturaGiuridica.id,(IEnumerable<SelectListItem>) ViewBag.listaTipoNaturaGiuridica,"")<br />
-    @Html.ValidationMessageFor(model => model.tipoNaturaGiuridica.id)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.stato)
-    @Html.DropDownListFor(model => model.stato.id,(IEnumerable<SelectListItem>) ViewBag.listaStati,"")<br />
-    @Html.ValidationMessageFor(model => model.stato.id)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.tipoCategoria)
-    @Html.DropDownListFor(model => model.tipoCategoria.id,(IEnumerable<SelectListItem>) ViewBag.listaTipoCategoria,"")<br />
-    @Html.ValidationMessageFor(model => model.tipoCategoria.id)
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.assumibilita)
-    @Html.DropDownListFor(model => model.assumibilita.id,(IEnumerable<SelectListItem>) ViewBag.listaTipoAssumibilita,"")<br />
-    @Html.ValidationMessageFor(model => model.assumibilita.id)
+<input type="hidden" name="id" value="@Model.id" />
+
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.soggettoGiuridico.ragioneSociale)
 </div>
 
+<div class="editor-control">
+    @Html.MyInputType(p => p.soggettoGiuridico.codiceFiscale)
+</div>
+
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.partitaIva)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.capitaleSociale)
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoNaturaGiuridica)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.tipoNaturaGiuridica.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoNaturaGiuridica, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoNaturaGiuridica.id)
+    </div>
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            <label for="amministrazione_stato">Stato</label>
+        </div>
+        <div class="editor-value">
+            @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("isEnabled", Model.isEnabled));}
+        </div>
+    </div>
+    <div class="editor-validation">
+
+    </div>
+</div>
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoCategoria)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.tipoCategoria.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoCategoria, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoCategoria.id)
+    </div>
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.assumibilita)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.assumibilita.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoAssumibilita, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.assumibilita.id)
+    </div>
+</div>

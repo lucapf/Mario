@@ -1,6 +1,5 @@
 ﻿@model mediatori.Models.Anagrafiche.Impiego
 @{
-    ViewBag.title = "Impiego";
     Layout = null;
 }
 
@@ -8,28 +7,20 @@
 <input type="hidden" name="contattoId" value="@Model.contattoId" />
 
 <div class="editor-control">
-    @Html.MyInputType(m => m.dataAssunzione)
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.amministrazioneId)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(m => m.amministrazioneId, (IEnumerable<SelectListItem>)ViewBag.listaAmministrazioni, "", new { data_mini = "true" })
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.amministrazioneId)
+    </div>
 </div>
 
-<div class="editor-control">
-    @Html.MyInputType(m => m.dataLicenziamento)
-</div>
 
-<div class="editor-control">
-    @Html.MyInputType(m => m.stipendioNettoMensile)
-</div>
-
-<div class="editor-control">
-    @Html.MyInputType(m => m.stipendioLordoMensile)
-</div>
-
-<div class="editor-control">
-    @Html.MyInputType(m => m.stipendioLordoAnnuo)
-</div>
-
-<div class="editor-control">
-    @Html.MyInputType(m => m.azienda)
-</div>
 
 <div class="editor-control">
     @Html.MyInputType(m => m.aziendaSedeLavoro)
@@ -61,6 +52,26 @@
     <div class="editor-validation">
         @Html.ValidationMessageFor(m => m.categoriaImpiego.id)
     </div>
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.dataAssunzione)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.dataLicenziamento)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.stipendioNettoMensile)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.stipendioLordoMensile)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.stipendioLordoAnnuo)
 </div>
 
 <div class="editor-control">

@@ -1,0 +1,61 @@
+﻿@model BusinessModel.Anagrafiche.PersonaFisica.SearchPersonaFisica
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
+    wGrid.Bind(Model.PersoneFisiche, rowCount: Model.TotalRows, autoSortAndPage: false);
+}
+
+<h2>Lista contatti</h2>
+
+@using (Html.BeginForm("Index", "Contatto", FormMethod.Post, new { id = "MyForm" }))
+{
+   <div class="ui-field-contain">
+       @MyHelper.MyInputType("nome", "Nome", Model.nome, false) 
+    </div>
+
+    <div class="ui-field-contain">
+        @MyHelper.MyInputType("cognome", "Cognome", Model.cognome, false)
+    </div>
+
+    <div class="ui-field-contain">
+        @MyHelper.MyInputType("codiceFiscale", "Codice fiscale", Model.codiceFiscale, false)
+    </div>
+        
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-inline="true" value="Ricerca" data-icon="search" data-mini="true" />
+    </div>
+
+
+    if (Model.TotalRows == 0)
+    {
+        <h3>Non è stata trovato nessun contatto. Modificare i filtri di ricerca.</h3>
+    }
+    else
+    {
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
+                fillEmptyRows: false,
+                 tableStyle: MyConstants.TABLE_STYLE,
+                 headerStyle: MyConstants.TABLE_HEADER_STYLE,
+                 footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+                 rowStyle: MyConstants.TABLE_ROW_STYLE,
+                 alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
+                htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+                columns: new[]{
+                wGrid.Column (columnName:"nome", header :"Nome"),
+                    wGrid.Column (columnName:"cognome", header :"Cognome"),
+                    wGrid.Column (columnName:"dataNascita", header :"Data di nascita", format: p =>  p.dataNascita.ToShortDateString()),
+                    wGrid.Column (columnName:"codiceFiscale", header :"CF"),
+                    wGrid.Column ("", header :"",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Dettagli" href="@Url.Action("Details", new { id= item.id })">Dettagli</a>
+                        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("Delete", new { id= item.id })">Cancella</a>
+                        </text>, canSort : false)
+            })
+            @{Html.RenderPartial("Paging", Model);}
+        </div>
+    }
+
+}
+

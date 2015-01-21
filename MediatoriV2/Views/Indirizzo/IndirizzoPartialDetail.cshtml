@@ -1,61 +1,48 @@
 ﻿@model mediatori.Models.Anagrafiche.Indirizzo
 @{
-    ViewBag.title = "Indirizzo";
     Layout = null;
-    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Ind", Model.id);
-    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Ind", "/Indirizzo/IndirizzoPartialById", Model.id.ToString());
 }
 
-@Html.Raw(faDetailEventDetection.getScriptHandler())
-@Html.Raw(faDetailEventDetection.buildShortDetailDiv(
-                "<strong>&#9654 &#9654 Indirizzo " + Model.tipoIndirizzo.descrizione + ": </strong>" +
-                Model.toponimo.sigla + " " + Model.recapito + ", " +
-                Model.numeroCivico + " - " + Model.provincia.denominazione))
-@Html.Raw(editHelper.getStartForm("/Indirizzo/Edit"))
-
-<div id="@faDetailEventDetection.getIdFullDetail()">
-    <div class="display-control">
-        @Html.LabelFor(m => m.tipoIndirizzo)
-        <div> @Html.Display("tipoIndirizzo.descrizione")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.presso)
-        <div>@Model.presso</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.toponimo)
-        <div>@Html.Display("toponimo.sigla")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.recapito)
-        <div>@Html.Display("recapito")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.numeroCivico)
-        <div>@Html.Display("numeroCivico")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.interno)
-        <div>@Html.Display("interno")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.cap)
-        <div>@Html.Display("cap")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.provincia)
-        <div>@Html.Display("provincia.denominazione")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.corrispondenza)
-        <div>@Html.Display("corrispondenza")</div>
-    </div>
-    <div class="display-control">
-        @Html.LabelFor(m => m.comune)
-        <div>@Html.Display("comune.denominazione")</div>
-    </div>
-
+<div class="display-control">
+    @Html.LabelFor(m => m.tipoIndirizzo)
+    <div> @Html.Display("tipoIndirizzo.descrizione")</div>
 </div>
-@Html.Raw(editHelper.getEndForm())
-@Html.Raw(editHelper.getCrudButtons())
+<div class="display-control">
+    @Html.LabelFor(m => m.presso)
+    <div>@Model.presso</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.toponimo)
+    <div>@Html.Display("toponimo.sigla")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.recapito)
+    <div>@Html.Display("recapito")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.numeroCivico)
+    <div>@Html.Display("numeroCivico")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.interno)
+    <div>@Html.Display("interno")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.cap)
+    <div>@Html.Display("cap")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.provincia)
+    <div>@Html.Display("provincia.denominazione")</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.corrispondenza)
+    <div>@MyHelper.decodeSiNo(Model.corrispondenza)</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.comune)
+    <div>@Html.Display("comune.denominazione")</div>
+</div>
+
+
 

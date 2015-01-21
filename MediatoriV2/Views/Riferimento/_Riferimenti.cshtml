@@ -1,35 +1,135 @@
 ﻿@model mediatori.Models.RiferimentiModel
 @{
     Layout = null;
+    string actionName = "";
+
+    if (Model.contattoId != null)
+    {
+        actionName = "CreateForContatto";
+    }
+    else if (Model.soggettoGiuridicoId != null)
+    {
+        actionName = "CreateForSoggettoGiuridico";
+    }
+
+
+    string btnAnnullaModificaDati;
+    string riferimentoDetail;
 }
 
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("#linkNuovoriferimento").click(function () {
+            $("#divNuovoRiferimento").show();
+        })
+    });
 
-<h3 id="riferimenti">Riferimenti  <strong class="h3Link" id="linkNuovoriferimento" title="Aggiungi Riferimento">[ + ]</strong></h3>
-<script>$(function () { $("#linkNuovoriferimento").click(function () { $("#divNuovoRiferimento").show(); }) })</script>
+
+
+    function ModificaDati(idEntita, urlPercorso, idDivFullDetail) {
+        alert("ModificaDati: " + urlPercorso);
+        //   $("#" + idDivMessage).html("caricamento in corso");
+        $.ajax({
+            url: urlPercorso,
+            data: { id: idEntita, tipoAzione: "MODIFICA" },
+            cache: false,
+            error: function (html) {
+                $("#" + idDivMessage).html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function (html) {
+                alert("success");
+                // $("#" + idDivMessage).html("");
+
+                $("#" + idDivFullDetail).html(html);
+
+                //Rutigliano 24/11/2014 jquery mobile
+                $("#" + idDivFullDetail).trigger('create');
+            }
+        });
+    }
+
+    function AnnullaModificaDati(idEntita, urlPercorso, idDivFullDetail) {
+        alert("AnnullaModificaDati: " + urlPercorso);
+        $.ajax({
+            url: urlPercorso,
+            data: { id: idEntita, tipoAzione: "VISUALIZZAZIONE" },
+            cache: false,
+            error: function (html) {
+                $("#" + idDivMessage).html("");
+                alert("errore nella gestione della richiesta\n" + html)
+            },
+            success: function (html) {
+                $("#" + idDivMessage).html("");
+
+                $("#" + idDivFullDetail).html(html);
+
+                //Rutigliano 24/11/2014 jquery mobile
+                $("#" + idDivFullDetail).trigger('create');
+
+                //refreshValidation(idFormModifica)
+
+            }
+        });
+
+    }
+
+
+
+
+
+</script>
+
+<h3 id="riferimenti">Riferimenti  <strong class="h3Link" id="linkNuovoriferimento" title="Aggiungi un riferimento">[ + ]</strong></h3>
 <hr />
+<div id="divNuovoRiferimento" style="display: none">
+    @using (Html.BeginForm(actionName, "Riferimento", FormMethod.Post, new { id = "nuovoRiferimento" }))
+    {
+        <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
+        <input type="hidden" name="codiceSoggettoGiuridico" value="@Model.soggettoGiuridicoId" />
+
+        { Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Riferimento()); }
+
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick="$('#divNuovoRiferimento').hide();" />
+        </div>
+
+    }
+</div>
+
 @if (Model.riferimenti != null)
 {
     foreach (mediatori.Models.Anagrafiche.Riferimento riferimento in Model.riferimenti)
     {
-        {
-            Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialDetail.cshtml", riferimento);
-
-        }
+        Html.RenderPartial("~/Views/Riferimento/RiferimentoDetail.cshtml", riferimento);
     }
+
+
+    if (1 == 2)
+    {
+
+        <ul data-role="listview" data-inset="true" data-split-icon="delete">
+
+            @foreach (mediatori.Models.Anagrafiche.Riferimento riferimento in Model.riferimenti)
+            {
+                riferimentoDetail = "RiferimentoFull" + riferimento.id;
+                btnAnnullaModificaDati = "btnAnnullaModificaDati" + riferimento.id;
+
+                <li id="@riferimentoDetail">
+                    <a href="#" onclick="ModificaDati('@riferimento.id','@Url.Action("RiferimentoPartialbyId", "Riferimento")', '@riferimentoDetail')">
+                        <h2>@riferimento.valore</h2>
+                        <span class="ui-li-count">@riferimento.tipoRiferimento.descrizione</span>
+                        <span id="@btnAnnullaModificaDati" style="display:block;" onclick="AnnullaModificaDati('@riferimento.id', '@Url.Action("RiferimentoPartialbyId", "Riferimento")', '@riferimentoDetail')">Annulla</span>
+                    </a>
+
+                    <a href="#">Delete</a>
+
+                </li>
+            }
+        </ul>
+    }
+
 }
 
-
-@using (Html.BeginForm("CreateForContatto", "Riferimento", FormMethod.Post, new { id = "nuovoRiferimento" }))
-{
-    <div id="divNuovoRiferimento" style="display: none">
-        <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
-
-        @{ Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Riferimento()); }
-
-         
-        <div data-role="controlgrup" data-type="horizontal">
-            <input data-mini="true" data-inline="true" type="button" value="Salva" onclick='$("#nuovoRiferimento").submit()' />
-            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoRiferimento").hide()' />
-        </div>
-    </div>
-}

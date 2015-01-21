@@ -1,28 +1,40 @@
 ﻿@model mediatori.Models.Anagrafiche.Amministrazione
-@{Layout = null;}
+@{
+    Layout = null;
+}
+<div class="display-control">
+    @Html.LabelFor(m => m.soggettoGiuridico.ragioneSociale)
+    <div>@Html.DisplayFor(m => m.soggettoGiuridico.ragioneSociale)</div>
+</div>
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.partitaIva)
-    <div>@Html.DisplayFor(model => model.partitaIva)</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.soggettoGiuridico.codiceFiscale)
+    <div>@Html.DisplayFor(m => m.soggettoGiuridico.codiceFiscale)</div>
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.capitaleSociale)
-    <div>@Html.DisplayFor(model => model.capitaleSociale)</div>
+
+
+<div class="display-control">
+    @Html.LabelFor(m => m.partitaIva)
+    <div>@Html.DisplayFor(m => m.partitaIva)</div>
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.tipoNaturaGiuridica)
-    <div>@Html.DisplayFor(model => model.tipoNaturaGiuridica.descrizione)</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.capitaleSociale)
+    <div>@Html.DisplayFor(m => m.capitaleSociale)</div>
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.stato)
-    <div>@Html.DisplayFor(model => model.stato.descrizione)</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.tipoNaturaGiuridica)
+    <div>@Html.DisplayFor(m => m.tipoNaturaGiuridica.descrizione)</div>
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.tipoCategoria)
-    <div>@Html.DisplayFor(model => model.tipoCategoria.descrizione)</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.isEnabled)
+    <div>@MyHelper.decodeAttiva(Model.isEnabled)</div>
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.assumibilita)
-    <div>@Html.DisplayFor(model => model.assumibilita.descrizione)</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.tipoCategoria)
+    <div>@Html.DisplayFor(m => m.tipoCategoria.descrizione)</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.assumibilita)
+    <div>@Html.DisplayFor(m => m.assumibilita.descrizione)</div>
 </div>
 

@@ -8,7 +8,7 @@
 <h2>Lista pratiche</h2>
 
 
-@using (Html.BeginForm("Index", "Pratiche", FormMethod.Get, null))
+@using (Html.BeginForm("Index", "Pratiche", FormMethod.Get, new { id = "MyForm" }))
 {
     <fieldset>
         <legend>Ricerca</legend>
@@ -34,11 +34,11 @@
         <div style="margin-top: 20px;">
             @wGrid.GetHtml(
             fillEmptyRows: false,
-            tableStyle: "MyTable ui-responsive",
-            headerStyle: "ui-bar-b",
-            footerStyle: "ui-bar-b",
-             rowStyle: MyConstants.ROW_STYLE,
-             alternatingRowStyle: MyConstants.ALTERNATING_ROW_STYLE,
+        tableStyle: MyConstants.TABLE_STYLE,
+                 headerStyle: MyConstants.TABLE_HEADER_STYLE,
+                 footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+                 rowStyle: MyConstants.TABLE_ROW_STYLE,
+                 alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
             htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
             columns: new[]{
                    wGrid.Column (columnName:"dataInserimento", header :"Data inserimento", canSort:false, format: p =>  p.dataInserimento.ToShortDateString() ),

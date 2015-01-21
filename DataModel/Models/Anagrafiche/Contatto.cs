@@ -10,7 +10,7 @@ namespace mediatori.Models.Anagrafiche
 {
     public class Contatto: PersonaFisica
     {
-        #region Contatto
+      
        
         [Display(Name = "Impieghi")]
         public virtual ICollection<Impiego> impieghi { get; set; }
@@ -18,6 +18,6 @@ namespace mediatori.Models.Anagrafiche
         [Display(Name = "Riferimenti")]
         public virtual ICollection<Riferimento> riferimenti { get; set; }
 
-        #endregion
+      
     }
 }

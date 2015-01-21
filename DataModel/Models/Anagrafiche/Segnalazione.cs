@@ -31,7 +31,7 @@ namespace mediatori.Models.Anagrafiche
         public decimal? rataRichiesta { get; set; }
 
 
-        [Display(Name = "Prodotto")]
+        [Display(Name = "Tipo prodotto")]
         public TipoProdotto prodottoRichiesto { get; set; }
 
         [Display(Name = "Campagna Pubblicitaria")]
@@ -74,7 +74,8 @@ namespace mediatori.Models.Anagrafiche
         //public virtual Preventivo preventivoConfermato { get; set; }
 
         [Display(Name = "Contatto")]
-        public Contatto contatto { get; set; }
+        public virtual Contatto contatto { get; set; }
+        public int contattoId { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Data promemoria")]

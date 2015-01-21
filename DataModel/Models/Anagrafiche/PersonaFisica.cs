@@ -9,15 +9,15 @@ using System.Web;
 
 namespace mediatori.Models.Anagrafiche
 {
-     public enum EnumPersonaFisica
+    public enum EnumPersonaFisica
     {
-         Contatto,
-         Cedente
-     }
-    
+        Contatto,
+        Cedente
+    }
+
 
     [Table("persona_fisica")]
-    public abstract  class PersonaFisica
+    public abstract class PersonaFisica
     {
         public PersonaFisica()
         {
@@ -45,20 +45,20 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [DataType(DataType.Date)]
-        [Display(Name = "Data Nascita")]
+        [Display(Name = "Data nascita")]
         [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? dataNascita { get; set; }
 
         [Required]
-        [Display(Name = "Stato Civile")]
+        [Display(Name = "Stato civile")]
         public EnumStatoCivile? statoCivile { get; set; }
 
         [Required]
-        [Display(Name = "Codice Fiscale")]
+        [Display(Name = "CF")]
         [RegularExpression("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ErrorMessage = "verificare la correttezza del codice fiscale")]
         public String codiceFiscale { get; set; }
 
-        [Display(Name = "Nazione di Nascita")]
+        [Display(Name = "Nazione nascita")]
         public String nazioneNascita { get; set; }
 
         [Required]
@@ -73,15 +73,5 @@ namespace mediatori.Models.Anagrafiche
         [Display(Name = "Cittadinanza")]
         public String cittadinanza { get; set; }
 
-
-       
-
-
     }
-
-
-
-
-
-
 }

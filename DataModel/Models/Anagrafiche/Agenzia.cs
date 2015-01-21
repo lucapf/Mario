@@ -28,8 +28,8 @@ namespace mediatori.Models.Anagrafiche
             public TipoNaturaGiuridica tipoNaturaGiuridica { get; set; }
 
             [Display(Name = "Stato")]
-            //public mediatori.Models.etc.Stato stato { get; set; }
-            public bool disabled { get; set; }
+            public bool isEnabled { get; set; }
+
 
             [Display(Name = "Data inizio mandato")]
             [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

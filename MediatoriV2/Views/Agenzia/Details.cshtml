@@ -2,27 +2,29 @@
 @{
 
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-
-    mediatori.helper.FireAntEditHelper editHelperAgenzia = new mediatori.helper.FireAntEditHelper("age", "/Amministrazione/AmministrazionePartialById", Model.id.ToString());
-    mediatori.helper.FireAntDetailEventDetection edAgenzia = new mediatori.helper.FireAntDetailEventDetection("age", Model.id);
+    
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Age", Model.id);
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Age", Url.Action("AgenziaPartialById", "Agenzia"), Model.id.ToString());
 }
+<h1>Agenzia</h1>
 
-<h3>Dettaglio agenzia    @Html.Raw(editHelperAgenzia.getSimpleCrudButtons())</h3>
+<h3>Dettaglio @Html.Raw(editHelper.getButtonModifica()) @Html.Raw(editHelper.getButtonAnnullaModifica())</h3>
 <hr />
+<br />
+
+<div id="@Html.Raw(faDetailEventDetection.getIdFullDetail())">
+    @{Html.RenderPartial("~/Views/Agenzia/AgenziaPartialDetail.cshtml", Model);}
+</div>
+
+@{Html.RenderAction("SoggettoGiuridico", "Indirizzo", new { soggettoGiuridicoId = Model.soggettoGiuridico.id });}
+
+@{Html.RenderAction("SoggettoGiuridico", "Riferimento", new { soggettoGiuridicoId = Model.soggettoGiuridico.id });}
+
+@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.soggettoGiuridico.note, soggettoGiuridicoId = Model.soggettoGiuridico.id });}
 
 
 <br />
-
-@Html.Raw(editHelperAgenzia.getStartForm("/Agenzia/Edit"))
-<div id="@Html.Raw(edAgenzia.getIdFullDetail())">
-    @Html.Partial("AgenziaPartialDetail", Model)
-</div>@Html.Raw(editHelperAgenzia.getEndForm())
-@{
-    Html.RenderAction("SoggettoGiuridicoDetail", "SoggettoGiuridico", new { soggettoGiuridico = Model.soggettoGiuridico, tipoAzione = "VISUALIZZAZIONE" });
-}
-
-
-<div data-role="footer" data-position="fixed" data-theme="c">
+<div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
     <div data-role="navbar">
         <ul>
             <li><a href="@Url.Action("Index", "Agenzia")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista delle agenzie</a></li>

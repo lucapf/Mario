@@ -13,12 +13,12 @@ using System.Web;
 using System.Web.Mvc;
 using BusinessModel.Anagrafiche;
 using System.Diagnostics;
+using BusinessModel.Anagrafiche.Amministrazione;
 
 namespace mediatori.Controllers
 {
     public class AmministrazioneController : MyBaseController
     {
-
         private AmministrazioneManager manager = null;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
@@ -33,7 +33,6 @@ namespace mediatori.Controllers
 
         public ActionResult Index(SearchAmministrazione model)
         {
-
             manager.openConnection();
             try
             {
@@ -62,17 +61,34 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult AmministrazionePartial(Amministrazione amministrazione, EnumTipoAzione tipoAzione)
         {
-            valorizzaViewBag(db);
+            valorizzaViewBag();
             amministrazione = new AmministrazioneBusiness().completaEVerifica(amministrazione, db);
             return dispatch(amministrazione, tipoAzione);
         }
 
         [HttpGet]
-        public ActionResult amministrazionePartialById(int id, EnumTipoAzione tipoAzione)
+        public ActionResult AmministrazionePartialById(int id, EnumTipoAzione tipoAzione)
         {
-            Amministrazione s = new AmministrazioneBusiness().findByPK(id, db);
-            valorizzaViewBag(db);
-            return dispatch(s, tipoAzione);
+            Amministrazione amministrazione = new AmministrazioneBusiness().findByPK(id, db);
+
+            if (amministrazione == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (tipoAzione == EnumTipoAzione.MODIFICA)
+            {
+                valorizzaViewBag();
+                return View("AmministrazioneEdit", amministrazione);
+            }
+
+            if (tipoAzione == EnumTipoAzione.VISUALIZZAZIONE)
+            {
+                return View("AmministrazionePartialDetail", amministrazione);
+            }
+
+            throw new ApplicationException("Azione di inserimento che non si deve presentare");
+
         }
 
         //[ChildActionOnly]
@@ -86,13 +102,26 @@ namespace mediatori.Controllers
         {
             AmministrazioneBusiness amministrazioneBusiness = new AmministrazioneBusiness();
             Amministrazione amministrazioneOriginale = amministrazioneBusiness.findByPK(amministrazione.id, db);
+
+            if (amministrazioneOriginale == null)
+            {
+                return HttpNotFound();
+            }
+
+
             amministrazioneOriginale.partitaIva = amministrazione.partitaIva;
             amministrazioneOriginale.capitaleSociale = amministrazione.capitaleSociale;
+
             amministrazioneOriginale.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(amministrazione.tipoNaturaGiuridica.id);
             amministrazioneOriginale.tipoCategoria = db.TipoCategoriaAmministrazione.Find(amministrazione.tipoCategoria.id);
             amministrazioneOriginale.assumibilita = db.TipoAssumibilitaAmministrazione.Find(amministrazione.assumibilita.id);
 
+            amministrazioneOriginale.soggettoGiuridico.codiceFiscale = amministrazione.soggettoGiuridico.codiceFiscale;
+            amministrazioneOriginale.soggettoGiuridico.ragioneSociale = amministrazione.soggettoGiuridico.ragioneSociale;
+            amministrazioneOriginale.isEnabled = amministrazione.isEnabled;
+
             ModelState.Clear();
+            
             TryValidateModel(amministrazioneOriginale);
             if (ModelState.IsValid)
             {
@@ -106,7 +135,7 @@ namespace mediatori.Controllers
         public ActionResult Create()
         {
             AmministrazioneCreateModel model = new AmministrazioneCreateModel();
-            valorizzaViewBag(db);
+            valorizzaViewBag();
             model = valorizzaDatiCreateModel(model, db);
             return View(model);
         }
@@ -141,7 +170,7 @@ namespace mediatori.Controllers
             return RedirectToAction("Index");
         }
 
-        private void valorizzaViewBag(MainDbContext db)
+        private void valorizzaViewBag()
         {
             ViewBag.listaTipoNaturaGiuridica = new SelectList(db.tipoNaturaGiuridica.OrderBy(p => p.descrizione), "id", "Descrizione");
             ViewBag.listaTipoCategoria = new SelectList(db.TipoCategoriaAmministrazione, "id", "Descrizione");
@@ -154,8 +183,9 @@ namespace mediatori.Controllers
         private AmministrazioneCreateModel valorizzaDatiCreateModel(AmministrazioneCreateModel model, MainDbContext db)
         {
             model.amministrazione = new Amministrazione();
-            model.amministrazione.soggettoGiuridico = new SoggettoGiuridico();
+           //model.amministrazione.soggettoGiuridico = new SoggettoGiuridico();
             model.amministrazione = new AmministrazioneBusiness().completaEVerifica(model.amministrazione, db);
+            model.amministrazione.isEnabled = true;
 
             model.indirizzo = IndirizzoBusiness.valorizzaDatiDefault(new Indirizzo());
             model.riferimento = RiferimentoBusiness.valorizzaDatiDefault(new Riferimento());

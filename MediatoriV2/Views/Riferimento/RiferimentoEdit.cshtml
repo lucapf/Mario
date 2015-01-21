@@ -1,0 +1,20 @@
+﻿
+@model mediatori.Models.Anagrafiche.Riferimento
+@{
+    Layout = null;
+
+    string btnAnnulla = "RifbtnAnnulla" + Model.id.ToString();
+   // string btnAnnulla = "btnAnnullaModificaDati" + Model.id.ToString();
+}
+
+@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Riferimento", FormMethod.Post))
+{
+    <input type="hidden" name="codiceSggettoGiuridico" value="@Model.soggettoGiuridicoId" />
+
+    { Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialEdit.cshtml", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}

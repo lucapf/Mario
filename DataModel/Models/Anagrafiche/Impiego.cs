@@ -21,12 +21,14 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [Display(Name = "Azienda")]
-        public String azienda { get; set; }
+        public int amministrazioneId { get; set; }
+        public virtual Amministrazione amministrazione { get; set; }
+
+        public string amministrazione_descrizione { get; set; }
 
         [Display(Name = "Sede di lavoro azienda")]
         public String aziendaSedeLavoro { get; set; }
-
-
+        
         [Display(Name = "Retribuzione netta mensile")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
         //[DataType(DataType.Currency)]
@@ -41,7 +43,6 @@ namespace mediatori.Models.Anagrafiche
         //[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]
         //[DataType(DataType.Currency)]
         public decimal? stipendioLordoAnnuo { get; set; }
-
 
         [Display(Name = "Nr mensilita'")]
         //[DataType(DataType.Duration)]

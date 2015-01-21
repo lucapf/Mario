@@ -1,0 +1,20 @@
+﻿
+@model mediatori.Models.Anagrafiche.SoggettoGiuridico
+
+@{
+    Layout = null;
+
+    string btnAnnulla = "SgbtnAnnulla" + Model.id.ToString();
+}
+
+@using (Html.BeginForm("Edit", "SoggettoGiuridico", FormMethod.Post))
+{
+
+
+    { Html.RenderPartial("~/Views/SoggettoGiuridico/SoggettoGiuridicoPartialEdit.cshtml", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}

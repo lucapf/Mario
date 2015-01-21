@@ -16,6 +16,27 @@ namespace mediatori.Controllers
         }
 
 
+        public ActionResult TableResize()
+        {
+            List<Models.Test.TestClass> model = new List<Models.Test.TestClass>();
+            Models.Test.TestClass item;
+            
+            for (int i = 0; i < 20; i++)
+            {
+                item = new Models.Test.TestClass();
+                item.CodiceId = i;
+                item.Nome = "Nome " + i;
+                item.importoRichiesto = i * 1000;
+                item.dataDiNascita = DateTime.Now.AddDays(-i);
+                item.isEnabled = true;
+
+
+                model.Add(item);
+            }
+
+                return View(model);
+        }
+
         public ActionResult FlipSwitch(Models.Test.TestClass model)
         {
             return View(model);

@@ -5,23 +5,19 @@
 
 <script type="text/javascript">
     $(document).on("pageinit", function () {
-        $("#linkNuovoImpiego").click(function () { $("#divNuovoImpiego").show(); })
+        $("#linkNuovoImpiego").click(function () {
+            $("#divNuovoImpiego").show();
+        })
     });
 </script>
 
 <h3>Dati impiego <strong class="h3Link" id="linkNuovoImpiego" title="Nuovo impiego">[ + ]</strong></h3>
 <hr />
-
-@foreach (mediatori.Models.Anagrafiche.Impiego i in Model.impieghi)
-{
-    Html.RenderPartial("~/Views/Impiego/ImpiegoDetail.cshtml", i);
-}
-
 <div id="divNuovoImpiego" style="display:none">
     @using (Html.BeginForm("CreateForContatto", "Impiego", FormMethod.Post, new { id = "nuovoImpiego" }))
     {
         <input type="hidden" id="codiceContatto" name="codiceContatto" value="@Model.contattoId" />
-        
+
         { Html.RenderPartial("~/Views/Impiego/ImpiegoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Impiego() { contattoId = (int)Model.contattoId }); }
 
         <div data-role="controlgrup" data-type="horizontal">
@@ -30,3 +26,11 @@
         </div>
     }
 </div>
+
+@if (Model.impieghi != null && Model.impieghi.Count > 0)
+{
+    foreach (mediatori.Models.Anagrafiche.Impiego i in Model.impieghi)
+    {
+        Html.RenderPartial("~/Views/Impiego/ImpiegoDetail.cshtml", i);
+    }
+}

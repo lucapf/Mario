@@ -1,62 +1,63 @@
-﻿@model IEnumerable<mediatori.Models.Anagrafiche.SoggettoGiuridico>
+﻿@model BusinessModel.Anagrafiche.SoggettoGiuridico.SearchSoggettoGiuridico
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-}
-<a href="@Url.Action("Create", "SoggettoGiuridico")" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo soggetto giuridico</a>
 
-@using (Html.BeginForm("Index", "SoggettoGiuridico", FormMethod.Post, null))
-{
-    <fieldset>
-        <legend>Ricerca soggetto giuridico</legend>
-        <table>
-            <tr>
-                <td>Ragione sociale</td>
-                <td>@Html.TextBox("ragioneSociale")</td>
-                <td>Codice Fiscale</td>
-                <td>@Html.TextBox("codiceFiscale")</td>
-            </tr>
-            <tr>
-                <td>Tipologia</td>
-                <td colspan="3">@Html.DropDownList("id",(SelectList) ViewBag.listaTipiSoggettiGiuridici)</td>
-            </tr>
-        </table>
-        <input type="submit" value="Ricerca" data-inline="true" data-icon="search" data-mini="true" />
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
+    wGrid.Bind(Model.SoggettiGiuridici, rowCount: Model.TotalRows, autoSortAndPage: false);
+}
+
+<h2>Lista società</h2>
+
+<a href="@Url.Action("Create", "SoggettoGiuridico")" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuova società</a>
+
+@using (Html.BeginForm("Index", "SoggettoGiuridico", FormMethod.Post, new { id = "MyForm" }))
+{      <fieldset>
+        <legend>Ricerca società</legend>
+
+        <div class="ui-field-contain">
+            @MyHelper.MyInputType("ragioneSociale", "Ragione sociale", Model.ragioneSociale, false)
+        </div>
+
+        <div class="ui-field-contain">
+            @MyHelper.MyInputType("codiceFiscale", "Codice fiscale", Model.codiceFiscale, false)
+        </div>
+
+        <div class="ui-field-contain">
+            <label for="tipoSelezionato">Tipo</label>
+            @Html.DropDownListFor(model => model.tipoSoggettoSelezionato, ViewBag.listaTipiSoggettiGiuridici as IEnumerable<SelectListItem>, "---", new { data_mini = "true" })
+        </div>
+        <div data-role="controlgrup" data-type="horizontal">
+            <input type="submit" data-inline="true" value="Ricerca" data-icon="search" data-mini="true" />
+        </div>
     </fieldset>
+
+    if (Model.TotalRows == 0)
+    {
+        <h3>Non è stata trovata nessuna società. Modificare i filtri di ricerca.</h3>
+    }
+    else
+    {
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
+                fillEmptyRows: false,
+           tableStyle: MyConstants.TABLE_STYLE,
+                 headerStyle: MyConstants.TABLE_HEADER_STYLE,
+                 footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+                 rowStyle: MyConstants.TABLE_ROW_STYLE,
+                 alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
+                htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+                columns: new[]{
+                    wGrid.Column (columnName:"ragioneSociale", header :"Ragione sociale"),
+                    wGrid.Column (columnName:"codiceFiscale", header :"CF"),
+                    wGrid.Column (columnName:"tipoSoggettoGiuridico", header :"Tipo"),
+                    wGrid.Column ("", header :"",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Dettagli" href="@Url.Action("Details", new { id= item.id })">Dettagli</a>
+                        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("Delete", new { id= item.id })">Cancella</a>
+                        </text>, canSort : false)
+            })
+            @{Html.RenderPartial("Paging", Model);}
+        </div>
+    }
 }
-
-
-<table class="listTable">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ragioneSociale)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.codiceFiscale)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tipoSoggettoGiuridico)
-        </th>
-        <th></th>        
-    </tr>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(m =>item.ragioneSociale)
-        </td>
-        <td>
-            @Html.DisplayFor(m =>item.codiceFiscale)
-        </td>
-        <td>
-            @Html.DisplayFor(m =>item.tipoSoggettoGiuridico)
-        </td>
-        
-        <td>
-      
-            @Html.ActionLink("Details", "Details", new { id=item.id })
-           
-        </td>
-    </tr>
-}
-
-</table>

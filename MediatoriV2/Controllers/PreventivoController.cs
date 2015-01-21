@@ -1,7 +1,6 @@
 ﻿using mediatori.Controllers.Business;
 using mediatori.Filters;
 using mediatori.Models.Anagrafiche;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
 using mediatori.Models;
-using BusinessModel;
+using BusinessModel.Preventivo;
 namespace mediatori.Controllers
 {
     public class PreventivoController : MyBaseController
@@ -419,12 +418,8 @@ namespace mediatori.Controllers
 
         private void valorizzaDatiViewBag()
         {
-            SoggettoGiuridicoBusiness sgb = new SoggettoGiuridicoBusiness();
-            SoggettoGiuridicoSearch sgs = new SoggettoGiuridicoSearch();
-            sgs.tipoSoggettoGiuridico = EnumTipoSoggettoGiuridico.FINANZIARIA.ToString();
-            ViewBag.listaFinanziarie = new SelectList(sgb.findByFilter(sgs, db), "id", "ragioneSociale");
-            sgs.tipoSoggettoGiuridico = EnumTipoSoggettoGiuridico.ASSICURAZIONE.ToString();
-            ViewBag.listaCompagnieAssicurative = new SelectList(sgb.findByFilter(sgs, db), "id", "ragioneSociale");
+            ViewBag.listaFinanziarie = new SelectList(BusinessModel.Anagrafiche.SoggettoGiuridico.SoggettoGiuridicoManager.getFinanziarie(db), "id", "ragioneSociale");
+            ViewBag.listaCompagnieAssicurative = new SelectList(BusinessModel.Anagrafiche.SoggettoGiuridico.SoggettoGiuridicoManager.getAssicurazioni(db), "id", "ragioneSociale");
         }
 
         private ActionResult dispatch(Preventivo p, EnumTipoAzione tipoAzione, MainDbContext db)

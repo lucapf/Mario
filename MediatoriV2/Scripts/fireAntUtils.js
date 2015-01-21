@@ -135,8 +135,8 @@ function FireAntDetailEventDetection_NascondiDettaglio(idFullDetail, idShortDeta
 
 */
 
-function FireAntEditHelper_ModificaDati(idEntita, urlPercorso, idDivMessage, idDivElement, idDivFullDetail, idDivShortDetail, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idFormModifica, styleCustomAttributes) {
-    //alert("FireAntEditHelper_ModificaDati: " + urlPercorso);
+function FireAntEditHelper_ModificaDati(idEntita, urlPercorso, idDivMessage, idDivElement, idDivFullDetail, idDivShortDetail, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idFormModifica, javaScriptCustomFunction) {
+   // alert("FireAntEditHelper_ModificaDati: " + urlPercorso);
     $("#" + idDivMessage).html("caricamento in corso");
     $.ajax({
         url: urlPercorso,
@@ -154,7 +154,15 @@ function FireAntEditHelper_ModificaDati(idEntita, urlPercorso, idDivMessage, idD
             //Rutigliano 24/11/2014 jquery mobile
             $("#" + idDivFullDetail).trigger('create');
 
-            refreshValidation(idFormModifica);
+
+            if (javaScriptCustomFunction != null) {
+               // alert("javaScriptCustomFunction: " + javaScriptCustomFunction);
+                eval(javaScriptCustomFunction);
+            }
+
+            if (idFormModifica != null) {
+                refreshValidation(idFormModifica);
+            }
 
             $("#" + idBtnEdit).hide();
             $("#" + idBtnAnnulla).show();

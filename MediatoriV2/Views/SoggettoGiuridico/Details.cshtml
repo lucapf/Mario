@@ -1,3 +1,34 @@
 ﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridico
-@Html.Partial("DetailsNoLayout")
 
+@{
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Sg", Model.id);
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Sg", Url.Action("SoggettoGiuridicoPartialById", "SoggettoGiuridico"), Model.id.ToString());
+}
+
+
+<h1>Società</h1>
+
+<h3>Dettaglio @Html.Raw(editHelper.getButtonModifica()) @Html.Raw(editHelper.getButtonAnnullaModifica())</h3>
+<hr />
+<br />
+<div id="@Html.Raw(faDetailEventDetection.getIdFullDetail())">
+    @{Html.RenderPartial("~/Views/SoggettoGiuridico/SoggettoGiuridicoPartialDetail.cshtml", Model);}
+</div>
+
+
+@{Html.RenderAction("SoggettoGiuridico", "Indirizzo", new { soggettoGiuridicoId = Model.id });}
+
+@{Html.RenderAction("SoggettoGiuridico", "Riferimento", new { soggettoGiuridicoId = Model.id });}
+
+@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.note, soggettoGiuridicoId = Model.id });}
+
+<br />
+<div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model  List<mediatori.Models.Test.TestClass>
+@{
+    ViewBag.Title = "TableResize";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    WebGrid wGrid = new WebGrid(Model, rowsPerPage: 10, canPage: true);
+
+}
+
+<h2>Table Resize</h2>
+
+
+
+<div style="margin-top: 20px;">
+    @wGrid.GetHtml(
+            fillEmptyRows: false,
+                 tableStyle: MyConstants.TABLE_STYLE,
+                        headerStyle: MyConstants.TABLE_HEADER_STYLE,
+                        footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+                        rowStyle: MyConstants.TABLE_ROW_STYLE,
+                        alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
+            htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+            columns: new[]{
+                    wGrid.Column (columnName:"CodiceId", header :"ID", canSort:false),
+                    wGrid.Column (columnName:"Nome", header :"Nome", canSort:false),
+                    wGrid.Column (columnName:"importoRichiesto", header :"Importo", canSort:false, format: p=> String.Format("{0:N2}",p.importoRichiesto)),
+                    wGrid.Column (columnName:"dataDiNascita", header :"Data di nascita", canSort:false),
+                    wGrid.Column (columnName:"isEnabled", header :"Enabled", canSort:false),
+                    wGrid.Column ("", header :"Dettaglio",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="#">Info</a>
+                        </text>, canSort : false)
+                })
+
+</div>

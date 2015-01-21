@@ -1,23 +1,32 @@
 ﻿@model mediatori.Models.Anagrafiche.Amministrazione
 @{
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-    
-    mediatori.helper.FireAntEditHelper editHelperAmministrazione = new mediatori.helper.FireAntEditHelper("amm", "/Amministrazione/AmministrazionePartialById", Model.id.ToString());
-    mediatori.helper.FireAntDetailEventDetection edAmministrazione = new mediatori.helper.FireAntDetailEventDetection("amm", Model.id);
+
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Amm", Model.id);
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Amm", Url.Action("AmministrazionePartialById", "Amministrazione"), Model.id.ToString());
 }
-<h3>Dettaglio Amministrazione 
-                @Html.Raw(editHelperAmministrazione.getSimpleCrudButtons())
-</h3>
+
+<h1>Amministrazione</h1>
+
+<h3>Dettaglio @Html.Raw(editHelper.getButtonModifica()) @Html.Raw(editHelper.getButtonAnnullaModifica())</h3>
 <hr />
 <br />
-@Html.Raw(editHelperAmministrazione.getStartForm("/Amministrazione/Edit"))
-<div id="@Html.Raw(edAmministrazione.getIdFullDetail())">
-    @{
-        Html.RenderAction("ViewDetail", Model);
-    }
-</div>@Html.Raw(editHelperAmministrazione.getEndForm())
-@{
-    Html.RenderAction("SoggettoGiuridicoDetail", "SoggettoGiuridico", new { soggettoGiuridico = Model.soggettoGiuridico, tipoAzione = "VISUALIZZAZIONE" });
-}
+<div id="@Html.Raw(faDetailEventDetection.getIdFullDetail())">
+    @{Html.RenderPartial("~/Views/Amministrazione/AmministrazionePartialDetail.cshtml", Model);}
+</div>
 
 
+@{Html.RenderAction("SoggettoGiuridico", "Indirizzo", new { soggettoGiuridicoId = Model.soggettoGiuridico.id });}
+
+@{Html.RenderAction("SoggettoGiuridico", "Riferimento", new { soggettoGiuridicoId = Model.soggettoGiuridico.id });}
+
+@{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.soggettoGiuridico.note,  soggettoGiuridicoId = Model.soggettoGiuridico.id });}
+
+<br />
+<div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
+        </ul>
+    </div>
+</div>

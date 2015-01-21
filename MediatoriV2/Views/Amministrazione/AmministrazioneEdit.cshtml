@@ -1,0 +1,19 @@
+﻿@model mediatori.Models.Anagrafiche.Amministrazione
+
+@{
+    Layout = null;
+
+    string btnAnnulla = "AmmbtnAnnulla" + Model.id.ToString();
+}
+
+@using (Html.BeginForm("Edit", "Amministrazione", FormMethod.Post))
+{
+
+
+    { Html.RenderPartial("~/Views/Amministrazione/AmministrazionePartialEdit.cshtml", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}

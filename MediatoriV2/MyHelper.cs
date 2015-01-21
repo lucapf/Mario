@@ -364,7 +364,7 @@ public static class MyHelper
             strIsChecked = String.Format("checked = \"checked\"");
         }
 
-        temp = String.Format("<input type=\"checkbox\" id=\"{0}\" name=\"{1}\"  data-mini=\"true\" {2} />", id, name, strIsChecked);
+        temp = String.Format("<input type=\"checkbox\" id=\"{0}\" name=\"{1}\" value=\"true\"  data-mini=\"true\" {2} />", id, name, strIsChecked);
 
         if (!String.IsNullOrEmpty(label))
         {
@@ -557,6 +557,54 @@ public static class MyHelper
             return "Si";
         }
         return "ERRORE: decodeSiNo value = " + value;
+    }
+
+
+    public static string decodeSiNo(bool value)
+    {
+        if (value)
+        {
+            return "Si";
+        }
+
+        if (value == false)
+        {
+            return "No";
+        }
+        return "ERRORE: decodeSiNo value = " + value;
+    }
+
+
+    public static string decodeAttiva(bool value)
+    {
+        if (value)
+        {
+            return "Attiva";
+        }
+
+        if (value == false)
+        {
+            return "NON attiva";
+        }
+        return "ERRORE: decodeSiNo value = " + value;
+    }
+
+    public static HtmlString decodeAttivaImage(string contesto, bool value)
+    {
+
+        if (contesto == "/")
+        {
+            contesto = "";
+        }
+        
+        string temp;
+        if (value){
+            temp = "green2_16x16.png";
+        }
+        else{
+            temp = "red2_16x16.png";
+        }
+        return new HtmlString(String.Format("<img src='{1}/Content/Images/Shared/{0}' />", temp, contesto));
     }
 
     #region "Decode NULL"

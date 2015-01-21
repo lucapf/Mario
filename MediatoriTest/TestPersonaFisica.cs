@@ -7,20 +7,25 @@ namespace mediatori.UnitTest
     [TestClass]
     public class TestPersonaFisica
     {
-        private BusinessModel.Anagrafiche.PersonaFisicaManager  manager;
+        private BusinessModel.Anagrafiche.PersonaFisica.PersonaFisicaManager manager;
 
         [TestMethod]
         public void DeleteAllPersoneFisiche()
         {
-            manager = new BusinessModel.Anagrafiche.PersonaFisicaManager("DefaultConnection");
+            int conta;
+
+            manager = new BusinessModel.Anagrafiche.PersonaFisica.PersonaFisicaManager("DefaultConnection");
             try
             {
                 manager.openConnection();
-                manager.deleteAllPersoneFisiche ();
+                conta = manager.deleteAllPersoneFisiche();
+
+                Debug.WriteLine(String.Format("Sono stati cancellati {0:N0} records", conta));
             }
             catch (Exception ex)
             {
                 Debug.Write("Exception: " + ex.Message);
+                Assert.Fail();
             }
             finally
             {

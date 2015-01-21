@@ -58,12 +58,12 @@ namespace mediatori.Controllers.Business.Anagrafiche
 
 
 
-        internal static Agenzia findByPk(int codiceAgenzia, MainDbContext db)
+        internal  Agenzia findByPk(int codiceAgenzia, MainDbContext db)
         {
             SoggettoGiuridicoInclude<Agenzia> soggettoInclude = new SoggettoGiuridicoInclude<Agenzia>();
             return soggettoInclude.addIncludeStatement(db.Agenzia, "soggettoGiuridico")
                 .Include("tipoNaturaGiuridica")
-                .Include("tipoAgenzia").Include("stato").Where(a => a.id == codiceAgenzia).FirstOrDefault();
+                .Include("tipoAgenzia").Where(a => a.id == codiceAgenzia).FirstOrDefault();
         }
     }
 }

@@ -32,7 +32,16 @@ namespace mediatori.Controllers
             }
 
             ImpieghiModel model = new ImpieghiModel();
-            model.impieghi = contatto.impieghi.ToList<Impiego>();
+            model.impieghi = new List<Impiego>(); 
+
+            foreach (Impiego i in contatto.impieghi)
+            {
+                //aggiungo il soggetto giuridico
+                i.amministrazione.soggettoGiuridico = db.SoggettiGiuridici.Find(i.amministrazione.soggettoGiuridicoId);
+                model.impieghi.Add(i);
+            }
+
+            //model.impieghi = contatto.impieghi.ToList<Impiego>();
             model.contattoId = contattoId;
 
             valorizzaViewBag();
@@ -53,6 +62,8 @@ namespace mediatori.Controllers
                 return HttpNotFound();
             }
 
+            impiego.amministrazione.soggettoGiuridico = db.SoggettiGiuridici.Find(impiego.amministrazione.soggettoGiuridicoId);
+
             if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
                 valorizzaViewBag();
@@ -64,11 +75,8 @@ namespace mediatori.Controllers
                 return View("ImpiegoPartialDetail", impiego);
             }
 
-
             //  valorizzaViewBag();
-            //return View("impiegoPartialEdit", impiego);
             throw new ApplicationException("Azione di inserimento che non si deve presentare");
-
         }
 
 
@@ -193,12 +201,9 @@ namespace mediatori.Controllers
                 {
                     TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'impiego, verificare i dati: " + Environment.NewLine + ex.Message);
                 }
-
-
             }
 
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
-
         }
 
         [HttpPost]
@@ -258,7 +263,7 @@ namespace mediatori.Controllers
         public ActionResult CreateForSegnalazione(Impiego impiego, int codiceSegnalazione)
         {
             //  impiego = completaDatiImpiegoFromRequest(impiego);
-            ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
+            impiego = ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
             ModelState.Clear();
             TryValidateModel(impiego);
             if (ModelState.IsValid)
@@ -273,8 +278,10 @@ namespace mediatori.Controllers
 
         private void valorizzaViewBag()
         {
-            ViewBag.listaTipoImpiego = new SelectList(db.TipoContrattoImpiego, "id", "descrizione");
-            ViewBag.listaCategoriaImpiego = new SelectList(db.TipoCategoriaImpiego, "id", "descrizione");
+            ViewBag.listaTipoImpiego = new SelectList(db.TipoContrattoImpiego.OrderBy(p=> p.descrizione) , "id", "descrizione");
+            ViewBag.listaCategoriaImpiego = new SelectList(db.TipoCategoriaImpiego.OrderBy(p=> p.descrizione), "id", "descrizione");
+
+            ViewBag.listaAmministrazioni = new SelectList(db.Amministazioni.Include("soggettoGiuridico"), "id", "soggettoGiuridico.ragioneSociale"); 
             //ViewBag.oggi = System.DateTime.Now.Year;
             //ViewBag.inizioValiditaImpiego = System.DateTime.Now.AddYears(-40).Year;
 

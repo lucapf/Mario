@@ -1,11 +1,17 @@
 ﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridico
-@{Layout = null;}
+@{
+    Layout = null;
+}
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.ragioneSociale)
-    <div>@Html.DisplayFor(model => model.ragioneSociale)</div>
+<div class="display-control">
+    @Html.LabelFor(p => p.ragioneSociale)
+    <div>@Html.DisplayFor(p => p.ragioneSociale)</div>
 </div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.codiceFiscale)
-    <div>@Html.DisplayFor(model => model.codiceFiscale)</div>
+<div class="display-control">
+    @Html.LabelFor(p => p.codiceFiscale)
+    <div>@Html.DisplayFor(p => p.codiceFiscale)</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(p => p.tipoSoggettoGiuridico)
+    <div>@Html.DisplayFor(p => p.tipoSoggettoGiuridico)</div>
 </div>

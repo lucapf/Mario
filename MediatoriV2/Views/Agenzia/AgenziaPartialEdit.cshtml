@@ -1,2 +1,95 @@
 ﻿@model mediatori.Models.Anagrafiche.Agenzia
-@Html.EditorFor(m =>m)
+@{
+    Layout = null;
+}
+
+<input type="hidden" name="id" value="@Model.id" />
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.soggettoGiuridico.ragioneSociale)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.soggettoGiuridico.codiceFiscale)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.partitaIva)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.rea)
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoNaturaGiuridica)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.tipoNaturaGiuridica.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoNaturaGiuridica, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoNaturaGiuridica.id)
+    </div>
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            <label for="agenzia_stato">Stato</label>
+        </div>
+        <div class="editor-value">
+            @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("isEnabled", Model.isEnabled));}
+        </div>
+    </div>
+    <div class="editor-validation">
+
+    </div>
+</div>
+
+
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.dataInizioMandato)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.dataFineMandato)
+</div>
+
+
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.tipoAgenzia, true)
+        </div>
+        <div class="editor-value">
+            @Html.DropDownListFor(model => model.tipoAgenzia.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoAgenzia, "", new { data_mini = "true" })<br />
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.tipoAgenzia.id)
+    </div>
+</div>
+
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.codiceRui)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.codiceOam)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.dataOam)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.documentoPagamento)
+</div>
+

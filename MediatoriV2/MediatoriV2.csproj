@@ -43,9 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -55,17 +55,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Data.Edm">
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Data.OData">
+    <Reference Include="Microsoft.Data.OData, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Data.OData.5.6.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -74,30 +71,24 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage">
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Sharp.Data, Version=0.11.4779.17667, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SharpMigrations.0.12\lib\Sharp.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Sharp.Migrations, Version=0.11.4779.17667, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SharpMigrations.0.12\lib\Sharp.Migrations.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Spatial">
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Spatial.5.6.2\lib\net40\System.Spatial.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -108,6 +99,14 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -149,22 +148,9 @@
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -202,7 +188,7 @@
     <Compile Include="Controllers\Business\Anagrafiche\DocumentoIdentitaBusiness.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\ImpiegoBusiness.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\IndirizzoBusiness.cs" />
-    <Compile Include="Controllers\Business\Anagrafiche\RicercaCedenteBusiness.cs" />
+    <Compile Include="Controllers\Business\Anagrafiche\CedenteBusiness.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\InserimentoCedenteBusiness.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\SalvaModificheCedente.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\PopolaDropDownListAnagrafiche.cs" />
@@ -246,7 +232,6 @@
     <Compile Include="Filters\ContattoFilter.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\SegnalazioneSearch.cs" />
-    <Compile Include="Filters\SoggettoGiuridicoSearch.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -256,12 +241,15 @@
     <Compile Include="Helpers\ValidationData.cs" />
     <Compile Include="Models\Anagrafiche\AgenziaCreateModel.cs" />
     <Compile Include="Models\Anagrafiche\AmministrazioneCreateModel.cs" />
+    <Compile Include="Models\Anagrafiche\SoggettoGiuridicoCreateModel.cs" />
     <Compile Include="Models\AssegnazioniModel.cs" />
     <Compile Include="Models\BlobContainer.cs" />
+    <Compile Include="Models\ContattoDetailsModel.cs" />
     <Compile Include="Models\DocumentaleModel.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
     <Compile Include="Models\DecodeEnum.cs" />
     <Compile Include="Models\DocumentiIdentitaModel.cs" />
+    <Compile Include="Models\FlipswitchModel.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -293,6 +281,39 @@
     <Compile Include="SessionData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\accent.png" />
+    <Content Include="Content\Images\bgd-wrapper-inner.png" />
+    <Content Include="Content\Images\bgd-wrapper.png" />
+    <Content Include="Content\Images\bullet.png" />
+    <Content Include="Content\Images\calendar.gif" />
+    <Content Include="Content\Images\calendario.png" />
+    <Content Include="Content\Images\content_bullet.png" />
+    <Content Include="Content\Images\documenti.png" />
+    <Content Include="Content\Images\fireAnt.png" />
+    <Content Include="Content\Images\heroAccent.png" />
+    <Content Include="Content\Images\marioh62.png" />
+    <Content Include="Content\Images\orderedList0.png" />
+    <Content Include="Content\Images\orderedList1.png" />
+    <Content Include="Content\Images\orderedList2.png" />
+    <Content Include="Content\Images\orderedList3.png" />
+    <Content Include="Content\Images\orderedList4.png" />
+    <Content Include="Content\Images\orderedList5.png" />
+    <Content Include="Content\Images\orderedList6.png" />
+    <Content Include="Content\Images\orderedList7.png" />
+    <Content Include="Content\Images\orderedList8.png" />
+    <Content Include="Content\Images\orderedList9.png" />
+    <Content Include="Content\Images\Shared\green2_16x16.png" />
+    <Content Include="Content\Images\Shared\red2_16x16.png" />
+    <Content Include="Content\Images\slideshow1.jpg" />
+    <Content Include="Content\Images\slideshow3.jpg" />
+    <Content Include="Content\Images\slideshow4.jpg" />
+    <Content Include="Content\Images\slideshow5.jpg" />
+    <Content Include="Content\Images\Techubh62.png" />
+    <Content Include="Content\Images\topFill.png" />
+    <Content Include="Content\Images\topfillmenu.png" />
+    <Content Include="Content\Images\topfillmenuLight.png" />
+    <Content Include="Content\Images\topImage.png" />
+    <Content Include="Content\Images\topright.png" />
     <Content Include="Content\js\datepicker.js" />
     <Content Include="Content\js\jquery-2.1.1.js" />
     <Content Include="Content\js\jquery-ui.min-1.11.1.js" />
@@ -503,6 +524,10 @@
     <Content Include="Images\topfillmenuLight.png" />
     <Content Include="Images\topImage.png" />
     <Content Include="Images\topright.png" />
+    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Nuget\readme.txt" />
+    <Content Include="Scripts\jquery-2.1.3.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\stato.change.js" />
     <Content Include="Scripts\fireAntUtils.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -538,18 +563,20 @@
     <Content Include="Areas\Admin\Views\Users\SID.cshtml" />
     <Content Include="Areas\Admin\Views\Users\TabInfoAccount.cshtml" />
     <Content Include="Areas\Admin\Views\Users\TabInfoAnagrafica.cshtml" />
+    <Content Include="Content\Images\calendario.xcf" />
+    <Content Include="Content\Images\documenti.xcf" />
+    <Content Include="Content\Images\fireAnt.xcf" />
+    <Content Include="Content\Images\topfillmenu.xcf" />
+    <Content Include="Content\Images\TopImage.xcf" />
     <None Include="Properties\PublishProfiles\Inetpub.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Properties\PublishProfiles\mediatori - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\mediatori - Azure.pubxml" />
-    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -640,15 +667,12 @@
     <Content Include="Views\Configurazioni\TipoRiferimento.cshtml" />
     <Content Include="Views\Contatto\ContattoPartialEdit.cshtml" />
     <Content Include="Views\Configurazioni\TipoCategoriaImpiego.cshtml" />
-    <Content Include="Views\Indirizzo\IndirizzoPartialInsert.cshtml" />
     <Content Include="Views\Configurazioni\TipoProdotto.cshtml" />
     <Content Include="Views\Riferimento\RiferimentoPartialEdit.cshtml" />
     <Content Include="Views\Nota\NotaPartialEdit.cshtml" />
     <Content Include="Views\Nota\NotaPartialInsert.cshtml" />
-    <Content Include="Views\Riferimento\RiferimentoPartialInsert.cshtml" />
     <Content Include="Views\Segnalazioni\SegnalazionePartialEdit.cshtml" />
     <Content Include="Views\Segnalazioni\SegnalazionePartialDetail.cshtml" />
-    <Content Include="Views\Riferimento\RiferimentoInnerDetail.cshtml" />
     <Content Include="Views\Nota\NotaPartialDetail.cshtml" />
     <Content Include="Views\Riferimento\RiferimentoPartialDetail.cshtml" />
     <Content Include="Views\Contatto\ContattoPartialDetail.cshtml" />
@@ -664,7 +688,6 @@
     <Content Include="Views\Amministrazione\AmministrazionePartialDetail.cshtml" />
     <Content Include="Views\Amministrazione\AmministrazionePartialEdit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SoggettoGiuridico.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Amministrazione.cshtml" />
     <Content Include="Views\SoggettoGiuridico\DetailsNoLayout.cshtml" />
     <Content Include="Views\Amministrazione\Details.cshtml" />
     <Content Include="Views\Configurazioni\TipoErogazione.cshtml" />
@@ -748,6 +771,20 @@
     <Content Include="Views\Simulazione\Details.cshtml" />
     <Content Include="Views\Shared\_ComboNumeroRate.cshtml" />
     <Content Include="Views\Test\FlipSwitch.cshtml" />
+    <Content Include="Views\Test\TableResize.cshtml" />
+    <Content Include="Views\Contatto\Index.cshtml" />
+    <Content Include="Views\Shared\_Flipswitch.cshtml" />
+    <Content Include="Views\Amministrazione\AmministrazioneEdit.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Amministrazione.cshtml" />
+    <Content Include="Views\Indirizzo\IndirizzoDetail.cshtml" />
+    <Content Include="Views\Indirizzo\IndirizzoEdit.cshtml" />
+    <Content Include="Views\Riferimento\RiferimentoDetail.cshtml" />
+    <Content Include="Views\Riferimento\RiferimentoEdit.cshtml" />
+    <Content Include="Views\Agenzia\AgenziaEdit.cshtml" />
+    <Content Include="Views\SoggettoGiuridico\SoggettoGiuridicoEdit.cshtml" />
+    <Content Include="Views\Segnalazioni\SegnalazioneEdit.cshtml" />
+    <Content Include="Views\Contatto\ContattoEdit.cshtml" />
+    <Content Include="Views\Contatto\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -755,7 +792,9 @@
     <Folder Include="Models\Preventivo\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MyFramework4.0\MyManagerCSharp\MyManagerCSharp.csproj">

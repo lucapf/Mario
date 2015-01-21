@@ -10,11 +10,11 @@ function contattoDetail(idContatto) {
 
 function ricercaContatto() {
     
-   // alert("ricercaContatto");
+    //alert("ricercaContatto");
 
-    var clNome = $("#segnalazione_contatto_nome").val();
-    var clCognome = $("#segnalazione_contatto_cognome").val();
-    var cf = $("#segnalazione_contatto_codiceFiscale").val();
+    var clNome = $("#contatto_nome").val();
+    var clCognome = $("#contatto_cognome").val();
+    var cf = $("#contatto_codiceFiscale").val();
 
     if (!searchDone && clNome != "" && clCognome != "") {
         $.ajax({

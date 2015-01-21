@@ -1,5 +1,7 @@
 ﻿@model mediatori.Models.Anagrafiche.Amministrazione
 
+<input type="hidden" name="id" value="@Model.id" />
+
 <div class="editor-control">
     @Html.MyInputType(p => p.partitaIva)
 </div>
@@ -22,14 +24,13 @@
     </div>
 </div>
 
-
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            Stato
+            <label for="amministrazione_stato">Stato</label>
         </div>
         <div class="editor-value">
-
+            @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("amministrazione.stato", Model.isEnabled));}
         </div>
     </div>
     <div class="editor-validation">

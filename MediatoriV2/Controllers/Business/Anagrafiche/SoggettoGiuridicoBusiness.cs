@@ -26,25 +26,7 @@ namespace mediatori.Controllers.Business
             return soggettoOriginale;
         }
 
-        internal List<SoggettoGiuridico> findByFilter(Filters.SoggettoGiuridicoSearch soggettoGiuridicoSearch, Models.MainDbContext db)
-        {
-            IQueryable<SoggettoGiuridico> listaSoggetti = db.SoggettiGiuridici;
-            
-            if (soggettoGiuridicoSearch.codiceFiscale != null && soggettoGiuridicoSearch.codiceFiscale != String.Empty)
-            {
-                listaSoggetti=listaSoggetti.Where(s => s.codiceFiscale.Equals(soggettoGiuridicoSearch.codiceFiscale));
-            }
-            
-            if (soggettoGiuridicoSearch.ragioneSociale != null && soggettoGiuridicoSearch.codiceFiscale!= String.Empty){
-                listaSoggetti=listaSoggetti.Where(s => s.ragioneSociale.ToUpper().Contains(soggettoGiuridicoSearch.ragioneSociale.ToUpper()));
-            }
-            if (soggettoGiuridicoSearch.tipoSoggettoGiuridico != null)
-            {
-                listaSoggetti=listaSoggetti.Where(s=>s.tipoSoggettoGiuridico.Equals(soggettoGiuridicoSearch.tipoSoggettoGiuridico));
-            }
-            return listaSoggetti.ToList();
-
-        }
+      
 
         internal SoggettoGiuridico completaDati(SoggettoGiuridico soggettoGiuridico, string username, Models.MainDbContext db)
         {

@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using mediatori.Models.etc;
 using mediatori.Controllers.Business.CQS;
 using mediatori.Models;
-using Newtonsoft.Json;
 using mediatori.Models.Anagrafiche;
 
 namespace mediatori.Controllers
@@ -14,7 +13,7 @@ namespace mediatori.Controllers
     public class StatoController : MyBaseController
     {
 
-        private BusinessModel.SegnalazioneManager manager = null;
+        private BusinessModel.Segnalazione.SegnalazioneManager manager = null;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
@@ -22,7 +21,7 @@ namespace mediatori.Controllers
 
             if (db != null)
             {
-                manager = new BusinessModel.SegnalazioneManager(db.Database.Connection);
+                manager = new BusinessModel.Segnalazione.SegnalazioneManager(db.Database.Connection);
             }
         }
 

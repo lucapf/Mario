@@ -13,8 +13,12 @@ namespace mediatori.Models.Anagrafiche
         {
             [Key]
             public int id { get; set; }
+            
             [Required]
             public SoggettoGiuridico soggettoGiuridico { get; set; }
+            public int soggettoGiuridicoId { get; set; }
+
+
             [Required]
             [Display(Name = "Partita Iva")]
             public string partitaIva { set; get; }
@@ -24,8 +28,7 @@ namespace mediatori.Models.Anagrafiche
            
 
             [Display(Name = "Stato")]
-            //public mediatori.Models.etc.Stato stato { get; set; }
-            public bool disabled { get; set; }
+            public bool isEnabled { get; set; }
 
             [Required]
             [Display(Name = "Capitale Sociale")]

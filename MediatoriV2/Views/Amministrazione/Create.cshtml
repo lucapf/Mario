@@ -10,13 +10,16 @@
 @using (Html.BeginForm("Create", "Amministrazione", FormMethod.Post, new { @id = "createForm" }))
 {
     Html.ValidationSummary(true);
-    @Html.HiddenFor(model => model.amministrazione.id);
+
+    Html.HiddenFor(p => p.amministrazione.id);
 
     <h3>Dati Amministrazione</h3>
     <hr />
-    @Html.EditorFor(model => model.soggettoGiuridico);
-    
-    @Html.EditorFor(a => a.amministrazione);
+
+    @Html.EditorFor(p => p.soggettoGiuridico);
+
+    @Html.EditorFor(p => p.amministrazione);
+
 
 
     <h3>Indirizzi</h3>
@@ -32,7 +35,7 @@
     { Html.RenderAction("Create", "Nota", new { nota = Model.nota }); }
 
 
-    <div data-role="footer" data-position="fixed" data-theme="b">
+    <div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
         <div data-role="navbar">
             <ul>
                 <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>

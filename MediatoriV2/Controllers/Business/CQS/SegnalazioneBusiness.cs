@@ -1,4 +1,5 @@
-﻿using mediatori.Controllers.Business.Anagrafiche;
+﻿using BusinessModel.Anagrafiche.Contatto;
+using mediatori.Controllers.Business.Anagrafiche;
 using mediatori.Controllers.Business.Anagrafiche.Soggetto;
 using mediatori.Controllers.Business.Tipologia;
 using mediatori.Controllers.CQS;
@@ -30,15 +31,33 @@ namespace mediatori.Controllers.Business
 
         }
 
+        public Segnalazione popolaDatiSegnalazione(Segnalazione segnalazione, MainDbContext db)
+        {
+            
+
+        //    segnalazione.contatto.impieghi = ImpiegoBusiness.valorizzaDatiImpiego(segnalazione.contatto.impieghi, db);
+         //   segnalazione.contatto.riferimenti = RiferimentoBusiness.valorizzaDatiRiferimento(segnalazione.contatto.riferimenti, db);
+            segnalazione.altroPrestito = TipoPrestitoBusiness.valorizzaDatiTipologiaPrestito(segnalazione.altroPrestito, db);
+            segnalazione.prodottoRichiesto = TipoProdottoBusiness.valorizzaDatiTipoProdotto(segnalazione.prodottoRichiesto, db);
+            segnalazione.fontePubblicitaria = FontePubblicitariaBusiness.valorizzaDatiFontePubblicitaria(segnalazione.fontePubblicitaria, db);
+            segnalazione.canaleAcquisizione = TipoCanaleAcquisizioneBusiness.valorizzaDatiTipoCanaleAcquisizione(segnalazione.canaleAcquisizione, db);
+            segnalazione.tipoLuogoRitrovo = TipoLuogoRitrovoBusiness.valorizzaDatiTipoLuogoRitrovo(segnalazione.tipoLuogoRitrovo, db);
+            segnalazione.tipoContatto = TipoContattoBusiness.valorizzaDatiTipoContatto(segnalazione.tipoContatto, db);
+            return segnalazione;
+        }
         public Segnalazione popolaDatiSegnalazione(Segnalazione segnalazione, String opreratore, MainDbContext db)
         {
-            segnalazione.dataInserimento = System.DateTime.Now;
-            segnalazione.utenteInserimento = opreratore;
+            if (!String.IsNullOrEmpty(opreratore))
+            {
+                segnalazione.dataInserimento = System.DateTime.Now;
+                segnalazione.utenteInserimento = opreratore;
+            }
+
             segnalazione.note = new NotaBusiness().valorizzaDatiDefault(segnalazione.note, opreratore);
             if (segnalazione.contatto.id != null && segnalazione.contatto.id > 0)
             {
                 Contatto contattoOriginale = segnalazione.contatto;
-                segnalazione.contatto = new ContattoBusiness().findByPK(segnalazione.contatto.id, db);
+                segnalazione.contatto = ContattoManager.findByPK(segnalazione.contatto.id, db);
                 //CopyObject.copy(segnalazione.contatto,contattoOriginale);
             }
 
@@ -57,7 +76,7 @@ namespace mediatori.Controllers.Business
         public List<Segnalazione> findByFilter(SegnalazioneSearch segnalazioniSearch, MainDbContext db)
         {
             IQueryable<Segnalazione> listaSegnalazioni = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto");
-            
+
             if (segnalazioniSearch.cognome != null)
             {
                 listaSegnalazioni = listaSegnalazioni.Where(s => s.contatto.cognome == segnalazioniSearch.cognome);
@@ -80,7 +99,7 @@ namespace mediatori.Controllers.Business
             }
             listaSegnalazioni.OrderByDescending(s => s.id);
             listaSegnalazioni.Take(50);
-            List<Segnalazione> segnalazioni = listaSegnalazioni.Where( o => !(o is Models.Pratica.Pratica)).ToList();
+            List<Segnalazione> segnalazioni = listaSegnalazioni.Where(o => !(o is Models.Pratica.Pratica)).ToList();
             return segnalazioni;
         }
 
@@ -91,15 +110,19 @@ namespace mediatori.Controllers.Business
                 return null;
             }
 
-           // ContattoBusiness contattoBusiness = new ContattoBusiness();
+            // ContattoBusiness contattoBusiness = new ContattoBusiness();
             ContattoInclude<Segnalazione> contattoInclude = new ContattoInclude<Segnalazione>();
-            
+
             DbQuery<Segnalazione> segnalazioneQuery = contattoInclude
                 .addIncludeStatement(db.Segnalazioni, "contatto").Include("note").Include("stato");
 
-            segnalazioneQuery.Include("preventivi").Include("preventivi.finanziaria")
-                .Include("preventivi.assicurazioneVita").Include("preventivi.assicurazioneImpiego")
-                .Include("documenti").Include("documenti.tipoDocumento");
+            //segnalazioneQuery.Include("preventivi").Include("preventivi.finanziaria")
+            //    .Include("preventivi.assicurazioneVita").Include("preventivi.assicurazioneImpiego")
+            //    .Include("documenti").Include("documenti.tipoDocumento");
+
+
+            segnalazioneQuery.Include("preventivi").Include("documenti").Include("documenti.tipoDocumento");
+
 
             Segnalazione segnalazione = segnalazioneQuery.Where(s => s.id == id).FirstOrDefault();
 

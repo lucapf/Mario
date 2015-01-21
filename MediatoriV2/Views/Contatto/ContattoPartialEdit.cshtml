@@ -1,65 +1,172 @@
 ﻿@model mediatori.Models.Anagrafiche.Contatto
 @{
-    ViewBag.title = "Contatto";
     Layout = null;
 }
 
+<script type="text/javascript" src="@Url.Content("~/Scripts/contatti.duplicati.js")"></script>
+<script type="text/javascript">
 
+    $(document).mouseup(function (e) {
+        var container = $("#grigliaContattiDuplicati");
 
-<div class="editor-label">
-    @Html.LabelFor(model => model.nome)
-    @Html.EditorFor(model => model.nome)<br />
-    @Html.ValidationMessageFor(model => model.nome)
-    @Html.HiddenFor(model => model.id)
-</div>
-<script>
-    $("#segnalazione_contatto_nome").focusout(function () {
-        ricercaContatto();
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+        {
+            container.hide("slow");
+        }
     });
-</script>
-<div class="editor-label">
-    @Html.LabelFor(model => model.cognome)
-    @Html.EditorFor(model => model.cognome)<br />
-    @Html.ValidationMessageFor(model => model.cognome)
-</div>
-<script>
-    $("#segnalazione_contatto_cognome").focusout(function () {
-        ricercaContatto();
-    });
-</script>
-<div class="editor-label">
-    @Html.LabelFor(model => model.dataNascita)
-    @Html.EditorFor(model => model.dataNascita)<br />
-    @Html.ValidationMessageFor(model => model.dataNascita)
-    <script>
-        $("#segnalazione_contatto_dataNascita").datepicker({
-            dateFormat: "yy-mm-dd",
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "1940:2012",
 
+
+    function initContattoEdit() {
+      //  alert("initContattoEdit");
+
+        idProvincia = "contatto_provinciaNascita_denominazione";
+        idComune = "contatto_comuneNascita_denominazione";
+
+        //alert("idProvincia" + idProvincia);
+
+        $("#contatto_provinciaNascita_denominazione").change(function () {
+            popolaComboComuni(idProvincia, idComune);
         });
-    </script>
-</div>
-<div class="editor-label">
-    @Html.LabelFor(model => model.codiceFiscale)
-    @Html.EditorFor(model => model.codiceFiscale)<br />
-    @Html.ValidationMessageFor(model => model.codiceFiscale)
-</div>
-<script>
-    $("#segnalazione_contatto_codiceFiscale").focusout(function () {
-        ricercaContatto();
+
+        //CONTATTI DUPLICATI
+        $("#grigliaContattiDuplicati").hide(0);
+        //$("#grigliaContattiDuplicati").blur(function () {
+        //  $("#grigliaContattiDuplicati").hide(0);
+        //});
+
+
+
+        $("#contatto_codiceFiscale").focusout(function () {
+            ricercaContatto();
+        });
+        $("#contatto_cognome").focusout(function () {
+            ricercaContatto();
+        });
+        $("#contatto_nome").focusout(function () {
+            ricercaContatto();
+        });
+
+    }
+
+
+    $(document).on("pageinit", function () {
+        //alert("pageinit: Contatto");
+        initContattoEdit();
     });
 </script>
 
+<ul data-role="listview" data-inset="true" id="grigliaContattiDuplicati"></ul>
 
 
-@foreach (var eSesso in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumSesso)))
-{
-    <div class="editor-label">
 
-        @Html.Label(eSesso.ToString())
-        @Html.RadioButtonFor(model => model.sesso, eSesso)<br />
-        @Html.ValidationMessageFor(model => model.sesso)
+@Html.HiddenFor(model => model.id)
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.nome)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.cognome)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.dataNascita)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.nazioneNascita)
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.provinciaNascita)
+        </div>
+        <div class="editor-value">
+            @if (Model.provinciaNascita == null)
+            {
+                @Html.DropDownListFor(m => m.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "---", new { data_mini = "true" })
+            }
+            else
+            {
+                @Html.DropDownListFor(m => m.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, Model.provinciaNascita.denominazione, new { data_mini = "true" })
+            }
+        </div>
     </div>
-}
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.provinciaNascita.denominazione)
+    </div>
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.comuneNascita)
+        </div>
+        <div class="editor-value">
+            @if (Model.comuneNascita == null)
+            {
+                @Html.DropDownListFor(m => m.comuneNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })
+            }
+            else
+            {
+                @Html.DropDownListFor(m => m.comuneNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, Model.comuneNascita.denominazione, new { data_mini = "true" })
+            }
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.comuneNascita.denominazione)
+    </div>
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.codiceFiscale)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(p => p.cittadinanza)
+</div>
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.statoCivile)
+        </div>
+        <div class="editor-value">
+            <select name="contatto.statoCivile" id="contatto_statoCivile" data-mini="true">
+                <option value="">---</option>
+                @foreach (mediatori.Models.Anagrafiche.EnumStatoCivile statoCivile in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumStatoCivile)))
+                {
+                    <option value="@statoCivile" @(Model.statoCivile == statoCivile ? "selected=selected" : "")>@statoCivile</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.statoCivile)
+    </div>
+</div>
+
+
+<div class="editor-control">
+    <div class="editor-row">
+        <div class="editor-label">
+            @Html.MyLabelFor(m => m.sesso)
+        </div>
+        <div class="editor-value">
+            <select name="contatto.sesso" id="contatto_sesso" data-mini="true">
+                <option value="">---</option>
+                @foreach (mediatori.Models.Anagrafiche.EnumSesso eSesso in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumSesso)))
+                {
+                    <option value="@eSesso" @(Model.sesso == eSesso ? "selected=selected" : "")>@eSesso</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="editor-validation">
+        @Html.ValidationMessageFor(m => m.sesso)
+    </div>
+</div>
+
+

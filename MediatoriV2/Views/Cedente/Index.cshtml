@@ -1,69 +1,67 @@
-﻿@model IEnumerable<mediatori.Models.Anagrafiche.Cedente>
-
+﻿@model BusinessModel.Anagrafiche.PersonaFisica.SearchPersonaFisica
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-    int conta = 0;
-    string css;
+
+    WebGrid wGrid = new WebGrid(null, rowsPerPage: Model.PageSize, defaultSort: "MY_LOGIN", canPage: false);
+    wGrid.Bind(Model.PersoneFisiche, rowCount: Model.TotalRows, autoSortAndPage: false);
 }
 
-<h2>Index</h2>
+<h2>Lista cedenti</h2>
 
-<p>
-    @Html.ActionLink("Nuovo Cedente", "Create")
-</p>
-<table class="MyTable">
-    <tr class="ui-bar-b">
-        <th>
-            @Html.DisplayNameFor(model => model.nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cognome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dataNascita)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.codiceFiscale)
-        </th>
+@using (Html.BeginForm("Index", "Cedente", FormMethod.Post, new { id = "MyForm" }))
+{
 
-        <th colspan="3"></th>
-    </tr>
+    <div class="ui-field-contain">
+        @MyHelper.MyInputType("nome", "Nome", Model.nome, false)
+    </div>
 
-    @foreach (var item in Model)
+    <div class="ui-field-contain">
+        @MyHelper.MyInputType("cognome", "Cognome", Model.cognome, false)
+    </div>
+
+    <div class="ui-field-contain">
+        @MyHelper.MyInputType("codiceFiscale", "Codice fiscale", Model.codiceFiscale, false)
+    </div>
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-inline="true" value="Ricerca" data-icon="search" data-mini="true" />
+    </div>
+
+
+    if (Model.TotalRows == 0)
     {
-        conta++;
-        if (conta % 2 == 0)
-        {
-            css = "ui-bar-d";
-        }
-        else
-        {
-            css = "ui-bar-a";
-        }
-        <tr class="@css">
-            <td>
-                @Html.DisplayFor(modelItem => item.nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cognome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dataNascita)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.codiceFiscale)
-            </td>
-            <td>
-                <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Modifica" href="@Url.Action("Details", new { id= item.id })">Dettagli</a>
-            </td>
-            <td>
-                <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="@Url.Action("Edit", new { id= item.id })">Modifica</a>
-            </td>
-            <td>
-                <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("Delete", new { id= item.id })">Cancella</a>
-            </td>
-        </tr>
+        <h3>Non è stata trovato nessun cedente. Modificare i filtri di ricerca.</h3>
+    }
+    else
+    {
+        <div style="margin-top: 20px;">
+            @wGrid.GetHtml(
+                fillEmptyRows: false,
+               tableStyle: MyConstants.TABLE_STYLE,
+                 headerStyle: MyConstants.TABLE_HEADER_STYLE,
+                 footerStyle: MyConstants.TABLE_FOOTER_STYLE,
+                 rowStyle: MyConstants.TABLE_ROW_STYLE,
+                 alternatingRowStyle: MyConstants.TABLE_ALTERNATING_ROW_STYLE,
+                htmlAttributes: new { data_role = "table", id = "MyWebGrid", data_mode = "reflow" },
+                columns: new[]{
+                wGrid.Column (columnName:"nome", header :"Nome"),
+                    wGrid.Column (columnName:"cognome", header :"Cognome"),
+                    wGrid.Column (columnName:"dataNascita", header :"Data di nascita", format: p =>  p.dataNascita.ToShortDateString()),
+                    wGrid.Column (columnName:"codiceFiscale", header :"CF"),
+                    wGrid.Column ("", header :"",
+                        format:@<text>
+                        <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Dettagli" href="@Url.Action("Details", new { id= item.id })">Dettagli</a>
+                        <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="@Url.Action("Edit", new { id= item.id })">Modifica</a>
+                        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("Delete", new { id= item.id })">Cancella</a>
+                        </text>, canSort : false)
+            })
+            @{Html.RenderPartial("Paging", Model);}
+        </div>
     }
 
-</table>
+}
+
+
+
+

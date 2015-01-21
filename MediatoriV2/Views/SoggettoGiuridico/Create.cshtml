@@ -1,4 +1,4 @@
-﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridico
+﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridicoCreateModel
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
@@ -10,38 +10,30 @@
 {
     Html.ValidationSummary();
 
-    Html.HiddenFor(model => model.id);
+    Html.HiddenFor(p => p.soggettoGiuridico.id);
 
     <h3>Dati societa'</h3>
     <hr />
-    Html.RenderPartial("~/Views/SoggettoGiuridico/SoggettoGiuridicoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.SoggettoGiuridico());
+    { Html.RenderPartial("~/Views/SoggettoGiuridico/SoggettoGiuridicoPartialEdit.cshtml", Model.soggettoGiuridico); }
+   
 
     <h3>Indirizzi</h3>
     <hr />
-    using (Html.BeginCollectionItem("indirizzi"))
-    {
-        foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
-        {
-            Html.RenderAction("indirizzoPartial", "Indirizzo", new { indirizzo = i, tipoAzione = "INSERIMENTO" });
-        }
-    }
-
-
+    { Html.RenderAction("Create", "Indirizzo", new { indirizzo = Model.indirizzo }); }
 
     <h3>Riferimenti</h3>
     <hr />
-    Html.RenderAction("riferimentoPartial", "Riferimento", new { riferimento = new mediatori.Models.Anagrafiche.Riferimento(), tipoAzione = "INSERIMENTO" });
+    { Html.RenderAction("Create", "Riferimento", new { riferimento = Model.riferimento }); }
 
     <h3>Note</h3>
     <hr />
-    { Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", new mediatori.Models.Nota()); }
+    { Html.RenderAction("Create", "Nota", new { nota = Model.nota }); }
 
-
-    <div data-role="footer" data-position="fixed" data-theme="b">
+    <div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
         <div data-role="navbar">
             <ul>
                 <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
-                <li><input type="submit" value="Salva" id="Nuovo" data-inline="true" data-mini="true" /></li>
+                <li><input type="submit" value="Salva" data-inline="true" data-mini="true" /></li>
             </ul>
         </div>
     </div>

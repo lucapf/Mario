@@ -31,7 +31,7 @@
     { Html.RenderAction("Create", "Nota", new { nota = Model.nota }); }
 
 
-    <div data-role="footer" data-position="fixed" data-theme="b">
+    <div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
         <div data-role="navbar">
             <ul>
                 <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>

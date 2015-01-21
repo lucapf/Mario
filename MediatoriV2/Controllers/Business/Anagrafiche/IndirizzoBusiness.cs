@@ -32,31 +32,51 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
         public static Indirizzo valorizzaDatiPerInserimentoCancellazione(Indirizzo indirizzo, MainDbContext db)
         {
 
-
             indirizzo.tipoIndirizzo = (from ti in db.TipoIndirizzo
                                        where ti.id == indirizzo.tipoIndirizzo.id
                                        select ti).First();
+
             indirizzo.toponimo = (from t in db.Toponimi where t.sigla == indirizzo.toponimo.sigla select t).First();
+
             indirizzo.provincia = (from p in db.Province
                                    where p.denominazione == indirizzo.provincia.denominazione
                                    select p).First();
+
             indirizzo.comune = (from c in db.Comuni
                                 where c.denominazione == indirizzo.comune.denominazione &&
                                       c.codiceProvincia == indirizzo.provincia.id
                                 select c).First();
+            
             return indirizzo;
 
         }
         public static Indirizzo save(String username, Indirizzo indirizzo, MainDbContext db)
         {
             indirizzo = valorizzaDatiPerInserimentoCancellazione(indirizzo, db);
+            
             Indirizzo indirizzoCorrente = findIndirizzo(indirizzo.id, db);
             LogEventi le = LogEventiManager.getEventoForUpdate(username, indirizzoCorrente.id, EnumEntitaRiferimento.INDIRIZZO, indirizzoCorrente, indirizzo);
             indirizzoCorrente = (Indirizzo)CopyObject.simpleCompy(indirizzoCorrente, indirizzo);
+
+            if (indirizzoCorrente.cedenteId != null && indirizzoCorrente.cedenteId != 0)
+            {
+                indirizzoCorrente.cedenteId = indirizzo.cedenteId;
+                indirizzoCorrente.cedente = db.Cedenti.Find(indirizzoCorrente.cedenteId);
+            }
+
+            if (indirizzo.soggettoGiuridicoId  != null && indirizzo.soggettoGiuridicoId != 0)
+            {
+                indirizzoCorrente.soggettoGiuridicoId = indirizzo.soggettoGiuridicoId;
+                indirizzoCorrente.soggettoGiuridico = db.SoggettiGiuridici.Find(indirizzo.soggettoGiuridicoId);
+            }
+
+           
+
             LogEventiManager.save(le, db);
+            
             db.SaveChanges();
+
             return indirizzoCorrente;
-          
         }
         public static Indirizzo create(String username, Indirizzo indirizzo, MainDbContext db)
         {

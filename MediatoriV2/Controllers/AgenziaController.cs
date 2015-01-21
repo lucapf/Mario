@@ -10,6 +10,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
+using BusinessModel.Anagrafiche.Agenzia;
+using mediatori.Controllers.Business;
 
 namespace mediatori.Controllers
 {
@@ -46,11 +48,39 @@ namespace mediatori.Controllers
             return View(model);
         }
 
+
+
+        [HttpGet]
+        public ActionResult AgenziaPartialById(int id, EnumTipoAzione tipoAzione)
+        {
+            Agenzia agenzia = new AgenziaBusiness().findByPk(id, db);
+
+            if (agenzia == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (tipoAzione == EnumTipoAzione.MODIFICA)
+            {
+                valorizzaViewBag();
+                return View("AgenziaEdit", agenzia);
+            }
+
+            if (tipoAzione == EnumTipoAzione.VISUALIZZAZIONE)
+            {
+                return View("AgenziaPartialDetail", agenzia);
+            }
+
+            throw new ApplicationException("Azione di inserimento che non si deve presentare");
+
+        }
+
+
         [HttpGet]
         public ActionResult Create()
         {
             AgenziaCreateModel model = new AgenziaCreateModel();
-            valorizzaViewBag(db);
+            valorizzaViewBag();
             model = valorizzaDatiCreateModel(model, db);
             return View(model);
         }
@@ -61,7 +91,7 @@ namespace mediatori.Controllers
             Agenzia agenzia = model.agenzia;
 
             agenzia.soggettoGiuridico = model.soggettoGiuridico;
-            agenzia.soggettoGiuridico.tipoSoggettoGiuridico = EnumEntitaRiferimento.AMMINISTRAZIONE.ToString();
+            agenzia.soggettoGiuridico.tipoSoggettoGiuridico = EnumEntitaRiferimento.AGENZIA.ToString();
 
             agenzia.soggettoGiuridico.indirizzi = new List<Indirizzo>();
             agenzia.soggettoGiuridico.indirizzi.Add(model.indirizzo);
@@ -87,13 +117,13 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            valorizzaViewBag(db);
-            Agenzia a = AgenziaBusiness.findByPk(id, db);
+            valorizzaViewBag();
+            Agenzia a = new AgenziaBusiness().findByPk(id, db);
             return View(a);
         }
 
 
-        private void valorizzaViewBag(MainDbContext db)
+        private void valorizzaViewBag()
         {
             ViewBag.listaTipoNaturaGiuridica = new SelectList(db.tipoNaturaGiuridica.OrderBy(p => p.descrizione), "id", "Descrizione");
             ViewBag.listaTipoCategoria = new SelectList(db.TipoCategoriaAmministrazione, "id", "Descrizione");
@@ -109,9 +139,9 @@ namespace mediatori.Controllers
         {
             model.agenzia = new Agenzia();
             model.agenzia = AgenziaBusiness.completaEVerifica(model.agenzia, db);
-
-            model.indirizzo = new Indirizzo();
-            model.riferimento = new Riferimento();
+            model.agenzia.isEnabled = true;
+            model.indirizzo = IndirizzoBusiness.valorizzaDatiDefault(new Indirizzo());
+            model.riferimento = RiferimentoBusiness.valorizzaDatiDefault(new Riferimento());
             model.nota = new Nota();
 
             model.soggettoGiuridico = new SoggettoGiuridico();
@@ -126,6 +156,48 @@ namespace mediatori.Controllers
 
             return model;
         }
+
+
+        [HttpPost]
+        public ActionResult Edit(Agenzia agenzia)
+        {
+            AgenziaBusiness agenziaBusiness = new AgenziaBusiness();
+            Agenzia agenziaOriginale = agenziaBusiness.findByPk(agenzia.id, db);
+
+            if (agenziaOriginale == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            agenziaOriginale.partitaIva = agenzia.partitaIva;
+            agenziaOriginale.codiceOam = agenzia.codiceOam;
+            agenziaOriginale.codiceRui = agenzia.codiceRui;
+            agenziaOriginale.dataFineMandato = agenzia.dataFineMandato;
+            agenziaOriginale.dataInizioMandato = agenzia.dataInizioMandato;
+            agenziaOriginale.dataOam = agenzia.dataOam;
+            agenziaOriginale.documentoPagamento = agenzia.documentoPagamento;
+            agenziaOriginale.rea = agenzia.rea;
+
+            agenziaOriginale.tipoAgenzia = db.TipoAgenzia.Find(agenzia.tipoAgenzia.id);
+            agenziaOriginale.tipoNaturaGiuridica = db.tipoNaturaGiuridica.Find(agenzia.tipoNaturaGiuridica.id);
+
+
+            agenziaOriginale.soggettoGiuridico.codiceFiscale = agenzia.soggettoGiuridico.codiceFiscale;
+            agenziaOriginale.soggettoGiuridico.ragioneSociale = agenzia.soggettoGiuridico.ragioneSociale;
+            agenziaOriginale.isEnabled = agenzia.isEnabled;
+
+            ModelState.Clear();
+
+            TryValidateModel(agenziaOriginale);
+            if (ModelState.IsValid)
+            {
+                db.SaveChanges();
+            }
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+        }
+
 
     }
 }

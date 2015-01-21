@@ -9,21 +9,47 @@ using mediatori.Models.Anagrafiche;
 using mediatori.Models;
 using mediatori.Controllers.Business.Anagrafiche.Soggetto;
 using mediatori.Controllers.Business;
+using BusinessModel.Anagrafiche.PersonaFisica;
+using System.Diagnostics;
+using BusinessModel.Anagrafiche.Cedente;
 
-namespace mediatori.Controllers.CQS
+namespace mediatori.Controllers
 {
     [MyAuthorize(Roles = new string[] { MyConstants.Profilo.DIPENDENTE, MyConstants.Profilo.AMMINISTRATORE })]
     public class CedenteController : MyBaseController
     {
-        public ActionResult Index()
+        private PersonaFisicaManager manager = null;
+
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
-            return View(db.Cedenti.ToList());
+            base.Initialize(requestContext);
+
+            if (db != null)
+            {
+                manager = new PersonaFisicaManager(db.Database.Connection);
+            }
+        }
+
+        public ActionResult Index(SearchPersonaFisica model)
+        {
+            model.tipoPersonaFisica = PersonaFisicaManager.TipoPersonaFisica.Cedente;
+            //return View(db.Cedenti.ToList());
+            manager.openConnection();
+            try
+            {
+                manager.getList(model);
+            }
+            finally
+            {
+                manager.closeConnection();
+            }
+            return View(model);
         }
 
 
         public ActionResult Details(int id = 0)
         {
-            Cedente cedente = RicercaCedenteBusiness.find(id, db);
+            Cedente cedente = CedenteManager.findByPK(id, db);
             if (cedente == null)
             {
                 return HttpNotFound();
@@ -40,7 +66,7 @@ namespace mediatori.Controllers.CQS
         {
 
             Cedente cedente = new Cedente();
-            valorizzaViewBag(db);
+            valorizzaViewBag();
 
             cedente.indirizzi = new List<Indirizzo>();
             cedente.indirizzi.Add(new Indirizzo());
@@ -58,7 +84,7 @@ namespace mediatori.Controllers.CQS
 
         }
 
-        private void valorizzaViewBag(MainDbContext db)
+        private void valorizzaViewBag()
         {
             ViewBag.listaTipoIndirizzo = new SelectList(db.TipoIndirizzo.ToList(), "id", "descrizione");
             ViewBag.listaToponimo = new SelectList(db.Toponimi.ToList(), "sigla", "sigla");
@@ -103,7 +129,7 @@ namespace mediatori.Controllers.CQS
                 ViewBag.message = String.Format("Cedente {0} {1} inserito con successo", cedenteSalvato.nome, cedenteSalvato.cognome);
                 return View("Details", cedenteSalvato);
             }
-            valorizzaViewBag(db);
+            valorizzaViewBag();
             return View(cedente);
         }
 
@@ -172,6 +198,7 @@ namespace mediatori.Controllers.CQS
         {
             return View(cedente);
         }
+
         [ChildActionOnly]
         public ActionResult DatiGeneraliPartialEdit(Cedente cedente)
         {
@@ -186,7 +213,7 @@ namespace mediatori.Controllers.CQS
             Cedente cedente = RicercaCedenteBusiness.findDatiGenerali(id, db);
             if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
-                valorizzaViewBag(db);
+                valorizzaViewBag();
                 // ViewBag.listaProvincia = new SelectList(db.Province.ToList(), "denominazione", "denominazione");
                 ViewBag.listaComuniNascita = new SelectList((from c in db.Comuni where c.provincia.id == cedente.provinciaNascita.id select c).ToList(), "denominazione", "denominazione");
                 return View("DatiGeneraliPartialInsert", cedente);

@@ -10,17 +10,118 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
+using BusinessModel.Anagrafiche.PersonaFisica;
+using BusinessModel.Anagrafiche.Contatto;
 
 namespace mediatori.Controllers
 {
     public class ContattoController : MyBaseController
     {
-        //
-        // GET: /Contatto/
+        private PersonaFisicaManager manager = null;
 
-        public ActionResult Index()
+        protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
-            return View();
+            base.Initialize(requestContext);
+
+            if (db != null)
+            {
+                manager = new PersonaFisicaManager(db.Database.Connection);
+            }
+        }
+
+        private void valorizzaViewBag()
+        {
+            valorizzaViewBag(null);
+        }
+
+        private void valorizzaViewBag(Contatto contatto)
+        {
+            //  ViewBag.listaSesso = new SelectList(new List<SelectListItem> { new SelectListItem { Text = "M", Value = "M" }, new SelectListItem { Text = "F", Value = "F" } }, null);
+
+            ViewBag.listaProvincia = new SelectList(db.Province.OrderBy(p => p.denominazione).ToList(), "denominazione", "denominazione");
+
+            if (contatto != null && contatto.provinciaNascita != null && !String.IsNullOrEmpty(contatto.provinciaNascita.denominazione))
+            {
+
+                ViewBag.listaComuni = new SelectList(db.Comuni.Where(c => c.codiceProvincia == contatto.provinciaNascita.id).OrderBy(p => p.denominazione).ToList(), "denominazione", "denominazione");
+
+
+                Debug.WriteLine((ViewBag.listaComuni as SelectList).Count());
+
+                //List<SelectListItem> lsli = new List<SelectListItem>();
+                //lsli.Add(new SelectListItem { Text = "", Value = "" });
+
+                //ViewBag.listaComuni = lsli;
+            }
+            else
+            {
+
+                List<SelectListItem> lsli = new List<SelectListItem>();
+                lsli.Add(new SelectListItem { Text = "", Value = "" });
+
+                ViewBag.listaComuni = lsli;
+            }
+
+
+            //if (contatto != null && contatto.comuneNascita != null && !String.IsNullOrEmpty(contatto.comuneNascita.denominazione))
+            //{
+            //    ViewBag.listaComuni = new SelectList(db.Comuni.Where(c => c.denominazione == contatto.comuneNascita.denominazione && c.codiceProvincia == contatto.comuneNascita.provincia.id).OrderBy(p => p.denominazione).ToList(), contatto.comuneNascita.denominazione, "denominazione", "denominazione");
+            //}
+            //else
+            //{
+            //    List<SelectListItem> lsli = new List<SelectListItem>();
+            //    lsli.Add(new SelectListItem { Text = "", Value = "" });
+            //    ViewBag.listaComuni = lsli;
+            //}
+
+
+
+        }
+
+        [ChildActionOnly]
+        public ActionResult Create(Contatto contatto)
+        {
+            //in fase di creazine di una segnalazione posso trovare un contatto già esistente
+            valorizzaViewBag(contatto);
+
+            ViewData.TemplateInfo.HtmlFieldPrefix = "contatto";
+            return View("ContattoPartialEdit", contatto);
+        }
+
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            //valorizzaViewBag();
+            Contatto c = ContattoManager.findByPK(id, db);
+
+            if (c == null)
+            {
+                return HttpNotFound();
+            }
+
+            Models.ContattoDetailsModel model = new ContattoDetailsModel();
+            model.contatto = c;
+
+            return View(model);
+        }
+
+
+
+
+        public ActionResult Index(SearchPersonaFisica model)
+        {
+            model.tipoPersonaFisica = PersonaFisicaManager.TipoPersonaFisica.Contatto;
+            manager.openConnection();
+            try
+            {
+                manager.getList(model);
+            }
+            finally
+            {
+                manager.closeConnection();
+            }
+            return View(model);
         }
 
         [HttpGet]
@@ -37,13 +138,35 @@ namespace mediatori.Controllers
             ICollection<Contatto> listaContatti = ContattoBusiness.findByFilter(new ContattoFilter() { codiceFiscale = codiceFiscale }, db);
             return ContattoBusiness.asHtml(listaContatti);
         }
-             
-    
 
-        public ActionResult contattoPartialById(int id, EnumTipoAzione tipoAzione)
+
+
+        public ActionResult ContattoPartialById(int id, EnumTipoAzione tipoAzione)
         {
-            return dispatch(db.Contatti.Find(id), tipoAzione);
+            Contatto contatto;
+            contatto = ContattoManager.findByPK(id, db);
+
+            if (contatto == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (tipoAzione == EnumTipoAzione.MODIFICA)
+            {
+                valorizzaViewBag(contatto);
+                ViewData.TemplateInfo.HtmlFieldPrefix = "contatto";
+                return View("ContattoEdit", contatto);
+            }
+
+            if (tipoAzione == EnumTipoAzione.VISUALIZZAZIONE)
+            {
+                return View("ContattoPartialDetail", contatto);
+            }
+
+            //  valorizzaViewBag();
+            throw new ApplicationException("Azione di inserimento che non si deve presentare");
         }
+
         [ChildActionOnly]
         public ActionResult contattoPartial(Contatto contatto, EnumTipoAzione tipoAzione)
         {
@@ -52,16 +175,51 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Edit(Contatto contatto)
         {
-            ContattoBusiness contattoBusiness= new ContattoBusiness();
-            Contatto contattoOriginale = contattoBusiness.findByPK(contatto.id,db);
+            ContattoManager.valorizzaDati(contatto, db);
+
+            ModelState.Clear();
+            TryValidateModel(contatto);
+
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                  .SelectMany(v => v.Errors)
+                  .Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il contatto, verificare i dati: " + Environment.NewLine + message);
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+            }
+
+
+
+            ContattoBusiness contattoBusiness = new ContattoBusiness();
+            Contatto contattoOriginale = ContattoManager.findByPK(contatto.id, db);
+
             contatto = contattoBusiness.copiaRiferimenti(contattoOriginale, contatto);
-            LogEventi le = LogEventiManager.getEventoForUpdate(User.Identity.Name, contatto.id, EnumEntitaRiferimento.IMPIEGO, contattoOriginale, contatto);
+
+            LogEventi le = LogEventiManager.getEventoForUpdate(User.Identity.Name, contatto.id, EnumEntitaRiferimento.CONTATTO, contattoOriginale, contatto);
             contattoOriginale = (Contatto)CopyObject.simpleCompy(contattoOriginale, contatto);
 
-            LogEventiManager.save(le, db);
-            db.SaveChanges();
+            try
+            {
+                LogEventiManager.save(le, db);
+                db.SaveChanges();
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Contatto salvato con successo");
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string messaggio;
+                messaggio = MyHelper.getDbEntityValidationException(ex);
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il contatto, verificare i dati: " + Environment.NewLine + messaggio);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il contatto, verificare i dati: " + Environment.NewLine + ex.Message);
+            }
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
+
+
         private ActionResult dispatch(Contatto contatto, EnumTipoAzione tipoAzione)
         {
             switch (tipoAzione)

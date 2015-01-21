@@ -43,6 +43,7 @@ namespace mediatori.Controllers
                   new MenuElement(){display="Agenzie", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Agenzia"},
                   new MenuElement(){display="Amministrazioni", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Amministrazione"},
                   new MenuElement(){display="Società", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="SoggettoGiuridico"},
+                  new MenuElement(){display="Contatti", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Contatto"},
                   new MenuElement(){display="Cedenti", ordinamento=1,livello=1,role="Amministratore",action="Index",controller="Cedente"}
                 };
 

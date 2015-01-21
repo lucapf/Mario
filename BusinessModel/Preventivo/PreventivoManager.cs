@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessModel
+namespace BusinessModel.Preventivo
 {
     public class PreventivoManager : MyManagerCSharp.ManagerDB
     {

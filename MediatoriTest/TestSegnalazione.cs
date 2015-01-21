@@ -9,57 +9,57 @@ using System.Diagnostics;
 
 namespace mediatori.UnitTest
 {
-     [TestClass]
+    [TestClass]
     public class TestSegnalazione
     {
-         private BusinessModel.SegnalazioneManager manager;
+        private BusinessModel.Segnalazione.SegnalazioneManager manager;
 
 
-         [TestMethod]
-         public void DeleteSegnalazione()
-         {
+        [TestMethod]
+        public void DeleteSegnalazione()
+        {
 
-             manager = new BusinessModel.SegnalazioneManager("DefaultConnection");
+            manager = new BusinessModel.Segnalazione.SegnalazioneManager("DefaultConnection");
 
-             int segnalazioneId = 1;
-             try
-             {
-                 manager.openConnection();
-                 manager.delete(segnalazioneId);
-             }
-             catch (Exception ex)
-             {
-                 Debug.Write("Exception: " + ex.Message);
-             }
-             finally
-             {
-                 manager.closeConnection();
-             }
-             
-
-             
-
-         }
+            int segnalazioneId = 1;
+            try
+            {
+                manager.openConnection();
+                manager.delete(segnalazioneId);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write("Exception: " + ex.Message);
+            }
+            finally
+            {
+                manager.closeConnection();
+            }
 
 
-         [TestMethod]
-         public void DeleteAllSegnalazioni()
-         {
-             manager = new BusinessModel.SegnalazioneManager("DefaultConnection");
-             try
-             {
-                 manager.openConnection();
-                 manager.deleteAllSegnalazioni();
-             }
-             catch (Exception ex)
-             {
-                 Debug.Write("Exception: " + ex.Message);
-             }
-             finally
-             {
-                 manager.closeConnection();
-             }
-         }
+
+
+        }
+
+
+        [TestMethod]
+        public void DeleteAllSegnalazioni()
+        {
+            manager = new BusinessModel.Segnalazione.SegnalazioneManager("DefaultConnection");
+            try
+            {
+                manager.openConnection();
+                manager.deleteAllSegnalazioni();
+            }
+            catch (Exception ex)
+            {
+                Debug.Write("Exception: " + ex.Message);
+            }
+            finally
+            {
+                manager.closeConnection();
+            }
+        }
 
     }
 }

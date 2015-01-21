@@ -17,8 +17,19 @@ namespace mediatori.Models.Anagrafiche
             provincia = new Provincia();
             comune = new Comune();
         }
+
         [Key]
         public int id { get; set; }
+
+        //http://msdn.microsoft.com/en-us/data/jj713564.aspx
+        //[ForeignKey("Cedente")]
+        public int? cedenteId { get; set; }
+        public virtual Cedente cedente { get; set; }
+
+        public int? soggettoGiuridicoId { get; set; }
+        public virtual SoggettoGiuridico soggettoGiuridico { get; set; }
+
+
 
         [Required]
         [Display(Name="Tipo")]
@@ -48,8 +59,8 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [Display(Name="Provincia")]
-
         public Provincia provincia { get; set; }
+
         [Required]
         [Display(Name="Comune")]
         public Comune comune { get; set; }

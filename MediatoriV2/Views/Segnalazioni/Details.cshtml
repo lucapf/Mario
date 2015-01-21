@@ -4,23 +4,11 @@
 
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 
+    mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("Sgn", Url.Action("SegnalazionePartialById", "Segnalazioni"), Model.segnalazione.id.ToString());
+    mediatori.helper.FireAntDetailEventDetection edSegnalazione = new mediatori.helper.FireAntDetailEventDetection("Sgn", Model.segnalazione.id);
 
-    mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("segn", "/Segnalazioni/segnalazionePartialById", Model.segnalazione.contatto.id.ToString());
-    var edSegnalazione = new mediatori.helper.FireAntDetailEventDetection("segn", Model.segnalazione.id);
+ }
 
-    mediatori.helper.FireAntEditHelper editHelperPreventivo = new mediatori.helper.FireAntEditHelper("prv", "/Preventivo/preventivoPartialById", Model.segnalazione.contatto.id.ToString());
-    var edPreventivo = new mediatori.helper.FireAntDetailEventDetection("prv", Model.segnalazione.id);
-
-    ////verifico se la segnalazione è ha un preventivo confermato
-    //ViewBag.confermata = false;
-    //foreach (mediatori.Models.Preventivo p in Model.preventivi)
-    //{
-    //    if (p.dataConferma != null)
-    //    {
-    //        ViewBag.confermata = true;
-    //    }
-    //}
-}
 <script type="text/javascript">
     var codicePreventivo = null;
 
@@ -58,6 +46,15 @@
     }
 
 
+
+    $(document).on("pageinit", function () {
+
+        $("#linkNuovoIndirizzo").click(function () {
+            setComboProvinciaComune();
+            $("#divNuovoIndirizzo").show();
+        })
+
+    });
 </script>
 
 
@@ -75,21 +72,15 @@
     </ul>
 </div>
 
-@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.segnalazione);}
+@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.segnalazione.contatto);}
 
 
-<h3>
-    Importi  @Html.Raw(editHelperSegnalazione.getButtonModifica())
-    @Html.Raw(editHelperSegnalazione.getButtonSalvaModifica())
-    @Html.Raw(editHelperSegnalazione.getButtonAnnullaModifica())
-    <script>$("#segnbtnEdit" + "@Model.segnalazione.id").show();</script>
-</h3>
+<h3>Importi  @Html.Raw(editHelperSegnalazione.getButtonModifica()) @Html.Raw(editHelperSegnalazione.getButtonAnnullaModifica())</h3>
 <hr />
-@Html.Raw(editHelperSegnalazione.getStartForm("/GestioneSegnalazioni/Edit"))
 <div id="@edSegnalazione.getIdFullDetail()">
-    @Html.Partial("SegnalazionePartialDetail", Model.segnalazione)
+    @{Html.RenderPartial("~/Views/Segnalazioni/SegnalazionePartialDetail.cshtml", Model.segnalazione);}
 </div>
-@Html.Raw(editHelperSegnalazione.getEndForm())
+
 
 
 <!-- preventivo -->
@@ -118,7 +109,6 @@
 
 
 
-
 <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="a">
         <h1>Confermare il preventivo?</h1>
@@ -133,5 +123,5 @@
 
 
 
-@{Html.RenderPartial("~/Views/Segnalazioni/_PopupChangeStatus.cshtml", Model.listaStatiSuccessivi, new ViewDataDictionary { { "CodiceEntita", Model.segnalazione.id } , { "Entita" , mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE } });}
+@{Html.RenderPartial("~/Views/Segnalazioni/_PopupChangeStatus.cshtml", Model.listaStatiSuccessivi, new ViewDataDictionary { { "CodiceEntita", Model.segnalazione.id }, { "Entita", mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE } });}
 

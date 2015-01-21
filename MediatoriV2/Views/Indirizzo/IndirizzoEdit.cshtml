@@ -1,0 +1,19 @@
+﻿@model mediatori.Models.Anagrafiche.Indirizzo
+@{
+    Layout = null;
+
+    string btnAnnulla = "IndbtnAnnulla" + Model.id.ToString();
+}
+
+@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Indirizzo", FormMethod.Post))
+{
+    <input type="hidden" name="codiceSggettoGiuridico" value="@Model.soggettoGiuridicoId" />
+
+    { Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialEdit.cshtml", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}
+

@@ -1,9 +1,47 @@
 ﻿@model mediatori.Models.Anagrafiche.Indirizzo
 @{
     Layout = null;
+
+    string comuneId;
+    string provinciaId;
+
+    comuneId = "indirizzo_comune-" + Model.id;
+    provinciaId = "indirizzo_provincia-" + Model.id;
+
+    ViewData.TemplateInfo.HtmlFieldPrefix = "indirizzo";
 }
 
+
+@if (Model.id == 0)
+{
+    <script type="text/javascript">
+        $(document).on("pageinit", function () {
+            //alert("pageInit");
+            initIndirizzoPartialEdit();
+        });
+    </script>
+}
+
+<script type="text/javascript">
+    function initIndirizzoPartialEdit() {
+        //alert("initIndirizzoPartialEdit");
+        //COMBO PROVINCA E COMUNE
+        var idProvincia = "@provinciaId";
+        var idComune = "@comuneId";
+
+        //            alert("Provincia ID: " + idProvincia);
+        var elementExists = document.getElementById(idProvincia);
+        if (elementExists) {
+            $("#" + idProvincia).change(function () {
+                popolaComboComuni(idProvincia, idComune);
+            });
+        }
+    }
+</script>
+
+
 @Html.HiddenFor(m => m.id)
+
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
@@ -62,10 +100,17 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.provincia)
+            <label for="@provinciaId">Provincia</label>
         </div>
         <div class="editor-value">
-            @Html.DropDownListFor(m => m.provincia.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })
+            <select name="indirizzo.provincia.denominazione" id="@provinciaId" required data-mini="true">
+                <option value="">---</option>
+                @foreach (SelectListItem item in ViewBag.listaProvincia)
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected=selected" : "")>@item.Text</option>
+                }
+
+            </select>
         </div>
     </div>
     <div class="editor-validation">
@@ -76,59 +121,20 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.comune)
+            <label for="@comuneId">Comune</label>
         </div>
         <div class="editor-value">
-            @Html.DropDownListFor(m => m.comune.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })
+            <select name="indirizzo.comune.denominazione" id="@comuneId" required data-mini="true">
+                <option value="">---</option>
+                @foreach (SelectListItem item in ViewBag.listaComuni)
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected=selected" : "")>@item.Text</option>
+                }
+
+            </select>
         </div>
     </div>
     <div class="editor-validation">
         @Html.ValidationMessageFor(m => m.comune.denominazione)
     </div>
 </div>
-
-
-<script type="text/javascript">
-
-    $(document).on("pageinit", function () {
-
-        idProvincia = "indirizzo_provincia_denominazione";
-        idComune = "indirizzo_comune_denominazione";
-
-        //alert("idProvincia" + idProvincia);
-
-        $("#" + idProvincia).change(function () {
-            popolaComboComuni(idProvincia, idComune);
-        });
-
-
-    });
-
-
-   // $(document).on("pageinit", function () {
-
-
-
-
-        //$('select[id$="provincia_denominazione"]').each(function () {
-
-
-
-        //    codice = this.name.split('[')[1].split(']')[0];
-
-        //    //            alert(codice);
-
-        //    idProvincia = "indirizzi_" + codice + "__provincia_denominazione";
-        //    idComune = "indirizzi_" + codice + "__comune_denominazione";
-
-        //    //          alert("idProvincia" + idProvincia);
-
-        //    $("#" + idProvincia).change(function () {
-        //        popolaComboComuni(idProvincia, idComune);
-        //    })
-        //})
-
-
-
-    //});
-</script>

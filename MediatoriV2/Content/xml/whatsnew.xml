@@ -5,6 +5,31 @@
   type => changes
  -->
 
+  <release number="1.0.0.7" data="21/01/2015" migration="Update06">
+    <item data="16/01/2015"     owner="Rutigliano"  type="changes" >
+      update dell'elenco dei cedenti e dei contatti
+    </item>
+    <item data="20/01/2015"     owner="Rutigliano"  type="changes" >
+      Dettaglio/Modifica amministrazione
+    </item>
+    <item data="20/01/2015"     owner="Rutigliano"  type="changes" >
+      Dettaglio/Modifica  agenzia
+    </item>
+    <item data="20/01/2015"     owner="Rutigliano"  type="changes" >
+      Dettaglio/Modifica  società
+    </item>
+    <item data="20/01/2015"     owner="Rutigliano"  type="changes" >
+      Dettaglio/Modifica  contatto
+    </item>
+    <item data="20/01/2015"     owner="Rutigliano"  type="changes" >
+      L'impiego è stato integrato con le amministrazioni (Azienda)
+    </item>
+    <item data="20/01/2015"     owner="Rutigliano"  type="bug" >
+      Corretta la modifica di un preventivo  (importi e dati campagna)
+    </item>
+  </release>
+
+
   <release number="1.0.0.6" data="15/01/2015" migration="Update05">
     <item data="15/01/2015"     owner="Rutigliano"  type="changes" >
       Aggiunti i seguent campi nella tabella preventivo (integrazione con la simulazione finanziaria):

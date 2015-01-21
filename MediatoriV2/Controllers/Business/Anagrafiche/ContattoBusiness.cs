@@ -14,6 +14,9 @@ namespace mediatori.Controllers.Business.Anagrafiche
 {
     public class ContattoBusiness
     {
+        
+
+
         internal static ICollection<Contatto> findByFilter(ContattoFilter contattoFilter, Models.MainDbContext db)
         {
             var contatti = from c in db.Contatti select c;
@@ -31,6 +34,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
             }
             return contatti.ToList();
         }
+
         internal static String asHtml(ICollection<Contatto> contatti)
         {
             if (contatti == null || contatti.Count == 0)
@@ -63,29 +67,22 @@ namespace mediatori.Controllers.Business.Anagrafiche
             //return FireAntHtmlHelper.renderControl(table);
 
             System.Text.StringBuilder html = new System.Text.StringBuilder();
-         //   html.Append(String.Format("<ul data-role=\"listview\" data-inset=\"true\">"));
+            //   html.Append(String.Format("<ul data-role=\"listview\" data-inset=\"true\">"));
 
             foreach (Contatto contatto in contatti)
             {
                 html.Append(String.Format("<li><a href=\"javascript:contattoDetail({2});\"><p>E' lui?</p><h2>{0} ({1})</h2></a></li>", contatto.nome + " " + contatto.cognome, contatto.codiceFiscale, contatto.id));
             }
-           //  html.Append("</ul>");
+            //  html.Append("</ul>");
 
-             return html.ToString();
+            return html.ToString();
 
         }
 
 
 
 
-        internal Contatto findByPK(int codiceContatto, MainDbContext db)
-        {
-            if (codiceContatto == null) return null;
-            ContattoInclude<Contatto> contattoInclude = new ContattoInclude<Contatto>();
-            return     contattoInclude.addIncludeStatement(db.Contatti,null)
-                              .Where(c => c.id == codiceContatto)
-                              .FirstOrDefault();
-        }
+       
 
 
         internal Contatto copiaRiferimenti(Contatto contattoSrc, Contatto contattoTarget)
@@ -95,6 +92,8 @@ namespace mediatori.Controllers.Business.Anagrafiche
             return contattoTarget;
         }
     }
+
+
     public class ContattoInclude<T>
     {
 
@@ -102,7 +101,7 @@ namespace mediatori.Controllers.Business.Anagrafiche
         public DbQuery<T> addIncludeStatement(DbQuery<T> dbQuery, String prefisso)
         {
 
-            prefisso = (prefisso == null || prefisso==String.Empty)? "" : prefisso + ".";
+            prefisso = (prefisso == null || prefisso == String.Empty) ? "" : prefisso + ".";
 
             return dbQuery.Include(prefisso + "riferimenti")
             .Include(prefisso + "riferimenti.tipoRiferimento")

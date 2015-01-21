@@ -1,29 +1,37 @@
 ﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridico
 @{
     Layout = null;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "soggettoGiuridico";
 }
+
 @Html.HiddenFor(model => model.id)
 
-<div class="editor-label">
+
+<div class="editor-control">
     @Html.MyInputType(p => p.ragioneSociale)
 </div>
 
-<div class="editor-label">
+<div class="editor-control">
     @Html.MyInputType(p => p.codiceFiscale)
 </div>
 
-<div class="editor-label" id="divTipoSoggettoGiuridico">
-    @Html.LabelFor(model => model.tipoSoggettoGiuridico)
 
-    @if (ViewBag.tipoSoggetto == "AMMINISTRAZIONE")
-    {
-        <div>AMMINISTRAZIONE</div>
-        @Html.HiddenFor(model => model.tipoSoggettoGiuridico, "AMMINISTRAZIONE");
-    }
-    else
-    {
-        @Html.DropDownListFor(model => model.tipoSoggettoGiuridico, (IEnumerable<SelectListItem>)ViewBag.listaTipiSoggettiGiuridici, new { data_mini = "true" });
-    }
-    <br />
-    @Html.ValidationMessageFor(model => model.tipoSoggettoGiuridico)
-</div>
+@if (ViewBag.listaTipiSoggettiGiuridici != null)
+{
+
+    <div class="editor-control" id="divTipoSoggettoGiuridico">
+        @Html.LabelFor(model => model.tipoSoggettoGiuridico)
+
+        @if (ViewBag.tipoSoggetto == "AMMINISTRAZIONE")
+        {
+            <div>AMMINISTRAZIONE</div>
+            @Html.HiddenFor(model => model.tipoSoggettoGiuridico, "AMMINISTRAZIONE");
+        }
+        else
+        {
+            @Html.DropDownListFor(model => model.tipoSoggettoGiuridico, (IEnumerable<SelectListItem>)ViewBag.listaTipiSoggettiGiuridici,"---", new { data_mini = "true" });
+        }
+        <br />
+        @Html.ValidationMessageFor(model => model.tipoSoggettoGiuridico)
+    </div>
+}

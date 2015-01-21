@@ -1,7 +1,6 @@
 ﻿@model mediatori.Models.Anagrafiche.Contatto
 @{
-    ViewBag.title = "Contatto";
-    Layout = null;
+      Layout = null;
 }
 
 <div class="display-control">
@@ -15,11 +14,41 @@
 </div>
 
 <div class="display-control">
+    @Html.LabelFor(model => model.codiceFiscale)
+    <div>@Html.DisplayFor(model => model.codiceFiscale)</div>
+</div>
+
+<div class="display-control">
     @Html.LabelFor(model => model.dataNascita)
     <div>@Html.DisplayFor(model => model.dataNascita)</div>
 </div>
 
 <div class="display-control">
+    @Html.LabelFor(model => model.nazioneNascita)
+    <div>@Html.DisplayFor(model => model.nazioneNascita)</div>
+</div>
+
+<div class="display-control">
+    @Html.LabelFor(model => model.provinciaNascita)
+    <div>@Html.DisplayFor(model => model.provinciaNascita.denominazione) (@Model.provinciaNascita.sigla)</div>
+</div>
+
+<div class="display-control">
+    @Html.LabelFor(model => model.comuneNascita)
+    <div>@Html.DisplayFor(model => model.comuneNascita.denominazione)</div>
+</div>
+
+<div class="display-control">
+    @Html.LabelFor(model => model.cittadinanza)
+    <div> @Html.DisplayFor(model => model.cittadinanza)</div>
+</div>
+
+<div class="display-control">
     @Html.LabelFor(model => model.sesso)
     <div> @Html.DisplayFor(model => model.sesso)</div>
+</div>
+
+<div class="display-control">
+    @Html.LabelFor(model => model.statoCivile)
+    <div> @Html.DisplayFor(model => model.statoCivile)</div>
 </div>

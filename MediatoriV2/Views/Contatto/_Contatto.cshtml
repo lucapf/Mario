@@ -1,24 +1,12 @@
-﻿@model mediatori.Models.Anagrafiche.Segnalazione
-
+﻿@model mediatori.Models.Anagrafiche.Contatto
 @{
-    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("cnt", "/Contatto/contattoPartialById", Model.contatto.id.ToString());
-    var edContatto = new mediatori.helper.FireAntDetailEventDetection("cnt", Model.id);
-
+    mediatori.helper.FireAntDetailEventDetection edContatto = new mediatori.helper.FireAntDetailEventDetection("Cnt", Model.id);
+    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("Cnt", Url.Action("ContattoPartialById", "Contatto"), Model.id.ToString());
 }
 
-
-<h3>
-    Dettaglio Contatto  @Html.Raw(editHelperContatto.getButtonModifica())
-    @Html.Raw(editHelperContatto.getButtonSalvaModifica())
-    @Html.Raw(editHelperContatto.getButtonAnnullaModifica())
-</h3>
-
-<script>$("#cntbtnEdit" + "@Model.id").show();</script>
+<h3>Contatto  @Html.Raw(editHelperContatto.getButtonModifica("", "initContattoEdit();")) @Html.Raw(editHelperContatto.getButtonAnnullaModifica())</h3>
 <hr />
-@Html.Raw(editHelperContatto.getStartForm("/Contatto/Edit"))
-
 <div id="@edContatto.getIdFullDetail()">
-    @{Html.RenderAction("contattoPartial", "contatto", new { contatto = Model.contatto, tipoAzione = "VISUALIZZAZIONE" });}
+    @{Html.RenderPartial("~/Views/Contatto/ContattoPartialDetail.cshtml", Model);}
 </div>
 
-@Html.Raw(editHelperContatto.getEndForm())

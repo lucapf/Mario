@@ -8,44 +8,50 @@
     {
         actionName = "CreateForPersonaFisica";
     }
-    else if (Model.soggettoGiuridicoId != null) 
+    else if (Model.soggettoGiuridicoId != null)
     {
         actionName = "CreateForSoggettoGiuridico";
     }
+ 
     
 }
-<h3>Indirizzi <strong class="h3Link" id="linkNuovoIndirizzo" title="Aggiungi Indirizzo">[ + ]</strong></h3>
 
-<script>$(function () { $("#linkNuovoIndirizzo").click(function () { $("#divNuovoIndirizzo").show(); }) })</script>
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+             
+        $("#linkNuovoIndirizzo").click(function () {
+            initIndirizzoPartialEdit();
+            $("#divNuovoIndirizzo").show();
+        })
+
+    });
+
+</script>
+
+<h3>Indirizzi <strong class="h3Link" id="linkNuovoIndirizzo" title="Aggiungi un indirizzo">[ + ]</strong></h3>
 <hr />
-
-@if (Model.indirizzi != null && Model.indirizzi.Count > 0)
-{
-    using (Html.BeginCollectionItem("indirizzi"))
+<div id="divNuovoIndirizzo" style="display: none">
+    @using (Html.BeginForm(actionName, "Indirizzo", FormMethod.Post, new { id = "novoIndirizzo" }))
     {
-        foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
-        {
-
-            Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialDetail.cshtml", i);
-        }
-    }
-}
-
-@using (Html.BeginForm(actionName, "Indirizzo", FormMethod.Post, new { id = "novoIndirizzo" }))
-{
-    <div id="divNuovoIndirizzo" style="display: none">
         <input type="hidden" name="codiceSoggettoGiuridico" value="@Model.soggettoGiuridicoId" />
         <input type="hidden" name="codiceId" value="@Model.contattoId" />
 
-        @{ Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Indirizzo()); }
-        
+        { Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Indirizzo()); }
+
         <div data-role="controlgrup" data-type="horizontal">
             <input data-mini="true" data-inline="true" type="submit" value="Salva" />
-            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#novoIndirizzo").hide()' />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovoIndirizzo").hide()' />
         </div>
+    }
+</div>
 
-    </div>
+@if (Model.indirizzi != null && Model.indirizzi.Count > 0)
+{
+    foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
+    {
+
+        Html.RenderPartial("~/Views/Indirizzo/IndirizzoDetail.cshtml", i);
+    }
 }
-
 
 

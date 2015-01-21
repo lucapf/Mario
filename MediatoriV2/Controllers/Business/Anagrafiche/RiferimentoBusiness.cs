@@ -24,10 +24,8 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
 
         public static Riferimento valorizzaDatiRiferimento(Riferimento r, MainDbContext db)
         {
-
             r.tipoRiferimento = db.TipoRiferimento.Find(r.tipoRiferimento.id);
             return r;
-
         }
 
 
@@ -41,10 +39,16 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
         internal static Riferimento save(string username, Riferimento riferimento, MainDbContext db)
         {
             Riferimento riferimentoCorrente = findByPk(riferimento.id, db);
+
             LogEventi le = LogEventiManager.getEventoForUpdate(username, riferimentoCorrente.id, EnumEntitaRiferimento.RIFERIMENTO, riferimentoCorrente, riferimento);
-            riferimentoCorrente = (Riferimento)CopyObject.simpleCompy(riferimentoCorrente, riferimento);
+
+            riferimentoCorrente.tipoRiferimento = riferimento.tipoRiferimento;
+            riferimentoCorrente.valore = riferimento.valore;
+            // riferimentoCorrente = (Riferimento)CopyObject.simpleCompy(riferimentoCorrente, riferimento);
+
             LogEventiManager.save(le, db);
             db.SaveChanges();
+
             return riferimentoCorrente;
         }
 

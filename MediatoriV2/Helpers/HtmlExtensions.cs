@@ -284,15 +284,26 @@ namespace mediatori.helper
         public String getIdForm() { return formDati; }
         public String refreshValidation() { return String.Format("<script>refreshValidation('{0}')</script>", getIdForm()); }
        
+
+        //public String getButtonModifica(String htmlAttributes = "", String javascriptCustomFunction = ""){
+        //    return getButtonModifica(htmlAttributes, javascriptCustomFunction);
+        //}
+
         public String getButtonModifica(String htmlAttributes = "", String javascriptCustomFunction = "")
         {
-            htmlAttributes += "class='buttonModifica ui-btn-right' title='Modifica'";
+            htmlAttributes += "class='h3Link' title='Modifica'";
             return buildBottoneGenerico(buttonModifica, "[ M ]", "FireAntEditHelper_ModificaDati", htmlAttributes, javascriptCustomFunction);
         }
 
+        public String getButtonModificaV2(String htmlAttributes = "", String javascriptCustomFunction = "")
+        {
+            htmlAttributes += "class='h3Link ui-btn-right' title='Modifica'";
+            return buildBottoneGenerico(buttonModifica, "[ M ]", "FireAntEditHelper_ModificaDati", htmlAttributes, javascriptCustomFunction);
+        }
+       
         public String getButtonAnnullaModifica(String value = "[ A ] ", String htmlAttributes = "", String javascriptCustomFunction = "")
         {
-            htmlAttributes += "class='buttonAnnullaModifica ui-btn-right'  title='Annulla'";
+            htmlAttributes += "class='h3Link'  title='Annulla' style='visibility:hidden;'";
             return buildBottoneGenerico(buttonAnnullaModifica, value, "FireAntEditHelper_AnnullaModificaDati", htmlAttributes, javascriptCustomFunction);
         }
 
@@ -353,6 +364,8 @@ namespace mediatori.helper
 
         }
 
+     
+
         private String buildBottoneGenerico(String idBottone, String value, String onclickFunction, String htmlAttributes, String javaScriptCustomFunction)
         {
 
@@ -360,17 +373,19 @@ namespace mediatori.helper
                          modelId, url, codiceMessage, codiceDiv, codiceDivFullDetail, codiceDivShortDetail, buttonModifica,
                           buttonAnnullaModifica, buttonSalvaModifica, buttonNascondiDettaglio, formDati, javaScriptCustomFunction);
 
-            //var onclickEvent = "<script>$(function(){$(\"#" + idBottone + "\").click(function(){ " +
-            //    onclickFunction + "( " + onclickArgs + " )})})</script>";
+            //Dopo il clic del bottone viene richiamata la javaScriptCustomFunction
+
 
             string onclickEvent = "<script type=\"text/javascript\">   $(document).on(\"pageinit\", function () { ";
 
-            onclickEvent += " $(\"#" + idBottone + "\").click(function(){ " + onclickFunction + "( " + onclickArgs + " )})";
-
+            onclickEvent += " $(\"#" + idBottone + "\").click(function(){ " + onclickFunction + "( " + onclickArgs + " )});";
+            
             onclickEvent += "});";
+
             onclickEvent += "</script>";
 
-            String htmlTag = String.Format("<div id='{0}' {1}>{3}</div>{2}", idBottone, htmlAttributes, onclickEvent, value);
+          //  String htmlTag = String.Format("<div id='{0}' {1}>{3}</div>{2}", idBottone, htmlAttributes, onclickEvent, value);
+            String htmlTag = String.Format("<strong id='{0}' {1}>{3}</strong> {2}", idBottone, htmlAttributes, onclickEvent, value);
             return htmlTag;
         }
 

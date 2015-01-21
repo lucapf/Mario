@@ -16,5 +16,17 @@ namespace mediatori.Models.Anagrafiche
         public Indirizzo indirizzo { get; set; }
         public Riferimento riferimento { get; set; }
         public Nota nota { get; set; }
+
+
+        //public AmministrazioneCreateModel()
+        //{
+        //    amministrazione = new Amministrazione();
+        //    soggettoGiuridico = new SoggettoGiuridico();
+
+
+        //    indirizzo = new Indirizzo();
+        //    riferimento = new Riferimento();
+        //    nota = new Nota();
+        //}
     }
 }

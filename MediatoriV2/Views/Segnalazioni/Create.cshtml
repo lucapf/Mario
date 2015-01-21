@@ -2,173 +2,26 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-
-    bool chk;
 }
-
-@section Scripts {
-    @Scripts.Render("~/Scripts/contatti.duplicati.js")
-}
-
-
-<script type="text/javascript">
-
-    $(document).mouseup(function (e) {
-        var container = $("#grigliaContattiDuplicati");
-
-        if (!container.is(e.target) // if the target of the click isn't the container...
-            && container.has(e.target).length === 0) // ... nor a descendant of the container
-        {
-            container.hide("slow");
-        }
-    });
-
-
-    $(document).on("pageinit", function () {
-
-        idProvincia = "segnalazione_contatto_provinciaNascita_denominazione";
-        idComune = "segnalazione_contatto_comuneNascita_denominazione";
-
-        //alert("idProvincia" + idProvincia);
-
-        $("#segnalazione_contatto_provinciaNascita_denominazione").change(function () {
-            popolaComboComuni(idProvincia, idComune);
-        });
-
-        //CONTATTI DUPLICATI
-        $("#grigliaContattiDuplicati").hide(0);
-        //$("#grigliaContattiDuplicati").blur(function () {
-        //  $("#grigliaContattiDuplicati").hide(0);
-        //});
-
-
-
-        $("#segnalazione_contatto_codiceFiscale").focusout(function () {
-            ricercaContatto();
-        });
-        $("#segnalazione_contatto_cognome").focusout(function () {
-            ricercaContatto();
-        });
-        $("#segnalazione_contatto_nome").focusout(function () {
-            ricercaContatto();
-        });
-
-
-
-    });
-</script>
-
 
 
 <h2>Nuova segnalazione</h2>
-
 @using (Html.BeginForm("Create", "Segnalazioni", FormMethod.Post, new { @id = "createForm" }))
 {
     Html.ValidationSummary(true);
-    Html.HiddenFor(model => model.segnalazione.contatto.id);
 
     <h3>Dati anagrafici</h3>
-
-    <ul data-role="listview" data-inset="true" id="grigliaContattiDuplicati"></ul>
-
     <hr />
-    
-    <input type="hidden" name="segnalazione.contatto.id" value="@Model.segnalazione.contatto.id" />
-    
-    <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.contatto.nome)
-    </div>
 
-    <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.contatto.cognome)
-    </div>
-
-    <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.contatto.dataNascita)
-    </div>
-
-    <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.contatto.nazioneNascita)
-    </div>
-
-    <div class="editor-control">
-        <div class="editor-row">
-            <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.contatto.provinciaNascita)
-            </div>
-            <div class="editor-value">
-                @Html.DropDownListFor(m => m.segnalazione.contatto.provinciaNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaProvincia, "", new { data_mini = "true" })
-            </div>
-        </div>
-        <div class="editor-validation">
-            @Html.ValidationMessageFor(m => m.segnalazione.contatto.provinciaNascita.denominazione)
-        </div>
-    </div>
-
-    <div class="editor-control">
-        <div class="editor-row">
-            <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.contatto.comuneNascita)
-            </div>
-            <div class="editor-value">
-                @Html.DropDownListFor(m => m.segnalazione.contatto.comuneNascita.denominazione, (IEnumerable<SelectListItem>)ViewBag.listaComuni, "Selezionare una provincia ...", new { data_mini = "true" })
-            </div>
-        </div>
-        <div class="editor-validation">
-            @Html.ValidationMessageFor(m => m.segnalazione.contatto.comuneNascita.denominazione)
-        </div>
-    </div>
-
-    <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.contatto.codiceFiscale)
-    </div>
-
-    <div class="editor-control">
-        @Html.MyInputType(p => p.segnalazione.contatto.cittadinanza)
-    </div>
-
-    <div class="editor-control">
-        <div class="editor-row">
-            <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.contatto.statoCivile)
-            </div>
-            <div class="editor-value">
-                <select name="segnalazione.contatto.statoCivile" id="segnalazione_contatto_statoCivile" data-mini="true">
-                    <option value="">---</option>
-                    @foreach (mediatori.Models.Anagrafiche.EnumStatoCivile statoCivile in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumStatoCivile)))
-                    {
-                        <option value="@statoCivile" @(Model.segnalazione.contatto.statoCivile == statoCivile ? "selected=selected" : "")>@statoCivile</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="editor-validation">
-            @Html.ValidationMessageFor(m => m.segnalazione.contatto.statoCivile)
-        </div>
-    </div>
-
-
-    <div class="editor-control">
-        <div class="editor-row">
-            <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.contatto.sesso)
-            </div>
-            <div class="editor-value">
-                <select name="segnalazione.contatto.sesso" id="segnalazione_contatto_sesso" data-mini="true">
-                    <option value="">---</option>
-                    @foreach (mediatori.Models.Anagrafiche.EnumSesso eSesso in Enum.GetValues(typeof(mediatori.Models.Anagrafiche.EnumSesso)))
-                    {
-                        <option value="@eSesso" @(Model.segnalazione.contatto.sesso == eSesso ? "selected=selected" : "")>@eSesso</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="editor-validation">
-            @Html.ValidationMessageFor(m => m.segnalazione.contatto.sesso)
-        </div>
-    </div>
-
-
+    if (Model.contatto.id == 0)
+    {
+        Html.RenderAction("Create", "Contatto", new { conatto = Model.contatto });
+    }
+    else
+    {
+        <input type="hidden" name="contatto.id" value="@Model.contatto.id" />
+        { Html.RenderPartial("~/Views/Contatto/ContattoPartialDetail.cshtml", Model.contatto); }
+    }
 
 
      <!-- impiego -->
@@ -179,12 +32,12 @@
         { Html.RenderAction("Create", "Impiego", new { impiego = Model.impiego }); }
     }
 
-
     <h3>Importi</h3>
     <hr />
     <div class="editor-control">
         @Html.MyInputType(p => p.segnalazione.importoRichiesto)
     </div>
+
 
     <div class="editor-control">
         <div class="editor-row">

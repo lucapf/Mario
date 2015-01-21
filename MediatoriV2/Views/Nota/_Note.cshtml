@@ -1,8 +1,48 @@
 ﻿@model mediatori.Models.NoteModel
+@{
+    Layout = null;
+
+    string actionName = "";
+
+    if (Model.segnalazioneId != null)
+    {
+        actionName = "CreateForSegnalazione";
+    }
+    else if (Model.soggettoGiuridicoId != null)
+    {
+        actionName = "CreateForSoggettoGiuridico";
+    }
+}
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("#linkNuovaNota").click(function () {
+            $("#divNuovaNota").show();
+        })
+    });
+</script>
+
 
 <h3>Note <strong class="h3Link" id="linkNuovaNota" title="Aggiungi Nota">[ + ]</strong></h3>
-<script>$(function () { $("#linkNuovaNota").click(function () { $("#divNuovaNota").show(); }) })</script>
 <hr />
+
+<div id="divNuovaNota" style="display: none">
+    @using (Html.BeginForm(actionName, "Nota", FormMethod.Post))
+    {
+        <input type="hidden" name="codiceSegnalazione" value="@Model.segnalazioneId" />
+        <input type="hidden" name="codiceSoggettoGiuridico" value="@Model.soggettoGiuridicoId" />
+
+        { Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", new mediatori.Models.Nota()); }
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovaNota").hide()' />
+        </div>
+    }
+</div>
+
+
 @if (Model.note != null)
 {
     foreach (mediatori.Models.Nota nota in Model.note)
@@ -13,16 +53,3 @@
     }
 }
 
-@using (Html.BeginForm("CreateForSegnalazione", "Nota", FormMethod.Post, new { id = "nuovaNota" }))
-{
-    <div id="divNuovaNota" style="display: none">
-        <input type="hidden" name="codiceSegnalazione" value="@Model.segnalazioneId" />
-
-        @{ Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", new mediatori.Models.Nota()); }
-
-        <div data-role="controlgrup" data-type="horizontal">
-            <input data-mini="true" data-inline="true" type="submit" value="Salva"  />
-            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovaNota").hide()' />
-        </div>
-    </div>
-}

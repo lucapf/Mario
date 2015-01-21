@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessModel
+namespace BusinessModel.Segnalazione
 {
     public class SegnalazioneManager : MyManagerCSharp.ManagerDB
     {
@@ -71,12 +71,10 @@ namespace BusinessModel
                     _transactionBegin();
                 }
 
-
-
                 _strSQL = "DELETE FROM  NOTA WHERE segnalazione_id = " + segnalazioneId;
                 _executeNoQuery(_strSQL);
 
-                _strSQL = "DELETE FROM  PREVENTIVO WHERE segnalazione_id = " + segnalazioneId;
+                _strSQL = "DELETE FROM  PREVENTIVO WHERE segnalazioneId = " + segnalazioneId;
                 _executeNoQuery(_strSQL);
 
                 _strSQL = "DELETE FROM  ASSEGNAZIONE WHERE segnalazioneId = " + segnalazioneId;
@@ -92,7 +90,6 @@ namespace BusinessModel
                 {
                     _transactionCommit();
                 }
-
             }
             catch (Exception ex)
             {
