@@ -5,6 +5,72 @@
   type => changes
  -->
 
+
+  <release number="1.0.0.10" data="30/01/2015" migration="Update09">
+    <item data="27/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 465) Inserimento agenzia. Controllo sulla presenza di un'agenzia con la stessa partita iva
+    </item>
+    <item data="27/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 461) Configurazione Istituto
+    </item>
+    <item data="28/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 494) Simulazione finanziaria senza risultati
+    </item>
+    <item data="28/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 493) Segnalazione per un contatto esistente
+    </item>
+    <item data="28/01/2015"     owner="Rutigliano"  type="changes" >
+      Gestione dello stato iniziale della pratica e della segnalazione (non cancellabile e con modifiche parziali)
+    </item>
+    <item data="28/01/2015"     owner="Rutigliano"  type="changes" >
+      Gestione dello stato iniziale della pratica nel momento in cui si approva un preventivo
+    </item>
+    <item data="29/01/2015"     owner="Rutigliano"  type="changes" >
+      Modifica della data di rinnovo e data decorrenza per una pratica
+    </item>
+    <item data="29/01/2015"     owner="Rutigliano"  type="bug" >
+      Upload e delete di un documento allegato ad una pratica
+    </item>
+    <item data="30/01/2015"     owner="Rutigliano"  type="changes" >
+      Modifica delle voci del menu top in base al profilo
+    </item>
+  </release>
+
+
+  <release number="1.0.0.9" data="26/01/2015" migration="">
+    <item data="23/01/2015"     owner="Rutigliano"  type="changes" >
+      Pagina di prova per l'invio di email tramite il server smtp.techub.it  con l'utente azure@techub.it
+    </item>
+    <item data="23/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 464) Validazione della form durante la moodifica di un'agenzia
+    </item>
+    <item data="23/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 466) Filtri di reicerca per agenzia, amministrazione e societa
+    </item>
+    <item data="23/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 465) Inserimento agenzia. Controllo sulla presenza di un'agenzia con la stessa ragione sociale
+    </item>
+    <item data="23/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 465) Inserimento agenzia. Controllo sulla presenza di un'agenzia con la stesso codice fiscale
+    </item>
+    <item data="26/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 464/463) Modifica agenzia. Controllo sui campi obbligatori
+    </item>
+    <item data="26/01/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 462) Fix elenco delle attività da fare e scadute
+    </item>
+  </release>
+
+
+  <release number="1.0.0.8" data="22/01/2015" migration="Update07">
+    <item data="22/01/2015"     owner="Rutigliano"  type="changes" >
+      eliminata la cittadinanza dalla simulazione finanziaria
+    </item>
+    <item data="22/01/2015"     owner="Rutigliano"  type="bug" >
+      corretta la partita iva durante la creazione dell'agenzia
+    </item>
+  </release>
+
   <release number="1.0.0.7" data="21/01/2015" migration="Update06">
     <item data="16/01/2015"     owner="Rutigliano"  type="changes" >
       update dell'elenco dei cedenti e dei contatti

@@ -10,7 +10,8 @@
     <div class="ui-block-a">
         <div class="ui-bar ui-bar-b">Login:</div>
         <div class="ui-bar ui-bar-b">Profilo:</div>
-        <div class="ui-bar ui-bar-b">Attivo:</div>
+        <div class="ui-bar ui-bar-b">Stato:</div>
+        <div class="ui-bar ui-bar-b">Email:</div>
         <div class="ui-bar ui-bar-b">Data inserimento:</div>
         <div class="ui-bar ui-bar-b">Login success:</div>
         <div class="ui-bar ui-bar-b">Login failed:</div>
@@ -19,7 +20,8 @@
     <div class="ui-block-b">
         <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.login)</div>
         <div class="ui-bar ui-body-a">@(Model.Utente.Profili == null || Model.Utente.Profili.Count == 0 ? "N/A" : Model.Utente.Profili[0].nome)</div>
-        <div class="ui-bar ui-body-a">@Model.Utente.isEnabled.ToString()</div>
+        <div class="ui-bar ui-body-a">@(Model.Utente.isEnabled == null?"N/A":MyHelper.decodeAttivo((bool)Model.Utente.isEnabled))   @MyHelper.decodeAttivaImage(Request.ApplicationPath,(bool)Model.Utente.isEnabled)</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.email)</div>
         <div class="ui-bar ui-body-a">@MyHelper.decodeNull(Model.Utente.dateAdded)</div>
         <div class="ui-bar ui-body-a">@Model.Utente.loginSuccess </div>
         <div class="ui-bar ui-body-a">@Model.Utente.loginFailed</div>
@@ -28,10 +30,11 @@
 </div>
 
 <br />
-<h2>Gruppi di lavorazione</h2>
+<h2>Gruppi</h2>
+<hr />
 @if (Model.Utente.Gruppi == null || Model.Utente.Gruppi.Count == 0)
 {
-    <h3>Nessun gruppo di lavorazione configurato</h3>
+    <h3>Nessun gruppo configurato</h3>
 }
 else
 {
@@ -42,6 +45,8 @@ else
         }
     </ol>
 }
+
+
 
 <div data-role="controlgrup" data-type="horizontal">
     <a href="@Url.Action("Index", "Utenti")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a>

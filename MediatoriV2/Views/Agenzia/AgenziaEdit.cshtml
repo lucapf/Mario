@@ -1,14 +1,13 @@
 ﻿@model mediatori.Models.Anagrafiche.Agenzia
-
 @{
     Layout = null;
 
     string btnAnnulla = "AgebtnAnnulla" + Model.id.ToString();
+    string formId = "AgeForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("Edit", "Agenzia", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Agenzia", FormMethod.Post, new { id = formId }))
 {
-
 
     { Html.RenderPartial("~/Views/Agenzia/AgenziaPartialEdit.cshtml", Model); }
 

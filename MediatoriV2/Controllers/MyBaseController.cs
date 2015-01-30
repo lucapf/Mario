@@ -11,7 +11,7 @@ namespace mediatori.Controllers
     public class MyBaseController : Controller
     {
         protected mediatori.Models.MainDbContext db = null;
-        //protected string _connectionString;
+        protected mediatori.SessionData MySessionData;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
@@ -19,7 +19,8 @@ namespace mediatori.Controllers
 
             if (Session["MySessionData"] != null)
             {
-                db = new mediatori.Models.MainDbContext((Session["MySessionData"] as SessionData).ConnectionString);
+                MySessionData = (Session["MySessionData"] as SessionData);
+                db = new mediatori.Models.MainDbContext(MySessionData.ConnectionString);
             }
         }
 

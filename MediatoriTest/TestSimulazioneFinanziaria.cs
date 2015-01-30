@@ -16,7 +16,7 @@ namespace mediatori.UnitTest
         public void TestWebService()
         {
             string temp;
-            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null,urlSimulazioneFinanziaria);
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null,urlSimulazioneFinanziaria,"techubadmin","");
 
             temp = manager.getVersion();
 
@@ -44,7 +44,7 @@ namespace mediatori.UnitTest
             }
 
 
-            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null,urlSimulazioneFinanziariaSSL);
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null,urlSimulazioneFinanziariaSSL,"techubadmin","");
             string temp;
             temp = manager.getVersion();
 

@@ -136,8 +136,11 @@ function FireAntDetailEventDetection_NascondiDettaglio(idFullDetail, idShortDeta
 */
 
 function FireAntEditHelper_ModificaDati(idEntita, urlPercorso, idDivMessage, idDivElement, idDivFullDetail, idDivShortDetail, idBtnEdit, idBtnAnnulla, idBtnSalva, idBtnHideDetail, idFormModifica, javaScriptCustomFunction) {
-   // alert("FireAntEditHelper_ModificaDati: " + urlPercorso);
+    //alert("FireAntEditHelper_ModificaDati: " + urlPercorso);
+    //alert("FireAntEditHelper_ModificaDati: " + idFormModifica);
+
     $("#" + idDivMessage).html("caricamento in corso");
+
     $.ajax({
         url: urlPercorso,
         data: { id: idEntita, tipoAzione: "MODIFICA" },

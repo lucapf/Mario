@@ -9,14 +9,49 @@ using System.Web.Security;
 namespace mediatori.Models
 {
 
-
-
-    public class UserProfile
+    public class ChangeEmailModel
     {
-        
+        string currentEmail { get; set; }
+        string newEmail { get; set; }
+        string newEmailConfirm { get; set; }
+    }
+
+    public class ManageModel
+    {
         public int UserId { get; set; }
         public string UserName { get; set; }
 
+        public string Nome { get; set; }
+        public string Cognome { get; set; }
+
+        public DateTime? datePreviousLogin { get; set; }
+
+        public string NomeCognome
+        {
+            get
+            {
+                string temp;
+
+                temp = Nome;
+
+                if (String.IsNullOrEmpty(temp))
+                {
+                    temp = Cognome;
+                }
+                else
+                {
+                    temp += " " + Cognome;
+                }
+
+                return temp;
+            }
+        }
+
+        //Credenziali per CreditoLab
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string PasswordConfirm { get; set; }
+       
     }
 
     public class RegisterExternalLoginModel

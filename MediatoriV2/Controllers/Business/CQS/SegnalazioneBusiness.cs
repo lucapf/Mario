@@ -33,10 +33,10 @@ namespace mediatori.Controllers.Business
 
         public Segnalazione popolaDatiSegnalazione(Segnalazione segnalazione, MainDbContext db)
         {
-            
 
-        //    segnalazione.contatto.impieghi = ImpiegoBusiness.valorizzaDatiImpiego(segnalazione.contatto.impieghi, db);
-         //   segnalazione.contatto.riferimenti = RiferimentoBusiness.valorizzaDatiRiferimento(segnalazione.contatto.riferimenti, db);
+
+            //    segnalazione.contatto.impieghi = ImpiegoBusiness.valorizzaDatiImpiego(segnalazione.contatto.impieghi, db);
+            //   segnalazione.contatto.riferimenti = RiferimentoBusiness.valorizzaDatiRiferimento(segnalazione.contatto.riferimenti, db);
             segnalazione.altroPrestito = TipoPrestitoBusiness.valorizzaDatiTipologiaPrestito(segnalazione.altroPrestito, db);
             segnalazione.prodottoRichiesto = TipoProdottoBusiness.valorizzaDatiTipoProdotto(segnalazione.prodottoRichiesto, db);
             segnalazione.fontePubblicitaria = FontePubblicitariaBusiness.valorizzaDatiFontePubblicitaria(segnalazione.fontePubblicitaria, db);
@@ -60,15 +60,19 @@ namespace mediatori.Controllers.Business
                 segnalazione.contatto = ContattoManager.findByPK(segnalazione.contatto.id, db);
                 //CopyObject.copy(segnalazione.contatto,contattoOriginale);
             }
+            else
+            {
+                segnalazione.contatto.impieghi = ImpiegoBusiness.valorizzaDatiImpiego(segnalazione.contatto.impieghi, db);
+                segnalazione.contatto.riferimenti = RiferimentoBusiness.valorizzaDatiRiferimento(segnalazione.contatto.riferimenti, db);
 
-            segnalazione.contatto.impieghi = ImpiegoBusiness.valorizzaDatiImpiego(segnalazione.contatto.impieghi, db);
-            segnalazione.contatto.riferimenti = RiferimentoBusiness.valorizzaDatiRiferimento(segnalazione.contatto.riferimenti, db);
+            }
             segnalazione.altroPrestito = TipoPrestitoBusiness.valorizzaDatiTipologiaPrestito(segnalazione.altroPrestito, db);
             segnalazione.prodottoRichiesto = TipoProdottoBusiness.valorizzaDatiTipoProdotto(segnalazione.prodottoRichiesto, db);
             segnalazione.fontePubblicitaria = FontePubblicitariaBusiness.valorizzaDatiFontePubblicitaria(segnalazione.fontePubblicitaria, db);
             segnalazione.canaleAcquisizione = TipoCanaleAcquisizioneBusiness.valorizzaDatiTipoCanaleAcquisizione(segnalazione.canaleAcquisizione, db);
             segnalazione.tipoLuogoRitrovo = TipoLuogoRitrovoBusiness.valorizzaDatiTipoLuogoRitrovo(segnalazione.tipoLuogoRitrovo, db);
             segnalazione.tipoContatto = TipoContattoBusiness.valorizzaDatiTipoContatto(segnalazione.tipoContatto, db);
+          
             return segnalazione;
         }
 

@@ -1,13 +1,12 @@
 ﻿@model mediatori.Models.Anagrafiche.Riferimento
 @{
-
     Layout = null;
 }
 
-<div class="display-control">
-    @MyHelper.MyDisplay(() => Model.tipoRiferimento.descrizione)
-</div>
 
-<div class="display-control">
-    @MyHelper.MyDisplay(() => Model.valore)
-</div>
+@MyJQueryMobile.MyDisplay(() => Model.tipoRiferimento.descrizione)
+
+
+
+@MyJQueryMobile.MyDisplay(() => Model.valore)
+

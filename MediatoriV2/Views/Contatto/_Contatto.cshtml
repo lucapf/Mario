@@ -1,12 +1,27 @@
-﻿@model mediatori.Models.Anagrafiche.Contatto
+﻿@model mediatori.Models.ContattoDetailsModel
 @{
-    mediatori.helper.FireAntDetailEventDetection edContatto = new mediatori.helper.FireAntDetailEventDetection("Cnt", Model.id);
-    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("Cnt", Url.Action("ContattoPartialById", "Contatto"), Model.id.ToString());
+    Layout = null;
+
+    mediatori.helper.FireAntDetailEventDetection edContatto = new mediatori.helper.FireAntDetailEventDetection("Cnt", Model.contatto.id);
+    mediatori.helper.FireAntEditHelper editHelperContatto = new mediatori.helper.FireAntEditHelper("Cnt", Url.Action("ContattoPartialById", "Contatto"), Model.contatto.id.ToString());
+
+    string label;
+
+    if (Model.isCedente)
+    {
+        label = "Cedente";
+
+    }
+    else
+    {
+        label = "Contatto";
+    }
 }
 
-<h3>Contatto  @Html.Raw(editHelperContatto.getButtonModifica("", "initContattoEdit();")) @Html.Raw(editHelperContatto.getButtonAnnullaModifica())</h3>
+
+<h3>@label  @Html.Raw(editHelperContatto.getButtonModifica("", "initContattoEdit();")) @Html.Raw(editHelperContatto.getButtonAnnullaModifica())</h3>
 <hr />
 <div id="@edContatto.getIdFullDetail()">
-    @{Html.RenderPartial("~/Views/Contatto/ContattoPartialDetail.cshtml", Model);}
+    @{Html.RenderPartial("~/Views/Contatto/ContattoPartialDetail.cshtml", Model.contatto);}
 </div>
 

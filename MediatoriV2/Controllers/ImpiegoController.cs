@@ -22,7 +22,7 @@ namespace mediatori.Controllers
 
 
         [ChildActionOnly]
-        public ActionResult Details(int contattoId)
+        public ActionResult Details(int contattoId, bool edit = true)
         {
             Contatto contatto;
             contatto = db.Contatti.Include("impieghi").Where(p => p.id == contattoId).First();
@@ -43,10 +43,14 @@ namespace mediatori.Controllers
 
             //model.impieghi = contatto.impieghi.ToList<Impiego>();
             model.contattoId = contattoId;
+                     
+            if (edit == true)
+            {
+                valorizzaViewBag();
+                return View("_Impieghi", model);
+            }
 
-            valorizzaViewBag();
-
-            return View("_Impieghi", model);
+            return View("_ImpieghiView", model);
         }
 
 

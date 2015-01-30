@@ -4,7 +4,7 @@
     Layout = null;
     
     mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Ind", Model.id);
-    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Ind", "/Indirizzo/IndirizzoPartialById", Model.id.ToString());
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Ind", Url.Action("IndirizzoPartialById", "Indirizzo"), Model.id.ToString());
 }
 
 <div class="ui-corner-all custom-corners">

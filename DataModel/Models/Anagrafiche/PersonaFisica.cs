@@ -55,7 +55,8 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [Display(Name = "CF")]
-        [RegularExpression("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ErrorMessage = "verificare la correttezza del codice fiscale")]
+        [RegularExpression("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]", ErrorMessage = "Verificare la correttezza del codice fiscale")]
+        [StringLength(16, ErrorMessage = "Il codice fiscale deve essere composto da 16 caratteri")]
         public String codiceFiscale { get; set; }
 
         [Display(Name = "Nazione nascita")]

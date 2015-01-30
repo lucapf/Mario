@@ -7,17 +7,19 @@ using System.Web;
 
 namespace mediatori.Models.Anagrafiche
 {
-      [Table("anagrafica_rete")]
+    [Table("anagrafica_rete")]
     public class AnagraficaRete
     {
-          [Key]
-          public int id {get;set;}
-          [Required]
-          [Display(Name="Sigla")]
-          public String sigla { get; set; }
-          [Required]
-          [Display(Name="Rete")]
-          public ICollection<ElementoRete> listaElementiRete { get; set; }
-          
+        [Key]
+        public int id { get; set; }
+
+        [Required]
+        [Display(Name = "Sigla")]
+        public String sigla { get; set; }
+
+        [Required]
+        [Display(Name = "Rete")]
+        public ICollection<ElementoRete> listaElementiRete { get; set; }
+
     }
 }

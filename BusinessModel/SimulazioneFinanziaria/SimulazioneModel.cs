@@ -19,7 +19,7 @@ namespace BusinessModel.SimulazioneFinanziaria
         public int? numeroRate { get; set; }
         public decimal? importoRata { get; set; }
         public DateTime? dataAssunzione { get; set; }
-        public string nazionalita { get; set; }
+        //public string nazionalita { get; set; }
 
 
         public int? segnalazioneId { get; set; }

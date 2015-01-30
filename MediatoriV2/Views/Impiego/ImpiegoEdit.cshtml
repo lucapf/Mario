@@ -2,10 +2,11 @@
 @{
     Layout = null;
 
-    string btnAnnulla = "ImpiegobtnAnnulla" + Model.id.ToString(); 
+    string btnAnnulla = "ImpiegobtnAnnulla" + Model.id.ToString();
+    string formId = "ImpiegoForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("UpdateForContatto", "Impiego", FormMethod.Post))
+@using (Html.BeginForm("UpdateForContatto", "Impiego", FormMethod.Post, new { id = formId }))
 {
     <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
 

@@ -108,6 +108,28 @@ namespace mediatori.Controllers
 
 
 
+        [ChildActionOnly]
+        public ActionResult DetailsV2(int id, bool isCedente = false)
+        {
+            //valorizzaViewBag();
+            Contatto contatto = ContattoManager.findByPK(id, db);
+
+            if (contatto == null)
+            {
+                return HttpNotFound();
+            }
+
+            valorizzaViewBag(contatto);
+
+            Models.ContattoDetailsModel model = new ContattoDetailsModel();
+            model.contatto = contatto;
+            model.isCedente = isCedente;
+
+            return View("_Contatto", model);
+        }
+
+
+
 
         public ActionResult Index(SearchPersonaFisica model)
         {

@@ -6,4 +6,7 @@
 
 }
 
-@{Html.RenderPartial("_BoxMenu", Model);}
+@if (Model != null)
+{
+    {Html.RenderPartial("_BoxMenu", Model);}
+}

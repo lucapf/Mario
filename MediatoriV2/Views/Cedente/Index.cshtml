@@ -13,15 +13,15 @@
 {
 
     <div class="ui-field-contain">
-        @MyHelper.MyInputType("nome", "Nome", Model.nome, false)
+        @MyJQueryMobile.MyInputType("nome", "Nome", Model.nome, false)
     </div>
 
     <div class="ui-field-contain">
-        @MyHelper.MyInputType("cognome", "Cognome", Model.cognome, false)
+        @MyJQueryMobile.MyInputType("cognome", "Cognome", Model.cognome, false)
     </div>
 
     <div class="ui-field-contain">
-        @MyHelper.MyInputType("codiceFiscale", "Codice fiscale", Model.codiceFiscale, false)
+        @MyJQueryMobile.MyInputType("codiceFiscale", "Codice fiscale", Model.codiceFiscale, false)
     </div>
 
     <div data-role="controlgrup" data-type="horizontal">
@@ -53,8 +53,7 @@
                         format:@<text>
                         <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Dettagli" href="@Url.Action("Details", new { id= item.id })">Dettagli</a>
                         <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="@Url.Action("Edit", new { id= item.id })">Modifica</a>
-                        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("Delete", new { id= item.id })">Cancella</a>
-                        </text>, canSort : false)
+                       </text>, canSort : false)
             })
             @{Html.RenderPartial("Paging", Model);}
         </div>

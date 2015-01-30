@@ -9,6 +9,6 @@ namespace BusinessModel.Anagrafiche.Agenzia
     {
         //Filtri di ricerca
         public string filtroRagioneSociale { get; set; }
-        public string filtroCodiceFiscale { get; set; }
-    }
+        public string filtroPartitaIva { get; set; }
+    }    
 }

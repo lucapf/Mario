@@ -12,7 +12,6 @@ namespace mediatori.Controllers
 {
     public class StatoController : MyBaseController
     {
-
         private BusinessModel.Segnalazione.SegnalazioneManager manager = null;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)

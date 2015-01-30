@@ -12,11 +12,18 @@
     </ul>
 </div>
 
+@{Html.RenderAction("DetailsV2", "Contatto", new { id = Model.pratica.cedente.id , isCedente = true});}
 
-@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.pratica);}
+<h3>Importi</h3>
+<hr />
+@{Html.RenderPartial("~/Views/Segnalazioni/SegnalazionePartialDetail.cshtml", Model.pratica);}
+
+<h3>Pratica</h3>
+<hr />
+@{Html.RenderPartial("_Pratica", Model.pratica);}
 
 
-<br />
+
 <!-- preventivo -->
 @{Html.RenderAction("DetailsFromPratica", "Preventivo", new { praticaId = Model.pratica.id });}
 <!-- /preventivo -->
@@ -40,7 +47,7 @@
 
 
 
-<div data-role="footer" data-position="fixed" data-theme="b">
+<div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
     <div data-role="navbar">
         <ul>
             <li><a href="@Url.Action("Index", "Pratiche")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista delle pratiche</a></li>

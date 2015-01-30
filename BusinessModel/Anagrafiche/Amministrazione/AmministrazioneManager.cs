@@ -33,12 +33,25 @@ namespace BusinessModel.Anagrafiche.Amministrazione
             System.Data.Common.DbCommand command;
             command = _connection.CreateCommand();
 
-            //if (model...filter != null && !String.IsNullOrEmpty(model.filter.tipo))
-            //{
-            //    _strSQL += " WHERE tipo_id = '" + model.filter.tipo + "'";
-            //}
+            string strWHERE = "";
 
-            // _strSQL += " order by nome";
+            if (!String.IsNullOrEmpty(model.filtroRagioneSociale))
+            {
+                strWHERE += " AND UPPER(t2.ragioneSociale) like  @NOME";
+                _addParameter(command, "@NOME", "%" + model.filtroRagioneSociale.ToUpper().Trim() + "%");
+            }
+
+            if (!String.IsNullOrEmpty(model.filtroPartitaIva))
+            {
+                strWHERE += " AND UPPER(t1.partitaIva) like  @PIVA";
+                _addParameter(command, "@PIVA", "%" + model.filtroPartitaIva.ToUpper().Trim() + "%");
+            }
+
+
+            if (!String.IsNullOrEmpty(strWHERE))
+            {
+                _strSQL += " WHERE (1=1) " + strWHERE;
+            }
 
 
             string temp;

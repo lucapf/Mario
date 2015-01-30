@@ -9,5 +9,7 @@ namespace mediatori.Models
     public class ContattoDetailsModel
     {
         public Contatto contatto { get; set; }
+
+        public bool isCedente { get; set; }
     }
 }

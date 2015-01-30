@@ -103,10 +103,11 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id = 0)
         {
-            // Segnalazione segnalazione = new SegnalazioneBusiness().findByPk(id, db);
-            Segnalazione segnalazione;
+               Segnalazione segnalazione;
 
-            segnalazione = db.Segnalazioni.Include("prodottoRichiesto").Include("contatto").Include("contatto.provinciaNascita").Include("contatto.comuneNascita").Include("stato").Include("note").Where(s => s.id == id).First();
+            //segnalazione = db.Segnalazioni.Include("prodottoRichiesto").Include("contatto").Include("contatto.provinciaNascita").Include("contatto.comuneNascita").Include("stato").Include("note").Where(s => s.id == id).First();
+
+               segnalazione = db.Segnalazioni.Include("prodottoRichiesto").Include("stato").Include("note").Where(s => s.id == id).First();
 
             if (segnalazione == null)
             {
@@ -178,21 +179,23 @@ namespace mediatori.Controllers
             {
                 segnalazione.contatto.provinciaNascita = db.Province.Where(p => p.denominazione == model.contatto.provinciaNascita.denominazione).FirstOrDefault();
                 segnalazione.contatto.comuneNascita = db.Comuni.Where(c => c.denominazione == model.contatto.comuneNascita.denominazione && c.codiceProvincia == model.contatto.provinciaNascita.id).FirstOrDefault();
+
+
+                if (segnalazione.contatto.impieghi == null)
+                {
+                    segnalazione.contatto.impieghi = new List<mediatori.Models.Anagrafiche.Impiego>();
+                }
+                segnalazione.contatto.impieghi.Add(mediatori.Controllers.Business.Anagrafiche.Soggetto.ImpiegoBusiness.valorizzaDatiImpiego(model.impiego, db));
+
+
+                if (segnalazione.contatto.riferimenti == null)
+                {
+                    segnalazione.contatto.riferimenti = new List<mediatori.Models.Anagrafiche.Riferimento>();
+                }
+                segnalazione.contatto.riferimenti.Add(mediatori.Controllers.Business.Anagrafiche.Soggetto.RiferimentoBusiness.valorizzaDatiRiferimento(model.riferimento, db));
+           
             }
 
-
-            if (segnalazione.contatto.impieghi == null)
-            {
-                segnalazione.contatto.impieghi = new List<mediatori.Models.Anagrafiche.Impiego>();
-            }
-            segnalazione.contatto.impieghi.Add(mediatori.Controllers.Business.Anagrafiche.Soggetto.ImpiegoBusiness.valorizzaDatiImpiego(model.impiego, db));
-
-
-            if (segnalazione.contatto.riferimenti == null)
-            {
-                segnalazione.contatto.riferimenti = new List<mediatori.Models.Anagrafiche.Riferimento>();
-            }
-            segnalazione.contatto.riferimenti.Add(mediatori.Controllers.Business.Anagrafiche.Soggetto.RiferimentoBusiness.valorizzaDatiRiferimento(model.riferimento,db));
 
 
             if (segnalazione.note == null)
@@ -208,8 +211,8 @@ namespace mediatori.Controllers
             TryValidateModel(segnalazione);
             if (ModelState.IsValid)
             {
-                segnalazione.stato = db.StatiSegnalazione.Find(MyConstants.STATO_INIZIALE_SEGNALAZIONE);
-
+               
+                segnalazione.stato = db.StatiSegnalazione.Where( p => p.descrizione ==  MyConstants.STATO_INIZIALE_SEGNALAZIONE).FirstOrDefault();
                 if (segnalazione.stato == null)
                 {
                     throw new MyManagerCSharp.MyException("Stato iniziale della segnalazione NON valido");

@@ -8,9 +8,9 @@
     $(document).on("pageinit", function () {
 
         //alert("pageinit");
-
-        $("#prodottoId").selectmenu("disable");
-
+        @if (String.IsNullOrEmpty (Model.prodottoId )){
+            @:$("#prodottoId").selectmenu("disable");
+                }
 
         $('#agenziaId').change(function () {
 
@@ -72,7 +72,7 @@
         <label for="prodottoId">Prodotti</label>
         <select name="prodottoId" id="prodottoId" data-mini="true" required>
             <option value="">---</option>
-            @foreach (MyManagerCSharp.Models.MyItem prodotto in Model.agenzie)
+            @foreach (MyManagerCSharp.Models.MyItem prodotto in Model.prodotti)
             {
                 <option value="@prodotto.Value" @(prodotto.Value == Model.prodottoId ? "selected=selected" : "")>@prodotto.Text</option>
             }
@@ -98,31 +98,23 @@
             <input type="text" name="dataDiNascita" id="dataDiNascita" data-role="date" required data-mini="true" value="@(Model.dataDiNascita == null?"":Model.dataDiNascita.Value.ToShortDateString())" />
         </div>
 
-        <div class="ui-field-contain">
-            <label for="nazionalita">Nazionalità</label>
-            <select name="nazionalita" id="nazionalita" data-mini="true" required>
-                <option value="I">Italiana</option>
-                <option value="C">Comunitaria</option>
-                <option value="E">Extracomunitaria</option>
-            </select>
-        </div>
     </fieldset>
 
 
     <div class="ui-field-contain">
         <label for="numeroRate">Numero rate</label>
 
-       
-    @if (Model.numeroRate == null)
-    {
-        Html.RenderPartial("_ComboNumeroRate", -1);
-    }
-    else
-    {
-        Html.RenderPartial("_ComboNumeroRate", Model.numeroRate);
-    }
 
-        
+        @if (Model.numeroRate == null)
+        {
+            Html.RenderPartial("_ComboNumeroRate", -1);
+        }
+        else
+        {
+            Html.RenderPartial("_ComboNumeroRate", Model.numeroRate);
+        }
+
+
     </div>
 
     <div class="ui-field-contain">

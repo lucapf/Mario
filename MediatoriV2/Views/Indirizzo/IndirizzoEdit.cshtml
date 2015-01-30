@@ -3,9 +3,10 @@
     Layout = null;
 
     string btnAnnulla = "IndbtnAnnulla" + Model.id.ToString();
+    string formId = "IndForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Indirizzo", FormMethod.Post))
+@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Indirizzo", FormMethod.Post,  new { id = formId }))
 {
     <input type="hidden" name="codiceSggettoGiuridico" value="@Model.soggettoGiuridicoId" />
 

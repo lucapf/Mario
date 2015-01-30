@@ -7,16 +7,18 @@ using System.Web;
 
 namespace mediatori.Models.Anagrafiche
 {
-     [Table("Amministrazione")]
+    [Table("erogazione")]
     public class Erogazione
     {
-         [Key]
-         public int id { get; set; }
-         [Required]
-         [Display(Name="codice Iban")]
-         public String iban { get; set; }
-         [Required]
-         [Display(Name = "tipo erogazione")]
-         public TipoErogazione tipoErogazione;
+        [Key]
+        public int id { get; set; }
+
+        [Required]
+        [Display(Name = "codice Iban")]
+        public String iban { get; set; }
+
+        [Required]
+        [Display(Name = "tipo erogazione")]
+        public TipoErogazione tipoErogazione;
     }
 }

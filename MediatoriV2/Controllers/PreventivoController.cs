@@ -53,7 +53,7 @@ namespace mediatori.Controllers
             model.praticaId = praticaId;
             model.preventivoConfermato = db.Preventivi.Find(pratica.preventivoConfermatoId);
 
-            model.simulazioneEnabled = !String.IsNullOrEmpty((Session["MySessionData"] as SessionData).UrlSimulazioneFinanziaria);
+            model.simulazioneEnabled = (Session["MySessionData"] as SessionData).CredenzialiCreditoLab != null;
 
             valorizzaDatiViewBag();
 
@@ -75,7 +75,7 @@ namespace mediatori.Controllers
             model.preventiviSmall = segnalazione.preventivi.ToList<PreventivoSmall>();
             model.segnalazioneId = segnalazioneId;
 
-            model.simulazioneEnabled = !String.IsNullOrEmpty((Session["MySessionData"] as SessionData).UrlSimulazioneFinanziaria);
+            model.simulazioneEnabled = (Session["MySessionData"] as SessionData).CredenzialiCreditoLab != null;
 
             if (model.simulazioneEnabled)
             {
@@ -222,20 +222,26 @@ namespace mediatori.Controllers
 
             preventivo.segnalazione.preventivoConfermatoId = preventivo.id;
 
+
+            mediatori.Models.etc.Stato statoInizialePratica = db.StatiSegnalazione.Where(p => p.descrizione == MyConstants.STATO_INIZIALE_PRATICA).FirstOrDefault();
+
+            if (statoInizialePratica == null)
+            {
+                throw new MyManagerCSharp.MyException("Stato iniziale della pratica NON valido");
+            }
+
             try
             {
                 db.SaveChanges();
 
-                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET Discriminator = 'Pratica'  where id = " + preventivo.segnalazione.id);
+                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET Discriminator = 'Pratica' , stato_id = " + statoInizialePratica.id + "  where id = " + preventivo.segnalazione.id);
 
-                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET cedente_id = contatto_id  where id = " + preventivo.segnalazione.id);
+                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET cedenteId = contattoId  where id = " + preventivo.segnalazione.id);
 
                 db.Database.ExecuteSqlCommand("UPDATE persona_fisica SET tipoPersonaFisica = 'Cedente'  where id = " + preventivo.segnalazione.contatto.id);
 
                 db.Database.ExecuteSqlCommand("UPDATE preventivo SET Tipo = 'Confermato'  where id = " + preventivo.id);
-
-                //TODO: Confifurare lo stato base della PRATICA
-
+                           
                 model.referenceId = preventivo.segnalazione.id.ToString();
                 model.esito = Models.JsonMessageModel.Esito.Succes;
                 model.messaggio = "Operazione conlusa con successo";

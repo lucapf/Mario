@@ -36,7 +36,9 @@ public static class MyConstants
 
     public const bool CHECK_ASSEGANAZIONI_ENABLED = true;
 
-    public const int STATO_INIZIALE_SEGNALAZIONE = 1;
+    public const string STATO_INIZIALE_PRATICA = "Pratica caricata";
+    public const string STATO_INIZIALE_SEGNALAZIONE = "Segnalazione caricata";
+
     public static System.Globalization.CultureInfo CultureInfoEN = new System.Globalization.CultureInfo("en-GB");
 
     public const string DATE_FORMAT = "{0:dd/MM/yyyy}";

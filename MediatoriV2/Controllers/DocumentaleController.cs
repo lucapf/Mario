@@ -79,13 +79,14 @@ namespace mediatori.Controllers
                 Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer container = getAzureContainer();
                 try
                 {
-                    db.Documenti.Add(documento);
-                    db.SaveChanges();
-
                     container.CreateIfNotExists();
                     Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob blockBlob = container.GetBlockBlobReference(documento.id.ToString());
                     blockBlob.UploadFromStream(MyFile.InputStream);
 
+
+                    db.Documenti.Add(documento);
+                    db.SaveChanges();
+                                     
 
                     model.esito = JsonMessageModel.Esito.Succes;
                     model.messaggio = "Operazione conlusa con successo";
@@ -95,6 +96,11 @@ namespace mediatori.Controllers
                 {
                     model.esito = JsonMessageModel.Esito.Failed;
                     model.messaggio = MyHelper.getDbEntityValidationException(ex);
+                }
+                catch (Exception ex)
+                {
+                    model.esito = JsonMessageModel.Esito.Failed;
+                    model.messaggio = ex.Message;
                 }
                 finally
                 {
@@ -125,8 +131,8 @@ namespace mediatori.Controllers
 
 
 
-        //  public JsonResult Delete(string id)
-        public ActionResult Delete(string id, int SegnalazioneId)
+          public JsonResult Delete(string id)
+       // public ActionResult Delete(string id, int SegnalazioneId)
         {
             Debug.WriteLine("Documento: " + id);
             Models.JsonMessageModel model = new Models.JsonMessageModel();
@@ -170,8 +176,8 @@ namespace mediatori.Controllers
             }
 
 
-            // return Json(model, JsonRequestBehavior.AllowGet);
-            return RedirectToAction("Details", "Segnalazioni", new { id = SegnalazioneId });
+             return Json(model, JsonRequestBehavior.AllowGet);
+           // return RedirectToAction("Details", "Segnalazioni", new { id = SegnalazioneId });
         }
 
 
@@ -208,15 +214,15 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult DetailsFromSegnalazione(int segnalazioneId)
         {
-            mediatori.Models.Anagrafiche.Segnalazione segnalazione;
-            segnalazione = db.Segnalazioni.Include("documenti").Where(p => p.id == segnalazioneId).First();
-            if (segnalazione == null)
-            {
-                return HttpNotFound();
-            }
+            //mediatori.Models.Anagrafiche.Segnalazione segnalazione;
+            //segnalazione = db.Segnalazioni.Include("documenti").Where(p => p.id == segnalazioneId).First();
+            //if (segnalazione == null)
+            //{
+            //    return HttpNotFound();
+            //}
 
             DocumentaleModel model = new DocumentaleModel();
-            model.documenti = segnalazione.documenti.ToList<Models.etc.Documento>();
+           // model.documenti = segnalazione.documenti.ToList<Models.etc.Documento>();
             model.segnalazioneId = segnalazioneId;
 
             model.tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
@@ -230,15 +236,15 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult DetailsFromPratica(int praticaId)
         {
-            mediatori.Models.Anagrafiche.Segnalazione segnalazione;
-            segnalazione = db.Segnalazioni.Include("documenti").Where(p => p.id == praticaId).First();
-            if (segnalazione == null)
-            {
-                return HttpNotFound();
-            }
+            //mediatori.Models.Anagrafiche.Segnalazione segnalazione;
+            //segnalazione = db.Segnalazioni.Include("documenti").Where(p => p.id == praticaId).First();
+            //if (segnalazione == null)
+            //{
+            //    return HttpNotFound();
+            //}
 
             DocumentaleModel model = new DocumentaleModel();
-            model.documenti = segnalazione.documenti.ToList<Models.etc.Documento>();
+           // model.documenti = segnalazione.documenti.ToList<Models.etc.Documento>();
             model.praticaId = praticaId;
 
             model.tipoDocumento = db.TipoDocumenti.OrderBy(p => p.descrizione).ToList();
@@ -253,6 +259,28 @@ namespace mediatori.Controllers
         //{
         //    ViewBag.tipoDocumento = new SelectList(db.TipoDocumenti, "id", "descrizione");
         //}
+
+
+        [HttpGet]
+        public ActionResult List(int id)
+        {
+
+            List<mediatori.Models.etc.Documento> lista;
+
+            lista = db.Documenti.Include("tipoDocumento").Where(p => p.SegnalazioneId == id).ToList();
+
+            //mediatori.Models.Anagrafiche.Segnalazione segnalazione;
+            //segnalazione = db.Segnalazioni.Include("documenti").Include("tipoDocumento").Where(p => p.id == id).First();
+            //if (segnalazione == null)
+            //{
+            //    return HttpNotFound();
+            //}
+
+           
+            return View("_DocumentList", lista );
+        }
+
+
 
     }
 }

@@ -9,13 +9,17 @@ namespace BusinessModel.SimulazioneFinanziaria
 {
     public class SimulazioneManager : MyManagerCSharp.ManagerDB
     {
-
         private PccWS.PccWSClient _PccServiceReference;
 
-        public SimulazioneManager(System.Data.Common.DbConnection connection, string urlWebService)
+        private string _login;
+        private string _password;
+
+        public SimulazioneManager(System.Data.Common.DbConnection connection, string urlWebService, string login, string password)
             : base(connection)
         {
 
+            _login = login;
+            _password = password;
 
             if (urlWebService.StartsWith("http://"))
             {
@@ -151,14 +155,21 @@ namespace BusinessModel.SimulazioneFinanziaria
             }
         }
 
-        private PccWS.storicoBean getStoricoBean(string operatoreId)
+        private PccWS.storicoBean _getStoricoBean()
         {
             PccWS.storicoBean bean = new PccWS.storicoBean();
             bean.codiceIstituto = 1;
             bean.codiceIstitutoSpecified = true;
-            bean.operatorId = operatoreId;
+            bean.operatorId = _login;
 
             return bean;
+        }
+
+        public string Login(string login, string password)
+        {
+            string esito = "";
+
+            return esito;
         }
 
         public string getVersion()
@@ -193,7 +204,7 @@ namespace BusinessModel.SimulazioneFinanziaria
             BusinessModel.PccWS.filtroRicercaAgenzia filtroRicercaAgenzia = new PccWS.filtroRicercaAgenzia();
 
             BusinessModel.PccWS.anagAgenziaFilialeSmallVO[] listaAgenzie;
-            listaAgenzie = _PccServiceReference.findAgenziaFilialeByOperatore(filtroRicercaAgenzia, getStoricoBean("techubadmin"));
+            listaAgenzie = _PccServiceReference.findAgenziaFilialeByOperatore(filtroRicercaAgenzia, _getStoricoBean());
 
             List<MyManagerCSharp.Models.MyItem> risultato;
             risultato = listaAgenzie.OrderBy(p => p.ragioneSociale).Select(p => new MyManagerCSharp.Models.MyItem(p.codice, p.ragioneSociale)).ToList();
@@ -203,7 +214,7 @@ namespace BusinessModel.SimulazioneFinanziaria
 
         public List<MyManagerCSharp.Models.MyItem> getProdotti(long agenziaId)
         {
-            PccWS.storicoBean bean = getStoricoBean("techubadmin");
+            PccWS.storicoBean bean = _getStoricoBean();
 
             BusinessModel.PccWS.anagAgenziaSmallVO agenzia = _PccServiceReference.findAnagAgenziaSmallByPK(agenziaId, bean);
 
@@ -233,7 +244,7 @@ namespace BusinessModel.SimulazioneFinanziaria
 
         public BusinessModel.PccWS.importiPraticaVO[] getAllPossiblePortafoglioCombinationFor(SimulazioneModel model)
         {
-            PccWS.storicoBean bean = getStoricoBean("techubadmin");
+            PccWS.storicoBean bean = _getStoricoBean();
 
             BusinessModel.PccWS.anagAgenziaSmallVO agenzia = _PccServiceReference.findAnagAgenziaSmallByPK((long)model.agenziaId, bean);
             if (agenzia == null)
@@ -250,7 +261,9 @@ namespace BusinessModel.SimulazioneFinanziaria
             BusinessModel.PccWS.filtroSimulazioneFinanziaria filtro = new PccWS.filtroSimulazioneFinanziaria();
             filtro.simulazioneMultipla = true;
             filtro.simulazioneMultiplaSpecified = true;
-            filtro.cittadinanza = model.nazionalita;
+
+
+            //filtro.cittadinanza = model.nazionalita;
 
             filtro.dataInserimentoPratica = DateTime.Now;
             filtro.dataInserimentoPraticaSpecified = true;

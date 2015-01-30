@@ -13,12 +13,31 @@ namespace mediatori.Controllers
     {
         public ActionResult Index()
         {
-            List<MenuElement> model = new List<MenuElement>(){
+            List<MenuElement> model = null;
+
+            if (MySessionData.IsInProfile(MyConstants.Profilo.AMMINISTRATORE))
+            {
+
+                model = new List<MenuElement>(){
                  // new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
                   new MenuElement(){display="Anagrafiche", ordinamento=1,livello=1,role="Amministratore",action="Anagrafiche", controller="Home"},
+                  new MenuElement(){display="Reports", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Reports"},
                   new MenuElement(){display="Sicurezza", ordinamento=1,livello=1,role="Amministratore",action="Sicurezza", controller="Home"},
                   new MenuElement(){display="Configurazioni", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Configurazioni"}
                 };
+            }
+
+            if (MySessionData.IsInProfile(MyConstants.Profilo.DIPENDENTE))
+            {
+
+                model = new List<MenuElement>(){
+                 // new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
+                  new MenuElement(){display="Anagrafiche", ordinamento=1,livello=1,role="Amministratore",action="Anagrafiche", controller="Home"}
+                  
+                };
+            }
+
+
             return View(model);
         }
 
@@ -66,23 +85,20 @@ namespace mediatori.Controllers
             return View(model);
         }
 
-
-
         public ActionResult AccessDenied()
         {
             return View();
         }
-
-
 
         public ActionResult Calendar()
         {
             return View();
         }
 
-        public ActionResult Assegnazioni(mediatori.Models.AssegnazioniModel model)
+
+
+        private void setAssegnazioniModel(mediatori.Models.AssegnazioniModel model)
         {
-            Debug.WriteLine("Assegnazioni");
             // model.DaAssegnare = db.Segnalazioni.Include("contatto").Include("prodottoRichiesto").ToList();
 
             //List<mediatori.Models.etc.GruppoLavorazione> gruppi = db.gruppiLavorazione.Where ( p => p.utenti.Contains (""User.Identity.Name
@@ -161,37 +177,45 @@ namespace mediatori.Controllers
 
             //model.NumeroScadute = model.DaAssegnare.Where(p => (p.dataPromemoria == null)).Count();
             //model.NumeroScadute = model.DaAssegnare.Where(p => (p.dataPromemoria != null)).Count();
+        }
 
-            if (Request.IsAjaxRequest())
+        public JsonResult AssegnazioniByJson(mediatori.Models.AssegnazioniModel model)
+        {
+            Debug.WriteLine("AssegnazioniByJson");
+            setAssegnazioniModel(model);
+
+            List<mediatori.Models.MyItem> risultato = new List<MyItem>();
+
+            if (model.DaAssegnare == null)
             {
-                List<mediatori.Models.MyItem> risultato = new List<MyItem>();
-
-                if (model.DaAssegnare == null)
-                {
-                    risultato.Add(new MyItem("0", "Da_assegnare"));
-                }
-                else
-                {
-                    risultato.Add(new MyItem(model.DaAssegnare.Count.ToString(), "Da_assegnare"));
-                }
-
-
-
-                if (model.Assegnate == null)
-                {
-                    risultato.Add(new MyItem("0", "Assegnate"));
-                }
-                else
-                {
-                    risultato.Add(new MyItem(model.Assegnate.Count.ToString(), "Assegnate"));
-                }
-
-
-                risultato.Add(new MyItem(model.NumeroScadute.ToString(), "Scadute"));
-
-                return Json(risultato, JsonRequestBehavior.AllowGet);
-
+                risultato.Add(new MyItem("0", "Da_assegnare"));
             }
+            else
+            {
+                risultato.Add(new MyItem(model.DaAssegnare.Count.ToString(), "Da_assegnare"));
+            }
+
+
+            if (model.Assegnate == null)
+            {
+                risultato.Add(new MyItem("0", "Assegnate"));
+            }
+            else
+            {
+                risultato.Add(new MyItem(model.Assegnate.Count.ToString(), "Assegnate"));
+            }
+
+
+            risultato.Add(new MyItem(model.NumeroScadute.ToString(), "Scadute"));
+
+            return Json(risultato, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Assegnazioni(mediatori.Models.AssegnazioniModel model)
+        {
+            Debug.WriteLine("Assegnazioni");
+
+            setAssegnazioniModel(model);
 
             return View(model);
         }
@@ -209,9 +233,6 @@ namespace mediatori.Controllers
 
             return View();
         }
-
-
-
 
         [HttpGet]
         public String popolaDropDownlistProvince()

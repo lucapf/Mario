@@ -5,8 +5,10 @@ using System.Web;
 
 namespace mediatori.Models.Test
 {
-    public class SslModel
+    public class SimulazioneModel
     {
         public string url { get; set; }
+        public string login { get; set; }
+        public string password { get; set; }
     }
 }

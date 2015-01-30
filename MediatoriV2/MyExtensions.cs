@@ -82,23 +82,23 @@ public static class MyExtensions
 
         if (dataType.StartsWith("System.Nullable`1[[System.Decimal,"))
         {
-            myTextBox = htmlHelper.TextBoxFor(expression, "{0:0.00}", new { type = "number", step = "0.1", min = "0", data_mini = DATA_MINI });
+            myTextBox = htmlHelper.TextBoxFor(expression, "{0:0.00}", new { type = "number", step = "0.1", min = "0", data_mini = DATA_MINI, data_clear_btn = "true" });
             temp = myTextBox.ToHtmlString().Replace(",",".");
             myTextBox = new MvcHtmlString(temp);
         }
         else if (dataType.StartsWith("System.Nullable`1[[System.Int32,"))
         {
-            myTextBox = htmlHelper.TextBoxFor(expression, "{0:0}", new { type = "number", step = "1", min = "0", data_mini = DATA_MINI });
+            myTextBox = htmlHelper.TextBoxFor(expression, "{0:0}", new { type = "number", step = "1", min = "0", data_mini = DATA_MINI, data_clear_btn = "true" });
             temp = myTextBox.ToHtmlString().Replace(",", ".");
             myTextBox = new MvcHtmlString(temp);
         }
         else if (dataType == "System.DateTime" ||  dataType.StartsWith("System.Nullable`1[[System.DateTime,"))
         {
-            myTextBox = htmlHelper.TextBoxFor(expression, "{0:d}", new { type = "date", data_role = "date", data_mini = DATA_MINI });
+            myTextBox = htmlHelper.TextBoxFor(expression, "{0:d}", new { type = "date", data_role = "date", data_mini = DATA_MINI, data_clear_btn="true" });
         }
         else if (dataType == "System.String")
         {
-            myTextBox = htmlHelper.TextBoxFor(expression, new { data_mini = DATA_MINI });
+            myTextBox = htmlHelper.TextBoxFor(expression, new { data_mini = DATA_MINI, data_clear_btn = "true" });
         }
         else
         {

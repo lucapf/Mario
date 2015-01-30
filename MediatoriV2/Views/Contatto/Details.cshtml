@@ -6,7 +6,7 @@
 
 <h1>Contatto: @Model.contatto.cognome @Model.contatto.nome</h1>
 
-@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.contatto);}
+@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model);}
 
 
 @{Html.RenderAction("Details", "Impiego", new { contattoId = Model.contatto.id });}

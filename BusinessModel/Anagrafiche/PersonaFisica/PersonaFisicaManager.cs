@@ -145,7 +145,7 @@ namespace BusinessModel.Anagrafiche.PersonaFisica
 
                 sManager._transactionBegin(ref _transaction);
                 //Cancello tutte le segnalazioni e pratiche associate alla persona
-                string strSQL = "SELECT ID FROM SEGNALAZIONE where CONTATTOID = " + personaFisicaId + " or CEDENTE_ID = " + personaFisicaId;
+                string strSQL = "SELECT ID FROM SEGNALAZIONE where CONTATTOID = " + personaFisicaId + " or CEDENTEID = " + personaFisicaId;
                 System.Data.DataTable  dt = _fillDataTable(strSQL);
                 foreach (System.Data.DataRow row in dt.Rows)
                 {

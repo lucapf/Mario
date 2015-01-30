@@ -1,0 +1,20 @@
+﻿@model mediatori.Models.Pratica.Pratica
+@{
+
+    Layout = null;
+
+    mediatori.helper.FireAntDetailEventDetection faDetailEventDetection = new mediatori.helper.FireAntDetailEventDetection("Prt", Model.id);
+    mediatori.helper.FireAntEditHelper editHelper = new mediatori.helper.FireAntEditHelper("Prt", Url.Action("PraticaPartialById","Pratiche"), Model.id.ToString());
+}
+
+<div class="ui-corner-all custom-corners">
+    <div class="ui-bar ui-bar-a">
+        <h2>@Html.Raw(editHelper.getButtonModificaV2("","")) @Html.Raw(editHelper.getButtonAnnullaModifica())  Pratica #@Model.id</h2>
+    </div>
+
+    <div class="ui-body ui-body-a">
+        <div id="@faDetailEventDetection.getIdFullDetail()">
+            @{Html.RenderPartial("_PraticaPartialDetail", Model);}
+        </div>
+    </div>
+</div>

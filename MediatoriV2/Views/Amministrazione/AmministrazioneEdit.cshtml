@@ -1,14 +1,13 @@
 ﻿@model mediatori.Models.Anagrafiche.Amministrazione
-
 @{
     Layout = null;
 
     string btnAnnulla = "AmmbtnAnnulla" + Model.id.ToString();
+    string formId = "AmmForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("Edit", "Amministrazione", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Amministrazione", FormMethod.Post, new { id = formId }))
 {
-
 
     { Html.RenderPartial("~/Views/Amministrazione/AmministrazionePartialEdit.cshtml", Model); }
 

@@ -1,0 +1,27 @@
+﻿@model mediatori.Models.PopupConfirmDeleteModel
+
+<div data-role="popup" id="popupConfirmDelete" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="a">
+        <h1>Cancellazione?</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <h3 class="ui-title">Confermare l'operazione di cancellazione?</h3>
+        <p>Questa operazione è irreversibile.</p>
+
+        @using (Html.BeginForm(Model.actionName, Model.controllerName, FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+
+            foreach (mediatori.Models.HiddenFiled field in Model.hiddenFields)
+            {
+                @Html.Raw(field.ToString());
+            }
+
+            <div data-role="controlgrup" data-type="horizontal">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini" data-rel="back">Annulla</a>
+                <input type="submit" value="Elimina" data-inline="true" data-mini="true" data-icon="delete" />
+            </div>
+        }
+    </div>
+</div>
+

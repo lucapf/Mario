@@ -10,7 +10,6 @@ namespace mediatori.Models.Anagrafiche
     [Table("tipo_fonte_pubblicitaria")]
     public class FontePubblicitaria
     {
-
         [Key]
         public int id { get; set; }
 

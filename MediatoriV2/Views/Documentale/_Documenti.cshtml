@@ -2,7 +2,6 @@
 @{
     Layout = null;
 
-
     int MyId = 0;
     if (Model.segnalazioneId != null)
     {
@@ -14,28 +13,26 @@
 
         MyId = (int)Model.praticaId;
     }
-
-
-
-}
-<h3>Documenti <strong class="h3Link" id="linkNuovoDocumento" title="Nuovo documento">[ + ]</strong></h3>
-<script>$("#linkNuovoDocumento").click(function () { $("#divNuovoDocumento").show(); })        </script>
-<hr />
-@using (Html.BeginCollectionItem("documenti"))
-{
-    foreach (mediatori.Models.etc.Documento doc in Model.documenti)
-    {
-        Html.RenderPartial("~/Views/Documentale/DocumentalePartialDetail.cshtml", doc);
-    }
 }
 
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+        $("#linkNuovoDocumento").click(function () {
+            //initIndirizzoPartialEdit();
+            $("#divNuovoDocumento").show();
+        })
+
+    });
+</script>
 <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.form.js")"></script>
 
+<h3>Documenti <strong class="h3Link" id="linkNuovoDocumento" title="Nuovo documento">[ + ]</strong></h3>
+<hr />
 <div id="divNuovoDocumento" style="display: none">
     @using (Html.BeginForm("Add", "Documentale", FormMethod.Post, new { id = "MyFormUpload", enctype = "multipart/form-data" }))
     {
         <input type="hidden" name="segnalazioneId" value="@MyId" />
-
 
         <div class="editor-control">
             <div class="editor-row">
@@ -88,15 +85,21 @@
 
         <div id="percent"></div>
         <div data-role="controlgrup" data-type="horizontal">
-            <input type="button" data-mini="true" data-inline="true" value="Upload" onclick="javascript:MyAsyncUpload()" />
+            <input type="button" data-mini="true" data-inline="true" value="Upload" onclick="javascript: MyAsyncUpload();" />
             <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovoDocumento").hide()' />
+
+            
         </div>
     }
 </div>
 
+<div id="AttachmentList">
+    @{Html.RenderAction("List", "Documentale", new { id = MyId });}
+</div>
 
-
-
+<!--
+<input type="button" data-mini="true" data-inline="true" value="Refresh" onclick="javascript: MyAsyncUpdate();" />
+-->
 
 <script type="text/javascript">
     function MyAsyncUpload() {
@@ -121,7 +124,7 @@
                 var obj = JSON.parse(response.responseText);
 
                 $("#MyFile").val("");
-                
+
 
                 //alert("esito: " + obj.esito + " Messaggio: " + obj.messaggio);
 
@@ -132,6 +135,7 @@
                     $('#percent').html("");
                 } else {
                     //SUCCESS
+                    $("#divNuovoDocumento").hide();
                     MyAsyncUpdate();
                     $('#percent').html("100%");
                 }
@@ -139,7 +143,7 @@
             }
         };
 
-        
+
         /*
         $("#MyFormUpload").validate({
             submitHandler: function (form) {
@@ -151,28 +155,22 @@
             }
         });*/
 
-        
+
         $("#MyFormUpload").validate();
         $('#MyFormUpload').ajaxForm(options);
         $('#MyFormUpload').submit();
     }
 
 
-
-    function MyAsyncDelete(id) {
+    function MyAsyncDelete(docId) {
         var r = confirm("Confermare la cancellazione del documento?");
         if (r == false) {
             return;
         }
 
+       
 
-
-        var temp;
-        temp = "@Url.Action("Delete", "Documentale")/" + id;
-
-        //alert("aaa: " + temp);
-
-        $.get(temp, function (response) {
+        $.get('@Url.Action("Delete", "Documentale")/' + docId, function (response) {
             //alert("success");
             if (response.esito == 1) {
                 MyAsyncUpdate();
@@ -181,47 +179,19 @@
                 //FAILED
                 alert(response.messaggio);
             }
-        })
- .done(function () {
-     //alert("second success");
- })
- .fail(function (response) {
-     alert("error" + response);
- })
- .always(function () {
-     //alert("finished");
- });
-
-
-        //    function (response) {
-        //    alert("MyAsyncDelete ");
-        //    var obj = JSON.parse(response.responseText);
-        //});
-
+        });
     }
+
+
 
     function MyAsyncUpdate() {
         //alert("MyAsyncUpdate");
 
-
-        @if (Model.segnalazioneId != null){
-
-            @:document.location.href = '@Url.Action("Details", "Segnalazioni", new {id = Model.segnalazioneId })';
-                         }
-
-
-
-        @if (Model.praticaId != null){
-
-            @:document.location.href = '@Url.Action("Details", "Pratiche", new {id = Model.praticaId })';
-                 }
-
-
-        @*$.get('@Url.Action("Index", "Documentale", new {SegnalazioneId = Model.segnalazioneId })', function (data) {
+        $.get('@Url.Action("List", "Documentale", new {id = MyId })', function (data) {
             //alert("MyAsyncUpdate " + data);
             $('#AttachmentList').html(data);
             $('#AttachmentList').trigger('create');
-        });*@
+        });
     }
 
 </script>

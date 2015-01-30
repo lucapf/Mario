@@ -1,0 +1,27 @@
+﻿@model mediatori.Models.ImpieghiModel
+@{
+    Layout = null;
+
+    //SOLO Visualizzazione
+    //NON è possibile fare modifiche
+
+    //viene utilizzata in fase di creazione di una segnalazione per un contatto già esistente!
+}
+
+<h3>Dati impiego</h3>
+<hr />
+@if (Model.impieghi != null)
+{
+    foreach (mediatori.Models.Anagrafiche.Impiego i in Model.impieghi)
+    {
+        <div class="ui-corner-all custom-corners">
+            <div class="ui-bar ui-bar-a">
+                <h2>Impiego #@i.id</h2>
+            </div>
+
+            <div class="ui-body ui-body-a">
+                @{Html.RenderPartial("~/Views/Impiego/ImpiegoPartialDetail.cshtml", i);}
+            </div>
+        </div>
+    }
+}

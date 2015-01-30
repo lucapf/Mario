@@ -165,7 +165,7 @@ namespace mediatori.Controllers
             {
                 var message = string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'utente, verificare i dati: " + Environment.NewLine + message);
-                
+
                 model.ProfiliDisponibili = manager.getProfili();
                 // model.Password = "";
                 model.ConfirmPassword = "";
@@ -182,6 +182,7 @@ namespace mediatori.Controllers
                 u.password = model.Password.Trim();
                 u.isEnabled = true;
 
+
                 bool esito;
                 esito = MyManagerCSharp.RegularExpressionManager.isValidEmail(u.login);
                 if (esito == false)
@@ -197,11 +198,10 @@ namespace mediatori.Controllers
                 string dominio;
                 dominio = u.login.Split('@')[1];
 
-
                 if ((Session["MySessionData"] as SessionData).Dominio != dominio)
                 {
                     string messaggio;
-                    messaggio = "L'email dell'utente deve appartenere al dominio: @" + (Session["MySessionData"] as SessionData).Dominio  ;
+                    messaggio = "L'email dell'utente deve appartenere al dominio: @" + (Session["MySessionData"] as SessionData).Dominio;
                     TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, messaggio);
                     // ModelState.AddModelError("", messaggio);
                     model.ProfiliDisponibili = manager.getProfili();
@@ -209,11 +209,12 @@ namespace mediatori.Controllers
 
                 }
 
-            
+                
+
                 long userId;
                 try
                 {
-                    manager.openConnection(); 
+                    manager.openConnection();
 
                     userId = manager.getUserIdFromLogin(u.login);
                     if (userId != -1)
@@ -223,6 +224,8 @@ namespace mediatori.Controllers
                         return View(model);
                     }
 
+                    //Rel. 1.0.0.8
+                    u.email = u.login;
 
                     userId = manager.insert(u);
 
@@ -244,7 +247,7 @@ namespace mediatori.Controllers
                     manager.closeConnection();
                 }
 
-                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Registrazione utente " + u.login  + " conclusa con successo");
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Registrazione utente " + u.login + " conclusa con successo");
                 return RedirectToAction("Index");
             }
 
@@ -407,10 +410,17 @@ namespace mediatori.Controllers
                 manager.openConnection();
                 try
                 {
-                    //TODO: Rutigliano da modificare 02/02/2014
-                    model.Utente.isEnabled = true;
+
                     //esito = manager.update(model.Utente);
+                    if (model.Utente.isEnabled == null)
+                    {
+                        model.Utente.isEnabled = false;
+                    }
+
+                    esito = manager.updateIsEnabled((long)model.Utente.userId, (bool)model.Utente.isEnabled);
+
                     esito = manager.updateEmail((long)model.Utente.userId, model.Utente.email);
+
                     //in questo caso gestiamo un solo profilo!
                     List<MyUsers.Models.MyProfile> listaProfili = new List<MyUsers.Models.MyProfile>();
                     Debug.WriteLine("ProfiloId: " + Request.Form["ProfiloId"]);

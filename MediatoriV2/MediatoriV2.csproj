@@ -202,6 +202,7 @@
     <Compile Include="Controllers\MyAuthorizeAttribute.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
     <Compile Include="Controllers\PraticheController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReteController.cs" />
     <Compile Include="Controllers\SimulazioneController.cs" />
     <Compile Include="Controllers\SoggettoGiuridicoController.cs" />
@@ -244,6 +245,8 @@
     <Compile Include="Models\Anagrafiche\SoggettoGiuridicoCreateModel.cs" />
     <Compile Include="Models\AssegnazioniModel.cs" />
     <Compile Include="Models\BlobContainer.cs" />
+    <Compile Include="Models\Configurazione\ConfigurazioneModel.cs" />
+    <Compile Include="Models\Configurazione\EntitaModel.cs" />
     <Compile Include="Models\ContattoDetailsModel.cs" />
     <Compile Include="Models\DocumentaleModel.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
@@ -262,6 +265,7 @@
     <Compile Include="Models\MyUserModel.cs" />
     <Compile Include="Controllers\PreventivoController.cs" />
     <Compile Include="Models\NoteModel.cs" />
+    <Compile Include="Models\PopupConfirmDeleteModel.cs" />
     <Compile Include="Models\PraticaDetailsModel.cs" />
     <Compile Include="Models\Pratica\PagedPratica.cs" />
     <Compile Include="Models\Pratica\SearchPratica.cs" />
@@ -271,11 +275,12 @@
     <Compile Include="Models\Segnalazione\SegnalazioneCreateModel.cs" />
     <Compile Include="Models\StatoModel.cs" />
     <Compile Include="Models\Test\Decimal.cs" />
-    <Compile Include="Models\Test\SslModel.cs" />
+    <Compile Include="Models\Test\SimulazioneModel.cs" />
     <Compile Include="Models\Test\TestClass.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="MyExtensions.cs" />
     <Compile Include="MyHelper.cs" />
+    <Compile Include="MyJQueryMobile.cs" />
     <Compile Include="MyMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionData.cs" />
@@ -500,7 +505,9 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\xml\MySiteMap.xml" />
     <Content Include="Content\xml\MySiteMapAdmin.xml" />
-    <Content Include="Content\xml\whatsnew.xml" />
+    <Content Include="Content\xml\whatsnew.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\xsl\menuLeftJQueryMobile.xsl" />
     <Content Include="Content\xsl\menuLeftMySiteMap.xsl" />
     <Content Include="Content\xsl\whatsnew.xsl" />
@@ -761,7 +768,7 @@
     <Content Include="Views\Utenti\Edit.cshtml" />
     <Content Include="Views\Shared\_ComboData.cshtml" />
     <Content Include="Views\Segnalazioni\_PopupChangeStatus.cshtml" />
-    <Content Include="Views\Test\SSL.cshtml" />
+    <Content Include="Views\Test\Simulazione.cshtml" />
     <Content Include="Views\Test\Email.cshtml" />
     <Content Include="Views\Home\Whatsnew.cshtml" />
     <Content Include="Views\Impiego\ImpiegoEdit.cshtml" />
@@ -785,6 +792,18 @@
     <Content Include="Views\Segnalazioni\SegnalazioneEdit.cshtml" />
     <Content Include="Views\Contatto\ContattoEdit.cshtml" />
     <Content Include="Views\Contatto\Details.cshtml" />
+    <Content Include="Views\Configurazioni\_footer.cshtml" />
+    <Content Include="Views\Configurazioni\Shared.cshtml" />
+    <Content Include="Views\Account\ChangeEmail.cshtml" />
+    <Content Include="Views\Shared\_PopupConfirmDelete.cshtml" />
+    <Content Include="Views\Impiego\_ImpieghiView.cshtml" />
+    <Content Include="Views\Riferimento\_RiferimentiView.cshtml" />
+    <Content Include="Views\Pratiche\_Pratica.cshtml" />
+    <Content Include="Views\Pratiche\_PraticaPartialDetail.cshtml" />
+    <Content Include="Views\Pratiche\_PraticaPartialEdit.cshtml" />
+    <Content Include="Views\Pratiche\_PraticaEdit.cshtml" />
+    <Content Include="Views\Documentale\_DocumentList - Copy.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

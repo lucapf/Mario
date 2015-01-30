@@ -1,0 +1,120 @@
+﻿@model mediatori.Models.Configurazione.ConfigurazioneModel
+@{
+    ViewBag.Title = "Shared";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    int conta = 0;
+    string css;
+}
+
+<h1>Configurazione @Model.nomeEntita </h1>
+
+<a href="#PopupNuovo" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo</a>
+
+<table class="MyTable ui-responsive" data-role="table" data-mode="reflow">
+    <thead>
+        <tr class="@MyConstants.TABLE_HEADER_STYLE">
+            <th>Id</th>
+            <th>Descrizione</th>
+            <th>Modifica</th>
+            <th>Cancella</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (mediatori.Models.Configurazione.EntitaModel item in Model.listaEntita)
+        {
+            conta++;
+            if (conta % 2 == 0)
+            {
+                css = MyConstants.TABLE_ROW_STYLE;
+            }
+            else
+            {
+                css = MyConstants.TABLE_ALTERNATING_ROW_STYLE;
+            }
+
+            <tr class="@css">
+                <td>@item.id</td>
+                <td>@item.descrizione</td>
+                <td>
+                    <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="#">Modifica</a>
+                </td>
+                <td>
+                    <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="#">Cancella</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{Html.RenderPartial("_footer");}
+
+
+
+
+
+
+
+<div data-role="popup" id="PopupNuovo" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="min-width:500px">
+    <div data-role="header" data-theme="a">
+        <h1>Nuovo</h1>
+    </div>
+    <div role="main" class="ui-content">
+        @using (Html.BeginForm(Model.nomeEntita, "Configurazioni", FormMethod.Post))
+        {
+            <input type="hidden" id="stato_id" name="stato.id" value="0" />
+
+            <div class="ui-field-contain">
+                <label for="stato_descrizione">Descrizione</label>
+                <input type="text" name="stato.descrizione" required id="stato_descrizione">
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="stato_statoBase">Stato base</label>
+                @MyHelper.getComboEnum(default(mediatori.Models.EnumStatoBase), "", "stato.statoBase", true)
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="stato_entitaAssociata">Entità associata</label>
+                @MyHelper.getComboEnum(default(mediatori.Models.etc.EnumEntitaAssociataStato), "", "stato.entitaAssociata", true)
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="stato_gruppoId">Gruppo lavorazione</label>
+                <select name="stato.gruppoId" id="stato_gruppoId" data-mini="true">
+                    <option value="">---</option>
+                    @foreach (MyUsers.Models.MyGroup g in Model.)
+                    {
+                        <option value="@g.gruppoId">@g.nome</option>
+                    }
+                </select>
+            </div>
+
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
+            <input type="submit" value="Conferma" data-inline="true" data-mini="true" />
+        }
+    </div>
+</div>
+
+
+
+
+<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="a">
+        <h1>Cancellazione?</h1>
+    </div>
+    <div role="main" class="ui-content">
+        <h3 class="ui-title">Confermare l'operazione di cancellazione?</h3>
+        <p>Questa operazione è irreversibile.</p>
+
+        @using (Html.BeginForm("CancellaStato", "Configurazioni", FormMethod.Post, null))
+        {
+            <input type="hidden" id="stato_delete_id" name="id" value="0" />
+            <div data-role="controlgrup" data-type="horizontal">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini" data-rel="back">Annulla</a>
+                <input type="submit" value="Cancella" data-inline="true" data-mini="true" />
+            </div>
+        }
+    </div>
+</div>

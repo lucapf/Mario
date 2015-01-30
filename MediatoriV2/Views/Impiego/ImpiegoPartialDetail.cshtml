@@ -3,19 +3,19 @@
     Layout = null;
 }
 
-<div class="display-control">
-    @MyHelper.MyDisplay(() => Model.amministrazione.soggettoGiuridico.ragioneSociale)
-</div>
-<div class="display-control">
-    @MyHelper.MyDisplay(() => Model.dataAssunzione)
-</div>
+
+@MyJQueryMobile.MyDisplay(() => Model.amministrazione.soggettoGiuridico.ragioneSociale)
+
+
+@MyJQueryMobile.MyDisplay(() => Model.dataAssunzione)
+
 <div class="display-control">
     @Html.LabelFor(m => m.dataLicenziamento)
     <div>@Html.Display("dataLicenziamento") </div>
 </div>
-<div class="display-control">
-    @MyHelper.MyDisplay(() => Model.stipendioNettoMensile)
-</div>
+
+@MyJQueryMobile.MyDisplay(() => Model.stipendioNettoMensile)
+
 <div class="display-control">
     @Html.LabelFor(m => m.tipoImpiego)
     <div>@Html.Display("tipoImpiego.descrizione")</div>

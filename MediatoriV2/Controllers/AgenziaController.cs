@@ -63,6 +63,7 @@ namespace mediatori.Controllers
             if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
                 valorizzaViewBag();
+
                 return View("AgenziaEdit", agenzia);
             }
 
@@ -88,7 +89,36 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Create(AgenziaCreateModel model)
         {
-            Agenzia agenzia = model.agenzia;
+            //Verifico la presenza di un'agenzia con lo stresso nome
+            List<SoggettoGiuridico> check;
+            check = manager.getSoggettoGiuridicoByRagioneSociale(model.soggettoGiuridico.ragioneSociale);
+            if (check != null)
+            {
+                valorizzaViewBag();
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Warning, "Attenzione, esiste già un'agenzia con lo stessa ragione sociale");
+                return View(model);
+            }
+
+            check = manager.getSoggettoGiuridicoByCF(model.soggettoGiuridico.codiceFiscale);
+            if (check != null)
+            {
+                valorizzaViewBag();
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Warning, "Attenzione, esiste già un'agenzia con lo stesso codice fiscale");
+                return View(model);
+            }
+
+
+            List<Agenzia > check_2;
+            check_2 = manager.getAgenziaByPIVA(model.agenzia.partitaIva);
+            if (check_2 != null)
+            {
+                valorizzaViewBag();
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Warning, "Attenzione, esiste già un'agenzia con la stessa partita iva");
+                return View(model);
+            }
+            
+            Agenzia agenzia;
+            agenzia = model.agenzia;
 
             agenzia.soggettoGiuridico = model.soggettoGiuridico;
             agenzia.soggettoGiuridico.tipoSoggettoGiuridico = EnumEntitaRiferimento.AGENZIA.ToString();
@@ -150,7 +180,7 @@ namespace mediatori.Controllers
             model.soggettoGiuridico.codiceFiscale = "GGGRRR55S66H406B";
             model.soggettoGiuridico.ragioneSociale = "Agenzia di prova";
 
-            model.agenzia.partitaIva = "1111111111111111";
+            model.agenzia.partitaIva = "11111111111";
             model.agenzia.rea = "REA";
 #endif
 

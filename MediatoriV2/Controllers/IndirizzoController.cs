@@ -56,7 +56,7 @@ namespace mediatori.Controllers
                 }
 
 
-//                model.indirizzi = IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(soggettoGiuridico.indirizzi, db).ToList<Indirizzo>();
+                //                model.indirizzi = IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(soggettoGiuridico.indirizzi, db).ToList<Indirizzo>();
 
 
                 //model.indirizzi = soggettoGiuridico.indirizzi.ToList<Indirizzo>();
@@ -82,7 +82,7 @@ namespace mediatori.Controllers
         {
             Indirizzo indirizzo;
             indirizzo = IndirizzoBusiness.findIndirizzo(id, db);
-           
+
             if (indirizzo == null)
             {
                 return HttpNotFound();
@@ -91,7 +91,7 @@ namespace mediatori.Controllers
             if (tipoAzione == EnumTipoAzione.MODIFICA)
             {
                 valorizzaViewBag(indirizzo);
-                 ViewData.TemplateInfo.HtmlFieldPrefix = "indirizzo";
+                ViewData.TemplateInfo.HtmlFieldPrefix = "indirizzo";
                 return View("IndirizzoEdit", indirizzo);
             }
 
@@ -159,8 +159,10 @@ namespace mediatori.Controllers
                 }
                 else
                 {
+                    // SelectList sli = new SelectList((from c in db.Comuni where c.denominazione == indirizzo.provincia.denominazione select c), "denominazione", "denominazione", indirizzo.comune.denominazione);
+                    SelectList sli = new SelectList((from c in db.Comuni join p in db.Province on c.codiceProvincia equals p.id where p.denominazione == indirizzo.provincia.denominazione select c), "denominazione", "denominazione", indirizzo.comune.denominazione);
 
-                    ViewBag.listaComuni = new SelectList((from c in db.Comuni where c.codiceProvincia == indirizzo.provincia.id select c), "denominazione", "denominazione", indirizzo.comune.denominazione);
+                    ViewBag.listaComuni = sli;
                 }
 
 
@@ -218,7 +220,7 @@ namespace mediatori.Controllers
             indirizzo.recapito = "Giuseppe Verdi";
 #endif
 
-            valorizzaViewBag();
+            valorizzaViewBag(indirizzo);
 
             ViewData.TemplateInfo.HtmlFieldPrefix = "indirizzo";
             return View("IndirizzoPartialEdit", indirizzo);

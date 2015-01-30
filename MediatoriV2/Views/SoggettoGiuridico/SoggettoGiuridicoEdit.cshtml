@@ -1,15 +1,13 @@
-﻿
-@model mediatori.Models.Anagrafiche.SoggettoGiuridico
-
+﻿@model mediatori.Models.Anagrafiche.SoggettoGiuridico
 @{
     Layout = null;
 
     string btnAnnulla = "SgbtnAnnulla" + Model.id.ToString();
+    string formId = "SgForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("Edit", "SoggettoGiuridico", FormMethod.Post))
+@using (Html.BeginForm("Edit", "SoggettoGiuridico", FormMethod.Post,  new { id = formId }))
 {
-
 
     { Html.RenderPartial("~/Views/SoggettoGiuridico/SoggettoGiuridicoPartialEdit.cshtml", Model); }
 

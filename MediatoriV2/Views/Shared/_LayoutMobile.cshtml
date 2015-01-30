@@ -1,22 +1,38 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool isAmministratore = false;
+    bool isDipendente = false;
+    bool isCollaboratore = false;
+
+    mediatori.SessionData sessionData = (Session["MySessionData"] as mediatori.SessionData);
+
+    if (sessionData != null)
+    {
+        isAmministratore = sessionData.IsInProfile(MyConstants.Profilo.AMMINISTRATORE);
+        isDipendente = sessionData.IsInProfile(MyConstants.Profilo.DIPENDENTE);
+        isCollaboratore = sessionData.IsInProfile(MyConstants.Profilo.COLLABORATORE);
+    }
+
+}
+
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
+    <title>@System.Configuration.ConfigurationManager.AppSettings["application.name"] @(String.IsNullOrEmpty(ViewBag.Title) ? "" : " - " + ViewBag.Title)</title>
 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
 
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
 
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="content-language" content="it" />
 
-    <meta http-equiv="Content-Language" content="it" />
     <meta name="language" content="italian" />
 
     <meta content="index,follow" name="robots" />
-
 
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/themes/MyTheme.min.css")" />
@@ -37,14 +53,12 @@
     }
 
 
-
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
 
 
     <script type="text/javascript" src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
 
 
     <script type="text/javascript" src="@Url.Content("~/Scripts/fireAntUtils.js")"></script>
@@ -54,7 +68,16 @@
     <script src="http://rawgithub.com/jquery/jquery-ui/1.10.4/ui/jquery.ui.datepicker.js"></script>
     <link rel="stylesheet" href="http://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/jquery.mobile.datepicker.css">
 
+    @if (isAmministratore)
+    {
+        <style>
+            .mytab {
+                width: 16.6% !important; /* 11.1% for 9 tabs wide */
+                clear: none !important; /* Prevent line break caused by ui-block-a */
+            }
+        </style>
 
+    }
 
     <script type="text/javascript">
 
@@ -75,8 +98,7 @@
 
             assegnazioni();
         });
-
-
+      
 
         function clock() {
             var d = new Date();
@@ -92,7 +114,7 @@
 
         function assegnazioni() {
             //alert("assegnazioni");
-            $.getJSON('@Url.Action("Assegnazioni", "Home")', function (myresponse) {
+            $.getJSON('@Url.Action("AssegnazioniByJson", "Home")', function (myresponse) {
 
                 var str = "";
                 str = "Da assegnare: " + myresponse[0].Value;
@@ -103,11 +125,11 @@
                 str = parseInt(myresponse[0].Value) + parseInt(myresponse[1].Value);
 
                 //alert(str);
-               // alert($("#MySegnalazioni").text());
+                // alert($("#MySegnalazioni").text());
 
                 //$("#MySegnalazioni").text("dddd");
 
-                
+
 
                 if ($("#MySegnalazioni").text() != str) {
 
@@ -143,7 +165,7 @@
 
             @if (MyConstants.CHECK_ASSEGANAZIONI_ENABLED ){
                 @:setTimeout(function () { assegnazioni(); }, 10000);
-                                                }
+                                                                                                                                                            }
 
         }
 
@@ -174,7 +196,6 @@
                 </a>
 
 
-
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div style="display:inline;  margin-top: 3px; padding:0; width:20px">
@@ -192,11 +213,19 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <ul>
-                        <li><a href="@Url.Action("Index", "Segnalazioni")">Segnalazioni</a></li>
-                        <li><a href="@Url.Action("Index", "Pratiche")">Pratiche</a></li>
-                        <li><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
-                        <li><a href="@Url.Action("Sicurezza", "Home")">Sicurezza</a></li>
-                        <li><a href="@Url.Action("Index", "Configurazioni")">Configurazioni</a></li>
+                        <li class="mytab"><a href="@Url.Action("Index", "Segnalazioni")">Segnalazioni</a></li>
+                        <li class="mytab"><a href="@Url.Action("Index", "Pratiche")">Pratiche</a></li>
+                        @if (isAmministratore || isDipendente)
+                        {
+                            <li class="mytab"><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
+                        }
+
+                        @if (isAmministratore)
+                        {
+                            <li class="mytab"><a href="@Url.Action("Index", "Reports")">Reports</a></li>
+                            <li class="mytab"><a href="@Url.Action("Sicurezza", "Home")">Sicurezza</a></li>
+                            <li class="mytab"><a href="@Url.Action("Index", "Configurazioni")">Configurazioni</a></li>
+                        }
                     </ul>
                 }
             </div>
@@ -226,6 +255,9 @@
                             case MyMessage.MyMessageType.Success:
                                 <h2 style="color:green ; font-size:medium;">@html</h2>
                                 break;
+                            case MyMessage.MyMessageType.Warning:
+                            <h2 style="color:orange ; font-size:medium;">@html</h2>
+                                break;
                             case MyMessage.MyMessageType.Failed:
                             case MyMessage.MyMessageType.Exception:
                             <h2 style="color:red; font-size:medium;">@html</h2>
@@ -243,10 +275,20 @@
         <div data-role="panel" data-position-fixed="false" data-display="overlay" data-theme="a" id="nav-panel">
             <ul data-role="listview">
                 <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
-                <li><a href="@Url.Action("Index", "Home")">Home Page</a></li>
-                <li><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
-                <li><a href="@Url.Action("Sicurezza", "Home")">Sicurezza</a></li>
-                <li><a href="@Url.Action("Configurazioni", "Home")">Configurazioni</a></li>
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="@Url.Action("Index", "Segnalazioni")">Segnalazioni</a></li>
+                <li><a href="@Url.Action("Index", "Pratiche")">Pratiche</a></li>
+                @if (isAmministratore || isDipendente)
+                {
+                    <li><a href="@Url.Action("Anagrafiche", "Home")">Anagrafiche</a></li>
+                }
+
+                @if (isAmministratore)
+                {
+                    <li><a href="@Url.Action("Index", "Reports")">Reports</a></li>
+                    <li><a href="@Url.Action("Sicurezza", "Home")">Sicurezza</a></li>
+                    <li><a href="@Url.Action("Index", "Configurazioni")">Configurazioni</a></li>
+                }
                 <li><a href="@Url.Action("Logoff", "Account")">LogOff</a></li>
             </ul>
         </div>

@@ -16,8 +16,12 @@ namespace mediatori.Models
         //public System.Web.Mvc.MultiSelectList  Gruppi { get; set; }
         public System.Web.Mvc.SelectList Profilo { get; set; }
 
-        //Eleenco dei profili disponibili
+        //Elenco dei profili disponibili
         public List<MyUsers.Models.MyProfile> Profili { get; set; }
+
+        
+        public MyUsers.Models.MyCredenziali Credenziali { get; set; }
+               
 
         public MyUserModel()
         {

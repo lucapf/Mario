@@ -22,7 +22,9 @@ namespace mediatori.Models.Anagrafiche
         public String tipoSoggettoGiuridico { get; set; }
 
         [Required]
-        [Display(Name = "Codice Fiscale")]
+        [Display(Name = "CF")]
+        //Contiene un CF oppure una partita iva
+        [RegularExpression("([A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z])|([0-9]{11})", ErrorMessage = "Verificare la correttezza del codice fiscale")]
         public String codiceFiscale { get; set; }
 
         [Display(Name = "Indirizzi")]

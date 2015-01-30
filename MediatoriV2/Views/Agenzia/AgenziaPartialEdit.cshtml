@@ -1,9 +1,11 @@
 ﻿@model mediatori.Models.Anagrafiche.Agenzia
 @{
     Layout = null;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "agenzia";
 }
 
-<input type="hidden" name="id" value="@Model.id" />
+@Html.HiddenFor(p => p.id)
+
 
 <div class="editor-control">
     @Html.MyInputType(p => p.soggettoGiuridico.ragioneSociale)
@@ -41,7 +43,7 @@
             <label for="agenzia_stato">Stato</label>
         </div>
         <div class="editor-value">
-            @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("isEnabled", Model.isEnabled));}
+            @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("agenzia.isEnabled", Model.isEnabled));}
         </div>
     </div>
     <div class="editor-validation">

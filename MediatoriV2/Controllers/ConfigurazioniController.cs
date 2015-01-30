@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace mediatori.Controllers
 {
 
-    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.DIPENDENTE, MyConstants.Profilo.AMMINISTRATORE })]
+    [MyAuthorize(Roles = new string[] { MyConstants.Profilo.AMMINISTRATORE })]
     public class ConfigurazioniController : MyBaseController
     {
 
@@ -140,21 +140,26 @@ namespace mediatori.Controllers
             return RedirectToAction("toponimi", new { errorMessage = errorMessage, message = message });
         }
         #endregion toponimi
+
+
         #region fontePubblicitaria
         [HttpGet]
-
-        public ActionResult fontePubblicitaria(String errorMessage, String message)
+        public ActionResult FontePubblicitaria(String errorMessage, String message)
         {
 
-            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            ViewBag.message = message == null ? String.Empty : message;
-            return View(
-                (from fontePubblicitaria in db.FontiPubblicitarie select fontePubblicitaria).ToList()
-                );
+            //ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
+            //ViewBag.message = message == null ? String.Empty : message;
+            //return View(
+            //    (from fontePubblicitaria in db.FontiPubblicitarie select fontePubblicitaria).ToList()
+            //    );
+
+            Models.Configurazione.ConfigurazioneModel model = new Models.Configurazione.ConfigurazioneModel("Fonte pubblicitaria");
+
+            model.listaEntita = db.FontiPubblicitarie.OrderBy(p => p.descrizione).Select(p => new Models.Configurazione.EntitaModel { id = p.id, descrizione = p.descrizione }).ToList();
+            return View("Shared", model);
         }
 
         [HttpPost]
-
         public ActionResult fontePubblicitaria(String descrizione)
         {
 
@@ -728,6 +733,16 @@ namespace mediatori.Controllers
             }
             else
             {
+                //La combo sul tipo entità è disabilita e di conseguenza non viene inviato il valore!
+                if (stato.descrizione == MyConstants.STATO_INIZIALE_PRATICA )
+                {
+                    stato.entitaAssociata = EnumEntitaAssociataStato.PRATICA;
+                }
+
+                if( stato.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE){
+                    stato.entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE;
+                }
+
                 //UPDATE
                 db.StatiSegnalazione.Attach(stato);
                 db.Entry(stato).State = System.Data.Entity.EntityState.Modified;
@@ -744,14 +759,20 @@ namespace mediatori.Controllers
 
 
         [HttpPost]
-        public ActionResult CancellaStato(int id)
+        [ValidateAntiForgeryToken]
+        public ActionResult cancellaStato(int id)
         {
-
             Stato statoDaCancellare = db.StatiSegnalazione.Find(id);
 
             if (statoDaCancellare == null)
             {
                 TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile cancellare lo stato richiesto, verificare i dati");
+                return RedirectToAction("Stato");
+            }
+
+            if (statoDaCancellare.descrizione == MyConstants.STATO_INIZIALE_PRATICA || statoDaCancellare.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile cancellare lo stato richiesto. Si tratta di uno stato indispensabile per il corretto funzionamento del sistema");
                 return RedirectToAction("Stato");
             }
 

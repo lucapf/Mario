@@ -103,6 +103,8 @@ namespace mediatori.Models
         public DbSet<Contatto> Contatti { get; set; }
         public DbSet<Cedente> Cedenti { get; set; }
 
+        public DbSet<Istituto> Istituti { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

@@ -20,7 +20,7 @@ namespace mediatori.Controllers
         {
             List<Models.Test.TestClass> model = new List<Models.Test.TestClass>();
             Models.Test.TestClass item;
-            
+
             for (int i = 0; i < 20; i++)
             {
                 item = new Models.Test.TestClass();
@@ -34,7 +34,7 @@ namespace mediatori.Controllers
                 model.Add(item);
             }
 
-                return View(model);
+            return View(model);
         }
 
         public ActionResult FlipSwitch(Models.Test.TestClass model)
@@ -51,27 +51,39 @@ namespace mediatori.Controllers
             return View(model);
         }
 
-        public ActionResult SSL(mediatori.Models.Test.SslModel model)
+
+
+        #region "___ SIMULAZIONE FINANZIARIA ___"
+        
+        public ActionResult Simulazione(mediatori.Models.Test.SimulazioneModel model)
         {
+
+            mediatori.SessionData MySessionData = (Session["MySessionData"] as SessionData);
+
             if (String.IsNullOrEmpty(model.url))
             {
-               // model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
-                model.url = System.Configuration.ConfigurationManager.AppSettings["pcc.url"];
+              //  model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
+
+               model.url = MySessionData.Istituto.url;
+
             }
+
+            model.login = MySessionData.CredenzialiCreditoLab.Login;
+            model.login = MySessionData.CredenzialiCreditoLab.Password;
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ActionName("SSL")]
-        public ActionResult SSLPost(mediatori.Models.Test.SslModel model)
+        [ActionName("GetVersion")]
+        public ActionResult SimulazioneGetVersion(mediatori.Models.Test.SimulazioneModel model)
         {
             BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = null;
             try
             {
                 string temp;
-                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null, model.url);
+                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null, model.url, "techubadmin", "");
 
                 temp = manager.getVersion();
 
@@ -88,10 +100,42 @@ namespace mediatori.Controllers
                     manager.close();
                 }
             }
-         
-            return View(model);
+
+            return View("Simulazione",model);
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Login")]
+        public ActionResult SimulazioneLoginPost(mediatori.Models.Test.SimulazioneModel model)
+        {
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = null;
+            try
+            {
+                string temp;
+                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null, model.url, model.login, model.password);
+
+                temp = manager.getVersion();
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Autenticazione eseguita con successso: " + temp);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(ex);
+            }
+            finally
+            {
+                if (manager != null)
+                {
+                    manager.close();
+                }
+            }
+
+            return View("Simulazione", model);
+        }
+
+        #endregion
 
         [HttpGet]
         public ActionResult Email(MyManagerCSharp.MyObject.MyEmail model)
@@ -109,7 +153,6 @@ namespace mediatori.Controllers
         public ActionResult EmailPost(MyManagerCSharp.MyObject.MyEmail model)
         {
             Debug.WriteLine("From: " + model.From);
-
 
             MyManagerCSharp.MailManager mail = new MyManagerCSharp.MailManager();
 

@@ -4,6 +4,34 @@
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
+
+<style type="text/css">
+    /* Custom indentations are needed because the length of custom labels differs from
+            the length of the standard labels */
+    .custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
+        text-indent: -5.9em;
+    }
+
+    .custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
+        text-indent: 0.5em;
+    }
+    /* Custom widths are needed because the length of custom labels differs from
+            the length of the standard labels */
+    .custom-size-flipswitch.ui-flipswitch {
+        width: 8.875em;
+    }
+
+        .custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
+            padding-left: 7em;
+            width: 1.875em;
+        }
+
+
+    .ui-field-contain > label + .custom-size-flipswitch.ui-flipswitch {
+        width: 1.875em;
+    }
+</style>
+
 <script>
     //$(function () {
     //    //per abilitare il controllo anche sui tab hidde
@@ -22,7 +50,7 @@
     //    $.validator.addClassRules("checkRequireOne", { checkboxrequired: true });
     //    //alert("dd");
 
-    });
+    //});
 </script>
 
 
@@ -35,6 +63,12 @@
     @Html.ValidationSummary(false)
 
     <input type="hidden" name="Utente.userId" value="@Model.Utente.userId" />
+
+
+    <div class="ui-field-contain">
+        <label for="Utente_isEnabled">Stato:</label>
+        <input data-role="flipswitch" name="Utente.isEnabled" id="Utente_isEnabled" @(Model.Utente.isEnabled == true ? "checked=checked" : "") data-on-text="Attivo" data-mini="true" value="true" data-off-text="Non attivo" data-wrapper-class="custom-label-flipswitch custom-size-flipswitch" type="checkbox">
+    </div>
 
 
     <div class="ui-field-contain">
@@ -84,6 +118,7 @@
     </div>
 
 }
+
 
 
 

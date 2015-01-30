@@ -32,6 +32,82 @@ namespace mediatori.Controllers
         }
 
 
+        public ActionResult ChangeEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreditoLab(mediatori.Models.ManageModel model)
+        {
+            //Verifico le credenziali
+            string temp;
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null, MySessionData.Istituto.url, model.Login, model.Password);
+
+            temp = manager.Login(model.Login, model.Password);
+
+            Debug.WriteLine(temp);
+
+            if (!String.IsNullOrEmpty(temp))
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, temp);
+                return View("Manage", model);
+            }
+
+
+            BusinessModel.Configurazione.IstitutoManager istitutoManager = new BusinessModel.Configurazione.IstitutoManager(db.Database.Connection);
+
+            try
+            {
+                istitutoManager.openConnection();
+
+                istitutoManager.insertCredenziali(new MyUsers.Models.MyCredenziali(model.Login, model.Password), MySessionData.UserId, MySessionData.Istituto.id);
+
+                _initSessionData(MySessionData);
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Account CreditoLab configurato con successo");
+            }
+            finally
+            {
+                istitutoManager.closeConnection();
+            }
+
+
+            return RedirectToAction("Manage");
+        }
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreditoLabDelete(mediatori.Models.ManageModel model)
+        {
+            BusinessModel.Configurazione.IstitutoManager istitutoManager = new BusinessModel.Configurazione.IstitutoManager(db.Database.Connection);
+
+            try
+            {
+                istitutoManager.openConnection();
+
+                istitutoManager.deleteCredenziali(MySessionData.UserId, MySessionData.Istituto.id);
+
+                _initSessionData(MySessionData);
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Account CreditoLab elimanto con successo");
+            }
+            finally
+            {
+                istitutoManager.closeConnection();
+            }
+
+            return RedirectToAction("Manage");
+        }
+       
+
+
+
+
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -140,12 +216,10 @@ namespace mediatori.Controllers
                             log.insert(userId, MyManagerCSharp.Log.LogUserManager.LogType.Login, System.Net.IPAddress.Parse(ip));
                         }
 
-
-                        /** SESSIONE **/
                         mediatori.SessionData session = new mediatori.SessionData(userId, dominio, connectionString);
-                        session.Roles = manager.getRoles(userId);
-                        session.Profili = manager.getProfili(userId);
-                        session.Groups = manager.getGroupSmall(userId);
+
+                        /*** SESSIONE ***/
+                        _initSessionData(session);
 
                         Session["MySessionData"] = session;
 
@@ -207,9 +281,32 @@ namespace mediatori.Controllers
 
         }
 
+
+
+        private void _initSessionData(mediatori.SessionData session)
+        {
+            long userId = session.UserId;
+
+
+            session.Roles = manager.getRoles(userId);
+            session.Profili = manager.getProfili(userId);
+            session.Groups = manager.getGroupSmall(userId);
+
+            /*** ISTITUTO ***/
+            BusinessModel.Configurazione.IstitutoManager managerIstituto = new BusinessModel.Configurazione.IstitutoManager(manager.getConnection());
+            session.Istituto = managerIstituto.getIstitutoByUserId(userId);
+            if (session.Istituto != null)
+            {
+                session.CredenzialiCreditoLab = managerIstituto.getCredenziali(userId, session.Istituto.id);
+            }
+
+            //return session;
+        }
+
+
         public ActionResult Manage()
         {
-            mediatori.Models.UserProfile model = new mediatori.Models.UserProfile();
+            mediatori.Models.ManageModel model = new mediatori.Models.ManageModel();
             manager.openConnection();
 
             long userId = -1;
@@ -232,6 +329,15 @@ namespace mediatori.Controllers
                 //Non carico nulla perchè visualizzo solo i dati che sono in SESSIONE
                 //setUserProfileModel(model, userId);
 
+                MyUsers.Models.MyUser utente = manager.getUser(userId);
+                if (utente != null)
+                {
+                    model.Nome = utente.nome;
+                    model.Cognome = utente.cognome;
+
+                    model.datePreviousLogin = utente.datePreviousLogin;
+                }
+
             }
             finally
             {
@@ -241,6 +347,10 @@ namespace mediatori.Controllers
 
             return View(model);
         }
+
+
+
+
 
         public ActionResult Refresh()
         {
@@ -271,16 +381,19 @@ namespace mediatori.Controllers
                     userId = (Session["MySessionData"] as MyManagerCSharp.MySessionData).UserId;
                 }
 
-                MyManagerCSharp.MySessionData sessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
+                //MyManagerCSharp.MySessionData sessionData = (Session["MySessionData"] as MyManagerCSharp.MySessionData);
 
                 //if ((User.Identity.IsAuthenticated) && (User.Identity is MyUsers.MyCustomIdentity) && sessionData.UserId == -1)
                 //{
                 //    userId = (User.Identity as MyUsers.MyCustomIdentity).UserId;
                 //}
 
-                sessionData.Roles = manager.getRoles(userId);
-                sessionData.Profili = manager.getProfili(userId);
-                sessionData.Groups = manager.getGroupSmall(userId);
+                /*** SESSIONE ***/
+                _initSessionData(MySessionData);
+
+                //sessionData.Roles = manager.getRoles(userId);
+                //sessionData.Profili = manager.getProfili(userId);
+                //sessionData.Groups = manager.getGroupSmall(userId);
             }
             finally
             {

@@ -91,7 +91,12 @@ namespace mediatori.Controllers.CQS
             foreach (PropertyInfo propertyOriginale in propertiesOriginale)
             {
                 PropertyInfo propertyModificato = (from p in propertiesModificato 
-                                                   where p.Name == propertyOriginale.Name select p).First();
+                                                   where p.Name == propertyOriginale.Name select p).FirstOrDefault();
+
+                if (propertyModificato == null)
+                {
+                    continue;
+                }
                 object valoreOriginale= propertyOriginale.GetValue(originale);
                 object valoreModificato = propertyModificato.GetValue(modificato);
                 if (valoreOriginale == null && valoreModificato == null) continue;

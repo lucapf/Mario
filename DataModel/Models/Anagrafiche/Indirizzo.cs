@@ -29,8 +29,6 @@ namespace mediatori.Models.Anagrafiche
         public int? soggettoGiuridicoId { get; set; }
         public virtual SoggettoGiuridico soggettoGiuridico { get; set; }
 
-
-
         [Required]
         [Display(Name="Tipo")]
         public TipologiaIndirizzo tipoIndirizzo { get; set; }

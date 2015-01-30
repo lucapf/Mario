@@ -7,6 +7,8 @@
 
 <h2>Dettaglio Cedente:  @Html.Display("nome")  @Html.Display("cognome") </h2>
 
+
+
 <script>
     $(document).ready(function () {
         $("#operatoreInserimento").html("caricamento in corso");
@@ -35,33 +37,22 @@
 </script>
 <div id="operatoreInserimento" style="display:inline-block;float:right;"></div>
 
-<fieldset>
 
-    <legend>Cedente</legend>
-    <div id="datiGeneraliCedente">
-        @Html.Partial("DatiGeneraliPartialDetails", Model)
-
-    </div>
+@{Html.RenderAction("DetailsV2", "Contatto", new { id = Model.id, isCedente = true });}
 
 
-    <!-- GESTIONE DOCUMENTI IDENTITA
-      foreach (mediatori.Models.Anagrafiche.DocumentoIdentita documentoIdentita in Model.documentoIdentita)
-    {
+@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.id });}
 
-        Html.RenderAction("DocumentoIdentitaPartialDetail", "DocumentoIdentita", documentoIdentita);
-    }-->
-    <!-- indirizzo -->
-    @foreach (mediatori.Models.Anagrafiche.Indirizzo indirizzo in Model.indirizzi)
-    {
-        Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialDetail.cshtml", indirizzo);
-    }
 
-    <!-- impiego -->
-    @foreach (mediatori.Models.Anagrafiche.Impiego impiego in Model.impieghi)
-    {
-        Html.RenderPartial("~/Views/Impiego/ImpiegoPartialDetail.cshtml", impiego);
-    }
-</fieldset>
+@{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.id });}
+
+
+@{Html.RenderAction("Cedente", "Indirizzo", new { cedenteId = Model.id });}
+
+
+@{Html.RenderAction("Details", "Impiego", new { contattoId = Model.id });}
+
+
 
 
 <div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">

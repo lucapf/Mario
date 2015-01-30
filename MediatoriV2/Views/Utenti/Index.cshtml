@@ -41,10 +41,6 @@
     </fieldset>
 
 
-
-
-
-
     if (Model.TotalRows == 0)
     {
         <h3>Non è stato trovato nessun utente. Modificare i filtri di ricerca.</h3>
@@ -67,6 +63,7 @@
                 wGrid.Column ("Nome","", canSort  : true),
                 wGrid.Column ("Cognome","", canSort  : true),
                 wGrid.Column ("Email",  format: @<a href="mailto:@item.Email">@item.Email</a>),
+                wGrid.Column (columnName:"isEnabled", header :"Attivo", format: p=> MyHelper.decodeAttivaImage(Request.ApplicationPath,p.isEnabled)),
                 wGrid.Column ("DateAdded","Data inserimento", canSort  : true),
                 wGrid.Column ("DateLastLogin","Data ultimo accesso", format: p => (p.dateLastLogin == DateTime.MinValue )?" ":p.dateLastLogin  , canSort  : true ),
                 wGrid.Column ("", header :"Actions",

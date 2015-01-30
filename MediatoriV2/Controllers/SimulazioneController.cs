@@ -19,9 +19,9 @@ namespace mediatori.Controllers
 
             if (db != null)
             {
-                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(db.Database.Connection, System.Configuration.ConfigurationManager.AppSettings["pcc.url"]);
-
-
+                
+                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(db.Database.Connection
+                  ,MySessionData.Istituto.url, MySessionData.CredenzialiCreditoLab.Login, MySessionData.CredenzialiCreditoLab.Password );
             }
         }
 
@@ -89,7 +89,21 @@ namespace mediatori.Controllers
             BusinessModel.PccWS.importiPraticaVO[] temp;
             temp  = manager.getAllPossiblePortafoglioCombinationFor(model);
 
-           
+            if (temp == null)
+            {
+
+                model.versione = manager.getVersion();
+                model.agenzie = manager.getAgenzie();
+
+                if (model.agenziaId != null)
+                {
+                    model.prodotti = manager.getProdotti((long)model.agenziaId);
+                }
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Warning, "Attenzione, il sistema non ha individuato alcun prodotto. Modificare i parametri per la simulazione.");
+
+                return View("Index", model);
+            }
 
             Debug.WriteLine("COUNT : " + temp.Length);
 
@@ -125,15 +139,12 @@ namespace mediatori.Controllers
                 return RedirectToAction("Details", "Segnalazioni", new { id = codiceSegnalazione });
             }
 
-
             Segnalazione segnalazione;
             segnalazione = db.Segnalazioni.Include("preventivi").Include("contatto").Where(p => p.id == codiceSegnalazione).First();
             if (segnalazione == null)
             {
                 return HttpNotFound();
             }
-
-
 
             BusinessModel.SimulazioneFinanziaria.SimulazioneModel model = new BusinessModel.SimulazioneFinanziaria.SimulazioneModel();
             model.segnalazioneId = codiceSegnalazione;
@@ -156,7 +167,6 @@ namespace mediatori.Controllers
                 model.dataAssunzione = segnalazione.contatto.impieghi.ToList<Impiego>()[0].dataAssunzione;
             }
 
-
             // Session[MyConstants.MySessionData.ProdottiSimulazioneFinanziaria.ToString()] = manager.getAllPossiblePortafoglioCombinationFor(model);
 
             try
@@ -175,8 +185,6 @@ namespace mediatori.Controllers
                     manager.close();
                 }
             }
-
-
 
             return View("Index", model);
         }

@@ -1,4 +1,4 @@
-﻿@model mediatori.Models.UserProfile
+﻿@model mediatori.Models.ManageModel
 
 @{
     ViewBag.Title = "Manage";
@@ -12,10 +12,16 @@
         Layout = "~/Views/Shared/_LayoutMobile.cshtml";
     }
 
+    mediatori.SessionData sessionData = (Session["MySessionData"] as mediatori.SessionData);
+
+    string profilo;
+    profilo = sessionData.Profili.Replace(";", " - ");
+
+    if (profilo.EndsWith(" - "))
+    {
+        profilo = profilo.Substring(0, profilo.Length - 3);
+    }
 }
-
-
-
 
 
 @if (User.Identity is MyUsers.MyCustomIdentity || User.Identity is System.Web.Security.FormsIdentity)
@@ -25,29 +31,42 @@
 
 <a style="float:right; margin-top:20px;" href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
 <h2>My Account</h2>
+<p>Benvenuto, @Model.NomeCognome</p>
+@if (Model.datePreviousLogin != null)
+{
+    <p>
+        il tuo ultimo accesso è del @Model.datePreviousLogin.Value.ToShortDateString() alle ore @Model.datePreviousLogin.Value.ToShortTimeString()
+    </p>
+}
 <div class="ui-grid-a">
     <div class="ui-block-a">
-        <div class="ui-bar ui-bar-a">Login:</div>
-        <div class="ui-bar ui-bar-a">Profilo:</div>
+        <div class="ui-bar ui-bar-a">Login</div>
+        <div class="ui-bar ui-bar-a">Email</div>
+        <div class="ui-bar ui-bar-a">Profilo</div>
     </div>
 
     <div class="ui-block-b">
         <div class="ui-bar ui-body-a">@User.Identity.Name</div>
-        <div class="ui-bar ui-body-a">@MyHelper.decodeNull((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.Replace(";", " - "))</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(sessionData.Email)</div>
+        <div class="ui-bar ui-body-a">@MyHelper.decodeNull(profilo)</div>
     </div>
 </div>
+
+@MyJQueryMobile.MyAnchor(Url.Action("ChangeEmail", "Account"), "Modifica email", MyJQueryMobile.IconType.edit)
+
+
 
 
 <h2>Gruppi</h2>
 
-@if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups == null || (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups.Count == 0)
+@if (sessionData.Groups == null || sessionData.Groups.Count == 0)
 {
-    <h3>Nessun gruppo di lavorazione configurato</h3>
+    <h3>Nessun gruppo configurato</h3>
 }
 else
 {
     <ol data-role="listview" data-inset="true">
-        @foreach (MyManagerCSharp.Models.MyGroupSmall g in (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups)
+        @foreach (MyManagerCSharp.Models.MyGroupSmall g in sessionData.Groups)
         {
             <li data-icon="false"><a href="#">@g.nome</a></li>
         }
@@ -56,3 +75,83 @@ else
 }
 
 
+<br />
+<h2>Account per CreditoLab</h2>
+<hr />
+
+@if (sessionData.CredenzialiCreditoLab == null)
+{
+    <h3>Nessun account configurato</h3>
+
+    <p>
+        Clicca qui per configurare un account per il servizio di CreditoLab
+        <a href="#MyPopup" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Configura</a>
+    </p>
+}
+else
+{
+    <div class="ui-grid-a">
+        <div class="ui-block-a">
+            <div class="ui-bar ui-bar-a">Login</div>
+            <div class="ui-bar ui-bar-a">Password</div>
+        </div>
+
+        <div class="ui-block-b">
+            <div class="ui-bar ui-body-a">@sessionData.CredenzialiCreditoLab.Login</div>
+            <div class="ui-bar ui-body-a">***********</div>
+        </div>
+    </div>
+
+    <button value="Test" data-inline="true" data-mini="true" title="@sessionData.Istituto.url" onclick="testCredenziali()">Verifica</button>
+
+    @MyJQueryMobile.MyAnchorPopup("#popupConfirmDelete", "Elimina", MyJQueryMobile.IconType.delete);
+}
+
+
+
+
+
+<div data-role="popup" id="MyPopup" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="a">
+        <h1>Account CreditoLab</h1>
+    </div>
+    <div role="main" class="ui-content">
+        @using (Html.BeginForm("CreditoLab", "Account", FormMethod.Post, null))
+        {
+            <div class="ui-field-contain">
+                <label for="Login">Login</label>
+                <input type="text" name="Login" id="Login" data-clear-btn="true" data-mini="true" value="@Model.Login" required>
+                <span data-valmsg-replace="true" data-valmsg-for="Login" class="field-validation-valid"></span>
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="Password">Password</label>
+                <input type="password" name="Password" id="Password" data-clear-btn="true" data-mini="true" value="@Model.Password" required>
+                <span data-valmsg-replace="true" data-valmsg-for="Password" class="field-validation-valid"></span>
+            </div>
+
+            <div class="ui-field-contain">
+                <label for="PasswordConfirm">Conferma password</label>
+                <input type="password" name="PasswordConfirm" id="PasswordConfirm" data-clear-btn="true" data-mini="true" required
+                       data-val="true" data-val-equalto="La password di conferma non corrisponde" data-val-equalto-other="*.Password">
+                <span data-valmsg-replace="true" data-valmsg-for="PasswordConfirm" class="field-validation-valid"></span>
+            </div>
+
+            <div data-role="controlgrup" data-type="horizontal">
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini" data-rel="back">Annulla</a>
+                <button value="Test" data-inline="true" data-mini="true" onclick="testCredenziali()">Verifica</button>
+                <input type="submit" value="Configura" data-inline="true" data-mini="true" />
+            </div>
+        }
+    </div>
+</div>
+
+
+@{Html.RenderPartial("_PopupConfirmDelete", new mediatori.Models.PopupConfirmDeleteModel() { actionName = "CreditoLabDelete", controllerName = "Account" });}
+
+<script type="text/javascript">
+    function testCredenziali() {
+        alert("Operazione non ancora implementata");
+    }
+
+</script>

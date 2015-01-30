@@ -1,6 +1,7 @@
 ﻿@model mediatori.Models.Anagrafiche.Contatto
 @{
     Layout = null;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "contatto";
 }
 
 <script type="text/javascript" src="@Url.Content("~/Scripts/contatti.duplicati.js")"></script>
@@ -57,8 +58,6 @@
 </script>
 
 <ul data-role="listview" data-inset="true" id="grigliaContattiDuplicati"></ul>
-
-
 
 @Html.HiddenFor(model => model.id)
 

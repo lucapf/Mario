@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,13 +34,26 @@ namespace BusinessModel.Anagrafiche.Agenzia
             System.Data.Common.DbCommand command;
             command = _connection.CreateCommand();
 
-            //if (model...filter != null && !String.IsNullOrEmpty(model.filter.tipo))
-            //{
-            //    _strSQL += " WHERE tipo_id = '" + model.filter.tipo + "'";
-            //}
 
-            // _strSQL += " order by nome";
+            string strWHERE = "";
 
+            if (!String.IsNullOrEmpty(model.filtroRagioneSociale))
+            {
+                strWHERE += " AND UPPER(t2.ragioneSociale) like  @NOME";
+                _addParameter(command, "@NOME", "%" + model.filtroRagioneSociale.ToUpper().Trim() + "%");
+            }
+
+            if (!String.IsNullOrEmpty(model.filtroPartitaIva))
+            {
+                strWHERE += " AND UPPER(t1.partitaIva) like  @PIVA";
+                _addParameter(command, "@PIVA", "%" + model.filtroPartitaIva.ToUpper().Trim() + "%");
+            }
+
+
+            if (!String.IsNullOrEmpty(strWHERE))
+            {
+                _strSQL += " WHERE (1=1) " + strWHERE;
+            }
 
             string temp;
             //paginazione
@@ -98,7 +112,6 @@ namespace BusinessModel.Anagrafiche.Agenzia
 
         }
 
-
         private mediatori.Models.Anagrafiche.Agenzia getAgenzia(DataRow row)
         {
             mediatori.Models.Anagrafiche.Agenzia agenzia;
@@ -116,6 +129,96 @@ namespace BusinessModel.Anagrafiche.Agenzia
 
             return agenzia;
         }
+
+        public int deleteAllAgenzie()
+        {
+            _strSQL = "SELECT ID FROM AGENZIA";
+
+            _dt = _fillDataTable(_strSQL);
+            int conta = 0;
+
+            foreach (System.Data.DataRow row in _dt.Rows)
+            {
+                if (delete(long.Parse(row["ID"].ToString())))
+                {
+                    conta++;
+                }
+            }
+
+            return conta;
+        }
+
+        public bool delete(long agenziaId)
+        {
+
+            int conta;
+            try
+            {
+                _transactionBegin();
+
+                _strSQL = "DELETE FROM  AGENZIA WHERE ID = " + agenziaId;
+
+                conta = _executeNoQuery(_strSQL);
+
+                _transactionCommit();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception: " + ex.Message);
+                _transactionRollback();
+                throw ex;
+            }
+            return (conta == 1);
+        }
+
+
+        public List<mediatori.Models.Anagrafiche.SoggettoGiuridico> getSoggettoGiuridicoByRagioneSociale(string sagioneSociale)
+        {
+            SoggettoGiuridico.SoggettoGiuridicoManager sManager = new SoggettoGiuridico.SoggettoGiuridicoManager(_connection);
+
+            return sManager.getSoggettoGiuridico(sagioneSociale, "", mediatori.Models.EnumEntitaRiferimento.AGENZIA.ToString());
+
+        }
+
+        public List<mediatori.Models.Anagrafiche.SoggettoGiuridico> getSoggettoGiuridicoByCF(string CF)
+        {
+            SoggettoGiuridico.SoggettoGiuridicoManager sManager = new SoggettoGiuridico.SoggettoGiuridicoManager(_connection);
+
+            return sManager.getSoggettoGiuridico("", CF, mediatori.Models.EnumEntitaRiferimento.AGENZIA.ToString());
+
+        }
+
+
+        public List<mediatori.Models.Anagrafiche.Agenzia> getAgenziaByPIVA(string partitaIva)
+        {
+            System.Data.Common.DbCommand command;
+            command = _connection.CreateCommand();
+
+            _strSQL = "SELECT * FROM AGENZIA as t1 ";
+            
+            _strSQL += " WHERE UPPER(t1.partitaIva) =  @PIVA";
+            _addParameter(command, "@PIVA", partitaIva.ToUpper().Trim());
+            
+
+            command.CommandText = _strSQL;
+            _dt = _fillDataTable(command);
+
+            if (_dt.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            List<mediatori.Models.Anagrafiche.Agenzia> risultato = new List<mediatori.Models.Anagrafiche.Agenzia>();
+
+            foreach (System.Data.DataRow row in _dt.Rows)
+            {
+                risultato.Add(getAgenzia(row));
+            }
+
+            return risultato;
+
+        }
+
 
     }
 }

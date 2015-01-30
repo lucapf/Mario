@@ -17,7 +17,7 @@
             <legend>Form di registrazione</legend>
 
             <div class="ui-field-contain">
-                <label for="UserName">Email</label>
+                <label for="UserName">Email / Login</label>
                 <input type="email" name="UserName" id="UserName" data-clear-btn="true" data-mini="true" required value="@Model.UserName" />
             </div>
 
@@ -28,8 +28,10 @@
 
             <div class="ui-field-contain">
                 <label for="ConfirmPassword">Conferma la nuova password:</label>
-                <input type="password" name="ConfirmPassword" id="ConfirmPassword" data-clear-btn="true" data-mini="true" required value="@Model.ConfirmPassword">
+                <input type="password" name="ConfirmPassword" id="ConfirmPassword" data-clear-btn="true" data-mini="true" required value="@Model.ConfirmPassword" data-val="true" data-val-equalto="La password di conferma non corrisponde" data-val-equalto-other="Password">
             </div>
+
+            
 
             <div class="ui-field-contain">
                 <label for="select-profilo">Profilo:</label>

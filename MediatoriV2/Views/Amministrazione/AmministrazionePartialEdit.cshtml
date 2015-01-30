@@ -1,9 +1,10 @@
 ﻿@model mediatori.Models.Anagrafiche.Amministrazione
 @{
-    Layout = null;   
+    Layout = null;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "amministrazione";
 }
 
-<input type="hidden" name="id" value="@Model.id" />
+@Html.HiddenFor(p => p.id)
 
 
 <div class="editor-control">

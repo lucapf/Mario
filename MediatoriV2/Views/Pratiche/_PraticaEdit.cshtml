@@ -1,0 +1,17 @@
+﻿@model mediatori.Models.Pratica.Pratica
+@{
+    Layout = null;
+
+    string btnAnnulla = "PrtbtnAnnulla" + Model.id.ToString();
+    string formId = "PrtForm" + Model.id.ToString();
+}
+
+@using (Html.BeginForm("Update", "Pratiche", FormMethod.Post, new { id = formId }))
+{
+    { Html.RenderPartial("_PraticaPartialEdit", Model); }
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+        <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#@btnAnnulla").trigger("click");' />
+    </div>
+}

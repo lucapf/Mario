@@ -22,7 +22,7 @@ namespace mediatori.Controllers
 
 
         [ChildActionOnly]
-        public ActionResult Details(int contattoId)
+        public ActionResult Details(int contattoId, bool edit = true)
         {
             Contatto contatto;
             contatto = db.Contatti.Include("riferimenti").Include("riferimenti.tipoRiferimento").Where(p => p.id == contattoId).First();
@@ -35,9 +35,13 @@ namespace mediatori.Controllers
             model.riferimenti  = contatto.riferimenti.ToList<Riferimento>();
             model.contattoId = contattoId;
 
-            valorizzaViewBag();
+            if (edit == true)
+            {
+                valorizzaViewBag();
+                return View("_Riferimenti", model);
+            }
 
-            return View("_Riferimenti", model);
+            return View("_RiferimentiView", model);
         }
 
 

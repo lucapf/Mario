@@ -94,6 +94,7 @@
 @if (Model.preventivoConfermato != null)
 {
     <h3>Preventivo confermato</h3>
+    <hr />
     if (Model.simulazioneEnabled)
     {// preventivo NON modificabile
         Html.RenderPartial("~/Views/Preventivo/PreventivoPartialDetail.cshtml", Model.preventivoConfermato);

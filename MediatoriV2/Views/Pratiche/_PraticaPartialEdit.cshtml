@@ -1,0 +1,15 @@
+﻿@model mediatori.Models.Pratica.Pratica
+@{
+    Layout = null;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "pratica";
+}
+
+@Html.HiddenFor(p => p.id)
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.dataRinnovo)
+</div>
+
+<div class="editor-control">
+    @Html.MyInputType(m => m.dataDecorrenza)
+</div>

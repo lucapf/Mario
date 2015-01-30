@@ -72,7 +72,10 @@
     </ul>
 </div>
 
-@{Html.RenderPartial("~/Views/Contatto/_Contatto.cshtml", Model.segnalazione.contatto);}
+
+@{Html.RenderAction("DetailsV2", "Contatto", new { id = Model.segnalazione.contattoId, isCedente = false });}
+
+
 
 
 <h3>Importi  @Html.Raw(editHelperSegnalazione.getButtonModifica()) @Html.Raw(editHelperSegnalazione.getButtonAnnullaModifica())</h3>

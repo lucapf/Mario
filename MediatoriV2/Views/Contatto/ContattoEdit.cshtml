@@ -3,9 +3,10 @@
     Layout = null;
 
     string btnAnnulla = "CntbtnAnnulla" + Model.id.ToString();
+    string formId = "CntForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("Edit", "Contatto", FormMethod.Post))
+@using (Html.BeginForm("Edit", "Contatto", FormMethod.Post, new { id = formId }))
 {
     <input type="hidden" name="codiceContatto" value="@Model.id" />
 

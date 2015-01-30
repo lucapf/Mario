@@ -14,6 +14,8 @@ namespace mediatori.Models.Segnalazione
         public Models.Anagrafiche.Riferimento riferimento { get; set; }
         public Models.Nota nota { get; set; }
 
+        //In caso di un contatto 
+
 
         public SegnalazioneCreateModel()
         {

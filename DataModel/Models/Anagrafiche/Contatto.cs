@@ -10,14 +10,10 @@ namespace mediatori.Models.Anagrafiche
 {
     public class Contatto: PersonaFisica
     {
-      
-       
         [Display(Name = "Impieghi")]
         public virtual ICollection<Impiego> impieghi { get; set; }
 
         [Display(Name = "Riferimenti")]
         public virtual ICollection<Riferimento> riferimenti { get; set; }
-
-      
     }
 }

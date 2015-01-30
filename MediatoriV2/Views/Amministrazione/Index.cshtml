@@ -16,12 +16,12 @@
 {
     <div class="ui-field-contain">
         <label>Ragione sociale</label>
-        @Html.TextBox("ragioneSociale")
+        @Html.MyTextBoxFor(p => p.filtroRagioneSociale)
     </div>
 
     <div class="ui-field-contain">
         <label>Partita iva</label>
-        @Html.TextBox("partitaIva")
+        @Html.MyTextBoxFor(p => p.filtroPartitaIva)
     </div>
 
     <div data-role="controlgrup" data-type="horizontal">

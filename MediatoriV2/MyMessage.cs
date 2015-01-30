@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 
 
-
 public class MyMessage
 {
     public enum MyMessageType {
         Success,
         Failed,
+        Warning,
         Exception
     }
 

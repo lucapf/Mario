@@ -24,7 +24,7 @@ namespace mediatori.Models.etc
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Data inserimento")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? dataInserimento { get; set; }
 
         [Required]

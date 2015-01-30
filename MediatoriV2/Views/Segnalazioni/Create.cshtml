@@ -15,7 +15,7 @@
 
     if (Model.contatto.id == 0)
     {
-        Html.RenderAction("Create", "Contatto", new { conatto = Model.contatto });
+        Html.RenderAction("Create", "Contatto", new { contatto = Model.contatto });
     }
     else
     {
@@ -25,12 +25,21 @@
 
 
      <!-- impiego -->
-    <h3>Dati impiego</h3>
-    <hr />
-    if (Model.impiego != null)
+    if (Model.contatto.id == 0)
     {
-        { Html.RenderAction("Create", "Impiego", new { impiego = Model.impiego }); }
+        <h3>Dati impiego</h3>
+        <hr />
+        if (Model.impiego != null)
+        {
+            { Html.RenderAction("Create", "Impiego", new { impiego = Model.impiego }); }
+        }
     }
+    else
+    {
+        Html.RenderAction("Details", "Impiego", new { contattoId = Model.contatto.id, edit = false });
+    }
+    
+    <!-- /impiego -->
 
     <h3>Importi</h3>
     <hr />
@@ -165,11 +174,20 @@
     </div>
 
 
-    <h3>Riferimenti</h3>
-    <hr />
-    if (Model.riferimento != null)
+
+    if (Model.contatto.id == 0)
     {
-        { Html.RenderAction("Create", "Riferimento", new { riferimento = Model.riferimento }); }
+        <h3>Riferimenti</h3>
+        <hr />
+
+        if (Model.riferimento != null)
+        {
+            { Html.RenderAction("Create", "Riferimento", new { riferimento = Model.riferimento }); }
+        }
+    }
+    else
+    {
+        Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id, edit = false });
     }
 
 
@@ -177,7 +195,7 @@
     <hr />
     if (Model.nota != null)
     {
-        Html.RenderPartial("~/Views/Nota/NotaPArtialEdit.cshtml", Model.nota);
+        Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", Model.nota);
     }
 
 

@@ -96,6 +96,7 @@
     <Compile Include="TestSimulazioneFinanziaria.cs" />
     <Compile Include="TestSSL.cs" />
     <Compile Include="TestPersonaFisica.cs" />
+    <Compile Include="TestAgenzia.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

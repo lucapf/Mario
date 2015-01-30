@@ -7,8 +7,6 @@
 }
 <h2>Gestione stati</h2>
 
-@Html.Partial("commonConfigurazioni")
-
 <script type="text/javascript">
 
     function editStato(id, gruppoId, descrizione, statoBase, entitaId) {
@@ -19,6 +17,16 @@
         $("#stato_gruppoId").val(gruppoId).change();
         $("#stato_entitaAssociata").val(entitaId).change();
 
+        if (descrizione == '@MyConstants.STATO_INIZIALE_PRATICA' || descrizione == '@MyConstants.STATO_INIZIALE_SEGNALAZIONE') {
+            $("#stato_entitaAssociata").selectmenu("disable");
+            //$("#stato_descrizione").textinput("disable");
+            $("#stato_descrizione").attr('readonly', 'readonly')
+        } else {
+            $("#stato_entitaAssociata").selectmenu("enable");
+            //$("#stato_descrizione").textinput("enable");
+            $("#stato_descrizione").removeAttr('readonly');
+        }
+
         $("#popupStato").popup("open");
     }
 
@@ -28,7 +36,7 @@
 
         $("#stato_delete_id").val(id);
 
-        $("#popupDialog").popup("open");
+        $("#popupConfirmDelete").popup("open");
     }
 </script>
 
@@ -75,12 +83,23 @@
                             @:N/A
                         }
                     </td>
+
                     <td>
                         <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="javascript:editStato(@stato.id, @(stato.gruppo == null?-1:stato.gruppo.gruppoId),'@stato.descrizione',@((int)stato.statoBase), @((int)stato.entitaAssociata) );">Modifica</a>
                     </td>
-                    <td>
-                        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="javascript:deleteStato(@stato.id);">Cancella</a>
-                    </td>
+
+                    @if (stato.descrizione == MyConstants.STATO_INIZIALE_PRATICA || stato.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE)
+                    {
+                        <td>
+                            &nbsp;
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="javascript:deleteStato(@stato.id);">Cancella</a>
+                        </td>
+                    }
                 </tr>
             }
         </table>
@@ -131,22 +150,12 @@
 
 
 
+@{
+    mediatori.Models.PopupConfirmDeleteModel popupModel = new mediatori.Models.PopupConfirmDeleteModel();
+    popupModel.actionName = "CancellaStato";
+    popupModel.controllerName = "Configurazioni";
+    popupModel.hiddenFields.Add(new mediatori.Models.HiddenFiled() { id = "stato_delete_id", name = "id", value = "" });
 
-<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
-    <div data-role="header" data-theme="a">
-        <h1>Cancellazione?</h1>
-    </div>
-    <div role="main" class="ui-content">
-        <h3 class="ui-title">Confermare l'operazione di cancellazione?</h3>
-        <p>Questa operazione è irreversibile.</p>
+    Html.RenderPartial("_PopupConfirmDelete", popupModel);
+}
 
-        @using (Html.BeginForm("CancellaStato", "Configurazioni", FormMethod.Post, null))
-        {
-            <input type="hidden" id="stato_delete_id" name="id" value="0" />
-            
-            <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini" data-rel="back">Annulla</a>
-            <input type="submit" value="Cancella" data-inline="true" data-mini="true" />
-        }
-
-    </div>
-</div>

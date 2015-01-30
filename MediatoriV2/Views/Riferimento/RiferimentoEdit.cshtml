@@ -1,13 +1,12 @@
-﻿
-@model mediatori.Models.Anagrafiche.Riferimento
+﻿@model mediatori.Models.Anagrafiche.Riferimento
 @{
     Layout = null;
 
     string btnAnnulla = "RifbtnAnnulla" + Model.id.ToString();
-   // string btnAnnulla = "btnAnnullaModificaDati" + Model.id.ToString();
+    string formId = "RifForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Riferimento", FormMethod.Post))
+@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Riferimento", FormMethod.Post,  new { id = formId }))
 {
     <input type="hidden" name="codiceSggettoGiuridico" value="@Model.soggettoGiuridicoId" />
 

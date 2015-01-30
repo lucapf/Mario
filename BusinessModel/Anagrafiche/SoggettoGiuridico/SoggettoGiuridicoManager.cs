@@ -28,6 +28,10 @@ namespace BusinessModel.Anagrafiche.SoggettoGiuridico
             List<mediatori.Models.Anagrafiche.SoggettoGiuridico> risultato;
             risultato = new List<mediatori.Models.Anagrafiche.SoggettoGiuridico>();
 
+            System.Data.Common.DbCommand command;
+            command = _connection.CreateCommand();
+
+
             _strSQL = " FROM SOGGETTO_GIURIDICO as t1 ";
 
             if (model.tipoSoggettoSelezionato == null)
@@ -39,10 +43,18 @@ namespace BusinessModel.Anagrafiche.SoggettoGiuridico
                 _strSQL += " WHERE t1.tipoSoggettoGiuridico = '" + model.tipoSoggettoSelezionato.ToString() + "'";
             }
 
-           
+            if (!String.IsNullOrEmpty(model.codiceFiscale))
+            {
+                _strSQL += " AND UPPER(t1.codiceFiscale) like  @CF";
+                _addParameter(command, "@CF", "%" + model.codiceFiscale.ToUpper().Trim() + "%");
+            }
 
-            System.Data.Common.DbCommand command;
-            command = _connection.CreateCommand();
+            if (!String.IsNullOrEmpty(model.ragioneSociale))
+            {
+                _strSQL += " AND UPPER(t1.ragioneSociale) like  @NOME";
+                _addParameter(command, "@NOME", "%" + model.ragioneSociale.ToUpper().Trim() + "%");
+            }
+
 
             string temp;
             //paginazione
@@ -101,6 +113,48 @@ namespace BusinessModel.Anagrafiche.SoggettoGiuridico
         }
 
 
+        public List<mediatori.Models.Anagrafiche.SoggettoGiuridico> getSoggettoGiuridico(string ragioneSociale, string CF, string tipo)
+        {
+            _strSQL = "SELECT * FROM SOGGETTO_GIURIDICO as t1 ";
+
+            _strSQL += " WHERE  tipoSoggettoGiuridico ='" + tipo + "' ";
+
+            System.Data.Common.DbCommand command;
+            command = _connection.CreateCommand();
+
+
+            if (!String.IsNullOrEmpty(ragioneSociale))
+            {
+                _strSQL += " AND UPPER(t1.ragioneSociale) =  @NOME";
+                _addParameter(command, "@NOME", ragioneSociale.ToUpper().Trim());
+            }
+
+            if (!String.IsNullOrEmpty(CF))
+            {
+                _strSQL += " AND UPPER(t1.codiceFiscale) =  @CF";
+                _addParameter(command, "@CF", CF.ToUpper().Trim());
+            }
+
+
+            command.CommandText = _strSQL;
+            _dt = _fillDataTable(command);
+
+            if (_dt.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            List<mediatori.Models.Anagrafiche.SoggettoGiuridico> risultato = new List<mediatori.Models.Anagrafiche.SoggettoGiuridico>();
+
+            foreach (System.Data.DataRow row in _dt.Rows)
+            {
+                risultato.Add(getSoggettoGiuridico(row));
+            }
+
+            return risultato;
+        }
+
+
         private mediatori.Models.Anagrafiche.SoggettoGiuridico getSoggettoGiuridico(DataRow row)
         {
             mediatori.Models.Anagrafiche.SoggettoGiuridico soggettoGiuridico;
@@ -113,8 +167,6 @@ namespace BusinessModel.Anagrafiche.SoggettoGiuridico
 
             return soggettoGiuridico;
         }
-
-
 
 
         public static List<mediatori.Models.Anagrafiche.SoggettoGiuridico> getFinanziarie(mediatori.Models.MainDbContext db)

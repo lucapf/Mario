@@ -1,0 +1,20 @@
+﻿@model List<mediatori.Models.etc.Documento>
+
+<ol data-role="listview" data-inset="true" data-split-icon="delete">
+    @foreach (mediatori.Models.etc.Documento documento in Model)
+    {
+        <li>
+            <a href="@Url.Action("Download", "Documentale", new { id = documento.id })">
+                <h2>@documento.nome</h2>
+                @if (!String.IsNullOrEmpty(documento.descrizione))
+                {
+                    <p>@documento.descrizione</p>
+                }
+
+                <p class="ui-li-aside"><strong>@documento.tipoDocumento.descrizione</strong>  -  Data: <strong>@documento.dataInserimento.Value.ToShortDateString()</strong></p>
+            </a>
+
+            <a href="javascript:MyAsyncDelete('@documento.id')">Delete</a>
+        </li>
+    }
+</ol>
