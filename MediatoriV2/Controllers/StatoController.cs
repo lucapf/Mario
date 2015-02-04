@@ -42,12 +42,53 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Update(int codiceStato, int codiceEntita, EnumEntitaAssociataStato entita, DateTime? dataPromemoria)
         {
+
+            if (entita == EnumEntitaAssociataStato.PRATICA)
+            {
+                //Rel. 1.0.0.11 Bug 513 
+                //verifico la presenza dei dati accessori del cedente 
+                Models.Pratica.Pratica pratica = db.Pratiche.Find(codiceEntita);
+
+                if (pratica == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Codice pratica non trovato: {0}", codiceEntita));
+                    return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+                }
+
+                Models.Anagrafiche.Cedente cedente;
+                cedente = db.Cedenti.Include("indirizzi").Include("impieghi").Include("documentiIdentita").Where(p => p.id == pratica.cedenteId).FirstOrDefault();
+                if (cedente == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Codice cedente non trovato: {0}", pratica.cedenteId));
+                    return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+                }
+
+                if (cedente.indirizzi.Count == 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Attenzione, angrafica cedente incompleta. Per poter effettuare il passaggio di stato della pratica, occorre inserire almeno un indirizzo per il cedente"));
+                    return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+                }
+
+                if (cedente.impieghi.Count == 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Attenzione, angrafica cedente incompleta. Per poter effettuare il passaggio di stato della pratica, occorre inserire almeno un impiego per il cedente"));
+                    return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+                }
+
+                if (cedente.documentiIdentita.Count == 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Attenzione, angrafica cedente incompleta. Per poter effettuare il passaggio di stato della pratica, occorre inserire almeno un documento di identità per il cedente"));
+                    return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+                }
+
+            }
+
             Stato statoSegnalazione = null;
 
             statoSegnalazione = db.StatiSegnalazione.Find(codiceStato);
             if (statoSegnalazione != null)
             {
-               
+
                 try
                 {
                     manager.openConnection();
@@ -67,11 +108,11 @@ namespace mediatori.Controllers
             }
 
 
-           // if (entita == EnumEntitaAssociataStato.PRATICA)
+            // if (entita == EnumEntitaAssociataStato.PRATICA)
             //{
-                return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
+            return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
             //}
-          
+
         }
 
     }

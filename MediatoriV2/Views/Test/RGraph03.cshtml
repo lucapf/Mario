@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "RGraph03";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.core.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.key.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.dynamic.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.effects.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.tooltips.js")"></script>
+
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.hbar.js")"></script>
+
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.drawing.yaxis.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.drawing.rect.js")"></script>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    window.onload = function () {
+
+        //    alert("OnLoad");
+
+        var data = [[4, 5, 3], [4, 8, 6], [4, 2, 4], [4, 2, 3], [1, 2, 3]];
+        var bar = new RGraph.HBar('myCanvas', data)
+            .Set('text.size', 8)
+            .Set('labels', ['Internet Explorer', 'Chrome', 'Ubuntu Linux', 'Openssl', 'Linux Kernel'])
+            .Set('labels.above', true)
+            .Set('gutter.left', 170)
+           // .Set('gutter.left.autosize', true)
+            .Set('colors', ['rgb(255,64,19)', 'rgb(247,207,61)', 'rgb(68,127,26)'])
+            .Set('grouping', 'stacked')
+          //  .Set('hmargin', 320)
+            .Set('background.grid.dashed', true)
+            .Set('key', ['high', 'medium', 'low'])
+            .Set('key.position', 'graph')
+            .Set('key.interactive', false)
+            .Set('ylabels', false)
+            .Set('noaxes', true)
+            //.on('draw', function (obj) {
+            //    var ca = obj.canvas;
+            //    var co = obj.context;
+
+            //    console.log('OnDraw');
+
+            //    co.strokeStyle = obj.get('background.grid.color');
+            //    co.strokeRect(obj.get('gutter.left'), ca.height - obj.get('gutter.bottom'), ca.width - obj.get('gutter.right') - obj.get('gutter.left'), 0)
+            //})
+            .Draw();
+
+
+        //var yaxis = new RGraph.Drawing.YAxis('myCanvas',50)
+        //    // .Set('labels.specific', 'TITOLO')
+        //     .Set('units.post', 'rrrr')
+        //    .Set('numlabels',3)
+        //     .Draw();
+
+
+
+
+        //console.log('fff: ' + yaxis.id);
+        console.log('.gutterLeft: ' + bar.gutterLeft);
+
+
+
+
+
+
+
+
+
+        var report001 = new RGraph.HBar('report001', [
+            [4281, 1272, 277, 372, 156, 965, 0, 1, 336, 23],
+            [8032, 4271, 1774, 970, 1065, 4, 612, 258, 0, 234],
+            [10, 1130, 178, 84, 0, 0, 0, 86, 0, 40]]);
+
+        report001.Set('key', ['High', 'Medium', 'Low']);
+        report001.Set('key.interactive', false);
+        report001.Set('key.position', 'graph')
+
+        report001.set('labels.above', 'true');
+        report001.Set('labels', ['Prodotto #1', 'Prodotto #2', 'Prodotto #3', 'Prodotto #4', 'Prodotto #5', 'Prodotto #6', 'Prodotto #7', 'Prodotto #8', 'Prodotto #9', 'Prodotto #10']);
+        report001.Set('colors', ['#FF4013', '#F7CF3D', '#447F1A']);
+        report001.set('colors.sequential', 'true');
+        report001.Set('text.size', 8);
+        report001.Set('scale.thousand', '.');
+        report001.Set('scale.point', ',');
+
+        report001.Set('grouping', 'stacked')
+
+        report001.Set('background.grid.dashed', true)
+
+
+
+        report001.Draw();
+    };
+
+
+
+
+
+
+    //.Set('strokestyle', 'white')
+    //        .Set('linewidth', 1)
+    //        .Set('shadow', true)
+    //        .Set('shadow.color', '#ccc')
+    //        .Set('shadow.offsetx', 0)
+    //        .Set('shadow.offsety', 0)
+    //        .Set('shadow.blur', 10)
+
+
+</script>
+
+
+<h2>RGraph03</h2>
+
+<p>Multi serie</p>
+
+
+<canvas id="report001" width="800" height="550" style="border: 1px solid black;">[No canvas support]</canvas>
+
+<br />
+<hr />
+
+<canvas id="myCanvas" width="800" height="350" style="border: 1px solid black;">[No canvas support]</canvas>
+

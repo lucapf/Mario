@@ -117,46 +117,37 @@ namespace mediatori.Controllers
 
             List<long> listGruppiIds = (Session["MySessionData"] as MyManagerCSharp.MySessionData).Groups.Select(g => g.gruppoId).ToList();
             string temp = String.Join(";", listGruppiIds);
+
+            if (String.IsNullOrEmpty(temp))
+            {
+                // se l'utente NON è  associato ad alcun gruppo di lavorazione la lista è vuota!!!
+                model.DaAssegnare = null;
+                model.Assegnate = null;
+                model.NumeroScadute = 0;
+
+                return;
+            }
+
+
+
             temp = ";" + temp + ";";
-
-
-
-
-
-            //model.DaAssegnare = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
-            //                     where !(
-            //                            from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
-            //                        ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";")
-            //                     select s).ToList();
-
 
             IQueryable<mediatori.Models.Anagrafiche.Segnalazione> querySegnalazioni = (from s in db.Segnalazioni.Include("stato").Include("contatto").Include("prodottoRichiesto")
                                                                                        where !(
                                                                                               from a in db.Assegnazioni where a.segnalazioneId == s.id && a.statoId == s.stato.id select a.segnalazioneId
-                                                                                          ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";")
+                                                                                          ).Contains(s.id) && temp.Contains(";" + s.stato.gruppoId + ";") 
+                                                                                          || s.utenteInserimento == User.Identity.Name
                                                                                        select s);
 
 
             //  Debug.WriteLine("Profilo: " + (Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili);
-            if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.IndexOf(MyConstants.Profilo.COLLABORATORE.ToString()) > -1)
+            //if ((Session["MySessionData"] as MyManagerCSharp.MySessionData).Profili.IndexOf(MyConstants.Profilo.COLLABORATORE.ToString()) > -1)
+            if (MySessionData.IsInProfile(MyConstants.Profilo.COLLABORATORE.ToString()))
             {
                 querySegnalazioni = querySegnalazioni.Where(p => p.utenteInserimento == User.Identity.Name);
             }
 
-
             model.DaAssegnare = querySegnalazioni.ToList();
-
-
-            //  model.Assegnate = db.Assegnazioni.ToList();
-
-            //model.Assegnate = (from s in db.Segnalazioni.Include("stato")
-            //                   join a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto") on s.id equals a.segnalazioneId
-            //                  where s.stato.id == a.statoId
-            //                  select a).ToList();
-
-            //model.Assegnate = (from a in db.Assegnazioni.Include("Segnalazione").Include("Segnalazione.contatto").Include("Segnalazione.stato").Include("Segnalazione.prodottoRichiesto")
-            //                   where a.segnalazione.stato.id == a.statoId && a.stato.gruppoLavorazione.utenti.Contains(";" + User.Identity.Name + ";")
-            //                   select a).ToList();
 
 
             IQueryable<mediatori.Models.etc.Assegnazione> queryAssegnazioni;

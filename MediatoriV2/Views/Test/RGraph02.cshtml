@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "RGraph02";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>RGraph02</h2>
+
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="@Url.Content("~/Content/js/excanvas.js")"></script><![endif]-->
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.core.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.bar.js")"></script>
+
+
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.dynamic.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.pie.js")"></script>
+
+
+
+<script type="text/javascript">
+
+    window.onload = function () {
+
+        alert("OnLoad");
+
+        var bar = new RGraph.Bar('report01', [[3, 4, 6], [2, 5, 3], [1, 5, 2], [1, 4, 6], [1, 6, 8]])
+            .Set('labels', ['Mal', 'Barry', 'Gary', 'Neil', 'Kim'])
+            .Set('colors', ['Gradient(#99f:#27afe9:#058DC7:#058DC7)', 'Gradient(#94f776:#50B332:#B1E59F)', 'Gradient(#fe783e:#EC561B:#F59F7D)'])
+            .Set('hmargin', 15)
+            .Set('strokestyle', 'white')
+            .Set('linewidth', 1)
+            .Set('shadow', true)
+            .Set('shadow.color', '#ccc')
+            .Set('shadow.offsetx', 0)
+            .Set('shadow.offsety', 0)
+            .Set('shadow.blur', 10)
+            .Draw();
+
+
+        var pie03 = new RGraph.Pie('pie03', [0.0, 0.0, 3.0, 404.0]);
+        pie03.Set('colors', ['#eb6033', '#92CD00', '#ffe384', '#DFDFDF']);
+        pie03.set('colors.sequential', 'true');
+        pie03.set('labels.above', 'true');
+        pie03.Set('labels', ['high 0,00%', 'low 0,00%', 'medium 0,74%', 'N/A 99,26%']);
+        pie03.Set('text.size', 8);
+        pie03.set('key.interactive', true);
+        pie03.set('scale.thousand', '.');
+        pie03.set('scale.point', ',');
+        pie03.set('labels.sticks', true);
+        pie03.set('labels.ingraph', true);
+        pie03.set('chart.gutter.top', 50);
+        pie03.set('chart.gutter.left', 100);
+        pie03.set('chart.gutter.right', 100);
+        pie03.set('chart.gutter.bottom', 50);
+        pie03.Draw();
+    };
+
+</script>
+
+
+
+<canvas id="report01" width="600" height="250">[No canvas support]</canvas>
+
+<canvas id="pie03" width="600" height="250">[No canvas support]</canvas>

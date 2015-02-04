@@ -22,12 +22,12 @@ namespace mediatori.Controllers
             List<MenuElement> model = new List<MenuElement>(){
                     //new MenuElement(){display="Home", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Home"},
                     //new MenuElement(){display="Configurazioni", ordinamento=1,livello=1,role="Amministratore",action="Index", controller="Configurazioni"},
-                    new MenuElement(){display="Canale Acquisizione", ordinamento=1,livello=1,role="Amministratore",action="tipoCanaleAcquisizione",controller="Configurazioni"},
+                    new MenuElement(){display="Canale Acquisizione", ordinamento=1,livello=1,role="Amministratore",action="canaleAcquisizione",controller="Configurazioni"},
                     new MenuElement(){display="Fonti Pubblicitarie", ordinamento=1,livello=1,role="Amministratore",action="fontePubblicitaria",controller="Configurazioni"},
                     new MenuElement(){display="Province", ordinamento=1,livello=1,role="Amministratore",action="Province", controller="Configurazioni"},
                     new MenuElement(){display="Stato", ordinamento=1,livello=1,role="Amministratore",action="stato",controller="Configurazioni"},
                     new MenuElement(){display="Toponimi", ordinamento=1,livello=1,role="Amministratore",action="Toponimi",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Assumibilità", ordinamento=1,livello=1,role="Amministratore",action="tipoAssumibilitaAmministrazione",controller="Configurazioni"},
+                    new MenuElement(){display="Assumibilità Amministrazione", ordinamento=1,livello=1,role="Amministratore",action="assumibilitaAmministrazione",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Agenzia", ordinamento=1,livello=1,role="Amministratore",action="tipoAgenzia",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Azienda", ordinamento=1,livello=1,role="Amministratore",action="tipologiaAzienda",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Categoria", ordinamento=1,livello=1,role="Amministratore",action="tipoCategoriaAmministrazione",controller="Configurazioni"},
@@ -143,16 +143,10 @@ namespace mediatori.Controllers
 
 
         #region fontePubblicitaria
+
         [HttpGet]
-        public ActionResult FontePubblicitaria(String errorMessage, String message)
+        public ActionResult fontePubblicitaria()
         {
-
-            //ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            //ViewBag.message = message == null ? String.Empty : message;
-            //return View(
-            //    (from fontePubblicitaria in db.FontiPubblicitarie select fontePubblicitaria).ToList()
-            //    );
-
             Models.Configurazione.ConfigurazioneModel model = new Models.Configurazione.ConfigurazioneModel("Fonte pubblicitaria");
 
             model.listaEntita = db.FontiPubblicitarie.OrderBy(p => p.descrizione).Select(p => new Models.Configurazione.EntitaModel { id = p.id, descrizione = p.descrizione }).ToList();
@@ -160,47 +154,68 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        public ActionResult fontePubblicitaria(String descrizione)
+        [ValidateAntiForgeryToken]
+        public ActionResult fontePubblicitaria(int id, String descrizione)
         {
+            descrizione = descrizione.Trim();
 
-            if ((from fp in db.FontiPubblicitarie
-                 where fp.descrizione == descrizione
-                 select fp).FirstOrDefault() != null)
+            FontePubblicitaria checkExists;
+
+            if (id == 0)
             {
-                return RedirectToAction("fontePubblicitaria", new
+                //NUOVO
+                checkExists = (from fp in db.FontiPubblicitarie where fp.descrizione == descrizione select fp).FirstOrDefault();
+
+                if (checkExists != null)
                 {
-                    errorMessage = "fonte pubblicitaria " + descrizione
-                        + " già censita"
-                });
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Fonte pubblicitaria '{0}' già censita", descrizione));
+                }
+                else
+                {
+                    db.FontiPubblicitarie.Add(new FontePubblicitaria { descrizione = descrizione });
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Fonte pubblicitaria '{0}' inserta con successo", descrizione));
+                }
             }
             else
             {
-                db.FontiPubblicitarie.Add(new FontePubblicitaria { descrizione = descrizione });
-                db.SaveChanges();
+                //MODIFICA
+                checkExists = db.FontiPubblicitarie.Find(id);
+                if (checkExists == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile modifcare la fonte pubblicitaria '{0}' in quanto non censita", id));
+                }
+                else
+                {
+                    checkExists.descrizione = descrizione;
+
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Fonte pubblicitaria '{0}' modificata con successo", checkExists.descrizione));
+                }
             }
-            return RedirectToAction("fontePubblicitaria", new { message = "inserimento Fonte pubblicitaria : " + descrizione + " avvenuta con successo" });
+
+            return RedirectToAction("fontePubblicitaria");
         }
 
-        [HttpGet]
-
-        public ActionResult cancellaFontePubblicitaria(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult fontePubblicitariaDelete(int id)
         {
-            String errorMessage = string.Empty;
-            string message = String.Empty;
-            FontePubblicitaria fontePubblicitaria = db.FontiPubblicitarie.Find(id);
-            if (fontePubblicitaria == null)
+            FontePubblicitaria checkExists = db.FontiPubblicitarie.Find(id);
+            if (checkExists == null)
             {
-                errorMessage = "impossibile eliminare la fonte pubblicitaria " + id + " in quanto non censita";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile eliminare la fonte pubblicitaria '{0}' in quanto non censita", id));
             }
             else
             {
-                db.FontiPubblicitarie.Remove(fontePubblicitaria);
+                db.FontiPubblicitarie.Remove(checkExists);
                 db.SaveChanges();
-                message = "fonte pubblicitaria " + fontePubblicitaria.descrizione + " eliminata con successo";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Fonte pubblicitaria '{0}' eliminata con successo", checkExists.descrizione));
             }
-            return RedirectToAction("fontePubblicitaria", new { errorMessage = errorMessage, message = message });
+            return RedirectToAction("fontePubblicitaria");
         }
         #endregion fontePubblicitaria
+
         #region tipologiaPrestito
         [HttpGet]
 
@@ -734,12 +749,13 @@ namespace mediatori.Controllers
             else
             {
                 //La combo sul tipo entità è disabilita e di conseguenza non viene inviato il valore!
-                if (stato.descrizione == MyConstants.STATO_INIZIALE_PRATICA )
+                if (stato.descrizione == MyConstants.STATO_INIZIALE_PRATICA)
                 {
                     stato.entitaAssociata = EnumEntitaAssociataStato.PRATICA;
                 }
 
-                if( stato.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE){
+                if (stato.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE)
+                {
                     stato.entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE;
                 }
 
@@ -840,60 +856,84 @@ namespace mediatori.Controllers
             return RedirectToAction("TipoCampagnaPubblicitaria", new { errorMessage = errorMessage, message = message });
         }
         #endregion tipoCampagnaPubblicitaria
-        #region tipoContatto
+
+
+        #region CanaleAcquisizione
         [HttpGet]
-
-        public ActionResult tipoCanaleAcquisizione(String errorMessage, String message)
+        public ActionResult canaleAcquisizione()
         {
+            Models.Configurazione.ConfigurazioneModel model = new Models.Configurazione.ConfigurazioneModel("Canale acquisizione");
 
-            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            ViewBag.message = message == null ? String.Empty : message;
-            return View(
-                (from tipoCanaleAcquisizione in db.TipoCanaleAcquisizione select tipoCanaleAcquisizione).ToList()
-                );
+            model.listaEntita = db.TipoCanaleAcquisizione.OrderBy(p => p.descrizione).Select(p => new Models.Configurazione.EntitaModel { id = p.id, descrizione = p.descrizione }).ToList();
+            return View("Shared", model);
         }
 
         [HttpPost]
-
-        public ActionResult tipoCanaleAcquisizione(TipoCanaleAcquisizione ta)
+        [ValidateAntiForgeryToken]
+        public ActionResult canaleAcquisizione(int id, string descrizione)
         {
-            if ((from fp in db.TipoCanaleAcquisizione
-                 where (fp.descrizione == ta.descrizione)
-                 select fp).FirstOrDefault() != null)
+
+            descrizione = descrizione.Trim();
+
+            TipoCanaleAcquisizione checkExists;
+
+            if (id == 0)
             {
-                return RedirectToAction("tipoCanaleAcquisizione", new
+                //NUOVO
+                checkExists = (from fp in db.TipoCanaleAcquisizione where fp.descrizione == descrizione select fp).FirstOrDefault();
+
+                if (checkExists != null)
                 {
-                    errorMessage = "Canale acquisizione " + ta.descrizione + " già censito"
-                });
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Canale acquisizione '{0}' già censito", descrizione));
+                }
+                else
+                {
+                    db.TipoCanaleAcquisizione.Add(new TipoCanaleAcquisizione { descrizione = descrizione });
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Canale acquisizione '{0}' inserto con successo", descrizione));
+                }
             }
             else
             {
-                db.TipoCanaleAcquisizione.Add(ta);
-                db.SaveChanges();
+                //MODIFICA
+                checkExists = db.TipoCanaleAcquisizione.Find(id);
+                if (checkExists == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile modifcare il canale acquisizione '{0}' in quanto non censito", id));
+                }
+                else
+                {
+                    checkExists.descrizione = descrizione;
+
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Canale acquisizione '{0}' modificato con successo", checkExists.descrizione));
+                }
             }
-            return RedirectToAction("tipoCanaleAcquisizione", new { message = "inserimento campagna  : " + ta.descrizione + " avvenuto con successo" });
+
+            return RedirectToAction("canaleAcquisizione");
         }
 
-        [HttpGet]
-
-        public ActionResult cancellaTipoCanaleAcquisizione(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult canaleAcquisizioneDelete(int id)
         {
-            String errorMessage = string.Empty;
-            string message = String.Empty;
-            TipoCanaleAcquisizione tipoCanaleAcquisizione = db.TipoCanaleAcquisizione.Find(id);
-            if (tipoCanaleAcquisizione == null)
+            TipoCanaleAcquisizione checkExists = db.TipoCanaleAcquisizione.Find(id);
+            if (checkExists == null)
             {
-                errorMessage = "impossibile eliminare il canale di acquisizione " + id + " in quanto non censito";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile eliminare il canale acquisizione '{0}' in quanto non censito", id));
             }
             else
             {
-                db.TipoCanaleAcquisizione.Remove(tipoCanaleAcquisizione);
+                db.TipoCanaleAcquisizione.Remove(checkExists);
                 db.SaveChanges();
-                message = "canale acquisizione " + tipoCanaleAcquisizione.descrizione + " eliminato con successo";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Canale acquisizione '{0}' eliminato con successo", checkExists.descrizione));
             }
-            return RedirectToAction("TipoCanaleAcquisizione", new { errorMessage = errorMessage, message = message });
+            return RedirectToAction("canaleAcquisizione");
+
         }
         #endregion tipoCanaleAcquisizione
+
+
         #region tipoLuogoritrovo
         [HttpGet]
 
@@ -1218,60 +1258,83 @@ namespace mediatori.Controllers
             return RedirectToAction("TipoCategoriaAmministrazione", new { errorMessage = errorMessage, message = message });
         }
         #endregion tipoCategoriaAmministrazione
+
+
         #region tipoAssumibilitaAmministrazione
         [HttpGet]
-
-        public ActionResult tipoAssumibilitaAmministrazione(String errorMessage, String message)
+        public ActionResult assumibilitaAmministrazione()
         {
+            Models.Configurazione.ConfigurazioneModel model = new Models.Configurazione.ConfigurazioneModel("Assumibilita Amministrazione");
 
-            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            ViewBag.message = message == null ? String.Empty : message;
-            return View(
-                (from tipoAssumibilitaAmministrazione in db.TipoAssumibilitaAmministrazione select tipoAssumibilitaAmministrazione).ToList()
-                );
+            model.listaEntita = db.TipoAssumibilitaAmministrazione.OrderBy(p => p.descrizione).Select(p => new Models.Configurazione.EntitaModel { id = p.id, descrizione = p.descrizione }).ToList();
+            return View("Shared", model);
         }
 
         [HttpPost]
-
-        public ActionResult tipoAssumibilitaAmministrazione(TipoAssumibilitaAmministrazione ta)
+        [ValidateAntiForgeryToken]
+        public ActionResult assumibilitaAmministrazione(int id, string descrizione)
         {
-            if ((from fp in db.TipoAssumibilitaAmministrazione
-                 where (fp.descrizione == ta.descrizione)
-                 select fp).FirstOrDefault() != null)
+
+            descrizione = descrizione.Trim();
+            TipoAssumibilitaAmministrazione checkExists;
+
+            if (id == 0)
             {
-                return RedirectToAction("tipoAssumibilitaAmministrazione", new
+                //NUOVO
+                checkExists = (from fp in db.TipoAssumibilitaAmministrazione where fp.descrizione == descrizione select fp).FirstOrDefault();
+
+                if (checkExists != null)
                 {
-                    errorMessage = "tipo assumibilita " + ta.descrizione + " già censita"
-                });
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Assumibilità amministrazione '{0}' già censita", descrizione));
+                }
+                else
+                {
+                    db.TipoAssumibilitaAmministrazione.Add(new TipoAssumibilitaAmministrazione { descrizione = descrizione });
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Assumibilità amministrazione '{0}' inserta con successo", descrizione));
+                }
             }
             else
             {
-                db.TipoAssumibilitaAmministrazione.Add(ta);
-                db.SaveChanges();
+                //MODIFICA
+                checkExists = db.TipoAssumibilitaAmministrazione.Find(id);
+                if (checkExists == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile modifcare l'assumibilità amministrazione '{0}' in quanto non censita", id));
+                }
+                else
+                {
+                    checkExists.descrizione = descrizione;
+
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Assumibilità amministrazione '{0}' modificata con successo", checkExists.descrizione));
+                }
             }
-            return RedirectToAction("tipoAssumibilitaAmministrazione", new { message = "inserimento tipo assumibilita: " + ta.descrizione + " avvenuto con successo" });
+
+            return RedirectToAction("assumibilitaAmministrazione");
         }
 
-        [HttpGet]
-
-        public ActionResult cancellaTipoAssumibilitaAmministrazione(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult assumibilitaAmministrazioneDelete(int id)
         {
-            String errorMessage = string.Empty;
-            string message = String.Empty;
-            TipoAssumibilitaAmministrazione tipoAssumibilitaAmministrazione = db.TipoAssumibilitaAmministrazione.Find(id);
-            if (tipoAssumibilitaAmministrazione == null)
+
+            TipoAssumibilitaAmministrazione checkExists = db.TipoAssumibilitaAmministrazione.Find(id);
+            if (checkExists == null)
             {
-                errorMessage = "impossibile eliminare il tipo assumibilita " + id + " in quanto non censito";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile eliminare l'assumibilità amministrazione '{0}' in quanto non censita", id));
             }
             else
             {
-                db.TipoAssumibilitaAmministrazione.Remove(tipoAssumibilitaAmministrazione);
+                db.TipoAssumibilitaAmministrazione.Remove(checkExists);
                 db.SaveChanges();
-                message = "tipo ammissibilita " + tipoAssumibilitaAmministrazione.descrizione + " eliminata con successo";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Assumibilità amministrazione '{0}' eliminata con successo", checkExists.descrizione));
             }
-            return RedirectToAction("TipoAssumibilitaAmministrazione", new { errorMessage = errorMessage, message = message });
+            return RedirectToAction("assumibilitaAmministrazione");
         }
         #endregion tipoAssumibilitaAmministrazione
+
+
         #region tipoErogazione
         [HttpGet]
 
@@ -1324,56 +1387,81 @@ namespace mediatori.Controllers
             return RedirectToAction("TipoErogazione", new { errorMessage = errorMessage, message = message });
         }
         #endregion tipoErogazione
+
+
         #region tipoAgenzia
         [HttpGet]
-
-        public ActionResult tipoAgenzia(String errorMessage, String message)
+        public ActionResult tipoAgenzia()
         {
 
-            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
-            ViewBag.message = message == null ? String.Empty : message;
-            return View(db.TipoAgenzia.ToList());
+            Models.Configurazione.ConfigurazioneModel model = new Models.Configurazione.ConfigurazioneModel("Tipo agenzia");
+
+            model.listaEntita = db.TipoAgenzia.OrderBy(p => p.descrizione).Select(p => new Models.Configurazione.EntitaModel { id = p.id, descrizione = p.descrizione }).ToList();
+            return View("Shared", model);
         }
 
         [HttpPost]
-
-        public ActionResult tipoAgenzia(TipoAgenzia tipoAgenzia)
+        [ValidateAntiForgeryToken]
+        public ActionResult tipoAgenzia(int id, string descrizione)
         {
-            if ((from fp in db.TipoAgenzia
-                 where (fp.descrizione == tipoAgenzia.descrizione)
-                 select fp).FirstOrDefault() != null)
+            descrizione = descrizione.Trim();
+
+            TipoAgenzia checkExists;
+
+            if (id == 0)
             {
-                return RedirectToAction("tipoAgenzia", new
+                //NUOVO
+                checkExists = (from fp in db.TipoAgenzia where fp.descrizione == descrizione select fp).FirstOrDefault();
+
+                if (checkExists != null)
                 {
-                    errorMessage = "tipo agenzia " + tipoAgenzia.descrizione + " già censita"
-                });
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Tipo agenzia '{0}' già censita", descrizione));
+                }
+                else
+                {
+                    db.TipoAgenzia.Add(new TipoAgenzia { descrizione = descrizione });
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Tipo agenzia '{0}' inserto con successo", descrizione));
+                }
             }
             else
             {
-                db.TipoAgenzia.Add(tipoAgenzia);
-                db.SaveChanges();
+                //MODIFICA
+                checkExists = db.TipoAgenzia.Find(id);
+                if (checkExists == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile modifcare il tipo agenzia '{0}' in quanto non censito", id));
+                }
+                else
+                {
+                    checkExists.descrizione = descrizione;
+
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Tipo agenzia '{0}' modificato con successo", checkExists.descrizione));
+                }
             }
-            return RedirectToAction("tipoAgenzia", new { message = "inserimento tipo agenzia: " + tipoAgenzia.descrizione + " avvenuto con successo" });
+
+            return RedirectToAction("tipoAgenzia");
         }
 
-        [HttpGet]
-
-        public ActionResult cancellaTipoAgenzia(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult tipoAgenziaDelete(int id)
         {
-            String errorMessage = string.Empty;
-            string message = String.Empty;
-            TipoAgenzia tipoErogazione = db.TipoAgenzia.Find(id);
-            if (tipoErogazione == null)
+            TipoAgenzia checkExists = db.TipoAgenzia.Find(id);
+            if (checkExists == null)
             {
-                errorMessage = "impossibile eliminare il tipo agenzia " + id + " in quanto non censito";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Impossibile eliminare il tipo agenzia '{0}' in quanto non censito", id));
             }
             else
             {
-                db.TipoAgenzia.Remove(tipoErogazione);
+                db.TipoAgenzia.Remove(checkExists);
                 db.SaveChanges();
-                message = "tipo agenzia " + tipoErogazione.descrizione + " eliminata con successo";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, String.Format("Tipo agenzia '{0}' eliminato con successo", checkExists.descrizione));
             }
-            return RedirectToAction("TipoAgenzia", new { errorMessage = errorMessage, message = message });
+            return RedirectToAction("tipoAgenzia");
+
+            
         }
         #endregion tipoErogazione
         #region Parametro

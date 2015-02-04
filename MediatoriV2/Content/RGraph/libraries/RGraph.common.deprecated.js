@@ -1,17 +1,19 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
 
     RGraph = window.RGraph || {isRGraph: true};
-
-
-
 
 // Module pattern
 (function (win, doc, undefined)
@@ -430,5 +432,23 @@
 
 // End module pattern
 })(window, document);
-// version: 2014-03-28
 
+
+
+
+    /**
+    * Checks whether strings or numbers are empty or not. It also
+    * handles null or variables set to undefined. If a variable really
+    * is undefined - ie it hasn't been declared at all - you need to use
+    * "typeof variable" and check the return value - which will be undefined.
+    * 
+    * @param mixed value The variable to check
+    */
+    window.$empty = function (value)
+    {
+        if (!value || value.length <= 0) {
+            return true;
+        }
+
+        return false;
+    };

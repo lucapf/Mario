@@ -6,6 +6,35 @@
  -->
 
 
+  <release number="1.0.0.11" data="04/02/2015" migration="">
+    <item data="03/02/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 490) Configurazione - fonte pubblicitaria
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="changes" >
+      Configurazione - canale acquisizione
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="changes" >
+      Configurazione - assumibilita amministrazione
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="changes" >
+      Configurazione - tipo agenzia
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 513) in fase di avanzamento di stato dallo stato iniziale "pratica caricata" il sistema deve verificare che i dati accessori del cedente: indirizzi, impieghi , documento identita
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 527) visualizzazione delle attività assegnate e da assegnare
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 528) visualizzare la data di caricamento e l'utente caricante per pratica e segnalazione
+    </item>
+    <item data="03/02/2015"     owner="Rutigliano"  type="bug" >
+      (Bug ID: 530) visualizzazione del doppio calendario su Chrome
+    </item>
+  </release>
+
+
+
   <release number="1.0.0.10" data="30/01/2015" migration="Update09">
     <item data="27/01/2015"     owner="Rutigliano"  type="bug" >
       (Bug ID: 465) Inserimento agenzia. Controllo sulla presenza di un'agenzia con la stessa partita iva

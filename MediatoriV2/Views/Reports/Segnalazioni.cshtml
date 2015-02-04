@@ -1,0 +1,33 @@
+﻿@model MyManagerCSharp.RGraph.Models.WidgetRGraph
+@{
+    ViewBag.Title = "Segnalazioni";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+
+        $("[name='Days']").change(function () {
+            $("#MyForm").submit();
+        });
+
+    });
+</script>
+
+
+<h2>Segnalazioni</h2>
+
+@using (Html.BeginForm("Segnalazioni", "Reports", FormMethod.Post, new { id = "MyForm" }))
+{
+
+    <div class="ui-field-contain">
+        <label for="Days">Data:</label>
+        @{ Html.RenderPartial("_ComboData", new mediatori.Models.UI.ComboDataModel() { isEnabled = true, selectedValue = Model.Days }); }
+    </div>
+
+
+         { Html.RenderPartial("~/Views/Widget/_RGraphV2.cshtml", Model); }
+}
+
+
+@{ Html.RenderPartial("_footer"); }

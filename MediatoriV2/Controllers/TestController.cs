@@ -15,6 +15,21 @@ namespace mediatori.Controllers
             return View();
         }
 
+        public ActionResult RGraph01()
+        {
+            return View();
+        }
+
+
+        public ActionResult RGraph02()
+        {
+            return View();
+        }
+
+        public ActionResult RGraph03()
+        {
+            return View();
+        }
 
         public ActionResult TableResize()
         {

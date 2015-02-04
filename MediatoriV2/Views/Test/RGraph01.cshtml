@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "RGraph01";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+
+<h2>RGraph 01</h2>
+
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="@Url.Content("~/Content/js/excanvas.js")"></script><![endif]-->
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.common.core.js")"></script>
+<script src="@Url.Content("~/Content/RGraph/libraries/RGraph.bar.js")"></script>
+
+
+<script type="text/javascript">
+
+    window.onload = function () {
+
+        alert("OnLoad");
+
+        var bar = new RGraph.Bar('myCanvas', [[3, 4, 6], [2, 5, 3], [1, 5, 2], [1, 4, 6], [1, 6, 8]])
+            .Set('labels', ['Mal', 'Barry', 'Gary', 'Neil', 'Kim'])
+            .Set('colors', ['Gradient(#99f:#27afe9:#058DC7:#058DC7)', 'Gradient(#94f776:#50B332:#B1E59F)', 'Gradient(#fe783e:#EC561B:#F59F7D)'])
+            .Set('hmargin', 15)
+            .Set('strokestyle', 'white')
+            .Set('linewidth', 1)
+            .Set('shadow', true)
+            .Set('shadow.color', '#ccc')
+            .Set('shadow.offsetx', 0)
+            .Set('shadow.offsety', 0)
+            .Set('shadow.blur', 10)
+            .Draw();
+    };
+
+
+    //$(document).on("pageinit", function () {
+
+    //    alert("pageinit");
+
+
+    //    var bar = new RGraph.Bar('myCanvas', [[3, 4, 6], [2, 5, 3], [1, 5, 2], [1, 4, 6], [1, 6, 8]])
+    //        .Set('labels', ['Mal', 'Barry', 'Gary', 'Neil', 'Kim'])
+    //        .Set('colors', ['Gradient(#99f:#27afe9:#058DC7:#058DC7)', 'Gradient(#94f776:#50B332:#B1E59F)', 'Gradient(#fe783e:#EC561B:#F59F7D)'])
+    //        .Set('hmargin', 15)
+    //        .Set('strokestyle', 'white')
+    //        .Set('linewidth', 1)
+    //        .Set('shadow', true)
+    //        .Set('shadow.color', '#ccc')
+    //        .Set('shadow.offsetx', 0)
+    //        .Set('shadow.offsety', 0)
+    //        .Set('shadow.blur', 10)
+    //        .Draw();
+    //});
+</script>
+
+
+
+<canvas style="width: 100%" id="myCanvas" width="600" height="250">[No canvas support]</canvas>

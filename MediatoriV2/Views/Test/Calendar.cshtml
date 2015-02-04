@@ -1,9 +1,27 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Calendar";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
 <h2>Calendar</h2>
 
-<input type="date" name="DataDiNascita" data-role="date" />
+<p>Calendario nativo di Chrome input type="date"</p>
+<div class="ui-field-contain">
+    <label for="data1">Data 1</label>
+    <input type="date" id="data1" name="data1" />
+</div>
+
+
+<p>Calendario nativo di Chrome + jquery calendar</p>
+<div class="ui-field-contain">
+    <label for="data2">Data 2</label>
+    <input type="date" id="data2" name="data2" data-role="date" />
+</div>
+
+
+
+<p>Calendario nativo di Chrome + jquery calendar</p>
+<div class="ui-field-contain">
+    <label for="data3">Data 3</label>
+    <input type="text" id="data3" name="data3" data-role="date" />
+</div>

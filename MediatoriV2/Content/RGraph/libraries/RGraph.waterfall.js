@@ -1,12 +1,18 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph = window.RGraph || {isRGraph: true};
 
 
@@ -18,17 +24,35 @@
     * @param object canvas The canvas object
     * @param array  data   The chart data
     */
-    RGraph.Waterfall = function (id, data)
+    RGraph.Waterfall = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
+        /**
+        * Allow for object config style
+        */
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
 
-        // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+        
+        } else {
+        
+            var conf = {
+                        id: conf,
+                        data: arguments[1]
+                       };
+        }
+
+
+
+
+        this.id                = conf.id;
+        this.canvas            = document.getElementById(this.id);
         this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'waterfall';
         this.max               = 0;
+        this.data              = conf.data;
         this.isRGraph          = true;
         this.coords            = [];
         this.uid               = RGraph.CreateUID();
@@ -36,11 +60,7 @@
         this.colorsParsed      = false;
         this.coordsText        = [];
         this.original_colors   = [];
-
-        /**
-        * Compatibility with older browsers
-        */
-        //RGraph.OldBrowserCompat(this.context);
+        this.firstDraw         = true; // After the first draw this will be false
 
 
         // Various config
@@ -128,7 +148,7 @@
             'chart.scale.decimals':         0,
             'chart.scale.point':            '.',
             'chart.scale.thousand':         ',',
-        //'chart.scale.formatter':        null,
+            //'chart.scale.formatter':        null,
             'chart.crosshairs':             false,
             'chart.crosshairs.color':       '#333',
             'chart.crosshairs.hline':       true,
@@ -162,9 +182,6 @@
             alert('[WATERFALL] No canvas support');
             return;
         }
-
-        // Store the data
-        this.data = data;
         
         /**
         * Create the $ objects
@@ -219,6 +236,20 @@
         this.set =
         this.Set = function (name, value)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
+
+
             /**
             * This should be done first - prepend the propertyy name with "chart." if necessary
             */
@@ -300,7 +331,17 @@
             * Stop the coords array from growing uncontrollably
             */
             this.coords = [];
-            
+
+
+
+            /**
+            * Stop this growing uncontrollably
+            */
+            this.coordsText = [];
+
+
+
+
             /**
             * This gets used a lot
             */
@@ -374,8 +415,21 @@
             * This installs the event listeners
             */
             RG.InstallEventListeners(this);
-    
-            
+
+
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
+
+
+
+
             /**
             * Fire the RGraph ondraw event
             */
@@ -1012,6 +1066,17 @@
 
 
         /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
+        };
+
+
+
+
+        /**
         * This parses a single color value
         * 
         * @param string color The color to parse for gradients
@@ -1066,6 +1131,17 @@
 
 
         /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
+        };
+
+
+
+
+        /**
         * Waterfall Grow
         * 
         * @param object Options. You can pass frames here - which should be a number
@@ -1102,7 +1178,7 @@
                 for (var i=0; i<obj.data.length; ++i) {
                     
                     // This produces a very slight easing effect
-                    obj.data[i] = data[i] * ma.pow(ma.sin((numFrame/frames) * RG.HALFPI), 2);
+                    obj.data[i] = data[i] * RG.Effects.getEasingMultiplier(frames, numFrame);
                 }
                 
                 RGraph.clear(obj.canvas);
@@ -1127,6 +1203,20 @@
         * Now, because canvases can support multiple charts, canvases must always be registered
         */
         RG.Register(this);
-    };
-// version: 2014-03-28
 
+
+
+
+        /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+
+
+
+
+        return this;
+    };

@@ -193,7 +193,7 @@ public class MyJQueryMobile
         }
 
 
-        temp.Append("<input type=\"date\" ");
+        temp.Append("<input type=\"text\" ");
         if (isRequired)
         {
             m_isRequired(temp, unobtrusiveValidation, name, displayName);

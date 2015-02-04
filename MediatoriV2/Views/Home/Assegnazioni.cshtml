@@ -12,20 +12,27 @@
 }
 else
 {
-    <ol data-role="listview" data-inset="true" >
+    <ol data-role="listview" data-inset="true">
         <li data-role="list-divider" data-theme="b">Da Assegnare</li>
         @foreach (mediatori.Models.Anagrafiche.Segnalazione segnalazione in Model.DaAssegnare)
         {
-            <li @((segnalazione.dataPromemoria < DateTime.Now) ? "data-theme=c" : "") >
+            <li @((segnalazione.dataPromemoria < DateTime.Now) ? "data-theme=c" : "")>
                 <a href="@Url.Action("Details", "Segnalazioni", new { id = segnalazione.id })">
 
-                    <h2>@segnalazione.contatto.nome @segnalazione.contatto.cognome </h2>
-                    <p>@segnalazione.prodottoRichiesto.descrizione</p>
-                    @if (segnalazione.dataPromemoria != null ){
+                    <h2>@segnalazione.contatto.nome @segnalazione.contatto.cognome</h2>
+
+                    <p style="float:right;">Utente inserimento: <strong>@segnalazione.utenteInserimento</strong></p>
+                    <p>Prodotto: <strong>@segnalazione.prodottoRichiesto.descrizione</strong></p>
+
+                    <p style="float:right;">Data inserimento: <strong>@segnalazione.dataInserimento.ToShortDateString()</strong></p>
+                    <p>Importo: <strong>@String.Format("€ {0:N2}", segnalazione.importoRichiesto)</strong></p>
+
+                    @if (segnalazione.dataPromemoria != null)
+                    {
                         <p>Scadenza: <strong>@segnalazione.dataPromemoria.Value.ToShortDateString()</strong></p>
                     }
-             
-                    <p class="ui-li-aside">Importo: <strong>@String.Format("€ {0:N2}", segnalazione.importoRichiesto)</strong>  -  Data inserimento: <strong>@segnalazione.dataInserimento.ToShortDateString()</strong></p>
+
+                    <p class="ui-li-aside">Stato: <strong>@segnalazione.stato.descrizione</strong></p>
                 </a>
 
                 <a href="@Url.Action("Assegna", "Segnalazioni", new { id = segnalazione.id })">Assegna</a>
@@ -43,7 +50,7 @@ else
 }
 else
 {
-    <ol data-role="listview" data-inset="true" >
+    <ol data-role="listview" data-inset="true">
         <li data-role="list-divider" data-theme="b">Assegnate</li>
         @foreach (mediatori.Models.etc.Assegnazione assegnazione in Model.Assegnate)
         {
@@ -54,13 +61,20 @@ else
                     {
                         <h2>@assegnazione.segnalazione.contatto.nome @assegnazione.segnalazione.contatto.cognome </h2>
                     }
-                    <p>@assegnazione.segnalazione.prodottoRichiesto.descrizione</p>
+                    
+                    <p style="float:right;">Utente inserimento: <strong>@assegnazione.segnalazione.utenteInserimento</strong></p>
+                    <p>Prodotto: <strong>@assegnazione.segnalazione.prodottoRichiesto.descrizione</strong></p>
+
+                    <p style="float:right;">Data inserimento: <strong>@assegnazione.segnalazione.dataInserimento.ToShortDateString()</strong></p>
+                    <p>Importo: <strong>@String.Format("€ {0:N2}", assegnazione.segnalazione.importoRichiesto)</strong></p>
+
+
                     @if (assegnazione.segnalazione.dataPromemoria != null)
                     {
                         <p>Scadenza: <strong>@assegnazione.segnalazione.dataPromemoria.Value.ToShortDateString()</strong></p>
                     }
 
-                    <p class="ui-li-aside">Importo: <strong>@String.Format("€ {0:N2}", assegnazione.segnalazione.importoRichiesto)</strong>  -  Data inserimento: <strong>@assegnazione.segnalazione.dataInserimento.ToShortDateString()</strong></p>
+                    <p class="ui-li-aside">Stato: <strong>@assegnazione.segnalazione.stato.descrizione</strong></p>
                 </a>
             </li>
         }

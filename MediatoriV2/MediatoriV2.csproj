@@ -252,20 +252,21 @@
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
     <Compile Include="Models\DecodeEnum.cs" />
     <Compile Include="Models\DocumentiIdentitaModel.cs" />
-    <Compile Include="Models\FlipswitchModel.cs" />
+    <Compile Include="Models\UI\ComboDataModel.cs" />
+    <Compile Include="Models\UI\FlipswitchModel.cs" />
     <Compile Include="Models\History.cs" />
     <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Models\ImpieghiModel.cs" />
     <Compile Include="Models\IndirizziModel.cs" />
-    <Compile Include="Models\JasonMessageModel.cs" />
-    <Compile Include="Models\MenuElement.cs" />
-    <Compile Include="Models\MyItem.cs" />
+    <Compile Include="Models\UI\JasonMessageModel.cs" />
+    <Compile Include="Models\UI\MenuElement.cs" />
+    <Compile Include="Models\UI\MyItem.cs" />
     <Compile Include="Models\MyUserModel.cs" />
     <Compile Include="Controllers\PreventivoController.cs" />
     <Compile Include="Models\NoteModel.cs" />
-    <Compile Include="Models\PopupConfirmDeleteModel.cs" />
+    <Compile Include="Models\UI\PopupConfirmDeleteModel.cs" />
     <Compile Include="Models\PraticaDetailsModel.cs" />
     <Compile Include="Models\Pratica\PagedPratica.cs" />
     <Compile Include="Models\Pratica\SearchPratica.cs" />
@@ -339,6 +340,7 @@
     <Content Include="Content\RGraph\libraries\RGraph.common.tooltips.js" />
     <Content Include="Content\RGraph\libraries\RGraph.common.zoom.js" />
     <Content Include="Content\RGraph\libraries\RGraph.cornergauge.js" />
+    <Content Include="Content\RGraph\libraries\RGraph.drawing.background.js" />
     <Content Include="Content\RGraph\libraries\RGraph.drawing.circle.js" />
     <Content Include="Content\RGraph\libraries\RGraph.drawing.image.js" />
     <Content Include="Content\RGraph\libraries\RGraph.drawing.marker1.js" />
@@ -354,7 +356,6 @@
     <Content Include="Content\RGraph\libraries\RGraph.gauge.js" />
     <Content Include="Content\RGraph\libraries\RGraph.hbar.js" />
     <Content Include="Content\RGraph\libraries\RGraph.hprogress.js" />
-    <Content Include="Content\RGraph\libraries\RGraph.led.js" />
     <Content Include="Content\RGraph\libraries\RGraph.line.js" />
     <Content Include="Content\RGraph\libraries\RGraph.meter.js" />
     <Content Include="Content\RGraph\libraries\RGraph.modaldialog.js" />
@@ -531,6 +532,9 @@
     <Content Include="Images\topfillmenuLight.png" />
     <Content Include="Images\topImage.png" />
     <Content Include="Images\topright.png" />
+    <Content Include="Views\Test\RGraph01.cshtml" />
+    <Content Include="Views\Test\RGraph02.cshtml" />
+    <Content Include="Views\Test\RGraph03.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Nuget\readme.txt" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -804,6 +808,11 @@
     <Content Include="Views\Pratiche\_PraticaEdit.cshtml" />
     <Content Include="Views\Documentale\_DocumentList - Copy.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\Segnalazioni.cshtml" />
+    <Content Include="Views\Reports\Pratiche.cshtml" />
+    <Content Include="Views\Reports\Rinnovi.cshtml" />
+    <Content Include="Views\Reports\_footer.cshtml" />
+    <Content Include="Views\Widget\_RGraphV2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -824,13 +833,17 @@
       <Project>{de537bc0-c7b3-4f38-9de2-5757d6d3999e}</Project>
       <Name>MyUsers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BusinessModel\BusinessModel.csproj">
+    <ProjectReference Include="..\BusinessModel\Mediatori.BusinessModel.csproj">
       <Project>{7e7b1062-586b-482b-b7b4-cfd2514975f9}</Project>
-      <Name>BusinessModel</Name>
+      <Name>Mediatori.BusinessModel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataModel\DataModel.csproj">
+    <ProjectReference Include="..\DataModel\Mediatori.DataModel.csproj">
       <Project>{2dc00126-5045-4bd2-9612-e79f2a50cb8b}</Project>
-      <Name>DataModel</Name>
+      <Name>Mediatori.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mediatori.reports\Mediatori.Reports.csproj">
+      <Project>{80436640-be98-4a87-a215-2b336b87a13d}</Project>
+      <Name>Mediatori.Reports</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,4 @@
-﻿
+﻿@model List<mediatori.Models.MenuElement>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
@@ -6,3 +6,4 @@
 
 <h2>Reports</h2>
 
+@{Html.RenderPartial("_BoxMenu", Model);}

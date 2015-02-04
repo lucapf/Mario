@@ -1,18 +1,21 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph              = window.RGraph || {isRGraph: true};
     RGraph.Effects      = RGraph.Effects || {};
     RGraph.Effects.Rose = RGraph.Effects.Rose || {};
-
-
-
 
     /**
     * The rose chart constuctor
@@ -20,15 +23,30 @@
     * @param object canvas
     * @param array data
     */
-    RGraph.Rose = function (id, data)
+    RGraph.Rose = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
+        /**
+        * Allow for object config style
+        */
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
 
-        // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
-        this.context           = this.canvas.getContext('2d');
-        this.data              = data;
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+        
+        } else {
+        
+            var conf      = {id: conf};
+                conf.data = arguments[1];
+        }
+
+
+
+
+        this.id                = conf.id;
+        this.canvas            = document.getElementById(this.id);
+        this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
+        this.data              = conf.data;
         this.canvas.__object__ = this;
         this.type              = 'rose';
         this.isRGraph          = true;
@@ -37,13 +55,7 @@
         this.colorsParsed      = false;
         this.coordsText        = [];
         this.original_colors   = [];
-
-
-        /**
-        * Compatibility with older browsers
-        */
-        //RGraph.OldBrowserCompat(this.context);
-
+        this.firstDraw         = true; // After the first draw this will be false
 
         this.centerx = 0;
         this.centery = 0;
@@ -88,6 +100,7 @@
             'chart.labels':                 null,
             'chart.labels.position':       'center',
             'chart.labels.axes':            'nsew',
+            'chart.labels.boxed':           true,
             'chart.labels.offset':          0,
             'chart.text.color':             'black',
             'chart.text.font':              'Arial',
@@ -149,8 +162,7 @@
             'chart.animation.roundrobin.factor':  1,
             'chart.animation.roundrobin.radius': true,
             'chart.animation.grow.multiplier': 1,
-            'chart.labels.count':              5,
-            'chart.drawingcache':              false
+            'chart.labels.count':              5
         }
 
 
@@ -208,8 +220,20 @@
         * @param string value The value of the property
         */
         this.set =
-        this.Set = function (name, value)
+        this.Set = function (name)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
             /**
             * This should be done first - prepend the propertyy name with "chart." if necessary
             */
@@ -275,6 +299,7 @@
             this.angles2      = [];
             this.total        = 0;
             this.startRadians = prop['chart.angles.start'];
+            this.coordsText   = [];
             
             /**
             * Change the centerx marginally if the key is defined
@@ -301,10 +326,7 @@
                 this.colorsParsed = true;
             }
     
-            RG.cachedDraw(this, 'background-grid', function (obj)
-            {
-                obj.DrawBackground();
-            });
+            this.drawBackground();
 
 
             this.DrawRose();
@@ -346,8 +368,20 @@
             * This installs the event listeners
             */
             RG.InstallEventListeners(this);
-    
-    
+
+
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
+
+
+
             /**
             * Fire the RGraph ondraw event
             */
@@ -870,6 +904,7 @@
                                     'halign':'center',
                                     'bounding':true,
                                     'boundingFill':color,
+                                    'boundingStroke':prop['chart.labels.boxed'] ? 'black' : 'rgba(0,0,0,0)',
                                     'tag': 'scale'
                                    });
                 }
@@ -887,6 +922,7 @@
                                     'halign':'center',
                                     'bounding':true,
                                     'boundingFill':color,
+                                    'boundingStroke':prop['chart.labels.boxed'] ? 'black' : 'rgba(0,0,0,0)',
                                     'tag': 'scale'
                                    });
                 }
@@ -904,6 +940,7 @@
                                     'halign':'center',
                                     'bounding':true,
                                     'boundingFill':color,
+                                    'boundingStroke':prop['chart.labels.boxed'] ? 'black' : 'rgba(0,0,0,0)',
                                     'tag': 'scale'
                                    });
                 }
@@ -921,6 +958,7 @@
                                     'halign':'center',
                                     'bounding':true,
                                     'boundingFill':color,
+                                    'boundingStroke':prop['chart.labels.boxed'] ? 'black' : 'rgba(0,0,0,0)',
                                     'tag': 'scale'
                                    });
                 }
@@ -936,6 +974,7 @@
                                 'halign':'center',
                                 'bounding':true,
                                 'boundingFill':color,
+                                    'boundingStroke':prop['chart.labels.boxed'] ? 'black' : 'rgba(0,0,0,0)',
                                 'tag': 'scale'
                                });
             }
@@ -1360,6 +1399,17 @@
 
 
         /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
+        };
+
+
+
+
+        /**
         * This parses a single color value
         */
         this.parseSingleColorForGradient = function (color)
@@ -1440,6 +1490,17 @@
             this[type] = func;
     
             return this;
+        };
+
+
+
+
+        /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
         };
 
 
@@ -1636,6 +1697,15 @@
         * Register this object
         */
         RG.Register(this);
-    };
-// version: 2014-03-28
 
+
+
+
+       /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+    };

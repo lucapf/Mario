@@ -1,12 +1,18 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph = window.RGraph || {isRGraph: true};
 
 
@@ -18,18 +24,66 @@
     * @param object canvas The cxanvas object
     * @param array  data   The chart data
     */
-    RGraph.Scatter = function (id, data)
+    RGraph.Scatter = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
+        /**
+        * Allow for object config style
+        */
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
 
-        // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+
+            this.data = new Array(conf.data.length);
+
+           // Store the data set(s)
+            this.data = RGraph.arrayClone(conf.data);
+
+
+            // Account for just one dataset being given
+            if (typeof conf.data === 'object' && typeof conf.data[0] === 'object' && (typeof conf.data[0][0] === 'number' || typeof conf.data[0][0] === 'string')) {
+                var tmp = RGraph.arrayClone(conf.data);
+                conf.data = new Array();
+                conf.data[0] = RGraph.arrayClone(tmp);
+                
+                this.data = RGraph.arrayClone(conf.data);
+            }
+
+        } else {
+        
+            var conf      = {id: conf};
+                conf.data = arguments[1];
+
+
+            this.data = [];
+
+            // Handle multiple datasets being given as one argument
+            if (arguments[1][0] && arguments[1][0][0] && typeof arguments[1][0][0] == 'object') {
+                // Store the data set(s)
+                for (var i=0; i<arguments[1].length; ++i) {
+                    this.data[i] = RGraph.arrayClone(arguments[1][i]);
+                }
+    
+            // Handle multiple data sets being supplied as seperate arguments
+            } else {
+
+                // Store the data set(s)
+                for (var i=1; i<arguments.length; ++i) {
+                    this.data[i - 1] = RGraph.arrayClone(arguments[i]);
+                }
+            }
+        }
+
+
+
+
+        this.id                = conf.id;
+        this.canvas            = document.getElementById(this.id);
         this.canvas.__object__ = this;
-        this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
+        this.context           = this.canvas.getContext ? this.canvas.getContext('2d') : null;
         this.max               = 0;
         this.coords            = [];
-        this.data              = [];
         this.type              = 'scatter';
         this.isRGraph          = true;
         this.uid               = RGraph.CreateUID();
@@ -37,12 +91,25 @@
         this.colorsParsed      = false;
         this.coordsText        = [];
         this.original_colors   = [];
+        this.firstDraw         = true; // After the first draw this will be false
 
 
-        /**
-        * Compatibility with older browsers
-        */
-        //RGraph.OldBrowserCompat(this.context);
+
+
+        // Handle multiple datasets being given as one argument
+        //if (arguments[1][0] && arguments[1][0][0] && typeof(arguments[1][0][0]) == 'object') {
+        //    // Store the data set(s)
+        //    for (var i=0; i<arguments[1].length; ++i) {
+        //        this.data[i] = arguments[1][i];
+        //    }
+
+        // Handle multiple data sets being supplied as seperate arguments
+        //} else {
+            // Store the data set(s)
+            //for (var i=1; i<arguments.length; ++i) {
+            //    this.data[i - 1] = arguments[i];
+            //}
+        //}
 
 
         // Various config properties
@@ -85,6 +152,10 @@
             'chart.units.post':             '',
             'chart.numyticks':              10,
             'chart.tickmarks':              'cross',
+            'chart.tickmarks.image.halign': 'center',
+            'chart.tickmarks.image.valign': 'center',
+            'chart.tickmarks.image.offsetx': 0,
+            'chart.tickmarks.image.offsety': 0,
             'chart.ticksize':               5,
             'chart.numxticks':              true,
             'chart.xaxis':                  true,
@@ -216,27 +287,12 @@
             'chart.highlight.fill':         'rgba(255,255,255,0.7)'
         }
 
-        // Handle multiple datasets being given as one argument
-        if (arguments[1][0] && arguments[1][0][0] && typeof(arguments[1][0][0]) == 'object') {
-            // Store the data set(s)
-            for (var i=0; i<arguments[1].length; ++i) {
-                this.data[i] = arguments[1][i];
-            }
-
-        // Handle multiple data sets being supplied as seperate arguments
-        } else {
-            // Store the data set(s)
-            for (var i=1; i<arguments.length; ++i) {
-                this.data[i - 1] = arguments[i];
-            }
-        }
-
         /**
         * This allows the data points to be given as dates as well as numbers. Formats supported by RGraph.parseDate() are accepted.
         */
         for (var i=0; i<this.data.length; ++i) {
             for (var j=0; j<this.data[i].length; ++j) {
-                 if (typeof(this.data[i][j][0]) == 'string') {
+                 if (this.data[i][j] && typeof(this.data[i][j][0]) == 'string') {
                     this.data[i][j][0] = RGraph.parseDate(this.data[i][j][0]);
                  }
             }
@@ -313,8 +369,21 @@
         * @param string value The value of the property
         */
         this.set =
-        this.Set = function (name, value)
+        this.Set = function (name)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
+
             /**
             * This should be done first - prepend the propertyy name with "chart." if necessary
             */
@@ -419,7 +488,17 @@
                 this.colorsParsed = true;
             }
     
-            
+
+
+
+            /**
+            * Stop this growing uncontrollably
+            */
+            this.coordsText = [];
+
+
+
+
             /**
             * This is new in May 2011 and facilitates indiviual gutter settings,
             * eg chart.gutter.left
@@ -441,7 +520,7 @@
             */
             if (typeof(prop['chart.xmin']) == 'string') prop['chart.xmin'] = RG.parseDate(prop['chart.xmin']);
             if (typeof(prop['chart.xmax']) == 'string') prop['chart.xmax'] = RG.parseDate(prop['chart.xmax']);
-    
+
     
             /**
             * Look for tooltips and populate chart.tooltips
@@ -616,6 +695,17 @@
             * This installs the event listeners
             */
             RG.InstallEventListeners(this);
+
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
+
 
 
             /**
@@ -881,7 +971,7 @@
     
     
                     if (!prop['chart.ylabels.specific'] && typeof numYLabels == 'number') {
-                        
+
                         /**
                         * Draw the top half 
                         */
@@ -991,16 +1081,16 @@
                                                 'tag': 'scale'
                                                });
                             RG.Text2(this, {'font':font,
-                                                'size': text_size,
-                                                'x': xPos,
-                                                'y': this.gutterTop + (this.halfGraphHeight * 2),
-                                                'valign': 'center',
-                                                'halign':align,
-                                                'bounding': boxed,
-                                                'boundingFill': 'white',
-                                                'text': RG.number_format(this, yMin.toFixed(prop['chart.scale.decimals']), units_pre, units_post),
-                                                'tag': 'scale'
-                                               });
+                                            'size': text_size,
+                                            'x': xPos,
+                                            'y': this.gutterTop + (this.halfGraphHeight * 2),
+                                            'valign': 'center',
+                                            'halign':align,
+                                            'bounding': boxed,
+                                            'boundingFill': 'white',
+                                            'text': '-' + RG.number_format(this, yMin.toFixed(prop['chart.scale.decimals']), units_pre, units_post),
+                                            'tag': 'scale'
+                                           });
                         }
                     }
         
@@ -1622,7 +1712,65 @@
                     var yVal = ((graphheight - (yCoord - this.gutterTop)) / graphheight) * yMax;
     
                     tickmarks(this, data, x, yCoord, xVal, yVal, xMax, yMax, color, data_set_index, data_index)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                /**
+                * Image based tickmark
+                */
+                // lineData, xPos, yPos, color, isShadow, prevX, prevY, tickmarks, index
+                } else if (
+                           typeof tickmarks === 'string' &&
+                            (
+                             tickmarks.substr(0, 6) === 'image:'  ||
+                             tickmarks.substr(0, 5) === 'data:'   ||
+                             tickmarks.substr(0, 1) === '/'       ||
+                             tickmarks.substr(0, 3) === '../'     ||
+                             tickmarks.substr(0, 7) === 'images/'
+                            )
+                          ) {
     
+                    var img = new Image();
+                    
+                    if (tickmarks.substr(0, 6) === 'image:') {
+                        img.src = tickmarks.substr(6);
+                    } else {
+                        img.src = tickmarks;
+                    }
+    
+
+                    img.onload = function ()
+                    {
+                        if (prop['chart.tickmarks.image.halign'] === 'center') x -= (this.width / 2);
+                        if (prop['chart.tickmarks.image.halign'] === 'right')  x -= this.width;
+
+                        if (prop['chart.tickmarks.image.valign'] === 'center') yCoord -= (this.height / 2);
+                        if (prop['chart.tickmarks.image.valign'] === 'bottom') yCoord -= this.height;
+                        
+                        x += prop['chart.tickmarks.image.offsetx'];
+                        yCoord += prop['chart.tickmarks.image.offsety'];
+    
+                        co.drawImage(this, x, yCoord);
+                    }
+
+
+
+
+
                 /**
                 * No tickmarks
                 */
@@ -2050,14 +2198,36 @@
             if (prop['chart.xaxispos'] == 'center') {
                 var value = (((this.grapharea / 2) - (mouseY - this.gutterTop)) / this.grapharea) * (this.max - this.min)
                 value *= 2;
+                
+                
+                // Account for each side of the X axis
                 if (value >= 0) {
                     value += this.min
+
+                    if (prop['chart.ylabels.invert']) {
+                        value -= this.min;
+                        value = this.max - value;
+                    }
+                
                 } else {
-                    value -= this.min
+
+                    value -= this.min;
+                    if (prop['chart.ylabels.invert']) {
+                        value += this.min;
+                        value = this.max + value;
+                        value *= -1;
+                    }
                 }
+
             } else {
+
                 var value = ((this.grapharea - (mouseY - this.gutterTop)) / this.grapharea) * (this.max - this.min)
                 value += this.min;
+                
+                if (prop['chart.ylabels.invert']) {
+                    value -= this.min;
+                    value = this.max - value;
+                }
             }
     
             return value;
@@ -2461,9 +2631,9 @@
             if (data) {
                 for (var dataset=0; dataset<data.length; ++dataset) {
                     for (var i=0; i<this.data[dataset].length; ++i) {
-                        
+
                         // Boxplots
-                        if (typeof(this.data[dataset][i][1]) == 'object' && this.data[dataset][i][1]) {
+                        if (this.data[dataset][i] && typeof(this.data[dataset][i][1]) == 'object' && this.data[dataset][i][1]) {
     
                             if (typeof(this.data[dataset][i][1][5]) == 'string') this.data[dataset][i][1][5] = this.parseSingleColorForGradient(this.data[dataset][i][1][5]);
                             if (typeof(this.data[dataset][i][1][6]) == 'string') this.data[dataset][i][1][6] = this.parseSingleColorForGradient(this.data[dataset][i][1][6]);
@@ -2507,6 +2677,17 @@
              prop['chart.background.grid.color'] = this.parseSingleColorForGradient(prop['chart.background.grid.color']);
              prop['chart.background.color']      = this.parseSingleColorForGradient(prop['chart.background.color']);
              prop['chart.axis.color']            = this.parseSingleColorForGradient(prop['chart.axis.color']);
+        };
+
+
+
+
+        /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
         };
 
 
@@ -2580,6 +2761,17 @@
             this[type] = func;
     
             return this;
+        };
+
+
+
+
+        /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
         };
 
 
@@ -2769,6 +2961,15 @@
         * Register the object
         */
         RG.Register(this);
-    };
-// version: 2014-03-28
 
+
+
+
+        /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+    };

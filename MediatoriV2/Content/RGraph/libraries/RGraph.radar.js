@@ -1,16 +1,19 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph = window.RGraph || {isRGraph: true};
-
-
-
 
     /**
     * The traditional radar chart constructor
@@ -18,50 +21,69 @@
     * @param string id   The ID of the canvas
     * @param array  data An array of data to represent
     */
-    RGraph.Radar = function (id, data)
+    RGraph.Radar = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
-
-        // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
-        this.context           = this.canvas.getContext('2d');
-        this.canvas.__object__ = this;
-        this.type              = 'radar';
-        this.coords            = [];
-        this.isRGraph          = true;
-        this.data              = [];
-        this.max               = 0;
-        this.original_data     = [];
-        this.uid               = RGraph.CreateUID();
-        this.canvas.uid        = this.canvas.uid ? this.canvas.uid : RGraph.CreateUID();
-        this.colorsParsed      = false;
-        this.coordsText        = [];
-        this.original_colors   = [];
-
         /**
-        * This allows for passing all of the arguments as one big array instead of as individual daatasets
+        * Allow for object config style
         */
-        if (typeof arguments[1] == 'object' && typeof arguments[1][0] == 'object') {
-            for (var i=0,len=arguments[1].length; i<len; ++i) {
-                this.original_data.push(RGraph.array_clone(arguments[1][i]));
-                this.data.push(RGraph.array_clone(arguments[1][i]));
-                this.max = Math.max(this.max, RGraph.array_max(arguments[1][i]));
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
+
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+            
+            // Turn conf.data into a multi-d array if it's not already
+            if (typeof conf.data[0] === 'number') {
+                conf.data = [conf.data];
             }
         
         } else {
-        
-            for (var i=1,len=arguments.length; i<len; ++i) {
-                this.original_data.push(RGraph.array_clone(arguments[i]));
-                this.data.push(RGraph.array_clone(arguments[i]));
-                this.max = Math.max(this.max, RGraph.array_max(arguments[i]));
+
+            var conf = {id: conf, data: []};
+            
+            // Arguments style: var foo = new RGraph.Radar('cvs', [1,2,3], [1,2,3], [1,2,3]);
+            if (typeof arguments[1] === 'object' && typeof arguments[1][0] === 'number') {
+                for (var i=1; i<arguments.length; ++i) {
+                    conf.data.push(RGraph.arrayClone(arguments[i]));
+                }
+
+            // Arguments style: var foo = new RGraph.Radar('cvs', [[1,2,3], [1,2,3], [1,2,3]]);
+            } else if (   typeof arguments[1] === 'object'
+                       && typeof arguments[1][0] === 'object'
+                       && typeof arguments[1][0][0] === 'number') {
+                
+                conf.data = RGraph.arrayClone(arguments[1]);
             }
         }
 
+
+
+
+        this.id                = conf.id;
+        this.canvas            = document.getElementById(conf.id);
+        this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
+        this.canvas.__object__ = this;
+        this.type              = 'radar';
+        this.isRGraph          = true;
+        this.data              = [];
+        this.max               = 0;
+        this.uid               = RGraph.CreateUID();
+        this.canvas.uid        = this.canvas.uid ? this.canvas.uid : RGraph.CreateUID();
+        this.colorsParsed      = false;
+        this.coords            = [];
+        this.coordsText        = [];
+        this.original_data     = [];
+        this.original_colors   = [];
+        this.firstDraw         = true; // After the first draw this will be false
+
         /**
-        * Compatibility with older browsers
+        * Add the data to the .original_data array and work out the max value
         */
-        //RGraph.OldBrowserCompat(this.context);
+        for (var i=0,len=conf.data.length; i<len; ++i) {
+            this.original_data.push(RGraph.arrayClone(conf.data[i]));
+            this.data.push(RGraph.arrayClone(conf.data[i]));
+            this.max = Math.max(this.max, RGraph.arrayMax(conf.data[i]));
+        }
 
 
         this.properties =
@@ -83,6 +105,7 @@
             'chart.background.circles.count': null,
             'chart.background.circles.color': '#ddd',
             'chart.background.circles.poly':  true,
+            'chart.background.circles.spokes': 24,
             'chart.text.size':             10,
             'chart.text.size.scale':       null,
             'chart.text.font':             'Arial',
@@ -178,8 +201,7 @@
             'chart.fill.highlight.fill':   'rgba(255,255,255,0.7)',
             'chart.fill.highlight.stroke': 'rgba(0,0,0,0)',
             'chart.fill.mousemove.redraw': false,
-            'chart.animation.trace.clip': 1,
-            'chart.drawingcache':         false
+            'chart.animation.trace.clip': 1
         }
 
 
@@ -250,6 +272,20 @@
         this.set =
         this.Set = function (name, value)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
+
+
             name = name.toLowerCase();
     
             /**
@@ -318,13 +354,14 @@
             // NB: Colors are parsed further down
     
             // Reset the coords array to stop it growing
-            this.coords  = [];
-            this.coords2 = [];
+            this.coords     = [];
+            this.coords2    = [];
+            this.coordsText = [];
     
             /**
             * Reset the data to the original_data
             */
-            this.data = RG.array_clone(this.original_data);
+            this.data = RG.arrayClone(this.original_data);
 
             // Loop thru the data array if chart.accumulative is enable checking to see if all the
             // datasets have the same number of elements.
@@ -440,14 +477,11 @@
                 this.max = this.scale2.max;
             }
 
-            RG.cachedDraw(this, 'background', function (obj)
-            {
-                obj.DrawBackground();
-                obj.DrawAxes();
-                obj.DrawCircle();
-                obj.DrawLabels();
-                obj.DrawAxisLabels();
-            });
+            this.DrawBackground();
+            this.DrawAxes();
+            this.DrawCircle();
+            this.DrawLabels();
+            this.DrawAxisLabels();
 
 
             /**
@@ -505,6 +539,20 @@
                 this.__fill_click_listeners_installed__ = true;
             }
 
+
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
+
+
+
+
             /**
             * Fire the RGraph ondraw event
             */
@@ -525,7 +573,7 @@
             var color   = prop['chart.background.circles.color'];
             var poly    = prop['chart.background.circles.poly'];
             var spacing = prop['chart.background.circles.spacing'];
-    
+            var spokes  = prop['chart.background.circles.spokes'];
     
     
     
@@ -567,7 +615,7 @@
                 */
                 co.strokeStyle = color;
     
-                for (var i=0; i<360; i+=15) {
+                for (var i=0; i<360; i+=(360 / spokes)) {
                     co.beginPath();
                         co.arc(this.centerx,
                                this.centery,
@@ -1325,6 +1373,17 @@
 
 
         /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
+        };
+
+
+
+
+        /**
         * This parses a single color value
         */
         this.parseSingleColorForGradient = function (color)
@@ -1595,6 +1654,17 @@
 
 
         /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
+        };
+
+
+
+
+        /**
         * Radar chart grow
         * 
         * This effect gradually increases the magnitude of the points on the radar chart
@@ -1692,6 +1762,15 @@
         * Always register the object
         */
         RG.Register(this);
-    };
-// version: 2014-03-28
 
+
+
+
+        /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+    };

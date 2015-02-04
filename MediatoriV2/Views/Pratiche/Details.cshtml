@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
 }
 
-<h1>Dettaglio pratica: @Model.pratica.cedente.nome  @Model.pratica.cedente.cognome</h1>
+
+<h1>Dettaglio pratica: @Model.pratica.cedente.nome @Model.pratica.cedente.cognome</h1>
+<h5 class="ui-bar ui-bar-a ui-corner-all"><span style="float:right">Utente: @Model.pratica.utenteInserimento</span>Data inserimento: @Model.pratica.dataInserimento.ToShortDateString()</h5>
 
 <div data-role="navbar" data-iconpos="right" data-theme="b">
     <ul>
@@ -12,7 +14,7 @@
     </ul>
 </div>
 
-@{Html.RenderAction("DetailsV2", "Contatto", new { id = Model.pratica.cedente.id , isCedente = true});}
+@{Html.RenderAction("DetailsV2", "Contatto", new { id = Model.pratica.cedente.id, isCedente = true });}
 
 <h3>Importi</h3>
 <hr />
@@ -27,8 +29,6 @@
 <!-- preventivo -->
 @{Html.RenderAction("DetailsFromPratica", "Preventivo", new { praticaId = Model.pratica.id });}
 <!-- /preventivo -->
-
-
 @{Html.RenderAction("Cedente", "Indirizzo", new { cedenteId = Model.pratica.cedente.id });}
 
 @{Html.RenderAction("Details", "DocumentoIdentita", new { cedenteId = Model.pratica.cedente.id });}
@@ -38,11 +38,9 @@
 <!-- riferimento -->
 @{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.pratica.cedente.id });}
 <!-- /riferimento -->
-
 <!-- documenti -->
 @{Html.RenderAction("DetailsFromPratica", "Documentale", new { praticaId = Model.pratica.id });}
 <!-- /documenti -->
-
 @{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.pratica.note, segnalazioneId = Model.pratica.id });}
 
 
@@ -58,4 +56,4 @@
 
 
 
-@{Html.RenderPartial("~/Views/Segnalazioni/_PopupChangeStatus.cshtml", Model.listaStatiSuccessivi, new ViewDataDictionary { { "CodiceEntita", Model.pratica.id }, { "Entita" , mediatori.Models.etc.EnumEntitaAssociataStato.PRATICA } });}
+@{Html.RenderPartial("~/Views/Segnalazioni/_PopupChangeStatus.cshtml", Model.listaStatiSuccessivi, new ViewDataDictionary { { "CodiceEntita", Model.pratica.id }, { "Entita", mediatori.Models.etc.EnumEntitaAssociataStato.PRATICA } });}

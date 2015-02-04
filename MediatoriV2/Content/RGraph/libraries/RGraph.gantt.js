@@ -1,28 +1,52 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph = window.RGraph || {isRGraph: true};
 
     /**
     * The gantt chart constructor
     * 
-    * @param object canvas The cxanvas object
-    * @param array  data   The chart data
+    * @param object conf The configuration object. You can also give seperate arguments if you prefer:
+    *                    var foo = new RGraph.Gantt('cvs', [[0,50],[25,50],[50,50]]);
     */
-    RGraph.Gantt = function (id, data)
+    RGraph.Gantt = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
+        /**
+        * Allow for object config style
+        */
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
 
-        // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
-        this.context           = this.canvas.getContext("2d");
+            var id                        = conf.id
+            var canvas                    = document.getElementById(id);
+            var data                      = conf.data;
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+        
+        } else {
+        
+            var id     = conf;
+            var canvas = document.getElementById(id);
+            var data   = arguments[1];
+        }
+
+
+
+        this.id                = id;
+        this.canvas            = canvas;
+        this.context           = this.canvas.getContext ? this.canvas.getContext("2d", {alpha: (typeof id === 'object' && id.alpha === false) ? false : true}) : null;
         this.canvas.__object__ = this;
         this.type              = 'gantt';
         this.isRGraph          = true;
@@ -32,6 +56,7 @@
         this.colorsParsed      = false;
         this.coordsText        = [];
         this.original_colors   = [];
+        this.firstDraw         = true; // After the first draw this will be false
 
 
         /**
@@ -191,8 +216,22 @@
         * @param value mixed  The value of the property
         */
         this.set =
-        this.Set = function (name, value)
+        this.Set = function (name)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
+
+
             name = name.toLowerCase();
     
             /**
@@ -265,12 +304,18 @@
             this.gutterRight  = prop['chart.gutter.right'];
             this.gutterTop    = prop['chart.gutter.top'];
             this.gutterBottom = prop['chart.gutter.bottom'];
+            
+            /**
+            * Stop this growing uncntrollably
+            */
+            this.coordsText = [];
     
     
             /**
             * Parse the colors. This allows for simple gradient syntax
             */
             if (!this.colorsParsed) {
+
                 this.parseColors();
                 
                 // Don't want to do this again
@@ -331,7 +376,19 @@
             */
             RG.InstallEventListeners(this);
     
-    
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
+
+
+
+
             /**
             * Fire the RGraph ondraw event
             */
@@ -427,7 +484,9 @@
             * First draw the vertical bars that have been added
             */
             if (prop['chart.vbars']) {
+
                 for (i=0,len=prop['chart.vbars'].length; i<len; ++i) {
+
                     // Boundary checking
                     if (prop['chart.vbars'][i][0] + prop['chart.vbars'][i][1] > prop['chart.xmax']) {
                         prop['chart.vbars'][i][1] = 364 - prop['chart.vbars'][i][0];
@@ -456,7 +515,7 @@
             var sequentialIndex = 0;
             for (i=0; i<events.length; ++i) {
                 if (typeof(events[i][0]) == 'number') {
-                    this.DrawSingleEvent(events[i], i, null);
+                    this.DrawSingleEvent(events[i], i, sequentialIndex++);
                 } else {
                     for (var j=0; j<events[i].length; ++j) {
                         this.DrawSingleEvent(events[i][j], i, sequentialIndex++);
@@ -584,9 +643,9 @@
             /**
             * Draw the inbar label if it's defined
             */
-            if (prop['chart.labels.inbar'] && (prop['chart.labels.inbar'][sequentialIndex] || prop['chart.labels.inbar'][index])) {
+            if (prop['chart.labels.inbar'] && prop['chart.labels.inbar'][sequentialIndex]) {
                 
-                var label = String(prop['chart.labels.inbar'][sequentialIndex] || prop['chart.labels.inbar'][index]);
+                var label = String(prop['chart.labels.inbar'][sequentialIndex]);
                 var halign = prop['chart.labels.inbar.align'] == 'left' ? 'left' : 'center';
                     halign = prop['chart.labels.inbar.align'] == 'right' ? 'right' : halign;
                 
@@ -723,6 +782,8 @@
                             obj.data[index][1] = 1;
                         }
                     }
+                    
+                    RG.resetColorsToOriginalValues(this);
         
                     //RG.Clear(ca);
                     RG.redrawCanvas(ca);
@@ -799,14 +860,16 @@
         */
         this.getXCoord = function (value)
         {
-            var min = prop['chart.xmin'];
-            var max = prop['chart.xmax'];
-            
+            var min       = prop['chart.xmin'];
+            var max       = prop['chart.xmax'];
+            var graphArea = ca.width - this.gutterLeft - this.gutterRight;
+
             if (value > max || value < min) {
                 return null;
             }
             
-            var x = (((value - min) / (max - min)) * this.graphArea) + this.gutterLeft;
+
+            var x = (((value - min) / (max - min)) * graphArea) + this.gutterLeft;
             
             return x;
         };
@@ -850,7 +913,7 @@
             // Save the original colors so that they can be restored when the canvas is reset
             if (this.original_colors.length === 0) {
                 
-                this.original_colors['data'] = RG.array_clone(this.data);
+                this.original_colors['data'] = RG.arrayClone(this.data);
 
 
                 this.original_colors['chart.background.barcolor1']  = RG.array_clone(prop['chart.background.barcolor1']);
@@ -864,23 +927,31 @@
 
 
 
+            /**
+            * this.coords can be used here as gradients are only parsed on the SECOND draw - not the first.
+            * A .redraw() is downe at the end of the first draw.
+            */
+            for (var i=0,sequentialIndex=0; i<this.data.length; ++i) {
 
-            for (var i=0; i<this.data.length; ++i) {
-                
-                if (typeof this.data[i][4] == 'string') this.data[i][4] = this.parseSingleColorForGradient(this.data[i][4]);
-                if (typeof this.data[i][5] == 'string') this.data[i][5] = this.parseSingleColorForGradient(this.data[i][5]);
-                
-                if (typeof this.data[i][0] == 'object' && typeof this.data[i][0][0] == 'number') {
-                    for (var j=0,len=this.data[i].length; j<len; j+=1) {
-                        this.data[i][j][4] = this.parseSingleColorForGradient(this.data[i][j][4]);
-                        this.data[i][j][5] = this.parseSingleColorForGradient(this.data[i][j][5]);
+                if (typeof this.data[i][0] == 'object' && typeof this.data[i][0][0] === 'number') {
+
+                    for (var j=0,len=this.data[i].length; j<len; j+=1,sequentialIndex+=1) {
+                        this.data[i][j][4] = this.parseSingleColorForGradient(this.data[i][j][4], {start: this.data[i][j][0],duration: this.data[i][j][1]});
+                        this.data[i][j][5] = this.parseSingleColorForGradient(this.data[i][j][5], {start: this.data[i][j][0],duration: this.data[i][j][1]});
                     }
+                
+                } else {
+                
+                    if (typeof this.data[i][4] == 'string') this.data[i][4] = this.parseSingleColorForGradient(this.data[i][4], {start: this.data[i][0],duration: this.data[i][1]});
+                    if (typeof this.data[i][5] == 'string') this.data[i][5] = this.parseSingleColorForGradient(this.data[i][5], {start: this.data[i][0],duration: this.data[i][1]});
+                    ++sequentialIndex;
                 }
             }
-            
+
             prop['chart.background.barcolor1']  = this.parseSingleColorForGradient(prop['chart.background.barcolor1']);
             prop['chart.background.barcolor2']  = this.parseSingleColorForGradient(prop['chart.background.barcolor2']);
             prop['chart.background.grid.color'] = this.parseSingleColorForGradient(prop['chart.background.grid.color']);
+            prop['chart.background.color']      = this.parseSingleColorForGradient(prop['chart.background.color']);
             prop['chart.defaultcolor']          = this.parseSingleColorForGradient(prop['chart.defaultcolor']);
             prop['chart.highlight.stroke']      = this.parseSingleColorForGradient(prop['chart.highlight.stroke']);
             prop['chart.highlight.fill']        = this.parseSingleColorForGradient(prop['chart.highlight.fill']);
@@ -890,31 +961,51 @@
 
 
         /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
+        };
+
+
+
+
+        /**
         * This parses a single color value
+        * 
+        * @param string color The color to parse
         */
         this.parseSingleColorForGradient = function (color)
         {
+            var opts = arguments[1] || {};
+
             if (!color || typeof(color) != 'string') {
                 return color;
             }
-    
+
+
             if (color.match(/^gradient\((.*)\)$/i)) {
                 
                 var parts = RegExp.$1.split(':');
-    
-                // Create the gradient
+                var value = (opts.start + opts.duration) > prop['chart.xmax'] ? prop['chart.xmax'] : (opts.start + opts.duration);
 
-                var grad = co.createLinearGradient(this.gutterLeft,0,ca.width - this.gutterRight,0);
+                // Create the gradient
+                var grad = co.createLinearGradient(
+                                                   typeof opts.start === 'number' ? this.getXCoord(opts.start) : this.gutterLeft,
+                                                   0,
+                                                   typeof opts.start === 'number' ? this.getXCoord(value) : ca.width - this.gutterRight,
+                                                   0
+                                                  );
     
                 var diff = 1 / (parts.length - 1);
-    
+
                 grad.addColorStop(0, RG.trim(parts[0]));
-    
                 for (var j=1; j<parts.length; ++j) {
                     grad.addColorStop(j * diff, RG.trim(parts[j]));
                 }
             }
-                
+
             return grad ? grad : color;
         };
 
@@ -942,6 +1033,17 @@
 
 
         /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
+        };
+
+
+
+
+        /**
         * Gantt chart Grow effect
         * 
         * @param object   obj Options for the grow effect
@@ -956,31 +1058,33 @@
             var context   = obj.context;
             var numFrames = opt.frames || 30;
             var frame     = 0;
-            var events    = obj.data;
             
-            var original_events = RG.array_clone(events);
-    
+            var original_events = RG.arrayClone(obj.data);
+
             function iterator ()
             {
+                RG.clear(obj.canvas);
+                RG.redrawCanvas(obj.canvas);
+
+
                 if (frame <= numFrames) {
                     // Update the events
-                    for (var i=0,len=events.length; i<len; ++i) {
-                        if (typeof events[i][0] === 'object') {
-                            for (var j=0; j<events[i].length; ++j) {
-                                events[i][j][1] = (frame / numFrames) * original_events[i][j][1];
+                    for (var i=0,len=obj.data.length; i<len; ++i) {
+                        if (typeof obj.data[i][0] === 'object') {
+                            for (var j=0; j<obj.data[i].length; ++j) {
+                                obj.data[i][j][1] = (frame / numFrames) * original_events[i][j][1];
                             }
                         } else {
-                            events[i][1] = (frame / numFrames) * original_events[i][1];
+                            obj.data[i][1] = (frame / numFrames) * original_events[i][1];
                         }
                     }
-    
-                    obj.data = events;
-    
-                    RGraph.clear(obj.canvas);
-                    RGraph.redrawCanvas(obj.canvas);
+                    
+                    obj.reset();
+
+
                     
                     frame++;
-                    
+
                     RGraph.Effects.updateCanvas(iterator);
     
                 } else {
@@ -1006,22 +1110,39 @@
             * Copy the original colors over for single-event-per-line data
             */
             for (var i=0; i<this.original_colors['data'].length; ++i) {
-                if (typeof this.original_colors['data'][i][4] === 'string') {
-                    this.data[i][4] = RG.array_clone(this.original_colors['data'][i][4]);
+                if (this.original_colors['data'][i][4]) {
+                    this.data[i][4] = RG.arrayClone(this.original_colors['data'][i][4]);
                 }
-                
-                if (typeof this.original_colors['data'][i][5] === 'string') {
-                    this.data[i][5] = RG.array_clone(this.original_colors['data'][i][5]);
+
+                if (this.original_colors['data'][i][5]) {
+                    this.data[i][5] = RG.arrayClone(this.original_colors['data'][i][5]);
                 }
-                
                 
                 if (typeof this.original_colors['data'][i][0] === 'object' && typeof this.original_colors['data'][i][0][0] === 'number') {
                     for (var j=0,len2=this.original_colors['data'][i].length; j<len2; ++j) {
-                        this.data[i][j][4] = RG.array_clone(this.original_colors['data'][i][j][4]);
-                        this.data[i][j][5] = RG.array_clone(this.original_colors['data'][i][j][5]);
+                        this.data[i][j][4] = RG.arrayClone(this.original_colors['data'][i][j][4]);
+                        this.data[i][j][5] = RG.arrayClone(this.original_colors['data'][i][j][5]);
                     }
                 }
             }
+        };
+
+
+
+
+
+        /**
+        * This function resets the object - clearing it of any previously gathered info
+        */
+        this.reset = function ()
+        {
+            this.resetColorsToOriginalValues();
+        
+            this.colorsParsed    = false;
+            this.coordsText      = [];
+            this.original_colors = [];
+            this.firstDraw       = true;
+            this.coords          = [];
         };
 
 
@@ -1031,6 +1152,15 @@
         * Register the object
         */
         RG.Register(this);
-    };
-// version: 2014-03-28
 
+
+
+
+        /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+    };

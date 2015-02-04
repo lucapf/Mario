@@ -1,16 +1,19 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph = window.RGraph || {isRGraph: true};
-
-
-
 
     /**
     * The chart constuctor
@@ -19,14 +22,63 @@
     * @param array data
     */
     RGraph.RScatter =
-    RGraph.Rscatter = function (id)
+    RGraph.Rscatter = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
+        /**
+        * Allow for object config style
+        */
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
 
-        // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
-        this.context           = this.canvas.getContext('2d');
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+
+            this.data = new Array(conf.data.length);
+
+           // Store the data set(s)
+            this.data = RGraph.arrayClone(conf.data);
+
+
+            // Account for just one dataset being given
+            if (typeof conf.data === 'object' && typeof conf.data[0] === 'object' && typeof conf.data[0][0] === 'number') {
+                var tmp = RGraph.arrayClone(conf.data);
+                conf.data = new Array();
+                conf.data[0] = RGraph.arrayClone(tmp);
+                
+                this.data = RGraph.arrayClone(conf.data);
+            }
+
+        } else {
+        
+            var conf      = {id: conf};
+                conf.data = arguments[1];
+
+
+            this.data = [];
+
+            // Handle multiple datasets being given as one argument
+            if (arguments[1][0] && arguments[1][0][0] && typeof arguments[1][0][0] == 'object') {
+                // Store the data set(s)
+                for (var i=0; i<arguments[1].length; ++i) {
+                    this.data[i] = arguments[1][i];
+                }
+    
+            // Handle multiple data sets being supplied as seperate arguments
+            } else {
+
+                // Store the data set(s)
+                for (var i=1; i<arguments.length; ++i) {
+                    this.data[i - 1] = RGraph.array_clone(arguments[i]);
+                }
+            }
+        }
+
+
+
+
+        this.id                = conf.id
+        this.canvas            = document.getElementById(this.id)
+        this.context           = this.canvas.getContext ? this.canvas.getContext("2d") : null;
         this.canvas.__object__ = this;
         this.type              = 'rscatter';
         this.hasTooltips       = false;
@@ -36,6 +88,7 @@
         this.colorsParsed      = false;
         this.coordsText        = [];
         this.original_colors   = [];
+        this.firstDraw         = true; // After the first draw this will be false
 
 
         /**
@@ -134,22 +187,7 @@
             'chart.labels.count':          5
         }
         
-        this.data = [];
 
-        // Handle multiple datasets being given as one argument
-        if (arguments[1][0] && arguments[1][0][0] && typeof arguments[1][0][0] == 'object') {
-            // Store the data set(s)
-            for (var i=0; i<arguments[1].length; ++i) {
-                this.data[i] = arguments[1][i];
-            }
-
-        // Handle multiple data sets being supplied as seperate arguments
-        } else {
-            // Store the data set(s)
-            for (var i=1; i<arguments.length; ++i) {
-                this.data[i - 1] = RGraph.array_clone(arguments[i]);
-            }
-        }
 
 
         /**
@@ -211,6 +249,19 @@
         this.set =
         this.Set = function (name, value)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
+
             /**
             * This should be done first - prepend the property name with "chart." if necessary
             */
@@ -271,8 +322,18 @@
             this.centerx = ((ca.width - this.gutterLeft - this.gutterRight) / 2) + this.gutterLeft;
             this.centery = ((ca.height - this.gutterTop - this.gutterBottom) / 2) + this.gutterTop;
             this.coords  = [];
-            this.coords2 = []
-    
+            this.coords2 = [];
+
+
+
+            /**
+            * Stop this growing uncontrollably
+            */
+            this.coordsText = [];
+
+
+
+
             /**
             * If there's a user specified radius/centerx/centery, use them
             */
@@ -416,6 +477,18 @@
             * This installs the event listeners
             */
             RG.InstallEventListeners(this);
+
+
+
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
 
 
 
@@ -971,6 +1044,17 @@
 
 
         /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
+        };
+
+
+
+
+        /**
         * This parses a single color value
         */
         this.parseSingleColorForGradient = function (color)
@@ -1063,9 +1147,29 @@
 
 
         /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
+        };
+
+
+
+
+        /**
         * Register the object
         */
         RG.Register(this);
-    };
-// version: 2014-03-28
 
+
+
+
+        /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+    };

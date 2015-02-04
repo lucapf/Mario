@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{56
 		Database\Update01.sql = Database\Update01.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{2DC00126-5045-4BD2-9612-E79F2A50CB8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediatori.DataModel", "DataModel\Mediatori.DataModel.csproj", "{2DC00126-5045-4BD2-9612-E79F2A50CB8B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48BE3EFE-3813-4E83-B2A4-CCC79D969018}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,7 +31,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{678632
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessModel", "BusinessModel\BusinessModel.csproj", "{7E7B1062-586B-482B-B7B4-CFD2514975F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediatori.BusinessModel", "BusinessModel\Mediatori.BusinessModel.csproj", "{7E7B1062-586B-482B-B7B4-CFD2514975F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediatori.Reports", "mediatori.reports\Mediatori.Reports.csproj", "{80436640-BE98-4A87-A215-2B336B87A13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +90,12 @@ Global
 		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E7B1062-586B-482B-B7B4-CFD2514975F9}.Release|x86.ActiveCfg = Release|Any CPU
+		{80436640-BE98-4A87-A215-2B336B87A13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80436640-BE98-4A87-A215-2B336B87A13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80436640-BE98-4A87-A215-2B336B87A13D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80436640-BE98-4A87-A215-2B336B87A13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80436640-BE98-4A87-A215-2B336B87A13D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80436640-BE98-4A87-A215-2B336B87A13D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -87,9 +87,9 @@
       <Project>{de537bc0-c7b3-4f38-9de2-5757d6d3999e}</Project>
       <Name>MyUsers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataModel\DataModel.csproj">
+    <ProjectReference Include="..\DataModel\Mediatori.DataModel.csproj">
       <Project>{2dc00126-5045-4bd2-9612-e79f2a50cb8b}</Project>
-      <Name>DataModel</Name>
+      <Name>Mediatori.DataModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

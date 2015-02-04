@@ -1,30 +1,53 @@
+// version: 2014-11-15
     /**
     * o--------------------------------------------------------------------------------o
-    * | This file is part of the RGraph package. RGraph is Free Software, licensed     |
-    * | under the MIT license - so it's free to use for all purposes. If you want to   |
-    * | donate to help keep the project going then you can do so here:                 |
+    * | This file is part of the RGraph package - you can learn more at:               |
     * |                                                                                |
-    * |                             http://www.rgraph.net/donate                       |
+    * |                          http://www.rgraph.net                                 |
+    * |                                                                                |
+    * | This package is licensed under the Creative Commons BY-NC license. That means  |
+    * | that for non-commercial purposes it's free to use and for business use there's |
+    * | a 99 GBP per-company fee to pay. You can read the full license here:           |
+    * |                                                                                |
+    * |                      http://www.rgraph.net/license                             |
     * o--------------------------------------------------------------------------------o
     */
+
     RGraph = window.RGraph || {isRGraph: true};
-
-
-
 
     /**
     * The pie chart constructor
     * 
     * @param data array The data to be represented on the Pie chart
     */
-    RGraph.Pie = function (id, data)
+    RGraph.Pie = function (conf)
     {
-        var tmp = RGraph.getCanvasTag(id);
+        /**
+        * Allow for object config style
+        */
+        if (   typeof conf === 'object'
+            && typeof conf.data === 'object'
+            && typeof conf.id === 'string') {
+
+            var id                        = conf.id;
+            var canvas                    = document.getElementById(id);
+            var data                      = conf.data;
+            var parseConfObjectForOptions = true; // Set this so the config is parsed (at the end of the constructor)
+        
+        } else {
+        
+            var id     = conf;
+            var canvas = document.getElementById(id);
+            var data   = arguments[1];
+        }
+
+
+
 
         // Get the canvas and context objects
-        this.id                = tmp[0];
-        this.canvas            = tmp[1];
-        this.context           = this.canvas.getContext("2d");
+        this.id                = id;
+        this.canvas            = canvas;
+        this.context           = this.canvas.getContext ? this.canvas.getContext("2d", {alpha: (typeof id === 'object' && id.alpha === false) ? false : true}) : null;
         this.canvas.__object__ = this;
         this.total             = 0;
         this.subTotal          = 0;
@@ -36,10 +59,12 @@
         this.coords            = [];
         this.coords.key        = [];
         this.coordsSticks      = [];
+        this.coordsText        = [];
         this.uid               = RGraph.CreateUID();
         this.canvas.uid        = this.canvas.uid ? this.canvas.uid : RGraph.CreateUID();
         this.colorsParsed      = false;
         this.original_colors   = [];
+        this.firstDraw         = true; // After the first draw this will be false
 
 
         /**
@@ -201,8 +226,22 @@
         * A generic setter
         */
         this.set =
-        this.Set = function (name, value)
+        this.Set = function (name)
         {
+            var value = typeof arguments[1] === 'undefined' ? null : arguments[1];
+
+            /**
+            * the number of arguments is only one and it's an
+            * object - parse it for configuration data and return.
+            */
+            if (arguments.length === 1 && typeof name === 'object') {
+                RG.parseObjectStyleConfig(this, name);
+                return this;
+            }
+
+
+
+
             name = name.toLowerCase();
     
             /**
@@ -523,7 +562,19 @@
                 RG.InstallEventListeners(this);
             }
     
-    
+
+            /**
+            * Fire the onfirstdraw event
+            */
+            if (this.firstDraw) {
+                RG.fireCustomEvent(this, 'onfirstdraw');
+                this.firstDraw = false;
+                this.firstDrawFunc();
+            }
+
+
+
+
             /**
             * Fire the RGraph ondraw event
             */
@@ -698,8 +749,8 @@
                     * Allow for the label sticks
                     */
                     if (prop['chart.labels.sticks']) {
-                        explosion_offsetx += (Math.cos(angle) * prop['chart.labels.sticks.length']);
-                        explosion_offsety += (Math.sin(angle) * prop['chart.labels.sticks.length']);
+                        explosion_offsetx += (Math.cos(angle) * (typeof(prop['chart.labels.sticks.length']) === 'object' ? prop['chart.labels.sticks.length'][i] : prop['chart.labels.sticks.length']) );
+                        explosion_offsety += (Math.sin(angle) * (typeof(prop['chart.labels.sticks.length']) === 'object' ? prop['chart.labels.sticks.length'][i] : prop['chart.labels.sticks.length']) );
                     }
     
                     /**
@@ -795,13 +846,18 @@
                 //context.lineJoin = 'round';
                 co.lineWidth = 1;
                 
+                /**
+                * Determine the stick length
+                */
+                var stickLength = typeof prop['chart.labels.sticks.length'] === 'object' ? prop['chart.labels.sticks.length'][i] : prop['chart.labels.sticks.length'];
+                
                 
                 points[0] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + extra + offset);
-                points[1] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + prop['chart.labels.sticks.length'] + extra - 5);
+                points[1] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + stickLength + extra - 5);
                 
-                points[2] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + prop['chart.labels.sticks.length'] + extra);
+                points[2] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + stickLength + extra);
                 
-                points[3] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + prop['chart.labels.sticks.length'] + extra);
+                points[3] = RG.getRadiusEndPoint(cx, cy, midpoint, radius + stickLength + extra);
                 points[3][0] += (points[3][0] > cx ? 5 : -5);
                 
                 points[4] = [
@@ -1348,6 +1404,17 @@
 
 
         /**
+        * Use this function to reset the object to the post-constructor state. Eg reset colors if
+        * need be etc
+        */
+        this.reset = function ()
+        {
+        };
+
+
+
+
+        /**
         * This parses a single color value
         */
         this.parseSingleColorForGradient = function (color)
@@ -1440,6 +1507,17 @@
 
 
         /**
+        * This function runs once only
+        * (put at the end of the file (before any effects))
+        */
+        this.firstDrawFunc = function ()
+        {
+        };
+
+
+
+
+        /**
         * Pie chart explode
         * 
         * Explodes the Pie chart - gradually incrementing the size of the chart.explode property
@@ -1514,7 +1592,8 @@
                 } else {
 
                     RG.redrawCanvas(obj.canvas);
-                    
+
+
                     callback(obj);
                 }
             };
@@ -1552,10 +1631,10 @@
 
             var iterator = function ()
             {
-                obj.set('chart.effect.roundrobin.multiplier', frame / frames);
-                
+                obj.set('effect.roundrobin.multiplier', RG.Effects.getEasingMultiplier(frames, frame));
+
                 RGraph.redrawCanvas(ca);
-    
+
                 if (frame++ < frames) {
                     RGraph.Effects.updateCanvas(iterator);
                 
@@ -1579,10 +1658,17 @@
 
         /**
         * Now need to register all chart types. MUST be after the setters/getters are defined
-        * 
-        * *** MUST BE LAST IN THE CONSTRUCTOR ***
         */
-        RGraph.Register(this);
-    }
-// version: 2014-03-28
+        RG.register(this);
 
+
+
+
+        /**
+        * This is the 'end' of the constructor so if the first argument
+        * contains configuration data - handle that.
+        */
+        if (parseConfObjectForOptions) {
+            RG.parseObjectStyleConfig(this, conf.options);
+        }
+    };
