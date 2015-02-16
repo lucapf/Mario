@@ -5,6 +5,10 @@
   type => changes
  -->
 
+  <release number="1.0.0.12" data="" migration="">
+
+  </release>
+
 
   <release number="1.0.0.11" data="04/02/2015" migration="">
     <item data="03/02/2015"     owner="Rutigliano"  type="bug" >

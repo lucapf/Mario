@@ -69,7 +69,7 @@ namespace mediatori.Controllers
 
 
         #region "___ SIMULAZIONE FINANZIARIA ___"
-        
+
         public ActionResult Simulazione(mediatori.Models.Test.SimulazioneModel model)
         {
 
@@ -77,14 +77,19 @@ namespace mediatori.Controllers
 
             if (String.IsNullOrEmpty(model.url))
             {
-              //  model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
+                //  model.url = "https://creditolab-atlantide.techub.it:20443/PccWS/PccImpl";
 
-               model.url = MySessionData.Istituto.url;
+                model.url = MySessionData.Istituto.url;
 
             }
 
-            model.login = MySessionData.CredenzialiCreditoLab.Login;
-            model.login = MySessionData.CredenzialiCreditoLab.Password;
+            if (MySessionData.CredenzialiCreditoLab != null)
+            {
+                model.login = MySessionData.CredenzialiCreditoLab.Login;
+                model.login = MySessionData.CredenzialiCreditoLab.Password;
+            }
+
+
 
             return View(model);
         }
@@ -116,7 +121,7 @@ namespace mediatori.Controllers
                 }
             }
 
-            return View("Simulazione",model);
+            return View("Simulazione", model);
         }
 
 
@@ -134,6 +139,37 @@ namespace mediatori.Controllers
                 temp = manager.getVersion();
 
                 TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Autenticazione eseguita con successso: " + temp);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(ex);
+            }
+            finally
+            {
+                if (manager != null)
+                {
+                    manager.close();
+                }
+            }
+
+            return View("Simulazione", model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Agenzie")]
+        public ActionResult SimulazioneGetAgenzie(mediatori.Models.Test.SimulazioneModel model)
+        {
+            BusinessModel.SimulazioneFinanziaria.SimulazioneManager manager = null;
+            try
+            {
+
+                manager = new BusinessModel.SimulazioneFinanziaria.SimulazioneManager(null, model.url, model.login, model.password);
+
+                model.agenzie = manager.getAgenzie();
+
+
             }
             catch (Exception ex)
             {

@@ -42,19 +42,24 @@ namespace mediatori.Controllers
         [HttpPost]
         public ActionResult Update(int codiceStato, int codiceEntita, EnumEntitaAssociataStato entita, DateTime? dataPromemoria)
         {
+            EnumEntitaRiferimento entitaRiferimento = EnumEntitaRiferimento.STATO;
+            Stato statoOriginale = null;
 
             if (entita == EnumEntitaAssociataStato.PRATICA)
             {
-                //Rel. 1.0.0.11 Bug 513 
-                //verifico la presenza dei dati accessori del cedente 
-                Models.Pratica.Pratica pratica = db.Pratiche.Find(codiceEntita);
 
+                Models.Pratica.Pratica pratica = db.Pratiche.Include("stato").Where(p => p.id == codiceEntita).FirstOrDefault();
                 if (pratica == null)
                 {
                     TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Codice pratica non trovato: {0}", codiceEntita));
                     return RedirectToAction("Details", "Pratiche", new { id = codiceEntita });
                 }
 
+                statoOriginale = pratica.stato;
+                //entitaRiferimento = EnumEntitaRiferimento.PRATICA;
+
+                //Rel. 1.0.0.11 Bug 513 
+                //verifico la presenza dei dati accessori del cedente 
                 Models.Anagrafiche.Cedente cedente;
                 cedente = db.Cedenti.Include("indirizzi").Include("impieghi").Include("documentiIdentita").Where(p => p.id == pratica.cedenteId).FirstOrDefault();
                 if (cedente == null)
@@ -83,22 +88,41 @@ namespace mediatori.Controllers
 
             }
 
-            Stato statoSegnalazione = null;
 
-            statoSegnalazione = db.StatiSegnalazione.Find(codiceStato);
-            if (statoSegnalazione != null)
+            if (entita == EnumEntitaAssociataStato.SEGNALAZIONE)
             {
+                Models.Anagrafiche.Segnalazione segnalazione = db.Segnalazioni.Include("stato").Where(p => p.id == codiceEntita).FirstOrDefault();
+                if (segnalazione == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, String.Format("Codice segnalzione non trovato: {0}", codiceEntita));
+                    return RedirectToAction("Details", "Segnalazioni", new { id = codiceEntita });
+                }
 
+                statoOriginale = segnalazione.stato;
+                //entitaRiferimento = EnumEntitaRiferimento.SEGNALAZIONE;
+
+            }
+
+
+
+
+            Stato statoNuovo = null;
+            statoNuovo = db.StatiSegnalazione.Find(codiceStato);
+            if (statoNuovo != null)
+            {
                 try
                 {
                     manager.openConnection();
                     manager.updateStato(codiceStato, codiceEntita, dataPromemoria);
+
+                    LogEventi le = BusinessModel.Log.LogEventiManager.getEventoForUpdate(User.Identity.Name, codiceEntita, entitaRiferimento, statoOriginale, statoNuovo);
+
+                    BusinessModel.Log.LogEventiManager.save(le, db);
                 }
                 finally
                 {
                     manager.closeConnection();
                 }
-
             }
 
 

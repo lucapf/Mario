@@ -7,7 +7,7 @@
     mediatori.helper.FireAntEditHelper editHelperSegnalazione = new mediatori.helper.FireAntEditHelper("Sgn", Url.Action("SegnalazionePartialById", "Segnalazioni"), Model.segnalazione.id.ToString());
     mediatori.helper.FireAntDetailEventDetection edSegnalazione = new mediatori.helper.FireAntDetailEventDetection("Sgn", Model.segnalazione.id);
 
- }
+}
 
 <script type="text/javascript">
     var codicePreventivo = null;
@@ -46,7 +46,6 @@
     }
 
 
-
     $(document).on("pageinit", function () {
 
         $("#linkNuovoIndirizzo").click(function () {
@@ -69,6 +68,7 @@
 <div data-role="navbar" data-iconpos="right" data-theme="b">
     <ul>
         <li><a href="#popupChangeStato" class="ui-btn-active ui-btn-icon-right ui-icon-gear" data-rel="popup" data-position-to="window" data-transition="pop">Stato corrente: @Model.segnalazione.stato.descrizione</a></li>
+        <li><a href="@Url.Action("Details", "Log", new { idEntita = Model.segnalazione.id, entitaRiferimento = mediatori.Models.EnumEntitaRiferimento.STATO, entitaAssociataStato = mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE })" class="ui-btn-active ui-btn-icon-right ui-icon-info">History</a></li>
     </ul>
 </div>
 
@@ -102,7 +102,7 @@
 
 
 
-<div data-role="footer" data-position="fixed" data-theme="b">
+<div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
     <div data-role="navbar">
         <ul>
             <li><a href="@Url.Action("Index", "Segnalazioni")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Torna alla lista delle segnalazioni</a></li>

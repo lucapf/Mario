@@ -208,6 +208,13 @@ table.MyTable {
     color: red;
 }
 
+.ui-field-contain > span.field-validation{
+    font-size: smaller;
+    color: red;
+    float: right;
+    margin-top:0.5em;
+    width: 78%;  /* questo valore è stato preso da jquery mobile*/
+}
 
 
 .custom-corners {

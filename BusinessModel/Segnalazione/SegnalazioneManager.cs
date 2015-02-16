@@ -26,7 +26,7 @@ namespace BusinessModel.Segnalazione
             System.Data.Common.DbCommand command;
             command = _connection.CreateCommand();
 
-            _strSQL = "update Segnalazione set stato_id=" + codiceStato;
+            _strSQL = "update Segnalazione set statoId=" + codiceStato;
             if (dataPromemoria != null)
             {
                 _strSQL += " , dataPromemoria = @DATAPROMEMORIA ";

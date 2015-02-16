@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mediatori.Reports
+namespace mediatori.Reports
 {
     public class ReportsManager : MyManagerCSharp.RGraph.RGraphManager
     {
@@ -58,7 +58,7 @@ namespace Mediatori.Reports
                 ",sum(case when t2.statoBase =  3 then 1 else 0 end) as 'Respinto'" +
                 ",sum(case when t2.statoBase =  4 then 1 else 0 end) as 'Chiuso'" +
                 " from segnalazione as t1 " +
-                " join stato as t2 on t1.stato_id = t2.id ";
+                " join stato as t2 on t1.statoId = t2.id ";
 
             if (entita == mediatori.Models.etc.EnumEntitaAssociataStato.PRATICA)
             {

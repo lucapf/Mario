@@ -12,7 +12,7 @@ namespace mediatori.Controllers
     public class ReportsController : MyBaseController
     {
 
-        private Mediatori.Reports.ReportsManager manager = null;
+        private mediatori.Reports.ReportsManager manager = null;
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
@@ -20,7 +20,7 @@ namespace mediatori.Controllers
 
             if (db != null)
             {
-                manager = new Mediatori.Reports.ReportsManager(db.Database.Connection);
+                manager = new mediatori.Reports.ReportsManager(db.Database.Connection);
             }
         }
 

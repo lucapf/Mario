@@ -1,56 +1,90 @@
 ﻿@model mediatori.Models.Test.SimulazioneModel
 
-    @{
-        ViewBag.Title = "Test simulazione finanziaria";
-        Layout = "~/Views/Shared/_LayoutMobile.cshtml";
-    }
+@{
+    ViewBag.Title = "Test simulazione finanziaria";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
 
-    <h2>Test simulazione finanziaria</h2>
+<h2>Test simulazione finanziaria</h2>
 
-    @Html.ValidationSummary(true, "Attenzione")
-
-
-    @using (Html.BeginForm("GetVersion", "Test", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "Attenzione")
 
 
-        <div class="ui-field-contain">
-            <label for="url">Web Service URL:</label>
-            <input type="text" data-mini="true" required="required" data-clear-btn="true" id="url" name="url" value="@Model.url" />
-        </div>
-
-        <div data-role="controlgrup" data-type="horizontal">
-            <input type="submit" data-inline="true" value="Get Version" data-mini="true">
-        </div>
-    }
+@using (Html.BeginForm("GetVersion", "Test", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
 
 
-    <hr />
+    <div class="ui-field-contain">
+        <label for="url">Web Service URL:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="url" name="url" value="@Model.url" />
+    </div>
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-inline="true" value="Get Version" data-mini="true">
+    </div>
+}
 
 
-    @using (Html.BeginForm("Login", "Test", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="ui-field-contain">
-            <label for="url">Web Service URL:</label>
-            <input type="text" data-mini="true" required="required" data-clear-btn="true" id="url" name="url" value="@Model.url" />
-        </div>
+<hr />
 
 
-        <div class="ui-field-contain">
-            <label for="url">Login:</label>
-            <input type="text" data-mini="true" required="required" data-clear-btn="true" id="login" name="login" value="@Model.login" />
-        </div>
+@using (Html.BeginForm("Login", "Test", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
 
-        <div class="ui-field-contain">
-            <label for="url">Password:</label>
-            <input type="password" data-mini="true" required="required" data-clear-btn="true" id="password" name="password" value="@Model.password" />
-        </div>
+    <div class="ui-field-contain">
+        <label for="url">Web Service URL:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="url" name="url" value="@Model.url" />
+    </div>
 
 
-        <div data-role="controlgrup" data-type="horizontal">
-            <input type="submit" data-inline="true" value="Login" data-mini="true">
-        </div>
-    }
+    <div class="ui-field-contain">
+        <label for="url">Login:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="login" name="login" value="@Model.login" />
+    </div>
+
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-inline="true" value="Login" data-mini="true">
+    </div>
+}
+
+
+<hr />
+
+@using (Html.BeginForm("Agenzie", "Test", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="ui-field-contain">
+        <label for="url">Web Service URL:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="url" name="url" value="@Model.url" />
+    </div>
+
+
+    <div class="ui-field-contain">
+        <label for="url">Login:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="login" name="login" value="@Model.login" />
+    </div>
+
+    <div class="ui-field-contain">
+        <label for="url">Password:</label>
+        <input type="password" data-mini="true" required="required" data-clear-btn="true" id="password" name="password" value="@Model.password" />
+    </div>
+
+
+    <div data-role="controlgrup" data-type="horizontal">
+        <input type="submit" data-inline="true" value="Agenzie" data-mini="true">
+    </div>
+}
+
+@if (Model.agenzie != null)
+{
+    <ol>
+        @foreach (MyManagerCSharp.Models.MyItem agenzia in Model.agenzie)
+        {
+            <li>@agenzia.Text  - @agenzia.Value</li>
+        }
+    </ol>
+}

@@ -234,7 +234,7 @@ namespace mediatori.Controllers
             {
                 db.SaveChanges();
 
-                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET Discriminator = 'Pratica' , stato_id = " + statoInizialePratica.id + "  where id = " + preventivo.segnalazione.id);
+                db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET Discriminator = 'Pratica' , statoId = " + statoInizialePratica.id + "  where id = " + preventivo.segnalazione.id);
 
                 db.Database.ExecuteSqlCommand("UPDATE Segnalazione SET cedenteId = contattoId  where id = " + preventivo.segnalazione.id);
 

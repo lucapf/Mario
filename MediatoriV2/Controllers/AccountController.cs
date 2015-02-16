@@ -147,9 +147,9 @@ namespace mediatori.Controllers
                 dominio = model.UserName.Split('@')[1];
 
                 string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                connectionString = connectionString.Replace("database=Mediatori", String.Format("database={0}", dominio));
+                connectionString = connectionString.Replace("database=mediatori", String.Format("database={0}", dominio));
                 //"Data Source=tcp:khzappcv1w.database.windows.net,1433;Initial Catalog=mediatori;User ID=mediatori@khzappcv1w;Password=M3d14t0r1"
-                connectionString = connectionString.Replace("Initial Catalog=mediatori", String.Format("Initial Catalog={0}", dominio));
+                connectionString = connectionString.Replace("initial catalog=mediatori", String.Format("initial catalog={0}", dominio));
 
                 if (manager == null)
                 {

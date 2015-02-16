@@ -1,7 +1,6 @@
 ﻿using mediatori.Controllers.Business;
 using mediatori.Controllers.Business.Anagrafiche;
 using mediatori.Controllers.Business.Anagrafiche.Soggetto;
-using mediatori.Controllers.CQS;
 using mediatori.Filters;
 using mediatori.Models;
 using mediatori.Models.Anagrafiche;

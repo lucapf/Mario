@@ -67,6 +67,8 @@
     <Compile Include="Anagrafiche\SoggettoGiuridico\SearchSoggettoGiuridico.cs" />
     <Compile Include="Anagrafiche\SoggettoGiuridico\SoggettoGiuridicoManager.cs" />
     <Compile Include="Configurazione\IstitutoManager.cs" />
+    <Compile Include="Log\LogEventiModel.cs" />
+    <Compile Include="Log\LogEventiManager.cs" />
     <Compile Include="Preventivo\PreventivoManager.cs" />
     <Compile Include="Segnalazione\SegnalazioneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

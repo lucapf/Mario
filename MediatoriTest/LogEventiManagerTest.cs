@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using mediatori.Controllers.CQS;
 using mediatori.Models.Anagrafiche;
 using mediatori.Models;
 using System.Collections.Generic;
+using BusinessModel.Log;
 
 namespace mediatori.UnitTest
 {
@@ -65,7 +65,7 @@ namespace mediatori.UnitTest
             LogEventi le = LogEventiManager.getEventoForCreate(operatore, 10, EnumEntitaRiferimento.CEDENTE);
             le.messaggio = message;
             LogEventiManager.save(le, mdbContext);
-            History history = LogEventiManager.getIdentityHistory(10, EnumEntitaRiferimento.CEDENTE, mdbContext);
+            LogEventiModel history = LogEventiManager.getIdentityHistory(10, EnumEntitaRiferimento.CEDENTE, mdbContext);
             Assert.AreEqual(history.entitaRiferimento, EnumEntitaRiferimento.CEDENTE);
             Assert.IsNotNull(history.listaEventi);
             Assert.IsTrue(history.listaEventi.Count > 0);

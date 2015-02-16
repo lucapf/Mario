@@ -12,42 +12,46 @@
     @using (Html.BeginForm("Register", "Utenti", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-      
+
         <fieldset>
             <legend>Form di registrazione</legend>
 
             <div class="ui-field-contain">
                 <label for="UserName">Email / Login</label>
-                <input type="email" name="UserName" id="UserName" data-clear-btn="true" data-mini="true" required value="@Model.UserName" />
+                <input type="email" name="UserName" id="UserName" data-clear-btn="true" data-mini="true" required value="@Model.UserName" data-val="true" data-val-required="Valore obbligatorio"  data-val-email="Indirizzo email non valido" />
+                <span data-valmsg-replace="true" data-valmsg-for="UserName" class="field-validation"></span>
             </div>
 
             <div class="ui-field-contain">
                 <label for="Password">Nuova password:</label>
-                <input type="password" name="Password" id="Password" data-clear-btn="true" data-mini="true" required value="@Model.Password">
+                <input type="password" name="Password" id="Password" data-clear-btn="true" data-mini="true" required value="@Model.Password" data-val="true"  data-val-required="Valore obbligatorio">
+                <span data-valmsg-replace="true" data-valmsg-for="Password" class="field-validation"></span>
             </div>
 
             <div class="ui-field-contain">
                 <label for="ConfirmPassword">Conferma la nuova password:</label>
-                <input type="password" name="ConfirmPassword" id="ConfirmPassword" data-clear-btn="true" data-mini="true" required value="@Model.ConfirmPassword" data-val="true" data-val-equalto="La password di conferma non corrisponde" data-val-equalto-other="Password">
+                <input type="password" name="ConfirmPassword" id="ConfirmPassword" data-clear-btn="true" data-mini="true" required value="@Model.ConfirmPassword" data-val="true" data-val-equalto="La password di conferma non corrisponde" data-val-equalto-other="Password" data-val-required="Valore obbligatorio">
+                <span data-valmsg-replace="true" data-valmsg-for="ConfirmPassword" class="field-validation"></span>
             </div>
 
-            
+
 
             <div class="ui-field-contain">
                 <label for="select-profilo">Profilo:</label>
-                <select name="roles" id="select-profilo" required>
+                <select name="roles" id="select-profilo" required data-val="true" data-val-required="Valore obbligatorio">
                     <option value="">---</option>
                     @foreach (MyUsers.Models.MyProfile p in Model.ProfiliDisponibili)
                     {
                         selected = false;
-                        if (Model.roles != null &&  p.profiloId == Model.roles[0])
+                        if (Model.roles != null && p.profiloId == Model.roles[0])
                         {
                             selected = true;
                         }
-                        
-                        <option value="@p.profiloId" @(selected?"selected = selected":"") >@(p.nome)</option>
+
+                        <option value="@p.profiloId" @(selected ? "selected = selected" : "")>@(p.nome)</option>
                     }
                 </select>
+                <span data-valmsg-replace="true" data-valmsg-for="roles" class="field-validation"></span>
             </div>
 
 

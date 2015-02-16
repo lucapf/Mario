@@ -1,0 +1,101 @@
+﻿@model BusinessModel.Log.LogEventiModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+
+    int conta = 0;
+    string css;
+
+    string[] temp;
+    string strDa;
+    string straA;
+
+}
+
+<h2>History</h2>
+
+@if (Model.listaEventi != null)
+{
+
+
+
+
+    <table class="MyTable ui-responsive" data-role="table" data-mode="reflow">
+        <thead>
+            <tr class="@MyConstants.TABLE_HEADER_STYLE">
+                <th>Data</th>
+                <th>Utente</th>
+                <th>Operazione</th>
+                <th>Da</th>
+                <th>A</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (mediatori.Models.LogEventi item in Model.listaEventi)
+            {
+                conta++;
+                if (conta % 2 == 0)
+                {
+                    css = MyConstants.TABLE_ROW_STYLE;
+                }
+                else
+                {
+                    css = MyConstants.TABLE_ALTERNATING_ROW_STYLE;
+                }
+
+                <tr class="@css">
+                    <td>@item.dataInserimento</td>
+                    <td>@item.operatoreInserimento</td>
+                    <td>@item.tipoEvento.ToString() - @item.tipoEntitaRiferimento.ToString()</td>
+
+                    @{
+                temp = item.messaggio.Split(';');
+
+                strDa = "";
+                straA = "";
+
+                switch (item.tipoEntitaRiferimento)
+                {
+                    case mediatori.Models.EnumEntitaRiferimento.STATO:
+                        strDa = temp[2].Split(':')[1];
+                        straA = temp[2].Split(':')[2];
+                        break;
+                    default:
+                        foreach (string str in temp)
+                        {
+                            if (!String.IsNullOrEmpty(str))
+                            {
+                                strDa = str.Split(':')[0] + ": " + str.Split(':')[1] + "<br />";
+                                straA = str.Split(':')[2] + "<br />";  
+                            }
+                        }
+
+                        break;
+                }
+                    }
+
+                    <td>@strDa</td>
+                    <td>@straA</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+
+<div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">
+    <div data-role="navbar">
+        <ul>
+            @if (Model.entitaAssociataStato.HasValue && Model.entitaAssociataStato.Value == mediatori.Models.etc.EnumEntitaAssociataStato.SEGNALAZIONE)
+            {
+                <li><a href="@Url.Action("Details", "Segnalazioni", new {  id = Model.idEntita})" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Indietro</a></li>
+            }
+
+            @if (Model.entitaAssociataStato.HasValue && Model.entitaAssociataStato.Value == mediatori.Models.etc.EnumEntitaAssociataStato.PRATICA)
+            {
+                <li><a href="@Url.Action("Details", "Pratiche", new {  id = Model.idEntita})" cla class="ui-btn-inline ui-btn ui-corner-all ui-mini">Indietro</a></li>
+            }
+        </ul>
+    </div>
+</div>

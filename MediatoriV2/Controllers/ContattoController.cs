@@ -1,6 +1,5 @@
 ﻿using mediatori.Controllers.Business;
 using mediatori.Controllers.Business.Anagrafiche;
-using mediatori.Controllers.CQS;
 using mediatori.Filters;
 using mediatori.Models;
 using mediatori.Models.Anagrafiche;
@@ -12,6 +11,7 @@ using System.Web.Mvc;
 using System.Diagnostics;
 using BusinessModel.Anagrafiche.PersonaFisica;
 using BusinessModel.Anagrafiche.Contatto;
+using BusinessModel.Log;
 
 namespace mediatori.Controllers
 {

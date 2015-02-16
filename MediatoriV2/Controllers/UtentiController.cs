@@ -39,6 +39,10 @@ namespace mediatori.Controllers
             {
                 model.Sort = "date_last_login";
             }
+            else if (model.Sort == "isEnabled")
+            {
+                model.Sort = "is_enabled";
+            }
             TryUpdateModel(model.filter, "filter");
 
             Debug.WriteLine(String.Format("Filtri di ricerca  Nome: {0} Email: {1}", model.filter.nome, model.filter.email));

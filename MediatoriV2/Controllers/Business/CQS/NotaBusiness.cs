@@ -1,4 +1,4 @@
-﻿using mediatori.Controllers.CQS;
+﻿using BusinessModel.Log;
 using mediatori.Models;
 using mediatori.Models.Anagrafiche;
 using System;

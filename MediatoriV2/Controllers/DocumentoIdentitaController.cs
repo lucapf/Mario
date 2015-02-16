@@ -1,7 +1,7 @@
-﻿using mediatori.Controllers.Business;
+﻿using BusinessModel.Log;
+using mediatori.Controllers.Business;
 using mediatori.Controllers.Business.Anagrafiche;
 using mediatori.Controllers.Business.Anagrafiche.Soggetto;
-using mediatori.Controllers.CQS;
 using mediatori.Models;
 using mediatori.Models.Anagrafiche;
 using System;

@@ -13,7 +13,6 @@
     <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
 
-
     <script type="text/javascript">
         function myValidate(idForm) {
             alert("validate " + idForm);
@@ -63,8 +62,7 @@
     @using (Html.BeginForm())
     {
         <input type="text" name="email" data-val="true" data-val-required="This field is required.">
-
-
+        
         <div class="validation-summary-valid" data-valmsg-summary="true">
             <ul><li style="display:none"></li></ul>
         </div>
@@ -84,7 +82,7 @@
             <label for="ConfirmPassword">Conferma la nuova password:</label>
             <input type="password" name="ConfirmPassword" id="ConfirmPassword" data-clear-btn="true" data-mini="true" required value=""
                    data-val="true" data-val-equalto="La password di conferma non corrisponde" data-val-equalto-other="*.Password">
-            <span data-valmsg-replace="true" data-valmsg-for="ConfirmPassword" class="field-validation-valid"></span>
+            <span data-valmsg-replace="true" data-valmsg-for="ConfirmPassword" class="field-validation"></span>
             
         </div>
 
@@ -145,11 +143,47 @@
 
 
 
+    <p>Email</p>
+    @using (Html.BeginForm("Validation01", "Test", FormMethod.Get, new { id = "MyForm03" }))
+    {
+        <div class="ui-field-contain">
+            <label for="email01">Input type email</label>
+            <input type="email" name="email01" id="email01" data-clear-btn="true" data-mini="true" required value="">
+            <span data-valmsg-replace="true" data-valmsg-for="email01" class="field-validation-valid"></span>
+        </div>
+
+        <div class="ui-field-contain">
+            <label for="email02">Input type text</label>
+            <input type="text" name="email02" id="email02" data-clear-btn="true" data-mini="true" required value=""
+                   data-val="true" data-val-email="Indirizzo email non valido">
+            <span data-valmsg-replace="true" data-valmsg-for="email02" class="field-validation-valid"></span>
+
+        </div>
 
 
+        <input type="submit" value="Submit" />
+    }
+    <hr />
 
 
+    https://web.archive.org/web/20130919030425/http://denverdeveloper.wordpress.com/2012/09/26/some-things-ive-learned-about-jquery-unobtrusive-validation/
 
+    To establish validation, we use the data- attributes on our <input> tags as follows:
+
+    data-val=”true”	enable unobtrusive validation on this element (should be on every input element you want to validate)
+    data-val-required=”ErrMsg”	makes the input required, and shows the ErrMsg
+    data-val-length=”ErrMsg”
+    data-val-length-min=”5”
+    data-val-length-max=”15”	sets required string length and associated error message.
+    data-val-number=”ErrMsg”	makes a field required to be a number.
+    data-val-date=”ErrMsg”	requires a field to be a date (I do not recommend this, as it accepts too much – I prefer to use regex).
+    data-val-equalto=”ErrMsg”
+    data-val-equalto-other=”Fld”	requires one field to match the other (such as password confirm.  Fld is a jQuery selector
+    data-val-regex=”ErrMsg”
+    data-val-regex-pattern=”^regex$”	Requires the field to match the regex pattern.
+    data-val-email=”ErrMsg”	requires a field to be a email (I do not recommend this, as it accepts too much – I prefer to use regex).
+    data-val-url=”ErrMsg”	requires a field to be a url (I do not recommend this, as it accepts too much – I prefer to use regex).
+ 
 
 
 

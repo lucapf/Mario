@@ -12,6 +12,7 @@ namespace mediatori.Models
     {
         [Key]
         public int id { get; set; }
+
         public String operatoreInserimento { get; set; }
         public DateTime dataInserimento { get; set; }
         public EnumTipoEventoLog tipoEvento { get; set; }

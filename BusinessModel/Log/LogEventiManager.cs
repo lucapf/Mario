@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace mediatori.Controllers.CQS
+namespace BusinessModel.Log
 {
     public static class LogEventiManager
     {
@@ -114,9 +114,9 @@ namespace mediatori.Controllers.CQS
             return message += String.Format(";{0}:{1}:{2}", propertyName, originale, modificato);
         }
 
-        public static History getIdentityHistory(int idEntitaRiferimento, EnumEntitaRiferimento enumEntitaRiferimento, MainDbContext mainDbContext )
+        public static LogEventiModel getIdentityHistory(int idEntitaRiferimento, EnumEntitaRiferimento enumEntitaRiferimento, MainDbContext mainDbContext )
         {
-            History h = new History();
+            LogEventiModel h = new LogEventiModel();
             LogEventiFilter logFilter = new LogEventiFilter();
 
             h.listaEventi = findByFilter(idEntitaRiferimento,enumEntitaRiferimento, logFilter, mainDbContext);

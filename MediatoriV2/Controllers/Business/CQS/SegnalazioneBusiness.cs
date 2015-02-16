@@ -1,8 +1,8 @@
 ﻿using BusinessModel.Anagrafiche.Contatto;
+using BusinessModel.Log;
 using mediatori.Controllers.Business.Anagrafiche;
 using mediatori.Controllers.Business.Anagrafiche.Soggetto;
 using mediatori.Controllers.Business.Tipologia;
-using mediatori.Controllers.CQS;
 using mediatori.Filters;
 using mediatori.Models;
 using mediatori.Models.Anagrafiche;
@@ -25,8 +25,7 @@ namespace mediatori.Controllers.Business
             db.Segnalazioni.Add(segnalazione);
             db.SaveChanges();
 
-            LogEventiManager.save(
-                   LogEventiManager.getEventoForCreate(operatore, segnalazione.id, EnumEntitaRiferimento.CEDENTE), db);
+            LogEventiManager.save(LogEventiManager.getEventoForCreate(operatore, segnalazione.id, EnumEntitaRiferimento.CEDENTE), db);
             return segnalazione;
 
         }

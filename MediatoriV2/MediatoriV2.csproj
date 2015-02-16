@@ -214,7 +214,6 @@
     <Compile Include="Controllers\Business\Tipologia\TipoPrestitoBusiness.cs" />
     <Compile Include="Controllers\ConfigurazioniController.cs" />
     <Compile Include="Controllers\CedenteController.cs" />
-    <Compile Include="Controllers\Business\LogEventiManager.cs" />
     <Compile Include="Controllers\ContattoController.cs" />
     <Compile Include="Controllers\NotaController.cs" />
     <Compile Include="Controllers\DocumentoIdentitaController.cs" />
@@ -254,7 +253,6 @@
     <Compile Include="Models\DocumentiIdentitaModel.cs" />
     <Compile Include="Models\UI\ComboDataModel.cs" />
     <Compile Include="Models\UI\FlipswitchModel.cs" />
-    <Compile Include="Models\History.cs" />
     <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
@@ -813,6 +811,7 @@
     <Content Include="Views\Reports\Rinnovi.cshtml" />
     <Content Include="Views\Reports\_footer.cshtml" />
     <Content Include="Views\Widget\_RGraphV2.cshtml" />
+    <Content Include="Views\Log\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

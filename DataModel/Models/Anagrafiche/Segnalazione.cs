@@ -66,6 +66,7 @@ namespace mediatori.Models.Anagrafiche
 
         [Display(Name = "Stato")]
         public Stato stato { get; set; }
+        public int statoId { get; set; }
 
         [Display(Name = "Documenti")]
         public ICollection<Documento> documenti { get; set; }
