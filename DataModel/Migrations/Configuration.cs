@@ -1,5 +1,6 @@
 namespace DataModel.Migrations
 {
+    using mediatori.Models.Anagrafiche;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,18 +15,10 @@ namespace DataModel.Migrations
 
         protected override void Seed(mediatori.Models.MainDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.TipoConsensoPrivacy.AddOrUpdate<TipoConsensoPrivacy>(t => t.id,
+                new TipoConsensoPrivacy { id = 1, descrizione = "consenso memorizzazione supporto informatico", eliminabile = false });
+
         }
     }
 }

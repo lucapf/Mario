@@ -5,8 +5,10 @@
   type => changes
  -->
 
-  <release number="1.0.0.12" data="" migration="">
-
+  <release number="1.0.0.12" data="20/02/2015" migration="Upate11">
+    <item data="20/02/2015" owner="Rutigliano">
+      Inserita gestione parziale TipoConsensoPrivacy
+    </item>
   </release>
 
 

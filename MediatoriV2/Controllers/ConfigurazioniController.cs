@@ -2,6 +2,7 @@
 using mediatori.Controllers.Business.Anagrafiche;
 using mediatori.Models;
 using mediatori.Models.Anagrafiche;
+using mediatori.Models.Configurazione;
 using mediatori.Models.etc;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,8 @@ namespace mediatori.Controllers
                     new MenuElement(){display="Tipo Luogo Ritrovo", ordinamento=1,livello=1,role="Amministratore",action="tipoLuogoRitrovo",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Prestito", ordinamento=1,livello=1,role="Amministratore",action="tipologiaPrestito",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Prodotto", ordinamento=1,livello=1,role="Amministratore",action="tipoProdotto",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Riferimento", ordinamento=1,livello=1,role="Amministratore",action="tipoRiferimento",controller="Configurazioni"}
+                    new MenuElement(){display="Tipo Riferimento", ordinamento=1,livello=1,role="Amministratore",action="tipoRiferimento",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Consenso Privacy", ordinamento=1,livello=1,role="Amministratore",action="tipoConsensoPrivacy",controller="Configurazioni"}
                 };
 
             //new MenuElement(){display="Nuova Rete ", ordinamento=1,livello=1,role="Amministratore",url="Rete/Create"}
@@ -1461,7 +1463,7 @@ namespace mediatori.Controllers
             }
             return RedirectToAction("tipoAgenzia");
 
-            
+
         }
         #endregion tipoErogazione
         #region Parametro
@@ -1484,6 +1486,20 @@ namespace mediatori.Controllers
             ViewBag.message = "parametro salvato con successo";
             return View(db.Parametri.ToList());
         }
+        #endregion
+        #region TipoConsensoPrivacy
+
+        [HttpGet]
+        public ActionResult TipoConsensoPrivacy()
+        {
+            TipoConsensoPrivacyModel model = new TipoConsensoPrivacyModel();
+            model.listaTipiConsenso = db.TipoConsensoPrivacy.OrderBy(t => t.descrizione).ToList<TipoConsensoPrivacy>();
+            return View(model);
+        }
+
+
+
+
         #endregion
     }
 }

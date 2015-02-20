@@ -183,7 +183,7 @@ namespace mediatori.Initializer
                 new Stato { id = 38, descrizione = "Chiusura", entitaAssociata = EnumEntitaAssociataStato.SEGNALAZIONE, statoBase = EnumStatoBase.CHIUSO }
                 );
 
-
+             
 
             context.tipoNaturaGiuridica.AddOrUpdate<TipoNaturaGiuridica>(t => t.id,
                 new TipoNaturaGiuridica { id = 1, sigla = "AA", descrizione = "societa' in accomandita per azioni" },
@@ -251,8 +251,6 @@ namespace mediatori.Initializer
                 new TipoNaturaGiuridica { id = 63, sigla = "SU", descrizione = "societa' a responsabilita' limitata con unico socio" },
                 new TipoNaturaGiuridica { id = 64, sigla = "SV", descrizione = "societa' tra avvocati" },
                 new TipoNaturaGiuridica { id = 65, sigla = "SZ", descrizione = "societa' non prevista dalla legislazione italiana" });
-
-
 
             try
             {

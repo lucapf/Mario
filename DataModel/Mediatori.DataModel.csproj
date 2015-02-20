@@ -100,6 +100,10 @@
     <Compile Include="Migrations\201502051116403_Update10.Designer.cs">
       <DependentUpon>201502051116403_Update10.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502201541406_Update11.cs" />
+    <Compile Include="Migrations\201502201541406_Update11.Designer.cs">
+      <DependentUpon>201502201541406_Update11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
     <Compile Include="Models\Anagrafiche\Agenzia.cs" />
@@ -128,6 +132,7 @@
     <Compile Include="Models\Anagrafiche\Segnalazione.cs" />
     <Compile Include="Models\Anagrafiche\SoggettoGiuridico.cs" />
     <Compile Include="Models\Anagrafiche\TestAnagrafiche.cs" />
+    <Compile Include="Models\Tipo\TipoConsensoPrivacy.cs" />
     <Compile Include="Models\Tipo\TipoAgenzia.cs" />
     <Compile Include="Models\Tipo\TipoAssumibilita.cs" />
     <Compile Include="Models\Tipo\TipoCampagnaPubblicitaria.cs" />
@@ -211,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502051116403_Update10.resx">
       <DependentUpon>201502051116403_Update10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502201541406_Update11.resx">
+      <DependentUpon>201502201541406_Update11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
