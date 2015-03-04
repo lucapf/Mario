@@ -227,7 +227,7 @@ namespace mediatori.Controllers
 
                 }
 
-                
+
 
                 long userId;
                 try
@@ -286,16 +286,29 @@ namespace mediatori.Controllers
             try
             {
                 myuser = manager.getUser(id);
+
+
+                if (myuser == null)
+                {
+                    return HttpNotFound();
+                }
+
+                int check = db.Segnalazioni.Where(p => p.utenteInserimento == myuser.login).Count();
+                if (check > 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Exception, "Attenzione! Non è possibile eliminare " + myuser.login + " poichè ci sono segnalazioni associate");
+                }
+                check = db.Pratiche.Where(p => p.utenteInserimento == myuser.login).Count();
+                if (check > 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Exception, "Attenzione! Non è possibile eliminare " + myuser.login + " poichè ci sono pratiche associate");
+                }
+
             }
+
             finally
             {
                 manager.closeConnection();
-            }
-
-
-            if (myuser == null)
-            {
-                return HttpNotFound();
             }
 
 
@@ -306,16 +319,34 @@ namespace mediatori.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long? id)
         {
+
             if (id == null)
             {
                 return HttpNotFound();
             }
-
+            MyUsers.Models.MyUser myuser = null;
             bool esito;
             manager.openConnection();
             try
             {
+                myuser = manager.getUser((long)id);
+                int check = db.Segnalazioni.Where(p => p.utenteInserimento == myuser.login).Count();
+
+                if (check > 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Exception, "Attenzione! Non è possibile eliminare " + myuser.login + " poichè ci sono segnalazioni associate");
+                    return RedirectToAction("Index");
+                }
+
+                check = db.Pratiche.Where(p => p.utenteInserimento == myuser.login).Count();
+                if (check > 0)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Exception, "Attenzione! Non è possibile eliminare " + myuser.login + " poichè ci sono pratiche associate");
+                    return RedirectToAction("Index");
+                }
+
                 esito = manager.delete((long)id);
+
             }
             finally
             {
