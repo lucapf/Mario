@@ -349,5 +349,10 @@ namespace mediatori.Controllers
         {
             return View();
         }
+
+        public ActionResult Stefania()
+        {
+            return View();
+        }
     }
 }

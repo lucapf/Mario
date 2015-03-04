@@ -1,0 +1,19 @@
+﻿@model mediatori.Models.Test.TestClass
+
+@{
+    ViewBag.Title = "Stefania";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Dati Anagrafici</h2>
+<hr />
+<form>
+    <div class="editor-control">
+        Cognome*:<input type="text" name="cognome">
+    </div>
+    <div class="editor-control">
+        @Html.MyInputType(p => p.Nome)
+    </div>
+  
+</form>
+

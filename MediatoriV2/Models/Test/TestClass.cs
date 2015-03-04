@@ -30,7 +30,9 @@ namespace mediatori.Models.Test
         [Display(Name = "Tipo con descrizione")]
         public int tipoId { get; set; }
 
-
+        [Required]
+        [Display(Name = "Cognome")]
+        public String cognome { get; set; }
 
         public bool isEnabled { get; set; }
     }
