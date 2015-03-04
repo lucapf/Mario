@@ -17,7 +17,7 @@ namespace DataModel.Migrations
         {
 
             context.TipoConsensoPrivacy.AddOrUpdate<TipoConsensoPrivacy>(t => t.id,
-                new TipoConsensoPrivacy { id = 1, descrizione = "consenso memorizzazione supporto informatico", eliminabile = false });
+                new TipoConsensoPrivacy { id = 1, descrizione = "consenso memorizzazione supporto informatico", obbligatorio = true });
 
         }
     }

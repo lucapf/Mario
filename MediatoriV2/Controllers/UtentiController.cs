@@ -54,12 +54,26 @@ namespace mediatori.Controllers
                 manager.getList(model);
 
                 //Aggiungo il profilo !!
+                MyUsers.Models.MyUser toBeRemoved = null;
 
                 foreach (MyUsers.Models.MyUser u in model.Utenti)
                 {
+                    if (u.login.StartsWith("admin@"))
+                    {
+                        //lo nascondo
+                        toBeRemoved = u;
+                    }
+                    else
+                    {
+                        manager.setProfili(u);
+                        manager.setGroups(u);
+                    }
+                }
 
-                    manager.setProfili(u);
-                    manager.setGroups(u);
+                if (toBeRemoved != null)
+                {
+                    model.Utenti.Remove(toBeRemoved);
+                    model.TotalRows = model.TotalRows - 1;
                 }
 
             }

@@ -21,7 +21,7 @@
 </script>
 
 <h2>TipoConsensoPrivacy</h2>
-<h3>@ViewBag.message</h3>
+
 <a href="javascript:newItem();" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo</a>
 @if (Model.listaTipiConsenso != null)
 {
@@ -33,7 +33,6 @@
             <tr class="ui-bar-b">
                 <th>Descrizione</th>
                 <th>Attivo</th>
-                <th></th>
             </tr>
 
             @foreach (mediatori.Models.Anagrafiche.TipoConsensoPrivacy privacy in Model.listaTipiConsenso)
@@ -57,22 +56,19 @@
 
                             <input type="hidden" name="codicePrivacy" value="@privacy.id" />
 
-                            if (!privacy.eliminabile)
+
+                            if (privacy.attivo)
                             {
-                                if (privacy.attivo)
-                                {
-                                    <input type="hidden" name="flagAttivo" value="false" />
-                                    <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id, false);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
-                                }
-                                else
-                                {     <input type="hidden" name="flagAttivo" value="true" />
-                                    <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id,true);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
-                                }
+                                <input type="hidden" name="flagAttivo" value="false" />
+                                <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id, false);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
                             }
                             else
-                            {
-                                @MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo);
+                            {     <input type="hidden" name="flagAttivo" value="true" />
+                            <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id,true);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
                             }
+
+                           
+
                         }
 
 

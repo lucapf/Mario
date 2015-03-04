@@ -31,12 +31,27 @@ namespace mediatori.Controllers
             {
                 manager.getList(model);
 
+                MyUsers.Models.MyGroup toBeRemoved = null; 
+
                 foreach (MyUsers.Models.MyGroup g in model.Gruppi)
                 {
-                    g.countUsers = manager.countUsers(g.gruppoId);
-                    g.countRoles = manager.countRoles(g.gruppoId);
+                    if (g.nome == "Administrators")
+                    {
+                        //lo nascondo
+                        toBeRemoved = g;
+                    }
+                    else
+                    {
+                        g.countUsers = manager.countUsers(g.gruppoId);
+                        g.countRoles = manager.countRoles(g.gruppoId);
+                    }
                 }
 
+                if (toBeRemoved != null)
+                {
+                    model.Gruppi.Remove(toBeRemoved);
+                    model.TotalRows = model.TotalRows - 1;
+                }
 
                 model.ListaTipi = manager.getTypeList();
 

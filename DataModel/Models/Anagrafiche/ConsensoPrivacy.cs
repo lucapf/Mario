@@ -16,15 +16,15 @@ namespace mediatori.Models.Anagrafiche
         [Required]
         [Display(Name = "Tipo Consenso Privacy")]
         public TipoConsensoPrivacy tipoConsensoPrivacy { get; set; }
+
         [Required]
         [Display(Name = "Acconsento")]
         public Boolean acconsento { get; set; }
-        [Required]
-        [Display(Name = "Non Acconsento")]
-        public Boolean nonAcconsento { get; set; }
+        
         [Required]
         [Display(Name = "Data Inserimento")]
         public DateTime dataInserimento { get; set; }
+
         [Required]
         [Display(Name = "Utente Inserimento")]
         public String untenteInserimento { get; set; }

@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Clean\CleanDB.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,10 +59,25 @@
     <Folder Include="Diagnostic\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MyFramework4.0\MyManagerCSharp\MyManagerCSharp.csproj">
+      <Project>{1cfb1797-36c1-4887-b980-747fcc81d6a1}</Project>
+      <Name>MyManagerCSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MyFramework4.0\MyUsers\MyUsers.csproj">
+      <Project>{de537bc0-c7b3-4f38-9de2-5757d6d3999e}</Project>
+      <Name>MyUsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BusinessModel\Mediatori.BusinessModel.csproj">
+      <Project>{7e7b1062-586b-482b-b7b4-cfd2514975f9}</Project>
+      <Name>Mediatori.BusinessModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataModel\Mediatori.DataModel.csproj">
       <Project>{2dc00126-5045-4bd2-9612-e79f2a50cb8b}</Project>
       <Name>Mediatori.DataModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

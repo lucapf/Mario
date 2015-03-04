@@ -13,7 +13,6 @@ namespace DataModel.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         acconsento = c.Boolean(nullable: false),
-                        nonAcconsento = c.Boolean(nullable: false),
                         dataInserimento = c.DateTime(nullable: false),
                         untenteInserimento = c.String(nullable: false),
                         tipoConsensoPrivacy_id = c.Int(nullable: false),
@@ -25,14 +24,18 @@ namespace DataModel.Migrations
                 .Index(t => t.tipoConsensoPrivacy_id)
                 .Index(t => t.Segnalazione_id);
             
+            AddColumn("dbo.tipo_consenso_privacy", "obbligatorio", c => c.Boolean(nullable: false));
+            DropColumn("dbo.tipo_consenso_privacy", "eliminabile");
         }
         
         public override void Down()
         {
+            AddColumn("dbo.tipo_consenso_privacy", "eliminabile", c => c.Boolean(nullable: false));
             DropForeignKey("dbo.consenso_privacy", "Segnalazione_id", "dbo.segnalazione");
             DropForeignKey("dbo.consenso_privacy", "tipoConsensoPrivacy_id", "dbo.tipo_consenso_privacy");
             DropIndex("dbo.consenso_privacy", new[] { "Segnalazione_id" });
             DropIndex("dbo.consenso_privacy", new[] { "tipoConsensoPrivacy_id" });
+            DropColumn("dbo.tipo_consenso_privacy", "obbligatorio");
             DropTable("dbo.consenso_privacy");
         }
     }

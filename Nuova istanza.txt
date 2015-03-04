@@ -1,0 +1,26 @@
+04/03/2015
+-----------
+
+
+ *** DATABASE ADMIN ***
+CREATE DATABASE [ProgettoPrestito.com] AS COPY OF [Techub.it]
+update utente set my_login =  REPLACE(my_login,'@techub.it', '@progettoprestito.com')
+
+CREATE DATABASE [Fingroup.com] AS COPY OF [ProgettoPrestito.com]
+update utente set my_login =  REPLACE(my_login,'@progettoprestito.com', '@fingroup.com')
+
+CREATE DATABASE [GrsFinanziamenti.com] AS COPY OF [ProgettoPrestito.com]
+update utente set my_login =  REPLACE(my_login,'@progettoprestito.com', '@grsfinanziamenti.com')
+
+CREATE DATABASE [2EmmeFinanziamenti.it] AS COPY OF [ProgettoPrestito.com]
+update utente set my_login =  REPLACE(my_login,'@progettoprestito.com', '@2emmefinanziamenti.it')
+
+
+
+
+SELECT * FROM sys.dm_database_copies
+
+update utente set my_login = my_login + '@techub.it'
+
+update utente set my_login =  REPLACE(my_login,'@techub.it', '@progettoprestito.com')
+

@@ -206,20 +206,11 @@ namespace mediatori.Controllers
 
 
             //Rel. 1.0.0.13
-            //if (segnalazione.consensoPrivacy == null)
-            //{
-            //    segnalazione.consensoPrivacy = new List<mediatori.Models.Anagrafiche.ConsensoPrivacy>();
-            //}
             foreach (mediatori.Models.Anagrafiche.ConsensoPrivacy consenso in model.consensoPrivacy)
             {
                 consenso.dataInserimento = DateTime.Now;
                 consenso.untenteInserimento = User.Identity.Name;
                 consenso.tipoConsensoPrivacy = db.TipoConsensoPrivacy.Find(consenso.tipoConsensoPrivacy.id);
-                if (consenso.acconsento == true)
-                {
-                    consenso.nonAcconsento = false;
-                }
-                else { consenso.nonAcconsento = true; }
             }
 
             segnalazione.consensoPrivacy = model.consensoPrivacy;

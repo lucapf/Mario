@@ -24,12 +24,6 @@ frontoffice@techub.it / password
 admin@techub.it / admin
 
 
-*** DATABASE ADMIN ***
-CREATE DATABASE [Techub.it] AS COPY OF [mediatori]
-SELECT * FROM sys.dm_database_copies
-
-update utente set my_login = my_login + '@techub.it'
-
 
 *** CERTIFICATI ***
 http://msdn.microsoft.com/library/azure/ff795779.aspx

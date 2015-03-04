@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{56B1B4C2-48AE-42B6-9F62-5D0E79BC338E}"
 	ProjectSection(SolutionItems) = preProject
 		Database\Insert.sql = Database\Insert.sql
+		Nuova istanza.txt = Nuova istanza.txt
 		Database\Update01.sql = Database\Update01.sql
 	EndProjectSection
 EndProject

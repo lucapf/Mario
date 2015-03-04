@@ -598,7 +598,7 @@ namespace MyWebApplication.Areas.Admin.Controllers
             {
                 reportManager.openConnection();
 
-                report = reportManager.getLoginByDate("report01", model.Days);
+                report = reportManager.getLoginByDate("report01", model.Days, -1);
                 report.Width = "700px";
                 report.Height = "400px";
                 model.Reports.Add(report);

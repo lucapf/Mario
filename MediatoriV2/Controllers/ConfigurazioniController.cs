@@ -1496,51 +1496,55 @@ namespace mediatori.Controllers
             model.listaTipiConsenso = db.TipoConsensoPrivacy.OrderBy(t => t.descrizione).ToList<TipoConsensoPrivacy>();
             return View(model);
         }
+
         [HttpPost]
         public ActionResult TipoConsensoPrivacy(TipoConsensoPrivacy privacy)
         {
-            
-            TipoConsensoPrivacy tipoConsensoPrivacy = (from tcp in db.TipoConsensoPrivacy
-                 where tcp.descrizione.ToUpper() == privacy.descrizione.ToUpper()
-                 select tcp).FirstOrDefault();
-            if (tipoConsensoPrivacy.descrizione == null)
-            {
-                privacy.eliminabile = true;
-                db.TipoConsensoPrivacy.Add(privacy);
 
-                db.SaveChanges();
-                ViewBag.message = "Consenso Privacy salvato con successo";            
+            TipoConsensoPrivacy checkExists = (from tcp in db.TipoConsensoPrivacy
+                                               where tcp.descrizione.ToUpper() == privacy.descrizione.ToUpper()
+                                               select tcp).FirstOrDefault();
+
+            if (checkExists != null)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare perchè il consenso privacy è già censito");
             }
             else
             {
-                ViewBag.message = "Impossibile salvare perchè il consenso privacy è già censito";             
+                //  privacy.eliminabile = true;
+                db.TipoConsensoPrivacy.Add(privacy);
+                db.SaveChanges();
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Consenso Privacy salvato con successo");
             }
-            return View(getAllTipiConsensoPrivacy());
+
+            return RedirectToAction("TipoConsensoPrivacy");
         }
         [HttpPost]
         public ActionResult aggiornaPrivacy(int codicePrivacy, Boolean flagAttivo)
         {
-            
+
             TipoConsensoPrivacy tipoConsensoPrivacy = db.TipoConsensoPrivacy.Find(codicePrivacy);
             if (tipoConsensoPrivacy == null)
-                
             {
-                ViewBag.message = "Consenso Privacy non è stato trovato";
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Consenso Privacy non è stato trovato");
             }
             else
             {
                 tipoConsensoPrivacy.attivo = flagAttivo;
                 db.SaveChanges();
-                ViewBag.message = "Il tipo consenso privacy è stato aggiornato";
+               
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success,"Il tipo consenso privacy è stato aggiornato");
             }
-            return View("TipoConsensoPrivacy",getAllTipiConsensoPrivacy());
+            return RedirectToAction("TipoConsensoPrivacy");
         }
 
-        private TipoConsensoPrivacyModel getAllTipiConsensoPrivacy(){
-            TipoConsensoPrivacyModel tcpm = new TipoConsensoPrivacyModel();
-            tcpm.listaTipiConsenso = db.TipoConsensoPrivacy.OrderBy(t=>t.attivo).OrderBy(t=>t.descrizione).ToList();
-            return tcpm;
-        }
+        //private TipoConsensoPrivacyModel getAllTipiConsensoPrivacy()
+        //{
+        //    TipoConsensoPrivacyModel tcpm = new TipoConsensoPrivacyModel();
+        //    tcpm.listaTipiConsenso = db.TipoConsensoPrivacy.OrderBy(t => t.attivo).OrderBy(t => t.descrizione).ToList();
+        //    return tcpm;
+        //}
         #endregion
     }
 }

@@ -104,9 +104,9 @@
     <Compile Include="Migrations\201502201541406_Update11.Designer.cs">
       <DependentUpon>201502201541406_Update11.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201502261120519_Update12.cs" />
-    <Compile Include="Migrations\201502261120519_Update12.Designer.cs">
-      <DependentUpon>201502261120519_Update12.cs</DependentUpon>
+    <Compile Include="Migrations\201503041118082_Update12.cs" />
+    <Compile Include="Migrations\201503041118082_Update12.Designer.cs">
+      <DependentUpon>201503041118082_Update12.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
@@ -225,8 +225,8 @@
     <EmbeddedResource Include="Migrations\201502201541406_Update11.resx">
       <DependentUpon>201502201541406_Update11.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502261120519_Update12.resx">
-      <DependentUpon>201502261120519_Update12.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201503041118082_Update12.resx">
+      <DependentUpon>201503041118082_Update12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
