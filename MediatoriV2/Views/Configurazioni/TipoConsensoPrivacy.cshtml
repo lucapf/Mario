@@ -1,4 +1,4 @@
-﻿@model mediatori.Models.Configurazione.TipoConsensoPrivacyModel 
+﻿@model mediatori.Models.Configurazione.TipoConsensoPrivacyModel
 @{
     ViewBag.Title = "TipoConsensoPrivacy";
     Layout = "~/Views/Shared/_LayoutMobile.cshtml";
@@ -15,24 +15,27 @@
         $("#edit_item_descrizione").val('');
         $("#popupNuovo").popup("open");
     }
+    function gestioneAttivazione(codicePrivacy, flagAttivo) {
+        $("#form" + codicePrivacy).submit();
+    }
 </script>
 
 <h2>TipoConsensoPrivacy</h2>
+<h3>@ViewBag.message</h3>
 <a href="javascript:newItem();" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-plus ui-btn-icon-left">Nuovo</a>
 @if (Model.listaTipiConsenso != null)
 {
-    
+
     <fieldset>
         <legend>Lista Tipi consenso configurati</legend>
-        
+
         <table class="MyTable">
             <tr class="ui-bar-b">
                 <th>Descrizione</th>
                 <th>Attivo</th>
                 <th></th>
-                <th></th>
             </tr>
-            
+
             @foreach (mediatori.Models.Anagrafiche.TipoConsensoPrivacy privacy in Model.listaTipiConsenso)
             {
                 conta++;
@@ -47,19 +50,33 @@
 
                 <tr class="@css">
                     <td>@privacy.descrizione</td>
-                    <td>@MyHelper.decodeAttivaImage(Request.ApplicationPath,privacy.attivo)</td>
-                    @if (!privacy.eliminabile)
-                    {
-                        <td>
-                            &nbsp;
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="javascript:deleteStato(@privacy.id);">Cancella</a>
-                        </td>
-                    }
+                    <td>
+                        @using (Html.BeginForm("aggiornaPrivacy", "Configurazioni", FormMethod.Post, new { id = "form" + privacy.id }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="codicePrivacy" value="@privacy.id" />
+
+                            if (!privacy.eliminabile)
+                            {
+                                if (privacy.attivo)
+                                {
+                                    <input type="hidden" name="flagAttivo" value="false" />
+                                    <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id, false);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
+                                }
+                                else
+                                {     <input type="hidden" name="flagAttivo" value="true" />
+                                    <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id,true);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
+                                }
+                            }
+                            else
+                            {
+                                @MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo);
+                            }
+                        }
+
+
+                    </td>
                 </tr>
             }
         </table>
@@ -77,14 +94,13 @@
             @Html.AntiForgeryToken()
 
             <input type="hidden" id="edit_item_id" name="id" value="0" />
-
             <div class="ui-field-contain">
                 <label for="descrizione">Descrizione *</label>
                 <input type="text" name="descrizione" required id="edit_item_descrizione">
             </div>
             <div class="ui-field-contain">
                 @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("attivo", true));}
-                
+
             </div>
             <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-mini">Annulla</a>
             <input type="submit" value="Conferma" data-inline="true" data-mini="true" />

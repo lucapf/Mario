@@ -197,6 +197,7 @@
     <Compile Include="Controllers\Business\CQS\StatoBusiness.cs" />
     <Compile Include="Controllers\Business\EnumTipoAzione.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\SoggettoGiuridicoBusiness.cs" />
+    <Compile Include="Controllers\ConsensoPrivacyController.cs" />
     <Compile Include="Controllers\DocumentaleController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\MyAuthorizeAttribute.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Models\Configurazione\ConfigurazioneModel.cs" />
     <Compile Include="Models\Configurazione\EntitaModel.cs" />
     <Compile Include="Models\Configurazione\TipoConsensoPrivacyModel.cs" />
+    <Compile Include="Models\ConsensoPrivacyModel.cs" />
     <Compile Include="Models\ContattoDetailsModel.cs" />
     <Compile Include="Models\DocumentaleModel.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
@@ -814,6 +816,11 @@
     <Content Include="Views\Widget\_RGraphV2.cshtml" />
     <Content Include="Views\Log\Details.cshtml" />
     <Content Include="Views\Configurazioni\TipoConsensoPrivacy.cshtml" />
+    <Content Include="Views\ConsensoPrivacy\Index.cshtml" />
+    <Content Include="Views\ConsensoPrivacy\ConsensiPrivacy.cshtml" />
+    <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyPartialEdit.cshtml" />
+    <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyPartialDetail.cshtml" />
+    <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

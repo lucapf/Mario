@@ -19,7 +19,7 @@
 }
 
 
-<h3>@label  @Html.Raw(editHelperContatto.getButtonModifica("", "initContattoEdit();")) @Html.Raw(editHelperContatto.getButtonAnnullaModifica())</h3>
+<h3>@label  @Html.Raw(editHelperContatto.getButtonModifica("", "initContattoEdit();"))  @Html.Raw(editHelperContatto.getButtonAnnullaModifica())</h3>
 <hr />
 <div id="@edContatto.getIdFullDetail()">
     @{Html.RenderPartial("~/Views/Contatto/ContattoPartialDetail.cshtml", Model.contatto);}

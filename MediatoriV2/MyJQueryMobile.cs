@@ -8,7 +8,8 @@ using System.Web;
 
 
 
-public class MyJQueryMobile
+public class 
+    MyJQueryMobile
 {
     public enum IconType
     {

@@ -50,7 +50,6 @@
                     wGrid.Column ("", header :"",
                         format:@<text>
                         <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Dettagli" href="@Url.Action("Details", new { id= item.id })">Dettagli</a>
-                        <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="@Url.Action("Delete", new { id= item.id })">Cancella</a>
                         </text>, canSort : false)
             })
             @{Html.RenderPartial("Paging", Model);}

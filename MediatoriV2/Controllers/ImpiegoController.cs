@@ -159,7 +159,7 @@ namespace mediatori.Controllers
         {
             // impiego = completaDatiImpiegoFromRequest(impiego);
             ImpiegoBusiness.valorizzaDatiImpiego(impiego, db);
-            impiego.contattoId = codiceContatto;
+            impiego.contattoId = codiceContatto;        
             //ModelState.Remove("tipoImpiego.descrizione");
             //ModelState.Remove("categoriaImpiego.descrizione");
             ModelState.Clear();

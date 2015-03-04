@@ -58,6 +58,9 @@ namespace mediatori.Models.Anagrafiche
         public DateTime dataInserimento { get; set; }
         public String utenteInserimento { get; set; }
 
+        [Display(Name = "Consenso Privacy")]
+        public ICollection<ConsensoPrivacy> consensoPrivacy { get; set; }
+
         [Display(Name = "Nota")]
         public ICollection<Nota> note { get; set; }
 

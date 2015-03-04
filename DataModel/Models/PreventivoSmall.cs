@@ -17,6 +17,7 @@ namespace mediatori.Models
         public int segnalazioneId { get; set; }
         public virtual mediatori.Models.Anagrafiche.Segnalazione segnalazione { get; set; }
 
+
         [Required]
         [Display(Name = "Progressivo")]
         public int progressivo { get; set; }

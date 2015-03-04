@@ -157,7 +157,12 @@ namespace mediatori.Controllers
             //model.segnalazione.contatto.dataNascita = new DateTime(1975, 11, 7);
             //model.segnalazione.contatto.codiceFiscale = "TTTVVV75S07H444B";
             //model.segnalazione.contatto.sesso = EnumSesso.MASCHIO;
-
+           List<TipoConsensoPrivacy> lstTipiConsensoPrivacy = db.TipoConsensoPrivacy.Where(t => t.attivo == true).ToList();
+           foreach (TipoConsensoPrivacy tcp in lstTipiConsensoPrivacy){
+               ConsensoPrivacy consensoPrivacy= new ConsensoPrivacy();
+               consensoPrivacy.tipoConsensoPrivacy=tcp;
+               model.consensoPrivacy.Add(consensoPrivacy);
+           }
             return View(model);
         }
 
@@ -405,6 +410,7 @@ namespace mediatori.Controllers
             ViewBag.listaTipoAzienda = new SelectList(db.TipoAzienda.ToList(), "id", "descrizione");
             ViewBag.listaStati = new SelectList(db.StatiSegnalazione.Where(s => s.entitaAssociata == EnumEntitaAssociataStato.SEGNALAZIONE).ToList(), "id", "descrizione");
             ViewBag.listaFontePubblicitaria = new SelectList(db.FontiPubblicitarie.ToList(), "id", "descrizione");
+            ViewBag.listaTipoConsensoPrivacy = new SelectList(db.TipoConsensoPrivacy.Where(t => t.attivo == true).ToList(), "id", "descrizione");
             //ViewBag.listaSesso = new SelectList(new List<SelectListItem> { new SelectListItem { Text = "M", Value = "M" }, new SelectListItem { Text = "F", Value = "F" } }, null);
 
 

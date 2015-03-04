@@ -13,6 +13,7 @@ namespace mediatori.Models.Segnalazione
         public Models.Anagrafiche.Impiego impiego { get; set; }
         public Models.Anagrafiche.Riferimento riferimento { get; set; }
         public Models.Nota nota { get; set; }
+        public List<Models.Anagrafiche.ConsensoPrivacy> consensoPrivacy { get; set; }
 
         //In caso di un contatto 
 
@@ -25,6 +26,7 @@ namespace mediatori.Models.Segnalazione
             impiego = new Anagrafiche.Impiego();
             riferimento = new Anagrafiche.Riferimento();
             nota = new Nota();
+            consensoPrivacy = new List<Anagrafiche.ConsensoPrivacy>();
         }
     }
 }

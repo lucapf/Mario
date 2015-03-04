@@ -40,6 +40,32 @@ namespace BusinessModel.Anagrafiche.PersonaFisica
             System.Data.Common.DbCommand command;
             command = _connection.CreateCommand();
 
+            string strWHERE = "";
+
+            if (!String.IsNullOrEmpty(model.nome))
+            {
+                strWHERE += " AND UPPER(t1.nome) like  @NOME";
+                _addParameter(command, "@NOME", "%" + model.nome.ToUpper().Trim() + "%");
+            }
+
+            if (!String.IsNullOrEmpty(model.cognome))
+            {
+                strWHERE += " AND UPPER(t1.cognome) like  @COGNOME";
+                _addParameter(command, "@COGNOME", "%" + model.cognome.ToUpper().Trim() + "%");
+            }
+            if (!String.IsNullOrEmpty(model.codiceFiscale))
+            {
+                strWHERE += " AND UPPER(t1.codiceFiscale) like  @CF";
+                _addParameter(command, "@CF", "%" + model.codiceFiscale.ToUpper().Trim() + "%");
+            }
+
+
+
+            if (!String.IsNullOrEmpty(strWHERE))
+            {
+                _strSQL += " AND (1=1) " + strWHERE;
+            }
+
             string temp;
             //paginazione
             if (model.PageSize > 0 && (_connection is System.Data.SqlClient.SqlConnection))

@@ -5,6 +5,14 @@
   type => changes
  -->
 
+     <release number="1.0.0.13" data="04/03/2015" migration="Upate12">
+    <item data="04/03/2015" owner="Rutigliano">
+      Inserita gestione privacy TipoConsensoPrivacy e inserita Consenso privacy.
+      Bug ID 598:anagrafica contatto: tasto cancellazione da eliminare
+      Bug ID 599: Filtri Ricerca contatto e cedente non funzionano
+    </item>
+  </release>
+
   <release number="1.0.0.12" data="20/02/2015" migration="Upate11">
     <item data="20/02/2015" owner="Rutigliano">
       Inserita gestione parziale TipoConsensoPrivacy
