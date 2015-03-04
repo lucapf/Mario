@@ -195,60 +195,34 @@
 
     for (int i = 0; i < Model.consensoPrivacy.Count; i++)
     {
+        <fieldset data-role="controlgroup" data-type="horizontal">
+            <legend>@Model.consensoPrivacy[i].tipoConsensoPrivacy.descrizione</legend>
+            <input type="hidden" name="consensoPrivacy[@i].tipoConsensoPrivacy.id" value="@Model.consensoPrivacy[i].tipoConsensoPrivacy.id" />
+            <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required />
+            <label for="consensoPrivacy[@i]-YES">Acconsento</label>
+            <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required />
+            <label for="consensoPrivacy[@i]-NO">Non Acconsento</label>
+        </fieldset>
 
-
-        <div class="editor-control">
-            <div class="editor-row">
-                <div class="editor-label">
-                    @Html.Label(Model.consensoPrivacy[i].tipoConsensoPrivacy.descrizione)
-                    @Html.HiddenFor(m => m.consensoPrivacy[i].tipoConsensoPrivacy.id)
-                </div>
-            </div>
-        </div>
-
-        <div class="editor-control">
-            <div class="editor-row">
-                <div class="editor-label">
-                    @Html.MyLabelFor(m => m.consensoPrivacy[i].acconsento)
-                </div>
-                <div class="editor-value">
-                    @Html.RadioButtonFor(m => m.consensoPrivacy[i].acconsento, false)
-                </div>
-            </div>
-        </div>
-
-        <div class="editor-control">
-            <div class="editor-row">
-                <div class="editor-label">
-                    @Html.MyLabelFor(m => m.consensoPrivacy[i].acconsento)
-                </div>
-                <div class="editor-value">
-                    @Html.RadioButtonFor(m => m.consensoPrivacy[i].acconsento, true)
-                </div>
-            </div>
-            <div class="editor-validation">
-                @Html.ValidationMessageFor(m => m.consensoPrivacy[i].acconsento)
-            </div>
-        </div>
     }
 
-        <h3>Note</h3>
-        <hr />
-        if (Model.nota != null)
-        {
+    <h3>Note</h3>
+    <hr />
+    if (Model.nota != null)
+    {
         Html.RenderPartial("~/Views/Nota/NotaPartialEdit.cshtml", Model.nota);
-        }
+    }
 
 
-        <div data-role="footer" data-position="fixed" data-theme="b">
-            <div data-role="navbar">
-                <ul>
-                    <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
-                    <li><input type="submit" value="Salva" id="Nuovo" data-inline="true" data-mini="true" /></li>
-                </ul>
-            </div>
+    <div data-role="footer" data-position="fixed" data-theme="b">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="@Url.Action("Index")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Annulla</a></li>
+                <li><input type="submit" value="Salva" id="Nuovo" data-inline="true" data-mini="true" /></li>
+            </ul>
         </div>
-        }
+    </div>
+}
 
 
 

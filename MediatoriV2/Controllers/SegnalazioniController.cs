@@ -103,11 +103,11 @@ namespace mediatori.Controllers
         [HttpGet]
         public ActionResult Details(int id = 0)
         {
-               Segnalazione segnalazione;
+            Segnalazione segnalazione;
 
             //segnalazione = db.Segnalazioni.Include("prodottoRichiesto").Include("contatto").Include("contatto.provinciaNascita").Include("contatto.comuneNascita").Include("stato").Include("note").Where(s => s.id == id).First();
 
-               segnalazione = db.Segnalazioni.Include("prodottoRichiesto").Include("stato").Include("note").Where(s => s.id == id).First();
+            segnalazione = db.Segnalazioni.Include("prodottoRichiesto").Include("stato").Include("note").Where(s => s.id == id).First();
 
             if (segnalazione == null)
             {
@@ -151,18 +151,13 @@ namespace mediatori.Controllers
                 }
             }
 
-
-            //model.segnalazione.contatto.nome = "Nome TEST";
-            //model.segnalazione.contatto.cognome = "Cognome TEST";
-            //model.segnalazione.contatto.dataNascita = new DateTime(1975, 11, 7);
-            //model.segnalazione.contatto.codiceFiscale = "TTTVVV75S07H444B";
-            //model.segnalazione.contatto.sesso = EnumSesso.MASCHIO;
-           List<TipoConsensoPrivacy> lstTipiConsensoPrivacy = db.TipoConsensoPrivacy.Where(t => t.attivo == true).ToList();
-           foreach (TipoConsensoPrivacy tcp in lstTipiConsensoPrivacy){
-               ConsensoPrivacy consensoPrivacy= new ConsensoPrivacy();
-               consensoPrivacy.tipoConsensoPrivacy=tcp;
-               model.consensoPrivacy.Add(consensoPrivacy);
-           }
+            List<TipoConsensoPrivacy> lstTipiConsensoPrivacy = db.TipoConsensoPrivacy.Where(t => t.attivo == true).ToList();
+            foreach (TipoConsensoPrivacy tcp in lstTipiConsensoPrivacy)
+            {
+                ConsensoPrivacy consensoPrivacy = new ConsensoPrivacy();
+                consensoPrivacy.tipoConsensoPrivacy = tcp;
+                model.consensoPrivacy.Add(consensoPrivacy);
+            }
             return View(model);
         }
 
@@ -178,7 +173,7 @@ namespace mediatori.Controllers
 
             if (segnalazione.contatto.id != 0)
             {
-                segnalazione.contatto = db.Contatti.Include("provinciaNascita").Include("comuneNascita").Where( p => p.id == segnalazione.contatto.id).FirstOrDefault();
+                segnalazione.contatto = db.Contatti.Include("provinciaNascita").Include("comuneNascita").Where(p => p.id == segnalazione.contatto.id).FirstOrDefault();
             }
             else
             {
@@ -198,7 +193,7 @@ namespace mediatori.Controllers
                     segnalazione.contatto.riferimenti = new List<mediatori.Models.Anagrafiche.Riferimento>();
                 }
                 segnalazione.contatto.riferimenti.Add(mediatori.Controllers.Business.Anagrafiche.Soggetto.RiferimentoBusiness.valorizzaDatiRiferimento(model.riferimento, db));
-           
+
             }
 
 
@@ -209,6 +204,29 @@ namespace mediatori.Controllers
             }
             segnalazione.note.Add(model.nota);
 
+
+            //Rel. 1.0.0.13
+            //if (segnalazione.consensoPrivacy == null)
+            //{
+            //    segnalazione.consensoPrivacy = new List<mediatori.Models.Anagrafiche.ConsensoPrivacy>();
+            //}
+            foreach (mediatori.Models.Anagrafiche.ConsensoPrivacy consenso in model.consensoPrivacy)
+            {
+                consenso.dataInserimento = DateTime.Now;
+                consenso.untenteInserimento = User.Identity.Name;
+                consenso.tipoConsensoPrivacy = db.TipoConsensoPrivacy.Find(consenso.tipoConsensoPrivacy.id);
+                if (consenso.acconsento == true)
+                {
+                    consenso.nonAcconsento = false;
+                }
+                else { consenso.nonAcconsento = true; }
+            }
+
+            segnalazione.consensoPrivacy = model.consensoPrivacy;
+
+
+
+
             SegnalazioneBusiness segnalazioneBusiness = new SegnalazioneBusiness();
             segnalazione = segnalazioneBusiness.popolaDatiSegnalazione(segnalazione, HttpContext.User.Identity.Name, db);
 
@@ -216,8 +234,8 @@ namespace mediatori.Controllers
             TryValidateModel(segnalazione);
             if (ModelState.IsValid)
             {
-               
-                segnalazione.stato = db.StatiSegnalazione.Where( p => p.descrizione ==  MyConstants.STATO_INIZIALE_SEGNALAZIONE).FirstOrDefault();
+
+                segnalazione.stato = db.StatiSegnalazione.Where(p => p.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE).FirstOrDefault();
                 if (segnalazione.stato == null)
                 {
                     throw new MyManagerCSharp.MyException("Stato iniziale della segnalazione NON valido");

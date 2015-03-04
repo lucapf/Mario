@@ -84,6 +84,15 @@ namespace mediatori.Controllers
             //in fase di creazine di una segnalazione posso trovare un contatto già esistente
             valorizzaViewBag(contatto);
 
+#if DEBUG
+            contatto.nome="Prova";
+            contatto.cognome = "ProvaProva";
+            contatto.dataNascita = new DateTime(1976, 12, 20);
+            contatto.codiceFiscale = "SRFYGH76H65F548J";
+           
+       
+#endif
+
             ViewData.TemplateInfo.HtmlFieldPrefix = "contatto";
             return View("ContattoPartialEdit", contatto);
         }
