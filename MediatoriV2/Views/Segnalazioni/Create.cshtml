@@ -83,7 +83,7 @@
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.altroPrestito)
+                @Html.MyLabelFor(m => m.segnalazione.altroPrestito, true)
             </div>
             <div class="editor-value">
                 @Html.DropDownListFor(m => m.segnalazione.altroPrestito.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoPrestito, "", new { data_mini = "true" })
@@ -98,7 +98,7 @@
     <div class="editor-control">
         <div class="editor-row">
             <div class="editor-label">
-                @Html.MyLabelFor(m => m.segnalazione.prodottoRichiesto)
+                @Html.MyLabelFor(m => m.segnalazione.prodottoRichiesto, true)
             </div>
             <div class="editor-value">
                 @Html.DropDownListFor(m => m.segnalazione.prodottoRichiesto.id, (IEnumerable<SelectListItem>)ViewBag.listaProdotti, "", new { data_mini = "true" })
@@ -189,21 +189,24 @@
     {
         Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id, edit = false });
     }
-    
-        <h3>Privacy</h3>
-        <hr />
 
-        for (int i = 0; i < Model.consensoPrivacy.Count; i++)
-        {
+    <h3>Privacy</h3>
+    <hr />
+
+    for (int i = 0; i < Model.consensoPrivacy.Count; i++)
+    {
+        <div class="ui-field-contain">
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <legend>@Model.consensoPrivacy[i].tipoConsensoPrivacy.descrizione</legend>
                 <input type="hidden" name="consensoPrivacy[@i].tipoConsensoPrivacy.id" value="@Model.consensoPrivacy[i].tipoConsensoPrivacy.id" />
-                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required />
+                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required data-val="true" data-val-required="Valore obbligatorio"  @(Model.consensoPrivacy[i].acconsento?"checked=checked":"") />
                 <label for="consensoPrivacy[@i]-YES">Acconsento</label>
-                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required />
+                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required data-val="true" data-val-required="Valore obbligatorio" @(Model.consensoPrivacy[i].acconsento == false ? "checked=checked" : "") />
                 <label for="consensoPrivacy[@i]-NO">Non Acconsento</label>
             </fieldset>
-        }
+            <span data-valmsg-replace="true" data-valmsg-for="consensoPrivacy[@i].acconsento" class="field-validation"></span>
+        </div>
+    }
 
     <h3>Note</h3>
     <hr />

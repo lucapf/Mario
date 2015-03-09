@@ -3,33 +3,20 @@
     Layout = null;
 }
 
-<div class="display-control">
-    @Html.LabelFor(c => c.tipoConsensoPrivacy.descrizione)
-    <div>@Html.DisplayFor(c => c.tipoConsensoPrivacy.descrizione)</div>
-</div>
-<div class="display-control">
-    @Html.LabelFor(c => c.acconsento)
-    @if (Model.acconsento)
-    {
-        <text>SI</text>
-    }
-    else
-    {
-        <text>NO</text>
-    }
-</div>
-<div class="display-control">
-    @Html.LabelFor(m => m.dataInserimento)
-    <div>@Html.DisplayFor(m => m.dataInserimento)</div>
-</div>
-<div class="display-control">
-    @Html.LabelFor(m => m.untenteInserimento)
-    <div>@Html.DisplayFor(m => m.untenteInserimento)</div>
-</div>
+<li data-icon="false">
+    <a href="#">
+        <p class="ui-li-aside"><strong>@Model.untenteInserimento</strong> - @Model.dataInserimento.ToShortDateString()</p>
+        <h2>@Model.tipoConsensoPrivacy.descrizione</h2>
 
-
-
-
-
+        @if (Model.acconsento)
+        {
+            <h3 style="color:green;">Acconsento</h3>
+        }
+        else
+        {
+            <h3 style="color:red;">Non acconsento</h3>
+        }
+    </a>
+</li>
 
 

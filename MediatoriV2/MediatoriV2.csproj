@@ -816,12 +816,9 @@
     <Content Include="Views\Widget\_RGraphV2.cshtml" />
     <Content Include="Views\Log\Details.cshtml" />
     <Content Include="Views\Configurazioni\TipoConsensoPrivacy.cshtml" />
-    <Content Include="Views\ConsensoPrivacy\Index.cshtml" />
     <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyPartialEdit.cshtml" />
     <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyPartialDetail.cshtml" />
-    <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyList.cshtml" />
     <Content Include="Views\Test\Stefania.cshtml" />
-    <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyDetail.cshtml" />
     <Content Include="Views\ConsensoPrivacy\_ConsensiPrivacy.cshtml" />
   </ItemGroup>
   <ItemGroup>

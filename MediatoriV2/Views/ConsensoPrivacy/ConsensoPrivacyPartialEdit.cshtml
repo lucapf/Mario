@@ -3,25 +3,12 @@
     Layout = null;
 }
 
-
-
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
             @Html.Label(Model.tipoConsensoPrivacy.descrizione)
             @Html.HiddenFor(m=>m.tipoConsensoPrivacy.id)
         </div>   
-    </div>
-</div>
-
-<div class="editor-control">
-    <div class="editor-row">
-        <div class="editor-label">
-            @Html.MyLabelFor(m => m.nonAcconsento)
-        </div>
-        <div class="editor-value">
-            @Html.RadioButtonFor(m => m.acconsento, false )
-        </div>
     </div>
 </div>
 

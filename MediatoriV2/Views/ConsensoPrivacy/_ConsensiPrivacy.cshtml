@@ -3,16 +3,17 @@
     Layout = null;
 }
 
-@if (Model.consensiPrivacy != null && Model.consensiPrivacy.Count >0)
+@if (Model.consensiPrivacy != null && Model.consensiPrivacy.Count > 0)
 {
     <h3>Privacy</h3>
     <hr />
-    foreach (mediatori.Models.Anagrafiche.ConsensoPrivacy c in Model.consensiPrivacy)
-    {
-
-        Html.RenderPartial("~/Views/ConsensoPrivacy/ConsensoPrivacyDetail.cshtml", c);
-
-    }
+    
+    <ul data-role="listview" data-inset="true">
+        @foreach (mediatori.Models.Anagrafiche.ConsensoPrivacy c in Model.consensiPrivacy)
+        {
+            Html.RenderPartial("~/Views/ConsensoPrivacy/ConsensoPrivacyPartialDetail.cshtml", c);
+        }
+    </ul>
 }
 
 
