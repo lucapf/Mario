@@ -13,6 +13,7 @@ namespace mediatori.Models.Anagrafiche
     {
         [Key]
         public int id { get; set; }
+
         [Required]
         [Display(Name = "Tipo Consenso Privacy")]
         public TipoConsensoPrivacy tipoConsensoPrivacy { get; set; }
@@ -28,5 +29,9 @@ namespace mediatori.Models.Anagrafiche
         [Required]
         [Display(Name = "Utente Inserimento")]
         public String untenteInserimento { get; set; }
+
+       
+        public int segnalazioneId { get; set; }
+        public virtual Segnalazione segnalazione { get; set; }
     }
 }

@@ -97,7 +97,9 @@
 <!-- /riferimento -->
 <!-- documenti -->
 @{Html.RenderAction("DetailsFromSegnalazione", "Documentale", new { segnalazioneId = Model.segnalazione.id });}
-<!-- /documenti -->
+<!-- /privacy -->
+@{Html.RenderAction("Details", "ConsensoPrivacy", new { segnalazioneId = Model.segnalazione.id });}
+<!-- /note -->
 @{Html.RenderPartial("~/Views/Nota/_Note.cshtml", new mediatori.Models.NoteModel() { note = Model.segnalazione.note, segnalazioneId = Model.segnalazione.id });}
 
 

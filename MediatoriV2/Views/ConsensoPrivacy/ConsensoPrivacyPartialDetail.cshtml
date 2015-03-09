@@ -1,8 +1,35 @@
-﻿
+﻿@model mediatori.Models.Anagrafiche.ConsensoPrivacy
 @{
-    ViewBag.Title = "ConsensoPrivacyPartialDetail";
-    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+    Layout = null;
 }
 
-<h2>ConsensoPrivacyPartialDetail</h2>
+<div class="display-control">
+    @Html.LabelFor(c => c.tipoConsensoPrivacy.descrizione)
+    <div>@Html.DisplayFor(c => c.tipoConsensoPrivacy.descrizione)</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(c => c.acconsento)
+    @if (Model.acconsento)
+    {
+        <text>SI</text>
+    }
+    else
+    {
+        <text>NO</text>
+    }
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.dataInserimento)
+    <div>@Html.DisplayFor(m => m.dataInserimento)</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.untenteInserimento)
+    <div>@Html.DisplayFor(m => m.untenteInserimento)</div>
+</div>
+
+
+
+
+
+
 

@@ -4,9 +4,15 @@
   type => bug
   type => changes
  -->
-  <release number="1.0.0.14" data="" migration="">
+  <release number="1.0.0.14" data="" migration="Update13">
     <item data="04/03/2015" owner="Stefania" type="changes">
      controllo sulla presenza di pratiche e segnalazioni prima della cancellazione di un utente
+    </item>
+    <item data="09/03/2015" owner="Rutigliano" type="changes">
+     disabilitate configurazione utenze creditoLab
+    </item>
+    <item data="09/03/2015" owner="Stefania" type="changes">
+     Aggiunto box della privacy in dettaglio segnalazione
     </item>
   </release>
   

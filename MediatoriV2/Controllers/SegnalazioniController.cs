@@ -225,6 +225,17 @@ namespace mediatori.Controllers
             TryValidateModel(segnalazione);
             if (ModelState.IsValid)
             {
+                foreach (ConsensoPrivacy consensoPrivacy in segnalazione.consensoPrivacy)
+                {                  
+                    if (consensoPrivacy.acconsento == false && consensoPrivacy.tipoConsensoPrivacy.obbligatorio)
+                    {                  
+                        TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Attenzione! per poter procedere al salvataggio della segnalazione è necessario acconsentire al consenso privacy per il  al trattamento dei dati personali ");
+                        valorizzaViewBag();
+
+                        model.contatto = model.segnalazione.contatto;
+                        return View(model);
+                    }
+                }
 
                 segnalazione.stato = db.StatiSegnalazione.Where(p => p.descrizione == MyConstants.STATO_INIZIALE_SEGNALAZIONE).FirstOrDefault();
                 if (segnalazione.stato == null)

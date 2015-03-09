@@ -1,0 +1,18 @@
+﻿@model mediatori.Models.ConsensoPrivacyModel
+@{
+    Layout = null;
+}
+
+@if (Model.consensiPrivacy != null && Model.consensiPrivacy.Count >0)
+{
+    <h3>Privacy</h3>
+    <hr />
+    foreach (mediatori.Models.Anagrafiche.ConsensoPrivacy c in Model.consensiPrivacy)
+    {
+
+        Html.RenderPartial("~/Views/ConsensoPrivacy/ConsensoPrivacyDetail.cshtml", c);
+
+    }
+}
+
+

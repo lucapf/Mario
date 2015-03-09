@@ -189,22 +189,21 @@
     {
         Html.RenderAction("Details", "Riferimento", new { contattoId = Model.contatto.id, edit = false });
     }
+    
+        <h3>Privacy</h3>
+        <hr />
 
-    <h3>Privacy</h3>
-    <hr />
-
-    for (int i = 0; i < Model.consensoPrivacy.Count; i++)
-    {
-        <fieldset data-role="controlgroup" data-type="horizontal">
-            <legend>@Model.consensoPrivacy[i].tipoConsensoPrivacy.descrizione</legend>
-            <input type="hidden" name="consensoPrivacy[@i].tipoConsensoPrivacy.id" value="@Model.consensoPrivacy[i].tipoConsensoPrivacy.id" />
-            <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required />
-            <label for="consensoPrivacy[@i]-YES">Acconsento</label>
-            <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required />
-            <label for="consensoPrivacy[@i]-NO">Non Acconsento</label>
-        </fieldset>
-
-    }
+        for (int i = 0; i < Model.consensoPrivacy.Count; i++)
+        {
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>@Model.consensoPrivacy[i].tipoConsensoPrivacy.descrizione</legend>
+                <input type="hidden" name="consensoPrivacy[@i].tipoConsensoPrivacy.id" value="@Model.consensoPrivacy[i].tipoConsensoPrivacy.id" />
+                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required />
+                <label for="consensoPrivacy[@i]-YES">Acconsento</label>
+                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required />
+                <label for="consensoPrivacy[@i]-NO">Non Acconsento</label>
+            </fieldset>
+        }
 
     <h3>Note</h3>
     <hr />

@@ -105,6 +105,7 @@ namespace mediatori.Models
 
         public DbSet<Istituto> Istituti { get; set; }
         public DbSet<TipoConsensoPrivacy> TipoConsensoPrivacy { get; set; }
+        public DbSet<ConsensoPrivacy> ConsensoPrivacy { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

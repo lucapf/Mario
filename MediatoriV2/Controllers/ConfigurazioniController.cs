@@ -1525,6 +1525,11 @@ namespace mediatori.Controllers
         {
 
             TipoConsensoPrivacy tipoConsensoPrivacy = db.TipoConsensoPrivacy.Find(codicePrivacy);
+            if (tipoConsensoPrivacy.obbligatorio)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Attenzione! Questo consenso privacy non può essere disattivato! Necessario in fase di salvaaggio segnalazione.");
+                return RedirectToAction("TipoConsensoPrivacy");
+            }
             if (tipoConsensoPrivacy == null)
             {
                 TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Consenso Privacy non è stato trovato");
