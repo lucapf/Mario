@@ -29,28 +29,28 @@
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.tipoImpiego,true)
+            @Html.MyLabelFor(m => m.tipoImpiegoId,true)
         </div>
         <div class="editor-value">
-            @Html.DropDownListFor(m => m.tipoImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaTipoImpiego, "", new { data_mini = "true" })
+            @Html.DropDownListFor(m => m.tipoImpiegoId, (IEnumerable<SelectListItem>)ViewBag.listaTipoImpiego, "", new { data_mini = "true" })
         </div>
     </div>
     <div class="editor-validation">
-        @Html.ValidationMessageFor(m => m.tipoImpiego.id)
+        @Html.ValidationMessageFor(m => m.tipoImpiegoId)
     </div>
 </div>
 
 <div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
-            @Html.MyLabelFor(m => m.categoriaImpiego, true)
+            @Html.MyLabelFor(m => m.categoriaImpiegoId, true)
         </div>
         <div class="editor-value">
-            @Html.DropDownListFor(m => m.categoriaImpiego.id, (IEnumerable<SelectListItem>)ViewBag.listaCategoriaImpiego, "", new { data_mini = "true" })
+            @Html.DropDownListFor(m => m.categoriaImpiegoId, (IEnumerable<SelectListItem>)ViewBag.listaCategoriaImpiego, "", new { data_mini = "true" })
         </div>
     </div>
     <div class="editor-validation">
-        @Html.ValidationMessageFor(m => m.categoriaImpiego.id)
+        @Html.ValidationMessageFor(m => m.categoriaImpiegoId)
     </div>
 </div>
 

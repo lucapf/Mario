@@ -52,10 +52,12 @@ namespace mediatori.Models.Anagrafiche
         public String mansione { get; set; }
 
         [Display(Name = "Tipo contratto")]
-        public TipoContrattoImpiego tipoImpiego { get; set; }
+        public int tipoImpiegoId { get; set; }
+        public virtual TipoContrattoImpiego tipoImpiego { get; set; }
 
         [Display(Name = "Categoria")]
-        public TipoCategoriaImpiego categoriaImpiego { get; set; }
+        public int categoriaImpiegoId { get; set; }
+        public virtual TipoCategoriaImpiego categoriaImpiego { get; set; }
 
         [Display(Name = "Anticipi TFR")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:c}")]

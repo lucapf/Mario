@@ -28,8 +28,8 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
         public static Impiego valorizzaDatiImpiego(Impiego i, MainDbContext db)
         {
           
-                i.tipoImpiego = db.TipoContrattoImpiego.Find(i.tipoImpiego.id);
-                i.categoriaImpiego = db.TipoCategoriaImpiego.Find(i.categoriaImpiego.id);
+                i.tipoImpiego = db.TipoContrattoImpiego.Find(i.tipoImpiegoId);
+                i.categoriaImpiego = db.TipoCategoriaImpiego.Find(i.categoriaImpiegoId);
                 
                // if (i.dataLicenziamento. == 1) i.dataLicenziamento = new DateTime(3000, 01, 01);
                 return i;
