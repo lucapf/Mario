@@ -61,11 +61,18 @@ namespace mediatori.Controllers
             {
                 istitutoManager.openConnection();
 
-                istitutoManager.insertCredenziali(new MyUsers.Models.MyCredenziali(model.Login, model.Password), MySessionData.UserId, MySessionData.Istituto.id);
+                if (MyConstants.CREDITOLAB_ENABLED)
+                {
+                    istitutoManager.insertCredenziali(new MyUsers.Models.MyCredenziali(model.Login, model.Password), MySessionData.UserId, MySessionData.Istituto.id);
+                    _initSessionData(MySessionData);
 
-                _initSessionData(MySessionData);
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Account CreditoLab configurato con successo");
+                }
+                else
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Attenzione la configurazione verso CreditoLab è disabilitata");
+                }
 
-                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Account CreditoLab configurato con successo");
             }
             finally
             {
@@ -102,7 +109,7 @@ namespace mediatori.Controllers
 
             return RedirectToAction("Manage");
         }
-       
+
 
 
 
@@ -344,7 +351,6 @@ namespace mediatori.Controllers
             {
                 manager.closeConnection();
             }
-
 
             return View(model);
         }

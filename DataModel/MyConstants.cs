@@ -10,16 +10,13 @@ public static class MyConstants
         Ok,
         Errore
     }
-
-
-
+        
     public const string TABLE_ROW_STYLE = "ui-body-a";
     public const string TABLE_ALTERNATING_ROW_STYLE = "ui-body-d";
     public const string TABLE_STYLE = "MyTable ui-responsive";
     public const string TABLE_HEADER_STYLE = "ui-bar-b";
     public const string TABLE_FOOTER_STYLE = "ui-bar-b";
-
-
+    
     public const string FIXED_FOOTER_THEME = "b";
 
     public enum MySessionData
@@ -35,6 +32,8 @@ public static class MyConstants
     }
 
     public const bool CHECK_ASSEGANAZIONI_ENABLED = true;
+
+    public const bool CREDITOLAB_ENABLED = false;
 
     public const string STATO_INIZIALE_PRATICA = "Pratica caricata";
     public const string STATO_INIZIALE_SEGNALAZIONE = "Segnalazione caricata";
