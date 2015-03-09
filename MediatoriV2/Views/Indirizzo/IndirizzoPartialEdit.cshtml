@@ -36,6 +36,9 @@
                 popolaComboComuni(idProvincia, idComune);
             });
         }
+
+        $("#indirizzo_corrispondenza").checkboxradio("refresh");
+
     }
 </script>
 
@@ -91,13 +94,6 @@
 </div>
 
 <div class="editor-control">
-    @Html.LabelFor(m => m.corrispondenza)
-    @MyJQueryMobile.MyCheckBox("corrispondenza", Model.corrispondenza, "")
-</div>
-
-
-
-<div class="editor-control">
     <div class="editor-row">
         <div class="editor-label">
             <label for="@provinciaId">Provincia</label>
@@ -137,4 +133,10 @@
     <div class="editor-validation">
         @Html.ValidationMessageFor(m => m.comune.denominazione)
     </div>
+</div>
+
+
+
+<div class="editor-control">
+    @MyJQueryMobile.MyCheckBox("indirizzo.corrispondenza", Model.corrispondenza, "Corrispondenza")
 </div>

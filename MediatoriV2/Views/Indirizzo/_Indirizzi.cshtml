@@ -2,6 +2,15 @@
 @{
     Layout = null;
 
+    /*
+    INDIRIZZI è utilizzato da
+    - pratiche
+    - agenzie
+    - amministrazione
+    - società
+    */
+
+
     string actionName = "";
 
     if (Model.contattoId != null)
@@ -46,7 +55,6 @@
 {
     foreach (mediatori.Models.Anagrafiche.Indirizzo i in Model.indirizzi)
     {
-
         Html.RenderPartial("~/Views/Indirizzo/IndirizzoDetail.cshtml", i);
     }
 }

@@ -820,6 +820,7 @@
     <Content Include="Views\ConsensoPrivacy\ConsensoPrivacyPartialDetail.cshtml" />
     <Content Include="Views\Test\Stefania.cshtml" />
     <Content Include="Views\ConsensoPrivacy\_ConsensiPrivacy.cshtml" />
+    <Content Include="Views\Test\CheckBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

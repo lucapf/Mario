@@ -6,9 +6,9 @@
     string formId = "RifForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("Update", "Riferimento", FormMethod.Post,  new { id = formId }))
+@using (Html.BeginForm("Update", "Riferimento", FormMethod.Post, new { id = formId }))
 {
-    <input type="hidden" name="codiceRiferimento" value="@Model.id" />
+    <input type="hidden" name="codiceId" value="@Model.id" />
 
     { Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialEdit.cshtml", Model); }
 

@@ -16,15 +16,8 @@ namespace mediatori.Controllers
         [ChildActionOnly]
         public ActionResult Cedente(int cedenteId)
         {
-            Cedente cedente;
-            cedente = db.Cedenti.Include("indirizzi").Where(p => p.id == cedenteId).First();
-            if (cedente == null)
-            {
-                return HttpNotFound();
-            }
-
             IndirizziModel model = new IndirizziModel();
-            model.indirizzi = cedente.indirizzi.ToList<Indirizzo>();
+            model.indirizzi = db.Indirizzi.Include("tipoIndirizzo").Include("toponimo").Include("provincia").Include("comune").Where(p => p.cedenteId == cedenteId).ToList();
             model.contattoId = cedenteId;
 
             valorizzaViewBag();
@@ -36,39 +29,40 @@ namespace mediatori.Controllers
         public ActionResult SoggettoGiuridico(int soggettoGiuridicoId)
         {
             IndirizziModel model = new IndirizziModel();
-            model.indirizzi = new List<Indirizzo>();
+            //model.indirizzi = new List<Indirizzo>();
 
-            if (soggettoGiuridicoId != -1)
-            {
-                SoggettoGiuridico soggettoGiuridico;
-                soggettoGiuridico = db.SoggettiGiuridici.Include("indirizzi").Where(p => p.id == soggettoGiuridicoId).First();
-                if (soggettoGiuridico == null)
-                {
-                    return HttpNotFound();
-                }
+            // if (soggettoGiuridicoId != -1)
+            // {
+            //SoggettoGiuridico soggettoGiuridico;
+            //soggettoGiuridico = db.SoggettiGiuridici.Include("indirizzi").Where(p => p.id == soggettoGiuridicoId).First();
+            //if (soggettoGiuridico == null)
+            //{
+            //    return HttpNotFound();
+            //}
 
-                foreach (Indirizzo i in soggettoGiuridico.indirizzi)
-                {
-                    Debug.WriteLine("Indirizzo id: " + i.id + " Provicia: " + i.provincia.sigla);
+            //foreach (Indirizzo i in soggettoGiuridico.indirizzi)
+            //{
+            //    Debug.WriteLine("Indirizzo id: " + i.id + " Provicia: " + i.provincia.sigla);
 
-                    model.indirizzi.Add(IndirizzoBusiness.findIndirizzo(i.id, db));
-                }
-
-
-                //                model.indirizzi = IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(soggettoGiuridico.indirizzi, db).ToList<Indirizzo>();
+            //    model.indirizzi.Add(IndirizzoBusiness.findIndirizzo(i.id, db));
+            //}
 
 
-                //model.indirizzi = soggettoGiuridico.indirizzi.ToList<Indirizzo>();
+            ////                model.indirizzi = IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(soggettoGiuridico.indirizzi, db).ToList<Indirizzo>();
 
 
-                model.soggettoGiuridicoId = soggettoGiuridicoId;
-            }
-            else
-            {
-                //CREATE
-                model.soggettoGiuridicoId = -1;
-                model.indirizzi = new List<Indirizzo>();
-            }
+            ////model.indirizzi = soggettoGiuridico.indirizzi.ToList<Indirizzo>();
+
+            model.indirizzi = db.Indirizzi.Include("tipoIndirizzo").Include("toponimo").Include("provincia").Include("comune").Where(p => p.soggettoGiuridicoId == soggettoGiuridicoId).ToList();
+
+            model.soggettoGiuridicoId = soggettoGiuridicoId;
+            //}
+            //else
+            //{
+            //    //CREATE
+            //    model.soggettoGiuridicoId = -1;
+            //    model.indirizzi = new List<Indirizzo>();
+            //}
 
             valorizzaViewBag();
 
@@ -104,6 +98,7 @@ namespace mediatori.Controllers
             throw new ApplicationException("Azione di inserimento che non si deve presentare");
         }
 
+        /*
         // GET /Indirizzo/IndirizzoPartial
         [ChildActionOnly]
         public ActionResult IndirizzoPartial(Indirizzo indirizzo, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
@@ -125,7 +120,7 @@ namespace mediatori.Controllers
                 default:
                     return View("IndirizzoPartialDetail", indirizzo);
             }
-        }
+        }*/
 
         private void valorizzaViewBag()
         {
@@ -189,23 +184,23 @@ namespace mediatori.Controllers
             ViewBag.listaComuni = new SelectList(lsli, "Text", "Value");
         }
 
-        public void eliminaElementiNonCaricati()
-        {
-            ModelState.Remove("tipoIndirizzo.descrizione");
-            ModelState.Remove("provincia.sigla");
-        }
+        //public void eliminaElementiNonCaricati()
+        //{
+        //    ModelState.Remove("tipoIndirizzo.descrizione");
+        //    ModelState.Remove("provincia.sigla");
+        //}
 
-        [HttpPost]
-        public ActionResult Edit(Indirizzo indirizzo)
-        {
-            eliminaElementiNonCaricati();
-            if (ModelState.IsValid)
-            {
-                Indirizzo indirizzoSalvato = IndirizzoBusiness.save(User.Identity.Name, indirizzo, db);
-            }
+        //[HttpPost]
+        //public ActionResult Edit(Indirizzo indirizzo)
+        //{
+        //    eliminaElementiNonCaricati();
+        //    if (ModelState.IsValid)
+        //    {
+        //        Indirizzo indirizzoSalvato = IndirizzoBusiness.save(User.Identity.Name, indirizzo, db);
+        //    }
 
-            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
-        }
+        //    return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+        //}
 
 
 
@@ -283,13 +278,94 @@ namespace mediatori.Controllers
 
 
 
+        /*
+                [HttpPost]
+                public ActionResult UpdateForSoggettoGiuridico(Indirizzo indirizzo, int codiceSggettoGiuridico)
+                {
+                    IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(indirizzo, db);
+
+                    indirizzo.soggettoGiuridicoId = codiceSggettoGiuridico;
+
+                    ModelState.Clear();
+                    TryValidateModel(indirizzo);
+
+
+                    if (!ModelState.IsValid)
+                    {
+                        var message = string.Join(" | ", ModelState.Values
+                          .SelectMany(v => v.Errors)
+                          .Select(e => e.ErrorMessage));
+                        TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + message);
+                        return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+                    }
+
+                    SoggettoGiuridico soggettoGiuridico = null;
+                    soggettoGiuridico = db.SoggettiGiuridici.Find(codiceSggettoGiuridico);
+
+                    if (soggettoGiuridico == null)
+                    {
+                        TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Soggetto giuridico non trovato");
+
+                    }
+                    else
+                    {
+
+                        try
+                        {
+                            IndirizzoBusiness.save(User.Identity.Name, indirizzo, db);
+
+                            //Indirizzo original = IndirizzoBusiness.findIndirizzo(indirizzo.id, db);
+
+                            // original.tipoIndirizzo = indirizzo.tipoIndirizzo;
+                            //original.cap = indirizzo.cap
+
+                            /////db.Indirizzi.Attach(original);
+                            ////db.Entry(original).State = System.Data.Entity.EntityState.Modified;
+
+                            ////indirizzo.soggettoGiuridico = soggettoGiuridico;
+
+
+                            ////db.Entry(soggettoGiuridico).State = System.Data.Entity.EntityState.Unchanged;
+                            //db.Indirizzi.app.Attach(indirizzo);
+                            //db.Entry(indirizzo).State = System.Data.Entity.EntityState.Modified;
+
+                            //db.TipoIndirizzo.Attach(indirizzo.tipoIndirizzo);
+                            //db.Entry(indirizzo.tipoIndirizzo).State = System.Data.Entity.EntityState.Modified;
+
+
+
+
+                            //db.SaveChanges();
+                            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Indirizzo salvato con successo");
+                        }
+                        catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                        {
+                            string messaggio;
+                            messaggio = MyHelper.getDbEntityValidationException(ex);
+                            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + messaggio);
+                        }
+                        catch (Exception ex)
+                        {
+                            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + ex.Message);
+                        }
+
+
+                    }
+
+                    return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+
+                }*/
+
 
         [HttpPost]
-        public ActionResult UpdateForSoggettoGiuridico(Indirizzo indirizzo, int codiceSggettoGiuridico)
+        public ActionResult Update(Indirizzo indirizzo, int codiceId)
         {
-            IndirizzoBusiness.valorizzaDatiPerInserimentoCancellazione(indirizzo, db);
 
-            indirizzo.soggettoGiuridicoId = codiceSggettoGiuridico;
+            if (codiceId == 0)
+            {
+                throw new ApplicationException("Codice Indirizzo NON valorizzato");
+            }
+
 
             ModelState.Clear();
             TryValidateModel(indirizzo);
@@ -304,61 +380,25 @@ namespace mediatori.Controllers
                 return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
             }
 
-            SoggettoGiuridico soggettoGiuridico = null;
-            soggettoGiuridico = db.SoggettiGiuridici.Find(codiceSggettoGiuridico);
 
-            if (soggettoGiuridico == null)
+            try
             {
-                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Soggetto giuridico non trovato");
+                IndirizzoBusiness.save(User.Identity.Name, indirizzo, db);
 
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Indirizzo salvato con successo");
             }
-            else
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-
-                try
-                {
-                    IndirizzoBusiness.save(User.Identity.Name, indirizzo, db);
-
-                    //Indirizzo original = IndirizzoBusiness.findIndirizzo(indirizzo.id, db);
-
-                    // original.tipoIndirizzo = indirizzo.tipoIndirizzo;
-                    //original.cap = indirizzo.cap
-
-                    /////db.Indirizzi.Attach(original);
-                    ////db.Entry(original).State = System.Data.Entity.EntityState.Modified;
-
-                    ////indirizzo.soggettoGiuridico = soggettoGiuridico;
-
-
-                    ////db.Entry(soggettoGiuridico).State = System.Data.Entity.EntityState.Unchanged;
-                    //db.Indirizzi.app.Attach(indirizzo);
-                    //db.Entry(indirizzo).State = System.Data.Entity.EntityState.Modified;
-
-                    //db.TipoIndirizzo.Attach(indirizzo.tipoIndirizzo);
-                    //db.Entry(indirizzo.tipoIndirizzo).State = System.Data.Entity.EntityState.Modified;
-
-
-
-
-                    //db.SaveChanges();
-                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Indirizzo salvato con successo");
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-                {
-                    string messaggio;
-                    messaggio = MyHelper.getDbEntityValidationException(ex);
-                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + messaggio);
-                }
-                catch (Exception ex)
-                {
-                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + ex.Message);
-                }
-
-
+                string messaggio;
+                messaggio = MyHelper.getDbEntityValidationException(ex);
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + messaggio);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + ex.Message);
             }
 
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
-
         }
 
     }

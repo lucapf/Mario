@@ -33,16 +33,14 @@
 </div>
 <div class="display-control">
     @Html.LabelFor(m => m.provincia)
-    <div>@Html.Display("provincia.denominazione")</div>
+    <div>@Model.provincia.denominazione</div>
+</div>
+<div class="display-control">
+    @Html.LabelFor(m => m.comune)
+    <div>@Model.comune.denominazione</div>
 </div>
 <div class="display-control">
     @Html.LabelFor(m => m.corrispondenza)
     <div>@MyHelper.decodeSiNo(Model.corrispondenza)</div>
 </div>
-<div class="display-control">
-    @Html.LabelFor(m => m.comune)
-    <div>@Html.Display("comune.denominazione")</div>
-</div>
-
-
 

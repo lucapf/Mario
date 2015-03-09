@@ -55,22 +55,35 @@ namespace mediatori.Controllers.Business.Anagrafiche.Soggetto
             indirizzo = valorizzaDatiPerInserimentoCancellazione(indirizzo, db);
             
             Indirizzo indirizzoCorrente = findIndirizzo(indirizzo.id, db);
+
             LogEventi le = LogEventiManager.getEventoForUpdate(username, indirizzoCorrente.id, EnumEntitaRiferimento.INDIRIZZO, indirizzoCorrente, indirizzo);
-            indirizzoCorrente = (Indirizzo)CopyObject.simpleCompy(indirizzoCorrente, indirizzo);
+         //   indirizzoCorrente = (Indirizzo)CopyObject.simpleCompy(indirizzoCorrente, indirizzo);
 
-            if (indirizzoCorrente.cedenteId != null && indirizzoCorrente.cedenteId != 0)
-            {
-                indirizzoCorrente.cedenteId = indirizzo.cedenteId;
-                indirizzoCorrente.cedente = db.Cedenti.Find(indirizzoCorrente.cedenteId);
-            }
+            //if (indirizzoCorrente.cedenteId != null && indirizzoCorrente.cedenteId != 0)
+            //{
+            //    indirizzoCorrente.cedenteId = indirizzo.cedenteId;
+            //    indirizzoCorrente.cedente = db.Cedenti.Find(indirizzoCorrente.cedenteId);
+            //}
 
-            if (indirizzo.soggettoGiuridicoId  != null && indirizzo.soggettoGiuridicoId != 0)
-            {
-                indirizzoCorrente.soggettoGiuridicoId = indirizzo.soggettoGiuridicoId;
-                indirizzoCorrente.soggettoGiuridico = db.SoggettiGiuridici.Find(indirizzo.soggettoGiuridicoId);
-            }
+            //if (indirizzo.soggettoGiuridicoId  != null && indirizzo.soggettoGiuridicoId != 0)
+            //{
+            //    indirizzoCorrente.soggettoGiuridicoId = indirizzo.soggettoGiuridicoId;
+            //    indirizzoCorrente.soggettoGiuridico = db.SoggettiGiuridici.Find(indirizzo.soggettoGiuridicoId);
+            //}
 
-           
+
+            indirizzoCorrente.cap = indirizzo.cap;
+            indirizzoCorrente.comune = indirizzo.comune;
+            indirizzoCorrente.corrispondenza = indirizzo.corrispondenza;
+            indirizzoCorrente.interno = indirizzo.interno;
+            indirizzoCorrente.numeroCivico = indirizzo.numeroCivico;
+            indirizzoCorrente.presso = indirizzo.presso;
+            indirizzoCorrente.provincia = indirizzo.provincia;
+            indirizzoCorrente.recapito = indirizzo.recapito;
+            indirizzoCorrente.tipoIndirizzo = indirizzo.tipoIndirizzo;
+            indirizzoCorrente.toponimo = indirizzo.toponimo;
+
+
 
             LogEventiManager.save(le, db);
             

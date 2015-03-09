@@ -6,10 +6,10 @@
     string formId = "IndForm" + Model.id.ToString();
 }
 
-@using (Html.BeginForm("UpdateForSoggettoGiuridico", "Indirizzo", FormMethod.Post,  new { id = formId }))
+@using (Html.BeginForm("Update", "Indirizzo", FormMethod.Post, new { id = formId }))
 {
-    <input type="hidden" name="codiceSggettoGiuridico" value="@Model.soggettoGiuridicoId" />
-
+    <input type="hidden" name="codiceId" value="@Model.id" />
+    
     { Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialEdit.cshtml", Model); }
 
     <div data-role="controlgrup" data-type="horizontal">

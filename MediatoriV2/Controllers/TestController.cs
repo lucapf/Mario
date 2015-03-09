@@ -258,6 +258,11 @@ namespace mediatori.Controllers
         }
 
 
+        public ActionResult CheckBox()
+        {
+            return View();
+        }
+
         public ActionResult Home()
         {
             return View();

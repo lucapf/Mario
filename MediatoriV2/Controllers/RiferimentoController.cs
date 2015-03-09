@@ -354,18 +354,18 @@ namespace mediatori.Controllers
 
 
         [HttpPost]
-        public ActionResult Update(Riferimento riferimento, int codiceRiferimento)
+        public ActionResult Update(Riferimento riferimento, int codiceId)
         {
-            if (codiceRiferimento == 0)
+            if (codiceId == 0)
             {
                 throw new ApplicationException("Codice Riferimento NON valorizzato");
             }
 
-            Riferimento riferimentoCorrente = db.Riferimento.Include("TipoRiferimento").Where(p => p.id == codiceRiferimento).FirstOrDefault();
+            Riferimento riferimentoCorrente = db.Riferimento.Include("TipoRiferimento").Where(p => p.id == codiceId).FirstOrDefault();
             //Riferimento riferimentoCorrente = db.Riferimento.Where(p => p.id == codiceRiferimento).FirstOrDefault();
             if (riferimentoCorrente == null)
             {
-                throw new ApplicationException("Riferimento NON trovato: " + codiceRiferimento);
+                throw new ApplicationException("Riferimento NON trovato: " + codiceId);
             }
 
 
