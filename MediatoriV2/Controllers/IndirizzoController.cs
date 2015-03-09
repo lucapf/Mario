@@ -229,7 +229,7 @@ namespace mediatori.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateForPersonaFisica(Indirizzo indirizzo, int codiceId)
+        public ActionResult CreateForPersonaFisica(Indirizzo indirizzo, int codiceContatto)
         {
 
             indirizzo.provincia = (from p in db.Province
@@ -245,7 +245,7 @@ namespace mediatori.Controllers
 
             if (ModelState.IsValid)
             {
-                indirizzo = IndirizzoBusiness.createBySegnalazione(User.Identity.Name, codiceId, indirizzo, db);
+                indirizzo = IndirizzoBusiness.createBySegnalazione(User.Identity.Name, codiceContatto, indirizzo, db);
             }
             else
             {

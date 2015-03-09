@@ -12,7 +12,7 @@ namespace mediatori.Controllers
 {
     public class RiferimentoController : MyBaseController
     {
-       
+
 
         //public ActionResult Index()
         //{
@@ -32,7 +32,7 @@ namespace mediatori.Controllers
             }
 
             RiferimentiModel model = new RiferimentiModel();
-            model.riferimenti  = contatto.riferimenti.ToList<Riferimento>();
+            model.riferimenti = contatto.riferimenti.ToList<Riferimento>();
             model.contattoId = contattoId;
 
             if (edit == true)
@@ -45,7 +45,7 @@ namespace mediatori.Controllers
         }
 
 
-        
+
         [ChildActionOnly]
         public ActionResult SoggettoGiuridico(int soggettoGiuridicoId)
         {
@@ -78,7 +78,7 @@ namespace mediatori.Controllers
 
 
 
-        
+
         [ChildActionOnly]
         public ActionResult Create(Riferimento riferimento)
         {
@@ -116,9 +116,10 @@ namespace mediatori.Controllers
                 return View("RiferimentoPartialDetail", riferimento);
             }
 
-            throw new ApplicationException("Azione di inserimento che non si deve presentare");     
+            throw new ApplicationException("Azione di inserimento che non si deve presentare");
         }
 
+        /*
         [ChildActionOnly]
         public ActionResult riferimentoPartial(Riferimento riferimento, EnumTipoAzione tipoAzione = EnumTipoAzione.MODIFICA)
         {
@@ -138,7 +139,7 @@ namespace mediatori.Controllers
                 default:
                     return View("RiferimentoPartialDetail", riferimento);
             }
-        }
+        }*/
 
         private void valorizzaViewBag()
         {
@@ -158,10 +159,11 @@ namespace mediatori.Controllers
         }
 
 
+
         [HttpPost]
         public ActionResult CreateForContatto(Riferimento riferimento, int codiceContatto)
         {
-            Contatto contatto = db.Contatti.Include("riferimenti").Where( c => c.id == codiceContatto).First() ;
+            Contatto contatto = db.Contatti.Include("riferimenti").Where(c => c.id == codiceContatto).First();
             if (contatto == null)
             {
                 return HttpNotFound();
@@ -173,7 +175,7 @@ namespace mediatori.Controllers
             TryValidateModel(riferimento);
 
             contatto.riferimenti.Add(riferimento);
-           
+
             try
             {
                 db.SaveChanges();
@@ -189,19 +191,20 @@ namespace mediatori.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
+        /*
+              [HttpPost]
+              public ActionResult CreateForSegnalazione(Riferimento riferimento, int codiceSegnalazione)
+              {
 
-        [HttpPost]
-        public ActionResult CreateForSegnalazione(Riferimento riferimento, int codiceSegnalazione)
-        {
-          
-            riferimento = RiferimentoBusiness.valorizzaDatiRiferimento(riferimento, db);
-            Segnalazione s = new SegnalazioneBusiness().findByPk(codiceSegnalazione, db);
-            ModelState.Clear();
-            TryValidateModel(riferimento);
-            s.contatto.riferimenti.Add(riferimento);
-            db.SaveChanges();
-            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
-        }
+                  riferimento = RiferimentoBusiness.valorizzaDatiRiferimento(riferimento, db);
+                  Segnalazione s = new SegnalazioneBusiness().findByPk(codiceSegnalazione, db);
+                  ModelState.Clear();
+                  TryValidateModel(riferimento);
+                  s.contatto.riferimenti.Add(riferimento);
+                  db.SaveChanges();
+                  return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+              }
+         */
         [HttpPost]
         public ActionResult CreateForSoggettoGiuridico(Riferimento riferimento, int codiceSoggettoGiuridico)
         {
@@ -213,12 +216,14 @@ namespace mediatori.Controllers
             db.SaveChanges();
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
+
+        /*
         [HttpPost]
         public ActionResult Edit(Riferimento riferimento)
         {
             riferimento = RiferimentoBusiness.valorizzaDatiRiferimento(riferimento, db);
             ModelState.Clear();
-            
+
             TryValidateModel(riferimento);
             if (ModelState.IsValid)
             {
@@ -226,8 +231,10 @@ namespace mediatori.Controllers
             }
 
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
-        }
+        }*/
 
+
+        /*
         [HttpPost]
         public ActionResult UpdateForSoggettoGiuridico(Riferimento riferimento, int codiceSggettoGiuridico)
         {
@@ -248,7 +255,7 @@ namespace mediatori.Controllers
             }
 
             SoggettoGiuridico soggettoGiuridico = null;
-           soggettoGiuridico = db.SoggettiGiuridici.Find(codiceSggettoGiuridico);
+            soggettoGiuridico = db.SoggettiGiuridici.Find(codiceSggettoGiuridico);
 
             if (soggettoGiuridico == null)
             {
@@ -282,6 +289,119 @@ namespace mediatori.Controllers
 
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
 
+        }
+        */
+        /*
+
+        [HttpPost]
+        public ActionResult UpdateForContatto(Riferimento riferimento, int codiceContatto)
+        {
+            RiferimentoBusiness.valorizzaDatiRiferimento(riferimento, db);
+            riferimento.contattoId = codiceContatto;
+
+            ModelState.Clear();
+            TryValidateModel(riferimento);
+
+
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                  .SelectMany(v => v.Errors)
+                  .Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il riferimento, verificare i dati: " + Environment.NewLine + message);
+                return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+            }
+
+            PersonaFisica persona = null;
+            persona = db.Per.Find(codiceSggettoGiuridico);
+
+            if (soggettoGiuridico == null)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Soggetto giuridico non trovato");
+
+            }
+            else
+            {
+
+                try
+                {
+                    riferimento.soggettoGiuridico = soggettoGiuridico;
+
+                    RiferimentoBusiness.save(User.Identity.Name, riferimento, db);
+
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Riferimento salvato con successo");
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    string messaggio;
+                    messaggio = MyHelper.getDbEntityValidationException(ex);
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il riferimento, verificare i dati: " + Environment.NewLine + messaggio);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare l'indirizzo, verificare i dati: " + Environment.NewLine + ex.Message);
+                }
+
+
+            }
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+
+        }*/
+
+
+
+
+
+        [HttpPost]
+        public ActionResult Update(Riferimento riferimento, int codiceRiferimento)
+        {
+            if (codiceRiferimento == 0)
+            {
+                throw new ApplicationException("Codice Riferimento NON valorizzato");
+            }
+
+            Riferimento riferimentoCorrente = db.Riferimento.Include("TipoRiferimento").Where(p => p.id == codiceRiferimento).FirstOrDefault();
+            //Riferimento riferimentoCorrente = db.Riferimento.Where(p => p.id == codiceRiferimento).FirstOrDefault();
+            if (riferimentoCorrente == null)
+            {
+                throw new ApplicationException("Riferimento NON trovato: " + codiceRiferimento);
+            }
+
+
+            //riferimentoCorrente.tipoRiferimento.id = riferimento.tipoRiferimento.id;
+            riferimentoCorrente.tipoRiferimento = db.TipoRiferimento.Find(riferimento.tipoRiferimento.id);
+            riferimentoCorrente.valore = riferimento.valore;
+
+            //RiferimentoBusiness.valorizzaDatiRiferimento(riferimentoCorrente, db);
+
+            ModelState.Clear();
+            TryValidateModel(riferimentoCorrente);
+
+
+            try
+            {
+                //LogEventi le = BusinessModel.Log.LogEventiManager.getEventoForUpdate(User.Identity.Name, riferimentoCorrente.id, EnumEntitaRiferimento.RIFERIMENTO, riferimentoCorrente, riferimento);
+                //BusinessModel.Log.LogEventiManager.save(le, db);
+                db.Riferimento.Attach(riferimentoCorrente);
+                db.Entry(riferimentoCorrente).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Riferimento salvato con successo");
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                string messaggio;
+                messaggio = MyHelper.getDbEntityValidationException(ex);
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il riferimento, verificare i dati: " + Environment.NewLine + messaggio);
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare il riferimento, verificare i dati: " + Environment.NewLine + ex.Message);
+            }
+
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
     }

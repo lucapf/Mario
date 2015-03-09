@@ -1,6 +1,7 @@
 ﻿@model mediatori.Models.RiferimentiModel
 @{
     Layout = null;
+
     string actionName = "";
 
     if (Model.contattoId != null)
@@ -19,12 +20,12 @@
 
 <script type="text/javascript">
     $(document).on("pageinit", function () {
-        $("#linkNuovoriferimento").click(function () {
+        $("#linkNuovoRiferimento").click(function () {
             $("#divNuovoRiferimento").show();
         })
     });
 
-
+    /*
 
     function ModificaDati(idEntita, urlPercorso, idDivFullDetail) {
         alert("ModificaDati: " + urlPercorso);
@@ -72,21 +73,16 @@
             }
         });
 
-    }
-
-
-
-
-
+    }*/
 </script>
 
-<h3 id="riferimenti">Riferimenti  <strong class="h3Link" id="linkNuovoriferimento" title="Aggiungi un riferimento">[ + ]</strong></h3>
+<h3>Riferimenti <strong class="h3Link" id="linkNuovoRiferimento" title="Aggiungi un riferimento">[ + ]</strong></h3>
 <hr />
 <div id="divNuovoRiferimento" style="display: none">
     @using (Html.BeginForm(actionName, "Riferimento", FormMethod.Post, new { id = "nuovoRiferimento" }))
     {
-        <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
         <input type="hidden" name="codiceSoggettoGiuridico" value="@Model.soggettoGiuridicoId" />
+        <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
 
         { Html.RenderPartial("~/Views/Riferimento/RiferimentoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Riferimento()); }
 

@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
     $(document).on("pageinit", function () {
-             
+
         $("#linkNuovoIndirizzo").click(function () {
             initIndirizzoPartialEdit();
             $("#divNuovoIndirizzo").show();
@@ -31,7 +31,7 @@
     @using (Html.BeginForm(actionName, "Indirizzo", FormMethod.Post, new { id = "novoIndirizzo" }))
     {
         <input type="hidden" name="codiceSoggettoGiuridico" value="@Model.soggettoGiuridicoId" />
-        <input type="hidden" name="codiceId" value="@Model.contattoId" />
+        <input type="hidden" name="codiceContatto" value="@Model.contattoId" />
 
         { Html.RenderPartial("~/Views/Indirizzo/IndirizzoPartialEdit.cshtml", new mediatori.Models.Anagrafiche.Indirizzo()); }
 
