@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Noty";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Noty</h2>
+
+<script type="text/javascript">
+
+    function noty1() {
+        var n = noty({ text: 'noty - a jquery notification library!' });
+    }
+
+    function noty2() {
+        var n = noty({
+            text: 'NOTY - a jquery notification library!',
+            theme: 'relax',
+            type: 'alert',
+            layout: 'center',
+            animation: {
+                open: 'animated bounceInLeft', // Animate.css class names
+                close: 'animated bounceOutLeft', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 500 // unavailable - no need
+            }
+        });
+    }
+
+
+
+    function notySuccess() {
+        var n = noty({
+            text: 'NOTY - Success!',
+            theme: 'relax',
+            type: 'success',
+            layout: 'center',
+            animation: {
+                open: 'animated bounceInLeft', // Animate.css class names
+                close: 'animated bounceOutLeft', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 500 // unavailable - no need
+            }
+        });
+    }
+
+    function MyNoty(tipo) {
+        var n = noty({
+            text: 'NOTY - ' + tipo,
+            theme: 'relax',
+            type: tipo,
+            layout: 'center',
+            timeout: 2000,
+            buttons: false,
+            animation: {
+                open: 'animated flipInX', // Animate.css class names
+                close: 'animated flipOutX', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 500 // unavailable - no need
+            }
+        });
+
+
+    }
+
+</script>
+
+
+
+<button onclick="javascript: noty1();">Noty 1</button>
+<button onclick="javascript: noty2();">Noty 2</button>
+<button onclick="javascript: MyNoty('success');">Success</button>
+<button onclick="javascript: MyNoty('alert');">Alert</button>
+<button onclick="javascript: MyNoty('error');">Error</button>
+<button onclick="javascript: MyNoty('warning');">Warning</button>
+<button onclick="javascript: MyNoty('information');">Information</button>
+<button onclick="javascript: MyNoty('confirm');">Confirm</button>

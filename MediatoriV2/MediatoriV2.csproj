@@ -728,7 +728,7 @@
     <Content Include="Views\Segnalazioni\Index.cshtml" />
     <Content Include="Views\Segnalazioni\Details.cshtml" />
     <Content Include="Views\Test\Decimal.cshtml" />
-    <Content Include="Views\Test\_Footer.cshtml" />
+    <Content Include="Views\Test\_footer.cshtml" />
     <Content Include="Views\Documentale\DocumentalePartialDetail.cshtml" />
     <Content Include="Views\Home\Assegnazioni.cshtml" />
     <Content Include="Views\Home\Sicurezza.cshtml" />
@@ -822,6 +822,8 @@
     <Content Include="Views\ConsensoPrivacy\_ConsensiPrivacy.cshtml" />
     <Content Include="Views\Test\CheckBox.cshtml" />
     <Content Include="Views\Test\Button.cshtml" />
+    <Content Include="Views\Test\Notification.cshtml" />
+    <Content Include="Views\Test\Noty.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
