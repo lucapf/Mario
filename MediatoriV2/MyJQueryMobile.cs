@@ -379,7 +379,8 @@ public class
 
         if (!String.IsNullOrEmpty(label))
         {
-            temp += Environment.NewLine + String.Format("<label for=\"{0}\" >{1}</label>", id, label);
+          //  temp += Environment.NewLine + String.Format("<label for=\"{0}\" >{1}</label>", id, label);
+            temp = "<label> " + temp + label + "</label>";
         }
 
 

@@ -13,19 +13,19 @@
     function editItem(id, descrizione) {
         //alert("editItem" + id + " - " + descrizione);
 
-        $("#popupNuovoTitolo").text("Modifica");
+        $("#popupTitolo").text("Modifica");
         $("#edit_item_id").val(id);
         $("#edit_item_descrizione").val(descrizione);
-        $("#popupNuovo").popup("open");
+        $("#popupItem").popup("open");
     }
         
     function newItem() {
        // alert("newItem");
 
-        $("#popupNuovoTitolo").text("Nuovo");
+        $("#popupTitolo").text("Nuovo");
         $("#edit_item_id").val(0);
         $("#edit_item_descrizione").val('');
-        $("#popupNuovo").popup("open");
+        $("#popupItem").popup("open");
     }
 
     function deleteItem(id) {
@@ -79,9 +79,9 @@
 
 
 
-<div data-role="popup" id="popupNuovo" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="min-width:500px">
+<div data-role="popup" id="popupItem" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="min-width:500px">
     <div data-role="header" data-theme="a">
-        <h1 id="popupNuovoTitolo">Nuovo</h1>
+        <h1 id="popupTitolo">Nuovo</h1>
     </div>
     <div role="main" class="ui-content">
         @using (Html.BeginForm(Model.nomeEntita.Replace(" ",""), "Configurazioni", FormMethod.Post))

@@ -37,7 +37,16 @@
             });
         }
 
-        $("#indirizzo_corrispondenza").checkboxradio("refresh");
+
+        //alert("checkboxradio");
+        @if (Model.corrispondenza)
+        {
+            @:$("#indirizzo_corrispondenza").prop("checked", true).checkboxradio("refresh");
+        }
+        else
+        {
+            @:$("#indirizzo_corrispondenza").prop("checked", false).checkboxradio("refresh");
+        }
 
     }
 </script>
@@ -105,7 +114,6 @@
                 {
                     <option value="@item.Value" @(item.Selected ? "selected=selected" : "")>@item.Text</option>
                 }
-
             </select>
         </div>
     </div>
@@ -126,7 +134,6 @@
                 {
                     <option value="@item.Value" @(item.Selected ? "selected=selected" : "")>@item.Text</option>
                 }
-
             </select>
         </div>
     </div>
@@ -138,5 +145,7 @@
 
 
 <div class="editor-control">
-    @MyJQueryMobile.MyCheckBox("indirizzo.corrispondenza", Model.corrispondenza, "Corrispondenza")
+    <div data-role="controlgrup" data-type="horizontal">
+        @MyJQueryMobile.MyCheckBox("indirizzo.corrispondenza", Model.corrispondenza, "Corrispondenza")
+    </div>
 </div>

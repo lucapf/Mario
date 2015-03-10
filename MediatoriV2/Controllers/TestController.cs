@@ -281,6 +281,10 @@ namespace mediatori.Controllers
             return View();
         }
 
+        public ActionResult Button()
+        {
+            return View();
+        }
 
         public ActionResult Decimal(mediatori.Models.Test.Decimal model)
         {

@@ -9,8 +9,7 @@
 <div class="canvas-flex">
     @foreach (mediatori.Models.MenuElement configurazione in Model)
     {
-
-        <button id="box_@conta" class="ui-btn ui-btn-d ui-corner-all ui-shadow" style="width:150px; height:150px;" onclick="javascript:explode( @conta, '@Url.Action(configurazione.action, configurazione.controller)')">@configurazione.display</button>
+        <button id="box_@conta" class="ui-btn ui-btn-d ui-corner-all ui-shadow" style="width:150px; height:150px;white-space: normal;text-overflow:clip;" onclick="javascript:explode( @conta, '@Url.Action(configurazione.action, configurazione.controller)')">@configurazione.display</button>
         conta++;
     }
 </div>
