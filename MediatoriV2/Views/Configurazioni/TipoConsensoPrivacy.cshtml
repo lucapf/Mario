@@ -7,13 +7,28 @@
 }
 
 <script type="text/javascript">
-    function newItem() {
-        // alert("newItem");
+    function editItem(id, descrizione, attivo) {
+        $("#popupTitolo").text("Modifica");
+        $("#edit_item_id").val(id);
+        $("#edit_item_descrizione").val(descrizione);
+        $("#edit_item_descrizione").attr('readonly', true);
+        if (attivo) {
+            $("#attivo").attr('checked' , true);
+            $("#attivo").flipswitch("refresh");
+        } else {
+            $("#attivo").attr('checked' , false);
+            $("#attivo").flipswitch("refresh");
+        }
+        $("#popupItem").popup("open");
+    }
 
-        $("#popupNuovoConsenso").text("Nuovo");
+    function newItem() {
+
+        $("#popupTitolo").text("Nuovo");
         $("#edit_item_id").val(0);
         $("#edit_item_descrizione").val('');
-        $("#popupNuovo").popup("open");
+        $("#edit_item_descrizione").attr('readonly', false);
+        $("#popupItem").popup("open");
     }
     function gestioneAttivazione(codicePrivacy, flagAttivo) {
         $("#form" + codicePrivacy).submit();
@@ -27,12 +42,14 @@
 {
 
     <fieldset>
-        <legend>Lista Tipi consenso configurati</legend>
+        <legend>Lista Tipi Consenso Privacy Configurati</legend>
 
         <table class="MyTable">
             <tr class="ui-bar-b">
                 <th>Descrizione</th>
                 <th>Attivo</th>
+                <th>Modifica</th>
+                <th>Cancella</th>
             </tr>
 
             @foreach (mediatori.Models.Anagrafiche.TipoConsensoPrivacy privacy in Model.listaTipiConsenso)
@@ -50,29 +67,41 @@
                 <tr class="@css">
                     <td>@privacy.descrizione</td>
                     <td>
-                        @using (Html.BeginForm("aggiornaPrivacy", "Configurazioni", FormMethod.Post, new { id = "form" + privacy.id }))
+                        @if (@privacy.attivo)
                         {
-                            @Html.AntiForgeryToken()
-
-                            <input type="hidden" name="codicePrivacy" value="@privacy.id" />
-
-
-                            if (privacy.attivo)
-                            {
-                                <input type="hidden" name="flagAttivo" value="false" />
-                                <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id, false);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
-                            }
-                            else
-                            {     <input type="hidden" name="flagAttivo" value="true" />
-                            <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id,true);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
-                            }
-
-                           
-
+                        <input type="hidden" name="flagAttivo" value="false" />
+                        <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id, false);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
                         }
-
-
+                        else
+                        {     <input type="hidden" name="flagAttivo" value="true" />
+                        <a class="ui-button ui-button-icon-primary" href="javascript:gestioneAttivazione(@privacy.id,true);">@MyHelper.decodeAttivaImage(Request.ApplicationPath, privacy.attivo)</a>
+                        }
                     </td>
+                    @if (@privacy.isSystem)
+                    {
+                        <td>
+                            &nbsp;
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="ui-btn-inline ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all" title="Modifica" href="javascript:editItem(@privacy.id,'@privacy.descrizione.Replace("'","\\'")', @privacy.attivo.ToString().ToLower())">Modifica</a>
+                        </td>
+                        }
+                    @if (@privacy.isSystem)
+                    {
+                        <td>
+                            &nbsp;
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="ui-btn-inline ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" title="Cancella" href="javascript:deleteItem(@privacy.id);" onclick="alert('Operazione non ancora implementata')">Cancella</a>
+                        </td>
+                    }
+                   
                 </tr>
             }
         </table>
@@ -80,9 +109,9 @@
 }
 @{Html.RenderPartial("_footer");}
 
-<div data-role="popup" id="popupNuovo" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="min-width:500px">
+<div data-role="popup" id="popupItem" data-overlay-theme="b" data-theme="a" data-dismissible="false" style="min-width:500px">
     <div data-role="header" data-theme="a">
-        <h1 id="popupNuovoConsenso">Nuovo</h1>
+        <h1 id="popupTitolo"></h1>
     </div>
     <div role="main" class="ui-content">
         @using (Html.BeginForm("TipoConsensoPrivacy", "Configurazioni", FormMethod.Post))
@@ -91,8 +120,8 @@
 
             <input type="hidden" id="edit_item_id" name="id" value="0" />
             <div class="ui-field-contain">
-                <label for="descrizione">Descrizione *</label>
-                <input type="text" name="descrizione" required id="edit_item_descrizione">
+                <label for="descrizione">Descrizione*</label>
+                <input type="text" name="descrizione" required id="edit_item_descrizione"/>
             </div>
             <div class="ui-field-contain">
                 @{Html.RenderPartial("_Flipswitch", new mediatori.Models.FlipswitchModel("attivo", true));}

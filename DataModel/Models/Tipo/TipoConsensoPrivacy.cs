@@ -25,5 +25,8 @@ namespace mediatori.Models.Anagrafiche
 
         [Display(Name = "Obbligatorio")]
         public Boolean obbligatorio { get; set; }
+
+        [Display(Name = "IsSystem")]
+        public Boolean isSystem { get; set; }
     }
 }

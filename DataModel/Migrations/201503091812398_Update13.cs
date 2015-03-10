@@ -13,6 +13,7 @@ namespace DataModel.Migrations
             RenameColumn(table: "dbo.impiego", name: "categoriaImpiego_id", newName: "categoriaImpiegoId");
             RenameColumn(table: "dbo.impiego", name: "tipoImpiego_id", newName: "tipoImpiegoId");
             RenameColumn(table: "dbo.consenso_privacy", name: "Segnalazione_id", newName: "segnalazioneId");
+            AddColumn("dbo.tipo_consenso_privacy", "isSystem", c => c.Boolean(nullable: false));
             AlterColumn("dbo.impiego", "categoriaImpiegoId", c => c.Int(nullable: false));
             AlterColumn("dbo.impiego", "tipoImpiegoId", c => c.Int(nullable: false));
             AlterColumn("dbo.consenso_privacy", "segnalazioneId", c => c.Int(nullable: false));
@@ -29,6 +30,7 @@ namespace DataModel.Migrations
             AlterColumn("dbo.consenso_privacy", "segnalazioneId", c => c.Int());
             AlterColumn("dbo.impiego", "tipoImpiegoId", c => c.Int());
             AlterColumn("dbo.impiego", "categoriaImpiegoId", c => c.Int());
+            DropColumn("dbo.tipo_consenso_privacy", "isSystem");
             RenameColumn(table: "dbo.consenso_privacy", name: "segnalazioneId", newName: "Segnalazione_id");
             RenameColumn(table: "dbo.impiego", name: "tipoImpiegoId", newName: "tipoImpiego_id");
             RenameColumn(table: "dbo.impiego", name: "categoriaImpiegoId", newName: "categoriaImpiego_id");

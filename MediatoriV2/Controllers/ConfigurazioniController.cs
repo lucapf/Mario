@@ -1498,25 +1498,50 @@ namespace mediatori.Controllers
         }
 
         [HttpPost]
-        public ActionResult TipoConsensoPrivacy(TipoConsensoPrivacy privacy)
+        public ActionResult TipoConsensoPrivacy(int id, String descrizione, bool ? attivo)
         {
-
-            TipoConsensoPrivacy checkExists = (from tcp in db.TipoConsensoPrivacy
-                                               where tcp.descrizione.ToUpper() == privacy.descrizione.ToUpper()
-                                               select tcp).FirstOrDefault();
-
-            if (checkExists != null)
+            if (attivo == null)
             {
-                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare perchè il consenso privacy è già censito");
+                attivo=false;
+            }
+            TipoConsensoPrivacy checkExists;
+            if (id == 0)
+            {//NUOVO
+
+                checkExists = (from tcp in db.TipoConsensoPrivacy
+                                                   where tcp.descrizione.ToUpper() == descrizione.ToUpper()
+                                                   select tcp).FirstOrDefault();
+                if (checkExists != null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile salvare perchè il consenso privacy è già censito");
+                }
+                else
+                {
+                    //  privacy.eliminabile = true;
+                    db.TipoConsensoPrivacy.Add(new TipoConsensoPrivacy { descrizione=descrizione,attivo=(bool)attivo});
+                    db.SaveChanges();
+
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Consenso Privacy salvato con successo");
+                }
+
             }
             else
-            {
-                //  privacy.eliminabile = true;
-                db.TipoConsensoPrivacy.Add(privacy);
-                db.SaveChanges();
-
-                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Consenso Privacy salvato con successo");
+            {//MODIFICA
+                checkExists = db.TipoConsensoPrivacy.Find(id);
+                if (checkExists == null)
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile aggiornare perchè il consenso privacy non è stato trovato");
+                }
+                else
+                {
+                    checkExists.attivo = (bool)attivo;
+                    db.SaveChanges();
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Consenso Privacy aggiornato con successo");
+                }
             }
+           
+
+          
 
             return RedirectToAction("TipoConsensoPrivacy");
         }

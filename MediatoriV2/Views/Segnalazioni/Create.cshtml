@@ -199,9 +199,9 @@
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <legend>@Model.consensoPrivacy[i].tipoConsensoPrivacy.descrizione</legend>
                 <input type="hidden" name="consensoPrivacy[@i].tipoConsensoPrivacy.id" value="@Model.consensoPrivacy[i].tipoConsensoPrivacy.id" />
-                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required data-val="true" data-val-required="Valore obbligatorio"  @(Model.consensoPrivacy[i].acconsento?"checked=checked":"") />
+                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-YES" value="true" type="radio" required data-val="true" data-val-required="Valore obbligatorio"  @(Model.consensoPrivacy[i].acconsento!=null && Model.consensoPrivacy[i].acconsento==true ?"checked=checked":"") />
                 <label for="consensoPrivacy[@i]-YES">Acconsento</label>
-                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required data-val="true" data-val-required="Valore obbligatorio" @(Model.consensoPrivacy[i].acconsento == false ? "checked=checked" : "") />
+                <input name="consensoPrivacy[@i].acconsento" id="consensoPrivacy[@i]-NO" value="false" type="radio" required data-val="true" data-val-required="Valore obbligatorio" @(Model.consensoPrivacy[i].acconsento != null &&  Model.consensoPrivacy[i].acconsento == false ? "checked=checked" : "") />
                 <label for="consensoPrivacy[@i]-NO">Non Acconsento</label>
             </fieldset>
             <span data-valmsg-replace="true" data-valmsg-for="consensoPrivacy[@i].acconsento" class="field-validation"></span>

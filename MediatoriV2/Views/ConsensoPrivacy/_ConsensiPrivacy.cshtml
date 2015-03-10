@@ -7,11 +7,14 @@
 {
     <h3>Privacy</h3>
     <hr />
-    
+
     <ul data-role="listview" data-inset="true">
         @foreach (mediatori.Models.Anagrafiche.ConsensoPrivacy c in Model.consensiPrivacy)
         {
-            Html.RenderPartial("~/Views/ConsensoPrivacy/ConsensoPrivacyPartialDetail.cshtml", c);
+            if (c.acconsento != null)
+            {
+                Html.RenderPartial("~/Views/ConsensoPrivacy/ConsensoPrivacyPartialDetail.cshtml", c);
+            }
         }
     </ul>
 }

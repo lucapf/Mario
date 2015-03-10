@@ -20,7 +20,7 @@ namespace mediatori.Models.Anagrafiche
 
         [Required]
         [Display(Name = "Acconsento")]
-        public Boolean acconsento { get; set; }
+        public Boolean? acconsento { get; set; }
         
         [Required]
         [Display(Name = "Data Inserimento")]
