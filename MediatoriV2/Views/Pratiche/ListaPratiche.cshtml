@@ -1,0 +1,45 @@
+﻿@model ICollection<mediatori.Models.Pratica.Pratica>
+
+@{
+    Layout = null;
+    string css;
+    int conta = 0;
+}
+
+<fieldset>
+    <h3>Lista Pratiche</h3>
+    <hr />
+    <table class="MyTable">
+        <tr class="ui-bar-b">
+            <th>Data Inserimento</th>
+            <th>Stato</th>
+            <th>Prodotto</th>
+            <th>Importo</th>
+            <th></th>
+        </tr>
+        @foreach (mediatori.Models.Pratica.Pratica pratica in Model)
+        {
+            conta++;
+            if (conta % 2 == 0)
+            {
+                css = MyConstants.TABLE_ROW_STYLE;
+            }
+            else
+            {
+                css = MyConstants.TABLE_ALTERNATING_ROW_STYLE;
+            }
+
+            <tr class="@css">
+                <td>@pratica.dataInserimento</td>
+                <td>@pratica.stato.descrizione</td>
+                <td>@pratica.prodottoRichiesto.descrizione</td>
+                <td>@pratica.importoRichiesto</td>
+                <td>
+                    <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Pratiche", new { id = pratica.id })">Dettaglio</a>
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>
+
+

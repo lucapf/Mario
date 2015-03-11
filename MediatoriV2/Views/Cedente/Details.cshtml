@@ -51,7 +51,9 @@
 
 @{Html.RenderAction("Details", "Impiego", new { contattoId = Model.id });}
 
+@{Html.RenderAction("GetListPraticheContatto", "Pratiche", new { contattoId = Model.id });}
 
+@{Html.RenderAction("GetListSegnalazioniContatto", "Segnalazioni", new { contattoId = Model.id });}
 
 
 <div data-role="footer" data-position="fixed" data-theme="@MyConstants.FIXED_FOOTER_THEME">

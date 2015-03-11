@@ -823,6 +823,7 @@
     <Content Include="Views\Test\CheckBox.cshtml" />
     <Content Include="Views\Test\Button.cshtml" />
     <Content Include="Views\Segnalazioni\ListaSegnalazioni.cshtml" />
+	<Content Include="Views\Pratiche\ListaPratiche.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

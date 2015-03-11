@@ -1,0 +1,42 @@
+﻿@model ICollection<mediatori.Models.Anagrafiche.Segnalazione>
+       
+@{
+    Layout = null;
+    string css;
+    int conta = 0;
+}
+<fieldset>
+    <h3>Lista Segnalazioni</h3>
+    <hr />
+    <table class="MyTable">
+        <tr class="ui-bar-b">
+            <th>Data Inserimento</th>
+            <th>Stato</th>
+            <th>Prodotto</th>
+            <th>Importo</th>
+            <th></th>       
+        </tr>
+        @foreach (mediatori.Models.Anagrafiche.Segnalazione segnalazione in Model)
+        {  
+            conta++;
+            if (conta % 2 == 0)
+            {
+                css = MyConstants.TABLE_ROW_STYLE;
+            }
+            else
+            {
+                css = MyConstants.TABLE_ALTERNATING_ROW_STYLE;
+            }
+
+            <tr class="@css">
+                <td>@segnalazione.dataInserimento</td>
+                <td>@segnalazione.stato.descrizione</td>
+                <td>@segnalazione.prodottoRichiesto.descrizione</td>
+                <td>@segnalazione.importoRichiesto</td>          
+                <td>
+                    <a class="ui-btn-inline ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all" title="Detail" href="@Url.Action("Details", "Segnalazioni", new { id = segnalazione.id })">Dettaglio</a>
+                </td>
+            </tr>
+        }
+    </table>
+</fieldset>

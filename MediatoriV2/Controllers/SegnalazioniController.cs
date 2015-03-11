@@ -440,6 +440,12 @@ namespace mediatori.Controllers
             //lsli.Add(new SelectListItem { Text = "", Value = "" });
             //ViewBag.listaComuni = lsli;
         }
+
+        public ActionResult GetListSegnalazioniContatto(int id)
+        {
+            ICollection<Segnalazione> listSegnalazioni = db.Segnalazioni.Include("stato").Include("prodottoRichiesto").Where(s => s.contattoId == id).ToList();
+            return View("ListaSegnalazioni", listSegnalazioni);
+        }
     }
 }
 

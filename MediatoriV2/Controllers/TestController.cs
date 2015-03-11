@@ -15,6 +15,24 @@ namespace mediatori.Controllers
             return View();
         }
 
+        public ActionResult Noty()
+        {
+            return View();
+        }
+
+        public ActionResult Notification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Notification(string subject)
+        {
+
+            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "Account CreditoLab configurato con successo");
+            return View();
+        }
+
         public ActionResult RGraph01()
         {
             return View();

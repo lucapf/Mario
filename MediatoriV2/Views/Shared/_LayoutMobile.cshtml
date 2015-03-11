@@ -12,7 +12,46 @@
         isCollaboratore = sessionData.IsInProfile(MyConstants.Profilo.COLLABORATORE);
     }
 
+    string contesto = Request.ApplicationPath;
+    if (contesto == "/")
+    {
+        contesto = "";
+    }
+
+    HtmlString javaScriptNotification = new HtmlString("");
+
+
+    if (TempData["Message"] != null && TempData["Message"].GetType() == typeof(MyMessage))
+    {
+        string messaggio = "";
+        string tipo = "";
+
+        MyMessage message = (MyMessage)TempData["Message"];
+
+        messaggio = message.testo;
+        messaggio = messaggio.Replace("|", "<br />").Replace("'", "\\'");
+
+        // HtmlString html = new HtmlString(temp);
+
+        switch (message.tipo)
+        {
+            case MyMessage.MyMessageType.Success:
+                tipo = "success";
+                break;
+            case MyMessage.MyMessageType.Warning:
+                tipo = "warning";
+                break;
+            case MyMessage.MyMessageType.Failed:
+            case MyMessage.MyMessageType.Exception:
+                tipo = "error";
+                break;
+        }
+
+        javaScriptNotification = new HtmlString(String.Format("MyNoty('{0}','{1}');", tipo, messaggio));
+
+    }
 }
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -38,6 +77,7 @@
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/themes/MyTheme.min.css")" />
     <link rel="stylesheet" media="all" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
     <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/SiteMINI.css")" />
+    <link rel="stylesheet" media="all" href="@Url.Content("~/Content/Style/animate.css")" />
 
 
     @if (MyManagerCSharp.RegularExpressionManager.isOldBrowser(Request.UserAgent))
@@ -62,6 +102,8 @@
 
 
     <script type="text/javascript" src="@Url.Content("~/Scripts/fireAntUtils.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/noty/packaged/jquery.noty.packaged.min.js")"></script>
+
 
     <!-- DatePicker   -->
     <script id="mobile-datepicker" src="@Url.Content("~/Content/js/jquery.mobile.datepicker.js")"></script>
@@ -81,13 +123,6 @@
 
     <script type="text/javascript">
 
-        @{ String contesto = Request.ApplicationPath;
-            if (contesto == "/")
-            {
-                contesto = "";
-            }
-        }
-
         var contextPath = '@contesto';
 
         $(document).on("pageinit", function () {
@@ -97,8 +132,31 @@
             clock();
 
             assegnazioni();
+
+
+            @javaScriptNotification
+
+
         });
-      
+
+
+        function MyNoty(tipo, messaggio) {
+            var n = noty({
+                text: messaggio,
+                theme: 'relax',
+                type: tipo,
+                layout: 'center',
+                timeout: 2000,
+                buttons: false,
+                animation: {
+                    open: 'animated flipInX', // Animate.css class names
+                    close: 'animated flipOutX', // Animate.css class names
+                    easing: 'swing', // unavailable - no need
+                    speed: 500 // unavailable - no need
+                }
+            });
+        };
+
 
         function clock() {
             var d = new Date();
@@ -155,26 +213,20 @@
                         $("#SegnalazioniScadute").effect("shake");
                     }
                 }
-
-
-                // alert(str);
-                //$("#segnalazioni").show("slide", 1000)
-
-
             });
 
-            @if (MyConstants.CHECK_ASSEGANAZIONI_ENABLED ){
-                @:setTimeout(function () { assegnazioni(); }, 10000);
-                                                                                                                                                            }
+
+
+            setTimeout(function () { assegnazioni(); }, 10000);
 
         }
-
 
         function showMyPopUpError(messaggio) {
             // alert("showPopUpError");
             $("#popupErrorpMessage").html(messaggio);
             $("#popupError").popup("open");
         }
+
 
     </script>
 
@@ -234,43 +286,9 @@
         <!-- /header -->
 
         <div role="main" class="ui-content ui-body ui-body-a">
-            @{
-
-                if (TempData["Message"] != null)
-                {
-
-                    string temp;
-                    if (TempData["Message"].GetType() == typeof(MyMessage))
-                    {
-                        MyMessage message = (MyMessage)TempData["Message"];
-
-                        temp = message.testo;
-
-                        temp = temp.Replace(Environment.NewLine, "<br />").Replace("|", "<br />");
-
-                        HtmlString html = new HtmlString(temp);
-
-                        switch (message.tipo)
-                        {
-                            case MyMessage.MyMessageType.Success:
-                                <h2 style="color:green ; font-size:medium;">@html</h2>
-                                break;
-                            case MyMessage.MyMessageType.Warning:
-                            <h2 style="color:orange ; font-size:medium;">@html</h2>
-                                break;
-                            case MyMessage.MyMessageType.Failed:
-                            case MyMessage.MyMessageType.Exception:
-                            <h2 style="color:red; font-size:medium;">@html</h2>
-                                break;
-                        }
-                    }
-                }
-            }
-
             @RenderBody()
         </div>
         <!-- /main -->
-
 
         <div data-role="panel" data-position-fixed="false" data-display="overlay" data-theme="a" id="nav-panel">
             <ul data-role="listview">

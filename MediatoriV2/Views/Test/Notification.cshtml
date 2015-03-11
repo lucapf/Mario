@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Notification";
+    Layout = "~/Views/Shared/_LayoutMobile.cshtml";
+}
+
+<h2>Notification</h2>
+
+@using (Html.BeginForm("Notification", "Test", FormMethod.Post))
+{
+
+    <div class="ui-field-contain">
+        <label for="subject">Subject:</label>
+        <input type="text" data-mini="true" required="required" data-clear-btn="true" id="subject" name="subject" value="" />
+    </div>
+    
+    
+    <div data-role="controlgrup" data-type="horizontal" data-mini="true">
+        <input type="submit" data-inline="true" value="Send">
+    </div>
+}
+
+
+@{ Html.RenderPartial("_footer"); }

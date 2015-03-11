@@ -121,6 +121,11 @@ namespace mediatori.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
+        public ActionResult GetListPraticheContatto(int id)
+        {
+            ICollection<Pratica> listPratiche = db.Pratiche.Include("stato").Include("prodottoRichiesto").Where(s => s.contattoId == id).ToList();
+            return View("ListaPratiche", listPratiche);
+        }
 
     }
 }

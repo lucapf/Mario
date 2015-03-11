@@ -4,9 +4,15 @@
   type => bug
   type => changes
  -->
-  <release number="1.0.0.14" data="" migration="Update13"> 
+  <release number="1.0.0.15" data="" migration="">
+    <item data="11/03/2015" owner="Stefania" type="bug">
+      Bug ID 561: Liste segnalazioni e pratiche in anagrafica cedente e contatto
+    </item>
+  </release>
+  
+  <release number="1.0.0.14" data="10/03/2015" migration="Update13">
     <item data="10/03/2015" owner="Rutigliano" type="bug">
-     Risolto problema layout tab indirizzo checkbox corrispondenza
+      Risolto problema layout tab indirizzo checkbox corrispondenza
     </item>
     <item data="10/03/2015" owner="Stefania" type="changes">
       Inserito popup modifica in configurazione tipo consenso privacy
@@ -30,10 +36,10 @@
       disabilitate configurazione utenze creditoLab
     </item>
     <item data="04/03/2015" owner="Stefania" type="changes">
-     controllo sulla presenza di pratiche e segnalazioni prima della cancellazione di un utente
-    </item>  
+      controllo sulla presenza di pratiche e segnalazioni prima della cancellazione di un utente
+    </item>
   </release>
-  
+
   <release number="1.0.0.13" data="04/03/2015" migration="Upate12">
     <item data="04/03/2015" owner="Rutigliano" type="changes">
       Inserita gestione privacy TipoConsensoPrivacy e inserita Consenso privacy.
@@ -45,7 +51,7 @@
       Bug ID 599: Filtri Ricerca contatto e cedente non funzionano
     </item>
     <item data="04/03/2015" owner="Rutigliano" type="changes">
-     Nascosta la visualizzazione dell'utente admin e del gruppo Administrators
+      Nascosta la visualizzazione dell'utente admin e del gruppo Administrators
     </item>
   </release>
 

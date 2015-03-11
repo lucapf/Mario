@@ -15,6 +15,9 @@ update utente set my_login =  REPLACE(my_login,'@progettoprestito.com', '@grsfin
 CREATE DATABASE [2EmmeFinanziamenti.it] AS COPY OF [ProgettoPrestito.com]
 update utente set my_login =  REPLACE(my_login,'@progettoprestito.com', '@2emmefinanziamenti.it')
 
+CREATE DATABASE [QuintoVicino.com] AS COPY OF [ProgettoPrestito.com]
+update utente set my_login =  REPLACE(my_login,'@progettoprestito.com', '@quintovicino.com')
+
 
 
 
