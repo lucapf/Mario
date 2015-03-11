@@ -28,9 +28,9 @@ namespace mediatori.Models.Pratica
         [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
         public DateTime? dataDecorrenza{ get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Data liquidazione")]
-        [DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
-        public DateTime? dataLiquidazione { get; set; }
+        //[DataType(DataType.Date)]
+        //[Display(Name = "Data liquidazione")]
+        //[DisplayFormat(DataFormatString = MyConstants.DATE_FORMAT, ApplyFormatInEditMode = true)]
+        //public DateTime? dataLiquidazione { get; set; }
     }
 }

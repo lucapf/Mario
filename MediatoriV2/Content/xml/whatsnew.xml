@@ -4,12 +4,15 @@
   type => bug
   type => changes
  -->
-  <release number="1.0.0.15" data="" migration="">
+  <release number="1.0.0.15" data="11/03/2015" migration="">
     <item data="11/03/2015" owner="Stefania" type="bug">
       Bug ID 561: Liste segnalazioni e pratiche in anagrafica cedente e contatto
     </item>
+    <item data="11/03/2015" owner="Rutigliano" type="changes">
+      Cambio password
+    </item>
   </release>
-  
+
   <release number="1.0.0.14" data="10/03/2015" migration="Update13">
     <item data="10/03/2015" owner="Rutigliano" type="bug">
       Risolto problema layout tab indirizzo checkbox corrispondenza
