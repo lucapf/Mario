@@ -24,20 +24,35 @@
 }
 
 
+
+<div data-role="navbar" data-iconpos="right" data-theme="a">
+    <ul>
+        <li><a href="@Url.Action("ChangeEmail", "Account" )" class="ui-btn-icon-right ui-icon-mail">Modifica email</a></li>
+        <li><a href="@Url.Action("ChangePassword", "Account" )" class="ui-btn-icon-right ui-icon-edit">Aggiorna password</a></li>
+    </ul>
+</div>
+
+
 @if (User.Identity is MyUsers.MyCustomIdentity || User.Identity is System.Web.Security.FormsIdentity)
 {
     <a style="float:right; margin-top:20px;" href="@Url.Action("LogOff", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Logoff</a>
 }
 
-<a style="float:right; margin-top:20px;" href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
+@if (1 == 2)
+{
+    <a style="float:right; margin-top:20px;" href="@Url.Action("Refresh", "Account")" class="ui-btn-inline ui-btn ui-corner-all ui-mini">Refresh Data</a>
+}
+
 <h2>My Account</h2>
 <p>Benvenuto, @Model.NomeCognome</p>
+
 @if (Model.datePreviousLogin != null)
 {
     <p>
         il tuo ultimo accesso è del @Model.datePreviousLogin.Value.ToShortDateString() alle ore @Model.datePreviousLogin.Value.ToShortTimeString()
     </p>
 }
+
 <div class="ui-grid-a">
     <div class="ui-block-a">
         <div class="ui-bar ui-bar-a">Login</div>
@@ -51,9 +66,6 @@
         <div class="ui-bar ui-body-a">@MyHelper.decodeNull(profilo)</div>
     </div>
 </div>
-
-@MyJQueryMobile.MyAnchor(Url.Action("ChangeEmail", "Account"), "Modifica email", MyJQueryMobile.IconType.edit)
-
 
 
 

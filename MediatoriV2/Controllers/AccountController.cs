@@ -32,6 +32,72 @@ namespace mediatori.Controllers
         }
 
 
+
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordModel model = new ChangePasswordModel();
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                //ModelState.AddModelError("", "Login o email errati");
+                var message = string.Join(" | ", ModelState.Values
+                 .SelectMany(v => v.Errors)
+                 .Select(e => e.ErrorMessage));
+                TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Impossibile modificare la password, verificare i dati: " + Environment.NewLine + message);
+           
+                return View(model);
+            }
+
+
+            manager.openConnection();
+
+            try
+            {
+                long test;
+                test = manager.isAuthenticated(User.Identity.Name , model.OldPassword);
+
+                if (test != MySessionData.UserId)
+                {
+                    //ModelState.AddModelError("", "Verificare la password inserita");
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Verificare la password inserita");
+                    return View(model);
+                }
+                
+                manager.updatePassword(MySessionData.UserId, model.NewPassword);
+            }
+            catch (MyManagerCSharp.MyException ex)
+            {
+                if (ex.ErrorCode == MyManagerCSharp.MyException.ErrorNumber.LoginPasswordErrati)
+                {
+                   // ModelState.AddModelError("", "Verificare la password inserita");
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, "Verificare la password inserita");
+                }
+                else
+                {
+                    TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Failed, ex.Message);
+//                    ModelState.AddModelError("", ex.Message);
+                }
+
+
+                return View(model);
+            }
+            finally
+            {
+                manager.closeConnection();
+            }
+
+            TempData["Message"] = new MyMessage(MyMessage.MyMessageType.Success, "La password è stata aggiornata correttamente");
+
+            return RedirectToAction("Manage");
+        }
+
         public ActionResult ChangeEmail()
         {
             return View();
