@@ -31,7 +31,8 @@
                 else {
                     //FAILED
                     //alert(response.messaggio);
-                    showMyPopUpError(response.messaggio);
+                    //showMyPopUpError(response.messaggio);
+                    MyNoty('error', response.messaggio);
                 }
                 codicePreventivo = null;
             });
