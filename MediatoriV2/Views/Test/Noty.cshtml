@@ -58,9 +58,25 @@
                 speed: 500 // unavailable - no need
             }
         });
-
-
     }
+
+    function MyNoty(tipo, messaggio) {
+        var n = noty({
+            text: messaggio,
+            theme: 'relax',
+            type: tipo,
+            layout: 'center',
+            timeout: 2000,
+            buttons: false,
+            animation: {
+                open: 'animated flipInX', // Animate.css class names
+                close: 'animated flipOutX', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 500 // unavailable - no need
+            }
+        });
+    }
+
 
 </script>
 
@@ -74,3 +90,7 @@
 <button onclick="javascript: MyNoty('warning');">Warning</button>
 <button onclick="javascript: MyNoty('information');">Information</button>
 <button onclick="javascript: MyNoty('confirm');">Confirm</button>
+
+
+<button onclick="javascript: MyNoty('error','Impossibile modificare la password,verificare i dati: < /br> La lunghezza di Nuova password deve essere di almeno 6 caratteri.');" >Test 01</button>
+

@@ -63,7 +63,7 @@ namespace mediatori.Models
         public string ExternalLoginData { get; set; }
     }
 
-    public class LocalPasswordModel
+    public class ChangePasswordModel
     {
         [Required]
         [DataType(DataType.Password)]
@@ -80,11 +80,10 @@ namespace mediatori.Models
         [Display(Name = "Conferma nuova password")]
         [Compare("NewPassword", ErrorMessage = "La nuova password e la password di conferma non corrispondono.")]
         public string ConfirmPassword { get; set; }
-
-        public string user { get; set; }
-
-
     }
+
+
+
 
     public class LogOnModel
     {

@@ -29,7 +29,7 @@
         MyMessage message = (MyMessage)TempData["Message"];
 
         messaggio = message.testo;
-        messaggio = messaggio.Replace("|", "<br />").Replace("'", "\\'");
+        messaggio = messaggio.Replace(Environment.NewLine, "<br />").Replace("\r\n", "<br />").Replace("\n\r", "<br />").Replace("|", "<br />").Replace("'", "\\'");
 
         // HtmlString html = new HtmlString(temp);
 
@@ -141,12 +141,25 @@
 
 
         function MyNoty(tipo, messaggio) {
+
+            var timeOut;
+            var layOut;
+
+            if (tipo == 'error') {
+                timeOut = false;
+                layOut = 'top';
+            } else {
+                timeOut = 3000;
+                layOut = 'top';
+            }
+
+
             var n = noty({
                 text: messaggio,
                 theme: 'relax',
                 type: tipo,
-                layout: 'center',
-                timeout: 2000,
+                layout: layOut,
+                timeout: timeOut,
                 buttons: false,
                 animation: {
                     open: 'animated flipInX', // Animate.css class names
@@ -215,17 +228,14 @@
                 }
             });
 
-
-
             setTimeout(function () { assegnazioni(); }, 10000);
-
         }
 
-        function showMyPopUpError(messaggio) {
-            // alert("showPopUpError");
-            $("#popupErrorpMessage").html(messaggio);
-            $("#popupError").popup("open");
-        }
+        //function showMyPopUpError(messaggio) {
+        //    // alert("showPopUpError");
+        //    $("#popupErrorpMessage").html(messaggio);
+        //    $("#popupError").popup("open");
+        //}
 
 
     </script>
@@ -247,7 +257,7 @@
                     <img src="@Url.Content("~/Images/marioh62.png")">
                 </a>
 
-
+                
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div style="display:inline;  margin-top: 3px; padding:0; width:20px">
