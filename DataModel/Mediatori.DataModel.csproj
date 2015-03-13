@@ -112,6 +112,10 @@
     <Compile Include="Migrations\201503091812398_Update13.Designer.cs">
       <DependentUpon>201503091812398_Update13.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503131450575_Update14.cs" />
+    <Compile Include="Migrations\201503131450575_Update14.Designer.cs">
+      <DependentUpon>201503131450575_Update14.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\DropCreate.cs" />
     <Compile Include="Initializer\InitProvinceComuni.cs" />
     <Compile Include="Models\Anagrafiche\Agenzia.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="Models\Anagrafiche\Cedente.cs" />
     <Compile Include="Models\Anagrafiche\ConsensoPrivacy.cs" />
     <Compile Include="Models\Anagrafiche\Contatto.cs" />
+    <Compile Include="Models\Anagrafiche\CoordinateErogazione.cs" />
     <Compile Include="Models\Configurazione\Istituto.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Log\LogEventi.cs" />
@@ -150,6 +155,7 @@
     <Compile Include="Models\Tipo\TipoCategoriaImpiego.cs" />
     <Compile Include="Models\Tipo\TipoContatto.cs" />
     <Compile Include="Models\Tipo\TipoContrattoImpiego.cs" />
+    <Compile Include="Models\Tipo\TipoCoordinataErogazione.cs" />
     <Compile Include="Models\Tipo\TipoDocumento.cs" />
     <Compile Include="Models\Tipo\TipoDocumentoIdentita.cs" />
     <Compile Include="Models\Tipo\TipoEnteRilascio.cs" />
@@ -234,6 +240,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503091812398_Update13.resx">
       <DependentUpon>201503091812398_Update13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503131450575_Update14.resx">
+      <DependentUpon>201503131450575_Update14.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

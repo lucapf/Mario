@@ -1,0 +1,14 @@
+﻿@model mediatori.Models.Anagrafiche.CoordinateErogazione
+@{
+    Layout = null;
+}
+
+<div class="display-control">
+    @Html.LabelFor(m => m.coordinata)
+    <div>@Html.Display("coordinata") </div>
+</div>
+
+<div class="display-control">
+    @Html.LabelFor(m => m.tipoCoordinataErogazione)
+    <div>@Html.Display("tipoCoordinataErogazione.descrizione")</div>
+</div>

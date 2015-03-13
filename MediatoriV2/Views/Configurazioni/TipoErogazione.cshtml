@@ -15,8 +15,6 @@
     <label for="sigla">Sigla</label> <input type="text" name="sigla" />
     </div>
     <div class="editor-label">
-    
-
    <label for="text">Descrizione</label> <input type="text" name="descrizione"/>
  <input type="submit" value="inserisci" /></div>
 }
@@ -30,9 +28,8 @@
     <tr>
         <td>@tipoErogazione.sigla</td>
         <td>@tipoErogazione.descrizione</td>
-        <td>@Html.ActionLink("Cancella", "cancellaTipoErogazione", new {id=tipoErogazione.sigla}, null)</td>
-    </tr>
-    
+        <td>@Html.ActionLink("Cancella", "cancellaTipoErogazione", new {sigla=tipoErogazione.sigla}, null)</td>
+    </tr> 
 }
     </table>
 </fieldset>

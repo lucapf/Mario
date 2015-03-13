@@ -42,8 +42,9 @@ namespace mediatori.Controllers
                     new MenuElement(){display="Tipo Prestito", ordinamento=1,livello=1,role="Amministratore",action="tipologiaPrestito",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Prodotto", ordinamento=1,livello=1,role="Amministratore",action="tipoProdotto",controller="Configurazioni"},
                     new MenuElement(){display="Tipo Riferimento", ordinamento=1,livello=1,role="Amministratore",action="tipoRiferimento",controller="Configurazioni"},
-                    new MenuElement(){display="Tipo Consenso Privacy", ordinamento=1,livello=1,role="Amministratore",action="tipoConsensoPrivacy",controller="Configurazioni"}
-                };
+                    new MenuElement(){display="Tipo Consenso Privacy", ordinamento=1,livello=1,role="Amministratore",action="tipoConsensoPrivacy",controller="Configurazioni"},
+                    new MenuElement(){display="Tipo Coordinata Erogazione", ordinamento=1,livello=1,role="Amministratore",action="tipoCoordinataErogazione",controller="Configurazioni"}   
+            };
 
             //new MenuElement(){display="Nuova Rete ", ordinamento=1,livello=1,role="Amministratore",url="Rete/Create"}
             return View(model);
@@ -1576,6 +1577,59 @@ namespace mediatori.Controllers
         //    return tcpm;
         //}
         #endregion
+        #region TipoCoordinataErogazione
+        [HttpGet]
+
+        public ActionResult tipoCoordinataErogazione(String errorMessage, String message)
+        {
+
+            ViewBag.errorMessage = errorMessage == null ? String.Empty : errorMessage;
+            ViewBag.message = message == null ? String.Empty : message;
+            return View(db.TipoCoordinataErogazione.ToList());
+        }
+
+        [HttpPost]
+
+        public ActionResult tipoCoordinataErogazione(TipoCoordinataErogazione tipoCoordErog)
+        {
+            if ((from fp in db.TipoCoordinataErogazione
+                 where ((fp.descrizione == tipoCoordErog.descrizione) || (fp.sigla == tipoCoordErog.sigla))
+                 select fp).FirstOrDefault() != null)
+            {
+                return RedirectToAction("tipoCoordinataErogazione", new
+                {
+                    errorMessage = "Tipo coordinata erogazione " + tipoCoordErog.descrizione + " già censita"
+                });
+            }
+            else
+            {
+                db.TipoCoordinataErogazione.Add(tipoCoordErog);
+                db.SaveChanges();
+            }
+            return RedirectToAction("tipoCoordinataErogazione", new { message = "inserimento tipo coordinata erogazione: " + tipoCoordErog.descrizione + " avvenuto con successo" });
+        }
+
+        [HttpGet]
+
+        public ActionResult cancellaTipoCoordinataErogazione(string sigla)
+        {
+            String errorMessage = string.Empty;
+            string message = String.Empty;
+            TipoCoordinataErogazione tipoCoordErogazione = db.TipoCoordinataErogazione.Find(sigla);
+            if (tipoCoordErogazione == null)
+            {
+                errorMessage = "impossibile eliminare il tipo coordinata erogazione " + sigla + " in quanto non censito";
+            }
+            else
+            {
+                db.TipoCoordinataErogazione.Remove(tipoCoordErogazione);
+                db.SaveChanges();
+                message = "Tipo coordinata erogazione " + tipoCoordErogazione.descrizione + " eliminata con successo";
+            }
+            return RedirectToAction("tipoCoordinataErogazione", new { errorMessage = errorMessage, message = message });
+        }
+        #endregion TipoCoordinataErogazione
+
     }
 }
 

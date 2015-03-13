@@ -198,7 +198,9 @@
     <Compile Include="Controllers\Business\EnumTipoAzione.cs" />
     <Compile Include="Controllers\Business\Anagrafiche\SoggettoGiuridicoBusiness.cs" />
     <Compile Include="Controllers\ConsensoPrivacyController.cs" />
+    <Compile Include="Controllers\CoordinateErogazioniController.cs" />
     <Compile Include="Controllers\DocumentaleController.cs" />
+    <Compile Include="Controllers\ErogazioneController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\MyAuthorizeAttribute.cs" />
     <Compile Include="Controllers\MyBaseController.cs" />
@@ -250,10 +252,12 @@
     <Compile Include="Models\Configurazione\TipoConsensoPrivacyModel.cs" />
     <Compile Include="Models\ConsensoPrivacyModel.cs" />
     <Compile Include="Models\ContattoDetailsModel.cs" />
+    <Compile Include="Models\CoordinateErogazioneModel.cs" />
     <Compile Include="Models\DocumentaleModel.cs" />
     <Compile Include="Models\Documentale\DocumentaleIndex.cs" />
     <Compile Include="Models\DecodeEnum.cs" />
     <Compile Include="Models\DocumentiIdentitaModel.cs" />
+    <Compile Include="Models\ErogazioniModel.cs" />
     <Compile Include="Models\UI\ComboDataModel.cs" />
     <Compile Include="Models\UI\FlipswitchModel.cs" />
     <Compile Include="Helpers\HtmlPrefixScopeExtentions.cs" />
@@ -823,10 +827,19 @@
     <Content Include="Views\Test\CheckBox.cshtml" />
     <Content Include="Views\Test\Button.cshtml" />
     <Content Include="Views\Segnalazioni\ListaSegnalazioni.cshtml" />
-	<Content Include="Views\Pratiche\ListaPratiche.cshtml" />
+    <Content Include="Views\Pratiche\ListaPratiche.cshtml" />
     <Content Include="Views\Test\Notification.cshtml" />
     <Content Include="Views\Test\Noty.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Configurazioni\TipoCoordinataErogazione.cshtml" />
+    <Content Include="Views\CoordinataErogazione\_CoordinateErogazione.cshtml" />
+    <Content Include="Views\CoordinataErogazione\_CoordinateErogazioneView.cshtml" />
+    <Content Include="Views\CoordinataErogazione\CoordinataErogazioneDetail.cshtml" />
+    <Content Include="Views\CoordinataErogazione\CoordinataErogazionePartialDetail.cshtml" />
+    <Content Include="Views\Erogazione\_Erogazioni.cshtml" />
+    <Content Include="Views\Erogazione\ErogazioniDetail.cshtml" />
+    <Content Include="Views\Erogazione\ErogazionePartialDetail.cshtml" />
+    <Content Include="Views\Erogazione\ErogazionePartialEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

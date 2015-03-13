@@ -38,6 +38,9 @@
 <!-- riferimento -->
 @{Html.RenderAction("Details", "Riferimento", new { contattoId = Model.pratica.cedente.id });}
 <!-- /riferimento -->
+<!--erogazioni -->
+@{Html.RenderAction("Cedente", "Erogazione", new { cedenteId = Model.pratica.cedente.id });}
+<!--/erogazioni -->
 <!-- documenti -->
 @{Html.RenderAction("DetailsFromPratica", "Documentale", new { praticaId = Model.pratica.id });}
 <!-- /documenti -->

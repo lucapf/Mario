@@ -1,0 +1,50 @@
+﻿@model mediatori.Models.Anagrafiche.Erogazione
+@{
+    Layout = null;
+}
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.tipoErogazione.descrizione)
+    <div>@Html.Display("tipo erogazione") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.coordinataErogazione.tipoCoordinataErogazione.descrizione)
+    <div>@Html.Display("tipo coordinata erogazione") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.coordinataErogazione.coordinata)
+    <div>@Html.Display("coordinata") </div>
+</div>
+
+<div class="editor-control">
+   @Html.LabelFor(m => m.dataValuta)
+    <div>@Html.Display("dataValuta") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.dataPagamento)
+    <div>@Html.Display("dataPagamento") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.importo)
+    <div>@Html.Display("importo") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.nota.dataInserimento)
+    <div>@Html.Display("data inserimento nota") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.nota.operatoreInserimento)
+    <div>@Html.Display("operatore inserimento nota") </div>
+</div>
+
+<div class="editor-control">
+    @Html.LabelFor(m => m.nota.valore)
+    <div>@Html.Display("nota") </div>
+</div>
+

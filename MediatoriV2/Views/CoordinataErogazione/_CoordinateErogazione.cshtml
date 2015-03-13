@@ -1,0 +1,36 @@
+﻿@model mediatori.Models.CoordinateErogazioneModel
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("#linkNuovaCoordinataErogazone").click(function () {
+            $("#divNuovaCoordinataErogazione").show();
+        })
+    });
+</script>
+
+<h3>Dati Coordinata Erogazione</h3>
+<hr />
+<div id="divNuovoImpiego" style="display:none">
+    @using (Html.BeginForm("CreateForCedente", "CoordinateErogazione", FormMethod.Post, new { id = "nuovoCoordinataErogazione" }))
+    {
+        <input type="hidden" id="codiceCedente" name="codiceCedente" value="@Model.cedenteId" />
+
+        { Html.RenderPartial("~/Views/CoordinataErogazione/CoordinataErogazionePartialEdit.cshtml", new mediatori.Models.Anagrafiche.CoordinateErogazione() { cedenteId = (int)Model.cedenteId }); }
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input type="submit" data-mini="true" data-inline="true" value="Salva" />
+            <input type="button" data-mini="true" data-inline="true" value="Annulla" onclick='$("#divNuovaCoordinataErogazione").hide();' />
+        </div>
+    }
+</div>
+
+@if (Model.coordinateErogazione != null && Model.coordinateErogazione.Count > 0)
+{
+    foreach (mediatori.Models.Anagrafiche.CoordinateErogazione i in Model.coordinateErogazione)
+    {
+        Html.RenderPartial("~/Views/CoordinataErogazione/CoordinataErogazioneDetail.cshtml", i);
+    }
+}

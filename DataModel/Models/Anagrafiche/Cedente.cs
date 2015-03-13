@@ -13,8 +13,10 @@ namespace mediatori.Models.Anagrafiche
         [Display(Name = "Documento identita")]
         public virtual ICollection<DocumentoIdentita> documentiIdentita { get; set; }
 
- 
         [Display(Name = "Indirizzi")]
         public virtual ICollection<Indirizzo> indirizzi { get; set; }
+
+        [Display(Name = "Coordinate Erogazione")]
+        public virtual ICollection<CoordinateErogazione> coordinateErogazione { get; set; }
     }
 }

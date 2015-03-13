@@ -1,0 +1,42 @@
+﻿@model mediatori.Models.ErogazioniModel
+@{
+    Layout = null;
+}
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        //creo erogazione
+        $("#linkNuovaErogazione").click(function () {
+
+            $("#divNuovaErogazione").show();
+        })
+
+    });
+</script>
+
+<h3>Erogazione <strong class="h3Link" id="linkNuovaErogazione" title="Aggiungi un erogazione">[ + ]</strong></h3>
+<hr />
+<div id="divNuovaErogazione" style="display: none">
+    @using (Html.BeginForm("CreateForPersonaFisica", "Erogazione", FormMethod.Post, new { id = "nuovaErogazione" }))
+    {
+        <input type="hidden" name="codiceCedente" value="@Model.cedenteId" />
+
+        { Html.RenderPartial("~/Views/Erogazione/ErogazionePartialEdit.cshtml", new mediatori.Models.Anagrafiche.Erogazione()); }
+
+        <div data-role="controlgrup" data-type="horizontal">
+            <input data-mini="true" data-inline="true" type="submit" value="Salva" />
+            <input data-mini="true" data-inline="true" type="button" value="Annulla" onclick='$("#divNuovaErogazione").hide()' />
+        </div>
+    }
+</div>
+
+@if (Model.erogazioni != null && Model.erogazioni.Count > 0)
+{
+    foreach (mediatori.Models.Anagrafiche.Erogazione i in Model.erogazioni)
+    {
+        Html.RenderPartial("~/Views/Erogazione/ErogazioniDetail.cshtml", i);
+    }
+}
+
+

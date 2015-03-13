@@ -106,7 +106,9 @@ namespace mediatori.Models
         public DbSet<Istituto> Istituti { get; set; }
         public DbSet<TipoConsensoPrivacy> TipoConsensoPrivacy { get; set; }
         public DbSet<ConsensoPrivacy> ConsensoPrivacy { get; set; }
-
+        public DbSet<TipoCoordinataErogazione> TipoCoordinataErogazione { get; set; }
+        public DbSet<CoordinateErogazione> CoordinataErogazione { get; set; }
+        public DbSet<Erogazione> Erogazione { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
